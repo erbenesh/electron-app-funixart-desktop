@@ -1,0 +1,106 @@
+.top_tools_wrap {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    z-index: 996;
+}
+
+.top_tools {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    z-index: 997;
+    transition: transform 0.3s;
+}
+
+.header_wrap {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 120rem;
+    max-width: 100%;
+    z-index: 998;
+    background-color: rgb(36, 36, 36, 0.8);
+}
+
+.buttons_wraper {
+    display: flex;
+    flex-direction: row;
+    place-items: center;
+    margin: 1rem;
+    gap: 0.2rem;
+    padding: 0;
+}
+
+.menu_ico {
+    width: 24px;
+    height: 24px;
+    color: lightgray;
+}
+
+.toptools_search_input {
+    box-sizing: border-box;
+    width: 40rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    border: none;
+    outline: none;
+    background-color: rgb(36, 36, 36);
+    box-shadow: 0 5px 5px rgb(0, 0, 0, 0.5);
+}
+
+.toptools__button {
+    display: flex;
+    justify-content: center;
+    place-items: center;
+    height: 48px;
+    width: 48px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 1rem;
+    transition: .3s;
+}
+
+.toptools__active_button {
+    border-radius: 1rem;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    user-select: none;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    transition: .3s;
+    background-color: rgb(189, 78, 44);
+}
+
+.toptools_search_button {
+    display: none;
+    justify-content: center;
+    place-items: center;
+    height: 48px;
+    width: 48px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 1rem;
+    transition: .3s;
+}
+.toptools_search_button:hover,
+.toptools__button:hover {
+    background-color: rgb(189, 78, 44);
+}
+
+@media (width <= 900px) {
+
+    .toptools_search_input {
+        display: none;
+    }
+    .toptools_search_button {
+        display: block;
+    }
+};

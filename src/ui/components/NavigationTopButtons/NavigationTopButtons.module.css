@@ -1,0 +1,64 @@
+.buttons_empty_wrap {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    height: 3rem;
+    margin-top: 5rem;
+    max-width: 120rem;
+}
+
+.buttons_bg_wrap {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    height: 4rem;
+    width: 120rem;
+    z-index: 994;
+    background-color: rgb(36, 36, 36, 0.8);
+    transition: 0.3s;
+}
+
+.buttons_list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    list-style: none;
+    width: 31%;
+    height: 3rem;
+    max-width: 60rem;
+    padding: 0;
+    gap: 1rem;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    place-items: center;
+    user-select: none;
+    transition: .3s;
+    cursor: pointer;
+    font-weight: 500;
+    min-width: 8rem;
+    border-radius: 1rem;
+}
+
+.button:hover { 
+    color: #242424;
+    background-color: rgb(189, 78, 44);
+}
+
+.button_active {
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    place-items: center;
+    user-select: none;
+    transition: .3s;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 500;
+    min-width: 8rem;
+
+    color: rgba(255, 255, 255, 0.87);
+    background-color: rgb(189, 78, 44);
+}

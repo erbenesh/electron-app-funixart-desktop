@@ -1,0 +1,43 @@
+.player_wrap {
+    aspect-ratio: 16 / 9;
+}
+
+.player {
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    outline: none;
+    border:none;
+}
+
+.episodes_buttons_swiper_wrap {
+    display: block;
+    width: 100%;
+    left:0;
+    max-width: 120rem;
+    overflow-y: hidden;
+}
+
+.episodes_buttons_swiper {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    width: 100%;
+    transition: transform 0.5s;
+    margin-bottom: 0.5rem;
+}
+
+.episode_choose_button {
+    text-align: center;
+    border-radius: .5rem;
+    padding: 1rem;
+    outline: none;
+    border:none;
+    background-color: rgb(61, 61, 61, 0.5);
+    cursor: pointer;
+    transition: .3s;
+}
+
+.episode_choose_button:hover {
+    background-color: rgb(189, 78, 44);
+}

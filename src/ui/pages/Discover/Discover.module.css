@@ -1,0 +1,89 @@
+.discover_page_wrap {
+    min-height: 100vh;
+    max-width: 120rem;
+    overflow: hidden;
+}
+
+.discover_page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 2rem 2rem 2rem;
+    margin-top: 5rem;
+
+    opacity: 0;
+    transition: .3s;
+    animation: show .3s;
+    animation-fill-mode: forwards;
+    animation-delay: .3s;
+}
+
+@keyframes show {
+
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+
+}
+
+.discover_interesting {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.carousel_buttons {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 116rem;
+    top: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.carousel_prev_button {
+    border: none;
+    outline: none;
+    width: 4rem;
+    height: 14rem;
+    background-color: rgba(36,36,36, 0.5);
+    transition: .3s;
+    cursor: pointer;
+    pointer-events: all;
+    background: linear-gradient(90deg, rgba(36,36,36,1) 0%, rgba(0,0,0,0) 100%);
+}
+
+.carousel_next_button {
+    border: none;
+    outline: none;
+    width: 4rem;
+    height: 14rem;
+    background-color: rgba(36,36,36, 0.5);
+    transition: .3s;
+    cursor: pointer;
+    pointer-events: all;
+    background: linear-gradient(-90deg, rgba(36,36,36,1) 0%, rgba(0,0,0,0) 100%);
+}
+
+.carousel_prev_button:hover,
+.carousel_next_button:hover { 
+    background-color: rgba(36,36,36, 0.5);
+}
+
+.arrow_ico {
+    width: 2rem;
+    height: 2rem;
+}
+
+.discover_buttons {
+    border-bottom: 1px solid rgb(75, 75, 75);
+}
