@@ -6,7 +6,7 @@ import { IRelease } from '../../interfaces/IRelease';
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { InterestingCard } from '../../components/InterestingCard/InterestingCard';
 
-export const Discover = ({...props}) => {
+export const Discover = (props) => {
 
     const [ interestingReleases, setInterestingReleases ] = useState([]);
 
@@ -41,7 +41,6 @@ export const Discover = ({...props}) => {
 
         setCurrentIndex(index);
         document.getElementById("interesting_inner")!.style.transform = `translateX(-${index * 21.5}rem)`;
-        console.log(index, currentIndex);
     }
     
     const goToNextSlide = () => {

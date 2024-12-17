@@ -146,8 +146,8 @@ export const EXPORT_BOOKMARKS = "export/bookmarks"
 
 // GET
 export const FAVORITES = "favorite/all/{page}"
-export const FAVORITE_ADD = "favorite/add/{releaseId}"
-export const FAVORITE_DELETE = "favorite/delete/{releaseId}"
+export const FAVORITE_ADD = "favorite/add/"
+export const FAVORITE_DELETE = "favorite/delete/"
 
 // History API
 

@@ -62,3 +62,23 @@
     color: rgba(255, 255, 255, 0.87);
     background-color: rgb(189, 78, 44);
 }
+
+
+@media (width < 720px) {
+    .buttons_bg_wrap {
+        height: 2.5rem;
+    }
+    .buttons_list {
+        width: 21%;
+        height: 2rem;
+        gap: .5rem;
+    }
+    .button_active,
+    .button {
+        min-width: 4rem;
+        font-weight: 400;
+        font-size: .8rem;
+        padding: 0.2rem;
+        border-radius: 0.5rem;
+    }
+}

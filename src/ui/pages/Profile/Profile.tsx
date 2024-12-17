@@ -22,7 +22,7 @@ export const Profile = ({...props}) => {
     });
 
     useEffect(() => {
-        if (getProfileData) {
+        if (getProfileData && !user) {
             console.log(getProfileData.data?.data)
             setUser(getProfileData.data?.data.profile);
             setIsMyProfile(getProfileData.data?.data.is_my_profile);
@@ -102,6 +102,11 @@ export const Profile = ({...props}) => {
                 <div className={styles.header_buttons}>
                     <div className={styles.buttons_wrap}>
                         <button className={styles.profile_edit_button}>Редактировать</button>
+                        <button className={styles.profile_edit_button}>VK</button>
+                        <button className={styles.profile_edit_button}>Telegram</button>
+                        <button className={styles.profile_edit_button}>Discord</button>
+                        <button className={styles.profile_edit_button}>Instagram</button>
+                        <button className={styles.profile_edit_button}>TikTok</button>
                         <button className={styles.profile_edit_button}><MdAddLink className={styles.add_link_ico}/></button>
                     </div>
                     
@@ -153,7 +158,6 @@ export const Profile = ({...props}) => {
                                             white 3rem
                                         )
                                         `
-
                                     }
                                 }>
                                 </div>
@@ -165,7 +169,32 @@ export const Profile = ({...props}) => {
                 </div>
 
                 <div className={styles.profile_releases_votes}>
-                    
+                    <div className={styles.votes_wrap}>
+                        <div className={styles.votes_wrap_top}>
+                            <h2 className={styles.analytics_title}>Оценки релизов</h2>
+                            <button className={styles.profile_edit_button} type="button">Показать все</button>
+                        </div>
+
+                        <div className={styles.voted_releases_5_len}>
+                            <ul className={styles.voted_releases_list}>
+                                { user.votes?.map(voted_release => voted_release.id && (
+                                    <li className={styles.voted_release} key={voted_release.id}>
+                                        <div className={styles.voted_release_image_wrap}>
+                                            <img className={styles.voted_release_image} src={voted_release.image} alt={`${voted_release.name} image`} />
+                                        </div>
+
+                                        <div className={styles.voted_release_info}>
+                                            <p className={styles.voted_release_title}>{voted_release.title_ru}</p>
+                                            <p className={styles.voted_release_vote_rate}>***** • Дата</p>
+                                        </div>
+                                            
+                                    </li>
+                                    ))
+                                }
+                            </ul>
+                        </div>
+
+                    </div>
                 </div>
 
                 <div className={styles.profile_viewing_dynamics}>

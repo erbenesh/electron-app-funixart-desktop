@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL, FILTER, RELEASE, DISCOVER_INTERESTING, USER_AGENT, SIGN_IN, PROFILE, EPISODE, LISTS } from "./endpoints";
+import { BASE_URL, FILTER, RELEASE, DISCOVER_INTERESTING, USER_AGENT, SIGN_IN, PROFILE, EPISODE, LISTS, FAVORITE_DELETE, FAVORITE_ADD, LISTS_ADD } from "./endpoints";
 import { BookmarksList } from "./utils";
 
 export const HEADERS = {
@@ -15,6 +15,34 @@ const StatusList: Record<string, null | number> = {
 };
 
 class AnixartService {
+
+    async addToBookmarkList(list: number, release_id: number | string, token: string) {
+
+        const url = `${BASE_URL}${LISTS_ADD}${list}/${release_id}?token=${token}`
+
+        const addToList = await axios.get(url);
+
+        return addToList;
+    }
+
+    async setAddToFavorite(release_id: number | string, token: string) {
+
+        const url = `${BASE_URL}${FAVORITE_ADD}${release_id}?token=${token}`;
+
+        const addToFavorite = await axios.get(url);
+
+        return addToFavorite;
+    }
+
+
+    async setDeleteFromFavorite(release_id: number | string, token: string) {
+
+        const url = `${BASE_URL}${FAVORITE_DELETE}${release_id}?token=${token}`;
+
+        const deletedFromFavorite = await axios.get(url);
+
+        return deletedFromFavorite;
+    }
 
     async getBookmarks(listName: string, token: string, page: string | number = 0) {
         // url = `${ENDPOINTS.user.bookmark}/all/${props.profile_id}/${BookmarksList[listName]}/0?sort=1&token=${token}`;
@@ -43,7 +71,7 @@ class AnixartService {
     async getReleasePlayer(url: string) {
         const fullUrl = `${BASE_URL}${EPISODE}${url}`;
         const playerData =  await axios.get(fullUrl);
-        console.log("url");
+
         return playerData;
     }
 
@@ -88,9 +116,10 @@ class AnixartService {
     }
 
     async getCurrentRelease(
-        id: number | string
+        id: number | string,
+        token: string | null,
     ) {
-        const url = `${BASE_URL}${RELEASE}${id}`;
+        const url = `${BASE_URL}${RELEASE}${id}?token=${token}`;
 
         const currentRelease = await axios.get(url);
 

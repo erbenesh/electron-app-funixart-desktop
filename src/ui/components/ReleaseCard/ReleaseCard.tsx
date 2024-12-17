@@ -1,4 +1,6 @@
+import { unixToDate } from '../../services/utils';
 import styles from './ReleaseCard.module.css'
+import { IoBookmark } from "react-icons/io5";;
 
 const profile_lists = {
     // 0: "Не смотрю",
@@ -9,8 +11,10 @@ const profile_lists = {
     5: { name: "Брошено", bg_color: "rgb(231, 115, 80, 0.8)" },
 };
 
-export const ReleaseCard = ({...props}) => {
+const yearSeason = ["_", "Зима", "Весна", "Лето", "Осень"];
 
+export const ReleaseCard = (props) => {
+    const grade = props.release.grade ? props.release.grade.toFixed(1) : null;
     const profile_list_status = props.release.profile_list_status;
     let user_list = null;
   
@@ -22,16 +26,44 @@ export const ReleaseCard = ({...props}) => {
         <div className={styles.card} onClick={() => props.setCurrentChoosenRelease(props.release.id)}>
 
             <div className={styles.release_image_border}>
-                <img className={styles.release_image} src={props.release.image} alt="" />
+                <img className={styles.release_image} src={props.release.image} alt={props.release.title_ru + " image"} loading='lazy'/>
                 {user_list && <div className={styles.user_list_name} style={{background: user_list.bg_color}}>{user_list.name}</div>}
             </div>
 
             <div className={styles.anime_title}>{props.release.title_ru}</div>
 
-            {props.release.status?.name !== 'Анонс' ? 
-            <p className={styles.anime_subinfo}>{props.release.episodes_released || '?'} из {props.release.episodes_total || '?'} эп • {String(props.release.grade).slice(0, 3)}</p> 
-            : <p className={styles.anime_subinfo}>{props.release.year || 'скоро'}</p>}
+            <div className={styles.bottom_info}>
+                <span>
+                    {/* {props.release.status?.name !== 'Анонс' ? 
+                    <p className={styles.anime_subinfo}>{props.release.episodes_released || '?'} из {props.release.episodes_total || '?'} эп • {String(props.release.grade).slice(0, 3)}</p> 
+                    : <p className={styles.anime_subinfo}>{props.release.year || 'скоро'}</p>} */}
+                    <p className={styles.anime_subinfo}>
+                        {/*Сколько эпизодов*/}
+                        { props.release.episodes_released && props.release.episodes_released + " из "}
+                        {/*Из скольки эпизодов*/}
+                        { props.release.status.id == 3 ? "" : props.release.episodes_total ? props.release.episodes_total + " эп" : "? эп" }
+                        {/*Оценка или это анонс?*/}
+                        { grade ? " • " + grade 
+                        : props.release.status 
+                        && props.release.status.id === 0
+                        && props.release.aired_on_date !== 0 ? (
+                            unixToDate(props.release.aired_on_date, "dayMonthYear")
+                        ) : props.release.year ? (
+                            <>
+                                {props.release.season && props.release.season != 0
+                                ? `${yearSeason[props.release.season]} `
+                                : ""}
+                                {props.release.year && `${props.release.year} г.`}
+                            </>
+                        ) : (
+                            "Скоро"
+                        )}
+                    </p>
+                </span>
+                <span>{props.release.is_favorite? <IoBookmark style={{color:"goldenrod"}}/> : ""}</span>
 
+            </div>
+                
         </div>
     )
 }

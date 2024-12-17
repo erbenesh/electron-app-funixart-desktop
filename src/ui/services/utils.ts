@@ -187,14 +187,14 @@ export const BookmarksList = {
     watched: 3,
     delayed: 4,
     abandoned: 5,
-  };
+};
   
-  export const SortList = {
+export const SortList = {
     adding_descending: 1,
     adding_ascending: 2,
     year_descending: 3,
     year_ascending: 4,
     alphabet_descending: 5,
     alphabet_ascending: 6,
-  };
+};
   
