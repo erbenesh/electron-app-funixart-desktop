@@ -103,7 +103,7 @@ export const Home = (props) => {
     const scrollPosition = useScrollPosition();
     useEffect(() => {
         
-        if (scrollPosition >= 90) {
+        if (scrollPosition >= 80) {
             if(page === 0) {
                 setPage(1);
             } else {

@@ -1,5 +1,19 @@
+.player_row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.player_loading {
+    min-width: 100rem;
+    min-height: 45.3rem;
+}
+
 .player_wrap {
     aspect-ratio: 16 / 9;
+    width: 100%;
+    border-radius: 1rem 0 0 1rem;
+    background-color: rgba(36, 36, 36, 0.5);
 }
 
 .player {
@@ -11,33 +25,105 @@
 }
 
 .episodes_buttons_swiper_wrap {
-    display: block;
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    left:0;
-    max-width: 120rem;
-    overflow-y: hidden;
+    border-radius: 0 1rem 1rem 0;
+    padding: 1rem;
+    max-width: 18rem;
+    max-height: 42.9rem;
+    background-color: rgba(36, 36, 36, 0.5);
+    gap: 1rem;
+    /* border-bottom: 1px solid white; */
+}
+
+.player_dropdowns {
+    position: relative;
+    width: 100%;
+}
+
+.voices_and_sources_dropdowns {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 0.5rem;
+}
+
+.top_buttons_swiper {
+    position: absolute;
+
+    display: none;
+
+    flex-direction: column;
+    width: 100%;
+    border-radius: 0.5rem;
+    overflow-x: hidden;
+    transition: transform 0.5s;
+    background-color: rgb(36, 36, 36);
+    z-index: 10;
 }
 
 .episodes_buttons_swiper {
+    position: relative;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 0.5rem;
-    width: 100%;
-    transition: transform 0.5s;
-    margin-bottom: 0.5rem;
+    overflow-x: hidden;
 }
 
 .episode_choose_button {
-    text-align: center;
-    border-radius: .5rem;
-    padding: 1rem;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5rem;
     outline: none;
-    border:none;
-    background-color: rgb(61, 61, 61, 0.5);
-    cursor: pointer;
+    border-radius: .5rem;
+    border: none;
+    width: 100%;
+    font-weight: 500;
+    background-color: rgb(61, 61, 61);
     transition: .3s;
+    cursor: pointer;
 }
 
 .episode_choose_button:hover {
+    background-color: rgb(189, 78, 44);
+}
+
+.eye_ico {
+    font-size: 1rem;
+    height: 0.8rem;
+}
+
+.dropdown_button {
+    text-align: center;
+    border-radius: .5rem;
+    padding: 0.5rem;
+    outline: none;
+    border:none;
+    background-color: rgb(189, 78, 44);
+    cursor: pointer;
+    transition: .3s;
+    width: 100%;
+}
+
+.dropdown_button:hover {
+    background-color: rgb(160, 65, 36);
+}
+
+.dropdown_list_button {
+    text-align: center;
+    padding: 0.5rem;
+    outline: none;
+    border:none;
+    background-color: rgb(61, 61, 61, 0.3);
+    cursor: pointer;
+    transition: .3s;
+    width: 100%;
+}
+
+.dropdown_list_button:hover {
     background-color: rgb(189, 78, 44);
 }

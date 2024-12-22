@@ -1,0 +1,120 @@
+.home_page_wrap {
+    min-height: 100vh;
+    max-width: 120rem;
+    overflow: hidden;
+}
+
+.home_page {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 5rem;
+    opacity: 0;
+    transition: .3s;
+    animation: show .3s;
+    animation-fill-mode: forwards;
+    animation-delay: .3s;
+}
+
+@keyframes show {
+
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    max-width: 110rem;
+    width: 100%;
+    gap: 0.5rem;
+    place-self: center;
+}
+
+.section_title {
+    width: 100%;
+    place-self: start;
+    font-weight: 400;
+    z-index: 10;
+}
+
+.section_title_link {
+    width: 100%;
+    place-self: start;
+    font-weight: 400;
+    cursor: pointer;
+    transition: .3s;
+    z-index: 10;
+}
+
+.sh_day_title {
+    place-self: start;
+    font-weight: 200;
+    color: lightgray;
+}
+
+.section_title_link:hover {
+    color:rgb(180, 180, 180);
+}
+
+.releases_schedule {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.last_releases {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0.5rem;
+    max-width: 110rem;
+}
+
+.interesting {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0.5rem;
+    max-width: 110rem;
+}
+
+.carousel_buttons {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    width: 120rem;
+    top: 0;
+    pointer-events: none;
+    height: 100%;
+    z-index: 2;
+}
+
+.carousel_button {
+    border: none;
+    outline: none;
+    width: 5rem;
+    background-color: rgba(36,36,36, 0.5);
+    transition: .3s;
+    cursor: pointer;
+    pointer-events: all;
+    background: linear-gradient(0deg, rgba(36,36,36,0) 20%, rgba(36,36,36,0.6) 50%, rgba(0,0,0,0) 80%);
+}
+
+.carousel_button:hover { 
+    background-color: rgba(36,36,36, 0.5);
+}
+
+.arrow_ico {
+    width: 2rem;
+    height: 2rem;
+}

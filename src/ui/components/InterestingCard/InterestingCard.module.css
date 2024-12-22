@@ -1,21 +1,21 @@
-.card_first {
+/* .card_first {
     opacity: 0;
     transition: .3s;
     animation: show .3s;
     animation-fill-mode: forwards;
     animation-delay: .3s;
     z-index: 0;
-    width: 21rem;
+    width: 19rem;
     cursor: pointer;
-    transition: .3s;
-    /* min-width: 21rem; */
+    transition: .2s;
+    /* min-width: 21rem;
 }
 
 .card_first:hover {
     transform: scale(110%) translateX(1rem);
     z-index: 1;
     box-shadow: 0 5px 5px 10px rgba(36, 36, 36, 0.5);
-}
+} */
 
 .card {
     opacity: 0;
@@ -24,9 +24,9 @@
     animation-fill-mode: forwards;
     animation-delay: .3s;
     z-index: 0;
-    width: 21rem;
+    width: 19rem;
     cursor: pointer;
-    transition: .3s;
+    transition: .2s;
     /* min-width: 21rem; */
 }
 
@@ -51,7 +51,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 21rem;
+    width: 19rem;
     height: 12rem;
     overflow: hidden;
     border-radius: 10px;
@@ -64,7 +64,7 @@
     width: 100%;
     height: 100%;
     max-height: 12rem;
-    max-width: 21rem;
+    max-width: 19rem;
     position: absolute;
     background: linear-gradient(0deg, rgba(36,36,36,0.9) 0%, rgba(36,36,36,0) 80%);
 }

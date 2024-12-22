@@ -31,10 +31,6 @@ export enum ELists {
   DROPPED = 5
 }
 
-// HOME
-
-export const FILTER = "filter/"
-
 // Auth API
 
 // POST
@@ -53,43 +49,89 @@ export const AUTH_RESTORE = "auth/restore"
 export const AUTH_RESTORE_RESEND = "auth/restore/resend"
 export const AUTH_RESTORE_VERIFY = "auth/restore/verify"
 
+//Achievement API
+
+// GET
+
+export const ACHIEVEMENT_GET = "achievement/get/"//{id}
+
+// Feed API
+
+//POST
+export const FEED_MY = "feed/my/all/"//{page}
+export const FEED_NEWS = "feed/news/all/"//{page}
+
+// Article API
+
+// GET
+export const ARTICLE = "article/"//{a_id}
+export const ARTICLE_CREATE_AVAILABLE = "article/create/"//{c_id}/available
+export const ARTICLE_EDIT_AVAILABLE = "article/create/"//{c_id}/available
+export const ARTICLE_VOTE = "article/create/"//{a_id}/{vote}
+
+// POST
+export const ARTICLE_ALL = "article/all/"//{page}
+export const ARTICLE_CREATE = "article/create/"//{c_id}
+export const ARTICLE_DELETE = "article/delete/"//{a_id}
+export const ARTICLE_EDIT = "article/edit/"//{a_id}
+export const ARTICLE_VOTES = "article/votes/"//{a_id}/{page}
+
+// Article Comment API
+
+//GET
+export const ARTICLE_COMMENT = "article/comment/"//{articleId}
+export const ARTICLE_COMMENT_ALL = "article/comment/all"//{a_id}/{page}
+export const ARTICLE_COMMENT_ALL_POPULAR = "article/comment/all"//{a_id}/popular
+export const ARTICLE_COMMENT_DELETE = "article/comment/delete/"//{commentId}
+export const ARTICLE_COMMENT_ALL_PROFILE = "article/comment/all/profile/"//{p_id}/{page}
+export const ARTICLE_COMMENT_VOTE = "article/comment/vote/"//{commentId}/{vote}
+
+//POST
+export const ARTICLE_COMMENT_ADD = "article/comment/add/"//{commentId}
+export const ARTICLE_COMMENT_EDIT = "article/comment/edit/"//{commentId}
+export const ARTICLE_COMMENT_PROCESS = "article/comment/process/"//{commentId}
+export const ARTICLE_COMMENT_REPLIES = "article/comment/replies/"//{commentId}/{page}
+export const ARTICLE_COMMENT_REPORT = "article/comment/report/"//{commentId}
+export const ARTICLE_COMMENT_VOTES = "article/comment/votes/"//{commentId}/{page}
+
+
 // Collection API
 
 // GET
-export const COLLECTION = "collection/{id}"
-export const COLLECTION_PROFILE = "collection/all/profile/{profileId}/{page}"
-export const COLLECTION_RELEASES = "collection/{id}/releases/{page}"
-export const COLLECTION_RELEASE = "collection/all/release/{releaseId}/{page}"
-export const COLLECTION_LIST = "collection/all/{page}"
+export const COLLECTION = "collection/"//{id}
+export const COLLECTION_PROFILE = "collection/all/profile/"//{profileId}/{page}
+export const COLLECTION_RELEASES = "collection/"//{id}/releases/{page}
+export const COLLECTION_RELEASE = "collection/all/release/"//{releaseId}/{page}
+export const COLLECTION_LIST = "collection/all/"//{page}
 
-export const COLLECTION_COMMENTS = "collection/comment/all/{id}/{page}"
-export const COLLECTION_COMMENTS_DELETE = "collection/comment/delete/{id}"
-export const COLLECTION_COMMENTS_VOTE = "collection/comment/vote/{id}/{mark}"
-export const COLLECTION_COMMENTS_VOTES = "collection/comment/votes/{commentId}/{page}"
+export const COLLECTION_COMMENTS = "collection/comment/all/"//{id}/{page}
+export const COLLECTION_COMMENTS_DELETE = "collection/comment/delete/"//{id}
+export const COLLECTION_COMMENTS_VOTE = "collection/comment/vote/"//{id}/{mark}
+export const COLLECTION_COMMENTS_VOTES = "collection/comment/votes/"//{commentId}/{page}
 
-export const COLLECTION_FAVORITE = "collectionFavorite/add/{id}"
-export const COLLECTION_FAVORITE_ADD = "collectionFavorite/delete/{id}"
-export const COLLECTION_FAVORITE_DELETE = "collectionFavorite/all/{page}"
+export const COLLECTION_FAVORITE = "collectionFavorite/add/"//{id}
+export const COLLECTION_FAVORITE_ADD = "collectionFavorite/delete/"//{id}
+export const COLLECTION_FAVORITE_DELETE = "collectionFavorite/all/"//{page}
 
-export const COLLECTION_MY = "collectionMy/{id}/releases"
-export const COLLECTION_MY_DELETE = "collectionMy/delete/{id}"
-export const COLLECTION_MY_ADD_RELEASE = "collectionMy/release/add/{id}"
+export const COLLECTION_MY = "collectionMy/"//{id}/releases
+export const COLLECTION_MY_DELETE = "collectionMy/delete/"//{id}
+export const COLLECTION_MY_ADD_RELEASE = "collectionMy/release/add/"//{id}
 
 // POST
-export const COLLECTION_REPORT = "collection/report/{id}"
+export const COLLECTION_REPORT = "collection/report/"//{id}
 
-export const COLLECTION_COMMENTS_ADD = "collection/comment/add/{collectionId}"
-export const COLLECTION_COMMENTS_EDIT = "collection/comment/edit/{commentId}"
+export const COLLECTION_COMMENTS_ADD = "collection/comment/add/"//{collectionId}
+export const COLLECTION_COMMENTS_EDIT = "collection/comment/edit/"//{commentId}
 export const COLLECTION_COMMENTS_PROCESS =
-  "collection/comment/process/{commentId}"
+  "collection/comment/process/"//{commentId}
 export const COLLECTION_COMMENTS_REPLIES =
-  "collection/comment/replies/{commentId}/{page}"
+  "collection/comment/replies/"//{commentId}/{page}
 export const COLLECTION_COMMENTS_REPORT =
-  "collection/comment/report/{commentId}"
+  "collection/comment/report/"//{commentId}
 
 export const COLLECTION_MY_CREATE = "collectionMy/create"
-export const COLLECTION_MY_EDIT = "collectionMy/edit/{collectionId}"
-export const COLLECTION_MY_EDIT_IMAGE = "collectionMy/editImage/{collectionId}"
+export const COLLECTION_MY_EDIT = "collectionMy/edit/"//{collectionId}
+export const COLLECTION_MY_EDIT_IMAGE = "collectionMy/editImage/"//{collectionId}
 
 // Config API
 
@@ -107,8 +149,8 @@ export const VIDEO_PARSE = "video/parse"
 export const DISCOVER_COMMENTS = "discover/comments"
 export const DISCOVER_DISCUSSING = "discover/discussing"
 export const DISCOVER_INTERESTING = "discover/interesting"
-export const DISCOVER_RECOMMENDATIONS = "discover/recommendations/{page}"
-export const DISCOVER_WATCHING = "discover/watching/{page}"
+export const DISCOVER_RECOMMENDATIONS = "discover/recommendations/"//{page}
+export const DISCOVER_WATCHING = "discover/watching/"//{page}
 
 // Episode API
 
@@ -116,16 +158,16 @@ export const DISCOVER_WATCHING = "discover/watching/{page}"
 
 export const EPISODE = "episode/"
 
-export const EPISODE_TYPES = "episode/{releaseId}"
-export const EPISODE_SOURCES = "episode/{releaseId}/{typeId}"
-export const EPISODES = "episode/{releaseId}/{typeId}/{sourceId}"
-export const EPISODE_TARGET = "episode/target/{releaseId}/{sourceId}/{position}"
-export const EPISODE_UPDATES = "episode/updates/{releaseId}/{page}"
+export const EPISODE_TYPES = "episode/"//{releaseId}
+export const EPISODE_SOURCES = "episode/"//{releaseId}/{typeId}
+export const EPISODES = "episode/"//{releaseId}/{typeId}/{sourceId}
+export const EPISODE_TARGET = "episode/target/"//{releaseId}/{sourceId}/{position}
+export const EPISODE_UPDATES = "episode/updates/"//{releaseId}/{page}
 
 // POST
 export const EPISODE_WATCH_POSITION =
   "episode/watch/{releaseId}/{sourceId}/{position}"
-export const EPISODE_WATCH_SOURCE = "episode/watch/{releaseId}/{sourceId}"
+export const EPISODE_WATCH_SOURCE = "episode/watch/"//{releaseId}/{sourceId}
 export const EPISODE_UNWATCH_POSITION =
   "episode/unwatch/{releaseId}/{sourceId}/{position}"
 export const EPISODE_UNWATCH_SOURCE = "episode/unwatch/{releaseId}/{sourceId}"
@@ -153,7 +195,7 @@ export const FAVORITE_DELETE = "favorite/delete/"
 
 // GET
 export const HISTORY = "history/{page}"
-export const HISTORY_ADD = "history/add/{releaseId}/{sourceId}/{position}"
+export const HISTORY_ADD = "history/add/"//{releaseId}/{sourceId}/{position}
 export const HISTORY_DELETE = "history/delete/{releaseId}"
 
 // Profile API
@@ -266,17 +308,17 @@ export const RELEASE_RANDOM_COLLECTION = "release/collection/{id}/random"
 export const RELEASE_VOTE_ADD = "release/vote/add/{releaseId}/{vote}"
 export const RELEASE_VOTE_DELETE = "release/vote/delete/{releaseId}"
 
-export const RELEASE_COMMENTS = "release/comment/{releaseId}"
-export const RELEASE_COMMENTS_PAGE = "release/comment/all/{releaseId}/{page}"
-export const RELEASE_COMMENT_DELETE = "release/comment/delete/{commentId}"
-export const RELEASE_COMMENT_VOTE = "release/comment/vote/{commentId}/{vote}"
+export const RELEASE_COMMENTS = "release/comment/"//{releaseId}
+export const RELEASE_COMMENTS_PAGE = "release/comment/all/"//{releaseId}/{page}
+export const RELEASE_COMMENT_DELETE = "release/comment/delete/"//{commentId}
+export const RELEASE_COMMENT_VOTE = "release/comment/vote/"//{commentId}/{vote}
 export const RELEASE_COMMENT_REPLIES =
-  "release/comment/replies/{commentId}/{page}"
+  "release/comment/replies/"//{commentId}/{page}
 export const RELEASE_COMMENT_PROFILE =
-  "release/comment/all/profile/{profileId}/{page}"
+  "release/comment/all/profile/"//{profileId}/{page}
 
 export const RELEASE_STREAMING_PLATFORM =
-  "release/streaming/platform/{releaseId}"
+  "release/streaming/platform/"//{releaseId}
 
 export const RELEASE_VIDEO = "video/release/{releaseId}"
 export const RELEASE_VIDEO_APPEAL = "video/release/{releaseId}/appeal"
@@ -298,7 +340,7 @@ export const RELEASE_FAVORITE_VIDEO_DELETE =
   "releaseVideoFavorite/delete/{releaseId}"
 
 // POST
-export const RELEASE_FILTER = "filter/{page}"
+export const RELEASE_FILTER = "filter/"
 
 export const RELEASE_COMMENT_ADD = "release/comment/add/{releaseId}"
 export const RELEASE_COMMENT_EDIT = "release/comment/edit/{commentId}"

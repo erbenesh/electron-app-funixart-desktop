@@ -1,5 +1,16 @@
 import axios from "axios";
-import { BASE_URL, FILTER, RELEASE, DISCOVER_INTERESTING, USER_AGENT, SIGN_IN, PROFILE, EPISODE, LISTS, FAVORITE_DELETE, FAVORITE_ADD, LISTS_ADD } from "./endpoints";
+import { 
+    BASE_URL, RELEASE, DISCOVER_INTERESTING, 
+    USER_AGENT, SIGN_IN, PROFILE, EPISODE, LISTS, 
+    FAVORITE_DELETE, FAVORITE_ADD, LISTS_ADD, 
+    RELEASE_FILTER, RELEASE_COMMENTS_PAGE, 
+    COLLECTION_COMMENTS, DISCOVER_RECOMMENDATIONS, 
+    SCHEDULE,
+    DISCOVER_DISCUSSING,
+    DISCOVER_WATCHING,
+    EPISODE_WATCH_SOURCE,
+    HISTORY_ADD,
+    FEED_NEWS} from "./endpoints";
 import { BookmarksList } from "./utils";
 
 export const HEADERS = {
@@ -15,6 +26,82 @@ const StatusList: Record<string, null | number> = {
 };
 
 class AnixartService {
+
+    async getFeedNews(token: string, page: number | string = 0){
+        const url = `${BASE_URL}${FEED_NEWS}${page}?token=${token}`
+
+        const data = {
+            DATE_DAY: 2,
+            DATE_MONTH: 4,
+            DATE_NONE: 0,
+            DATE_TODAY: 1,
+            DATE_WEEK: 3,
+            DATE_WHOLE_TIME: 6,
+            DATE_YEAR: 5,
+            channelId: null,
+            date: null
+        }
+
+        const feedNewsData = await axios.post(url, data);
+
+        return feedNewsData;
+    }
+
+    async getWatching(page: number | string = 0) {
+
+        const url = `${BASE_URL}${DISCOVER_WATCHING}${page}`
+
+        const watchingData = await axios.post(url);
+
+        return watchingData;
+    }
+
+    async getDiscussing() {
+
+        const url = `${BASE_URL}${DISCOVER_DISCUSSING}`
+
+        const discussingData = await axios.post(url);
+
+        return discussingData;
+    }
+
+    async getSchedule() {
+
+        const url = `${BASE_URL}${SCHEDULE}`
+
+        const scheduleData = await axios.get(url);
+
+        return scheduleData;
+    }
+
+    async getRecommendations(page: number, token: string) {
+
+        const url = `${BASE_URL}${DISCOVER_RECOMMENDATIONS}${page}?previous_page=${page}&token=${token}`
+
+        const recommendationsData = await axios.post(url);
+
+        return recommendationsData;
+    }
+
+    async getAllComments(
+        type: string,
+        release_id: number | string, 
+        page: string | number,
+        token: string
+    ) {
+
+        let url;
+        if (type == "release") {
+          url = `${BASE_URL}${RELEASE_COMMENTS_PAGE}${release_id}/${page}?sort=1&token=${token}`;
+        } else if (type == "collection") {
+          url = `${BASE_URL}${COLLECTION_COMMENTS}${release_id}/${page}?sort=1&token=${token}`;
+        }
+
+        const commentsData = await axios.get(url);
+
+        return commentsData;
+
+    }
 
     async addToBookmarkList(list: number, release_id: number | string, token: string) {
 
@@ -55,15 +142,15 @@ class AnixartService {
     }
 
     async getToHistory(url: string) {
-        const fullUrl = `${BASE_URL}${"history/add/"}${url}`;
+        const fullUrl = `${BASE_URL}${HISTORY_ADD}${url}`;
         const toHistory =  await axios.get(fullUrl);
         console.log("HISTORY");
         return toHistory;
     }
 
     async getMarkWatched(url: string) {
-        const fullUrl = `${BASE_URL}${"episode/watch/"}${url}`;
-        const markWatched =  await axios.get(fullUrl);
+        const fullUrl = `${BASE_URL}${EPISODE_WATCH_SOURCE}${url}`;
+        const markWatched =  await axios.post(fullUrl);
         console.log("MARK");
         return markWatched;
     }
@@ -129,7 +216,8 @@ class AnixartService {
     async getLastUpdatedReleases(
         status: string,
         token: string | null,
-        page: string | number = 0
+        page: string | number = 0,
+        sort: null | number = 0
     ) {
 
         let statusId: null | number = null;
@@ -153,14 +241,14 @@ class AnixartService {
             is_genres_exclude_mode_enabled: false,
             profile_list_exclusions: [],
             season: null,
-            sort: 0,
+            sort: sort,
             start_year: null,
             status_id: statusId,
             studio : null,
             types:[]
         };
 
-        let url = `${BASE_URL}${FILTER}${page}`;
+        let url = `${BASE_URL}${RELEASE_FILTER}${page}`;
         if (token) {
             url += `?token=${token}`;
         }

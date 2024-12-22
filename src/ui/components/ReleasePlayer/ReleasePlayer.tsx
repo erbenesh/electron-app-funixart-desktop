@@ -1,11 +1,12 @@
 
-import { skipToken, useQuery } from '@tanstack/react-query'
+import { skipToken, useMutation, useQuery } from '@tanstack/react-query'
 import styles from './ReleasePlayer.module.css'
 import { anixartService } from '../../services/AnixartService';
 import { useEffect, useState } from 'react';
 import { useUserStore } from '../../services/auth';
+import { IoEye, IoEyeOffOutline } from "react-icons/io5";
 
-export const ReleasePlayer = ({...props}) => {
+export const ReleasePlayer = (props) => {
 
     const userStore = useUserStore();
     const [voiceoverInfo, setVoiceoverInfo] = useState(null);
@@ -15,113 +16,91 @@ export const ReleasePlayer = ({...props}) => {
     const [episodeInfo, setEpisodeInfo] = useState(null);
     const [selectedEpisode, setSelectedEpisode] = useState(null);
 
-    const [ isFetchingVoiceOver, setIsFetchingVoiceOver ] = useState(false);
-    const [ isFetchingSources, setIsFetchingSources ] = useState(false);
-    const [ isFetchingEpisodes, setIsFetchingEpisodes ] = useState(false);
-    const [ isFetchingToHistory, setIsFetchingToHistory ] = useState(false);
+    const [ isDropdownVoicesHidden, setIsDropdownVoicesHidden ] = useState(false);
+    const [ isDropdownSourcesHidden, setIsDropdownSourcesHidden ] = useState(false);
 
+    const fetchVoiceOver = useMutation({
+        mutationKey: ["voice over", props.id],
+        mutationFn: () => anixartService.getReleasePlayer(props.id),
+        onSuccess(data) {
+            const voiceover = data.data;
 
-    const fetchVoiceOver = useQuery({
-        queryKey: ["voice over", props.id],
-        queryFn: isFetchingVoiceOver ? () => anixartService.getReleasePlayer(props.id) : skipToken
+            setVoiceoverInfo(voiceover.types);
+            setSelectedVoiceover(voiceover.types[0]);
+        }
     });
 
-    const fetchSources = useQuery({
-        queryKey: ["sources", props.id],
-        queryFn: isFetchingSources ? () => anixartService.getReleasePlayer(`${props.id}/${selectedVoiceover.id}`) : skipToken
+    const fetchSources = useMutation({
+        mutationKey: ["sources", props.id],
+        mutationFn: () => anixartService.getReleasePlayer(`${props.id}/${selectedVoiceover.id}`),
+        onSuccess(data) {
+            const sources = data.data;
+
+            setSourcesInfo(sources.sources);
+            setSelectedSource(sources.sources[0]);
+        }
     });
  
-    const fetchEpisodes = useQuery({
-        queryKey: ["episodes", props.id],
-        queryFn: isFetchingEpisodes ? () => anixartService.getReleasePlayer(`${props.id}/${selectedVoiceover.id}/${selectedSource.id}?token=${userStore.token}`) : skipToken
+    const fetchEpisodes = useMutation({
+        mutationKey: ["episodes", props.id],
+        mutationFn: () => anixartService.getReleasePlayer(`${props.id}/${selectedVoiceover.id}/${selectedSource.id}?token=${userStore.token}`),
+        onSuccess(data) {
+            const episodes = data.data;
+
+            if (episodes.episodes.length === 0) {
+                const remSources = sourcesInfo.filter(
+                    (source) => source.id !== selectedSource.id
+                );
+                setSourcesInfo(remSources);
+                setSelectedSource(remSources[0]);
+
+                return;
+            }
+
+            setEpisodeInfo(episodes.episodes);
+            setSelectedEpisode(episodes.episodes[0]);
+        }
     });
 
-    const fetchToHistory = useQuery({
-        queryKey: ["addHistory"],
-        queryFn: isFetchingToHistory ? () => anixartService.getToHistory(`${props.id}/${selectedSource.id}/${selectedEpisode.position}?token=${userStore.token}`) : skipToken
+    const fetchToHistory = useMutation({
+        mutationKey: ["addHistory", props.id, selectedSource?.id, userStore.token],
+        mutationFn: (position) => anixartService.getToHistory(`${props.id}/${selectedSource.id}/${position}?token=${userStore.token}`)
     });
 
-    const fetchMarkWatched = useQuery({
-        queryKey: ["markWatched"],
-        queryFn: isFetchingToHistory ? () => anixartService.getMarkWatched(`$${props.id}/${selectedSource.id}/${selectedEpisode.position}?token=${userStore.token}`) : skipToken
+    const fetchMarkWatched = useMutation({
+        mutationKey: ["markWatched", props.id, selectedSource?.id, userStore.token],
+        mutationFn: (position) => anixartService.getMarkWatched(`${props.id}/${selectedSource.id}/${position}?token=${userStore.token}`)
     });
-
 
     useEffect(() => {
-        async function _fetchInfo() {
-            setIsFetchingVoiceOver(true);
-            const voiceover = fetchVoiceOver.data?.data;
-            if(fetchVoiceOver.status === "success"){
-                setVoiceoverInfo(voiceover.types);
-                setSelectedVoiceover(voiceover.types[0]);
-                setIsFetchingVoiceOver(false);
-            }
-        }
-        _fetchInfo();
+        fetchVoiceOver.mutate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fetchVoiceOver.status]);
+    }, []);
     
     useEffect(() => {
-        async function _fetchInfo() {
-            setIsFetchingSources(true);
-            const sources = fetchSources.data?.data;
-            if(fetchSources.status === "success"){
-                setSourcesInfo(sources.sources);
-                setSelectedSource(sources.sources[0]);
-                setIsFetchingSources(false);
-            }
-        }
         if (selectedVoiceover) {
-            _fetchInfo();
+            fetchSources.mutate();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedVoiceover, fetchSources.status]);
+    }, [selectedVoiceover]);
     
     useEffect(() => {
-        async function _fetchInfo() {
-            setIsFetchingEpisodes(true)
-            const episodes = fetchEpisodes.data?.data;
-            if(fetchEpisodes.status === "success"){
-                if (episodes.episodes.length === 0) {
-                    const remSources = sourcesInfo.filter(
-                        (source) => source.id !== selectedSource.id
-                    );
-                    setSourcesInfo(remSources);
-                    setSelectedSource(remSources[0]);
-
-                    return;
-                }
-
-                setEpisodeInfo(episodes.episodes);
-                setSelectedEpisode(episodes.episodes[0]);
-                setIsFetchingEpisodes(false);
-            }
-        }
         if (selectedSource) {
-            _fetchInfo();
+            fetchEpisodes.mutate();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedSource, userStore.token, fetchEpisodes.status]);
+    }, [selectedSource, userStore.token]);
 
     async function _addToHistory(episode: any) {
         if(episode && userStore.token) {
-            setIsFetchingToHistory(true);
+            fetchToHistory.mutate(episode.position);
+            fetchMarkWatched.mutate(episode.position);
         }
     }
 
-    useEffect(() => {
-        if (fetchToHistory.status === "success") {
-            setIsFetchingToHistory(false);
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fetchToHistory.status]);
-
-    if (fetchVoiceOver.status === "pending"|| fetchSources.status === "pending" || fetchEpisodes.status === "pending") {
-        return (
-            <div className="loader-container">	
-                <i className="loader-circle"></i>
-            </div>
-        )
+    function setVoice(voiceover: any) {
+        setSelectedVoiceover(voiceover);
+        setIsDropdownVoicesHidden(!isDropdownVoicesHidden);
     }
 
     if (fetchVoiceOver.status === "error") {
@@ -134,65 +113,80 @@ export const ReleasePlayer = ({...props}) => {
 
     return (
         <div>
-                {!voiceoverInfo || !sourcesInfo || !episodeInfo ? (
-                    <div className="flex items-center justify-center w-full aspect-video">
+            {fetchVoiceOver.isPending || fetchSources.isPending || fetchEpisodes.isPending || !voiceoverInfo || !sourcesInfo || !episodeInfo ? (            
+                
+                    <div className={styles.player_loading}>
                         <div className="loader-container">	
                             <i className="loader-circle"></i>
                         </div>
                     </div>
-                ) : (
-                    <>
-                    <div className="flex flex-wrap gap-2">
-                        {/* <Dropdown label={`Озвучка: ${selectedVoiceover.name}`} color="blue" theme={DropdownTheme} >
-                            {voiceoverInfo.map((voiceover: any) => (
-                                <Dropdown.Item key={`voiceover_${voiceover.id}`} onClick={() => setSelectedVoiceover(voiceover)}>
-                                    {voiceover.name}
-                                </Dropdown.Item>
-                            ))}
-                        </Dropdown>
-
-                        <Dropdown label={`Плеер: ${selectedSource.name}`} color="blue" theme={DropdownTheme}>
-                            {sourcesInfo.map((source: any) => (
-                                <Dropdown.Item
-                                key={`source_${source.id}`}
-                                onClick={() => setSelectedSource(source)}
-                                >
-                                {source.name}
-                                </Dropdown.Item>
-                            ))}
-                        </Dropdown> */}
-
-                    </div>
+                
+            ) : (
+            <div className={styles.player_row}>
 
                     <div className={styles.player_wrap}>
                         <iframe allowFullScreen={true} src={selectedEpisode.url} className={styles.player}></iframe>
                     </div>
 
                     <div className={styles.episodes_buttons_swiper_wrap}>
+
+                        <div className={styles.voices_and_sources_dropdowns}>
+                            <div className={styles.player_dropdowns}>
+                                <button className={styles.dropdown_button} onClick={() => setIsDropdownVoicesHidden(!isDropdownVoicesHidden)} type='button'>{selectedVoiceover.name}</button>
+
+                                <div className={styles.top_buttons_swiper} style={isDropdownVoicesHidden ? {display: "flex"} : {}}>
+                                    {voiceoverInfo.map((voiceover: any) => (
+                                        <button key={`voiceover_${voiceover.id}`} className={styles.dropdown_list_button}
+                                        onClick={() => setVoice(voiceover)}>
+                                            {voiceover.name}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className={styles.player_dropdowns}>
+                                <button className={styles.dropdown_button} onClick={() => setIsDropdownSourcesHidden(!isDropdownSourcesHidden)} type='button'>{selectedSource.name}</button>
+
+                                <div className={styles.top_buttons_swiper} style={isDropdownSourcesHidden ? {display: "flex"} : {}}>
+                                    {sourcesInfo.map((source: any) => (
+                                        <button key={`source_${source.id}`} className={styles.dropdown_list_button}
+                                        onClick={() => setSelectedSource(source)}>
+                                        {source.name}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
                         <div className={styles.episodes_buttons_swiper}>
                             {episodeInfo.map((episode: any) => (
                                 <button key={`episode_${episode.position}`} className={styles.episode_choose_button}
-                                    onClick={() => { setSelectedEpisode(episode); episode.is_watched = true; _addToHistory(episode);}} disabled={selectedEpisode.position === episode.position}>
-                                    {episode.name ? episode.name.split(" серия")
-                                    : `${
-                                        selectedSource.name !== "Sibnet"
-                                            ? episode.position
-                                            : episode.position + 1
-                                        }`
-                                    }
-                                    {
-                                    episode.is_watched ? 
-                                    ( <span className="w-5 h-5 ml-2 iconify material-symbols--check-circle"></span>) 
-                                    : (<span className="w-5 h-5 ml-2 opacity-10 iconify material-symbols--check-circle"></span>)
-                                    }
+                                    onClick={() => { 
+                                        setSelectedEpisode(episode); 
+                                        episode.is_watched = true; 
+                                        _addToHistory(episode);
+                                    }} 
+                                disabled={selectedEpisode.position === episode.position}>
+                                    <p>{
+                                        episode.name ? episode.name + ` `
+                                        : `${
+                                            selectedSource.name !== "Sibnet"
+                                                ? episode.position
+                                                : episode.position + 1
+                                            }`
+                                    }</p>
+                                    <p className={styles.eye_ico}>{
+                                        episode.is_watched ? 
+                                        <IoEye/>
+                                        : <IoEyeOffOutline /> 
+                                    }</p>
                                 </button>
                             ))}
                         </div>
-
                     </div>
-                    
-                    </>
-                )}
+                
+            </div>
+            )}
+
         </div>
     )
 }

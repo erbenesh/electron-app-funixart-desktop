@@ -23,7 +23,9 @@ export const ReleaseCard = (props) => {
     }
 
     return (
-        <div className={styles.card} onClick={() => props.setCurrentChoosenRelease(props.release.id)}>
+        <div id="vert_card" className={
+            // props.release["@id"] === ( props.currentIndex + 1 ) || props.indexID === ( props.currentIndex ) ? styles.card_first : 
+            styles.card} onClick={() => props.setCurrentChoosenRelease(props.release.id)}>
 
             <div className={styles.release_image_border}>
                 <img className={styles.release_image} src={props.release.image} alt={props.release.title_ru + " image"} loading='lazy'/>
@@ -34,14 +36,11 @@ export const ReleaseCard = (props) => {
 
             <div className={styles.bottom_info}>
                 <span>
-                    {/* {props.release.status?.name !== 'Анонс' ? 
-                    <p className={styles.anime_subinfo}>{props.release.episodes_released || '?'} из {props.release.episodes_total || '?'} эп • {String(props.release.grade).slice(0, 3)}</p> 
-                    : <p className={styles.anime_subinfo}>{props.release.year || 'скоро'}</p>} */}
                     <p className={styles.anime_subinfo}>
                         {/*Сколько эпизодов*/}
                         { props.release.episodes_released && props.release.episodes_released + " из "}
                         {/*Из скольки эпизодов*/}
-                        { props.release.status.id == 3 ? "" : props.release.episodes_total ? props.release.episodes_total + " эп" : "? эп" }
+                        { props.release.status && props.release.status.id === 3 ? "" : props.release.episodes_total ? props.release.episodes_total + " эп" : "? эп" }
                         {/*Оценка или это анонс?*/}
                         { grade ? " • " + grade 
                         : props.release.status 

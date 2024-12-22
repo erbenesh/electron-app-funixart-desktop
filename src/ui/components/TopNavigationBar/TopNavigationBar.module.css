@@ -41,14 +41,38 @@
 }
 
 .toptools_search_input {
+    position: relative;
     box-sizing: border-box;
-    width: 40rem;
-    padding: 1rem;
+    width: 6rem;
+    padding: 1rem 1rem 1rem 1rem;
     border-radius: 1rem;
     border: none;
     outline: none;
-    background-color: rgb(36, 36, 36);
-    box-shadow: 0 5px 5px rgb(0, 0, 0, 0.5);
+    /* background-color: rgb(36, 36, 36); */
+    background-color: rgb(25, 25, 25);
+    transition: .3s;
+}
+
+.toptools_search_input::before {
+    position: absolute;
+    content: "\f002";
+    font-family: FontAwesome;
+    font-size: 1rem;
+    color: #ffffff;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+}
+
+.toptools_search_input:focus {    
+    width: 25rem;
+}
+
+.toptools_search_input::placeholder {
+    font-weight: 400;
+    color: grey;
 }
 
 .toptools__button {

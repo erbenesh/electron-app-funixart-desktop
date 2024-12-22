@@ -1,15 +1,15 @@
 import { TopNavigationBar } from './components/TopNavigationBar/TopNavigationBar';
 import styles from './App.module.css'
-import { Home } from './pages/Home/Home';
 import { useEffect, useState } from 'react';
 import { ReleasePage } from './pages/ReleasePage/ReleasePage';
-import { Discover } from './pages/Discover/Discover';
 import { Profile } from './pages/Profile/Profile';
 import { AuthPage } from './pages/Auth/AuthPage';
 import { useUserStore } from './services/auth';
 import { usePreferencesStore } from './services/preferences';
 import { Bookmarks } from './pages/Bookmarks/Bookmarks';
 import { useScrollPosition } from './hooks/useScrollPosition';
+import { NewHome } from './pages/NewHome/NewHome';
+import { Feed } from './pages/Feed/Feed';
 
 function App() {
 
@@ -22,7 +22,7 @@ function App() {
   const [ isHeaderHidden, setHeaderHidden ] = useState(false);
 
   useEffect(() => {
-    if (scrollPosition > 2 && scrollPosition > lastScrolledPos) {
+    if (scrollPosition > 4 && scrollPosition > lastScrolledPos) {
       setLastShowPos(scrollPosition);
       setHeaderHidden(true);
     } else if (scrollPosition <= Math.max(lastShowPos - 2, 0)) {
@@ -44,6 +44,7 @@ function App() {
     setCurrentPage(page);
     if (currentChoosenRelease !== null) {
       setCurrentChoosenRelease(null);
+      setHeaderHidden(false);
     }
   }
 
@@ -81,11 +82,11 @@ function App() {
 
             { currentChoosenRelease !== null && <ReleasePage currentChoosenRelease={currentChoosenRelease} setCurrentChoosenRelease={setCurrentChoosenRelease}/> }
 
-            { currentChoosenRelease === null && currentPage === "home" ? <Home setCurrentChoosenRelease={setCurrentChoosenRelease} isHeaderHidden={isHeaderHidden}/>
-              : currentChoosenRelease === null && currentPage === "discover" ? <Discover setCurrentChoosenRelease={setCurrentChoosenRelease}/> 
+            { currentChoosenRelease === null && currentPage === "home" ? <NewHome setCurrentChoosenRelease={setCurrentChoosenRelease} isHeaderHidden={isHeaderHidden}/>
+              : currentChoosenRelease === null && currentPage === "feed" ? <Feed setCurrentChoosenRelease={setCurrentChoosenRelease}/> 
               : currentChoosenRelease === null && currentPage === "bookmarks" ? <Bookmarks setCurrentChoosenRelease={setCurrentChoosenRelease} isHeaderHidden={isHeaderHidden}/> 
               : currentChoosenRelease === null && currentPage === "profile" ? <Profile setCurrentChoosenRelease={setCurrentChoosenRelease} id={userStore.user.id}/> 
-              : currentChoosenRelease === null && currentPage === "settings" && <Discover setCurrentChoosenRelease={setCurrentChoosenRelease}/> 
+              : currentChoosenRelease === null && currentPage === "settings" && <Profile setCurrentChoosenRelease={setCurrentChoosenRelease} id={userStore.user.id}/> 
             }
             
           </div>

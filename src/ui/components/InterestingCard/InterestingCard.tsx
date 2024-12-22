@@ -4,7 +4,9 @@ import styles from './InterestingCard.module.css'
 export const InterestingCard = ({...props}) => {
 
     return (
-        <div id="inter_card" className={props.release["@id"] === ( props.currentIndex + 1 ) ? styles.card_first : styles.card} onClick={() => props.setCurrentChoosenRelease(props.release.action)}>
+        <div id="inter_card" className={
+            // props.release["@id"] === ( props.currentIndex + 1 ) ? styles.card_first : 
+            styles.card} onClick={() => props.setCurrentChoosenRelease(props.release.action)}>
 
             <div className={styles.release_image_border}>
                 <img className={styles.release_image} src={props.release.image} alt="" />
