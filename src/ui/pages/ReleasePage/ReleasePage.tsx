@@ -22,6 +22,7 @@ import interestCardStyles from "../../components/InterestingCard/InterestingCard
 import { useUserStore } from '../../services/auth';
 import { ReleaseCard } from './../../components/ReleaseCard/ReleaseCard';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 const profile_lists = {
@@ -53,11 +54,15 @@ const weekDay = [
     "каждое воскресенье",
 ];
 
-export const ReleasePage = (props) => {
+export const ReleasePage = () => {
+
+    const { releaseId } = useParams();
+
+    const navigate = useNavigate();
 
     const token = useUserStore((state) => state.token);
 
-    const [ release, setRelease ] = useState({} as any);
+    const [ release, setRelease ] = useState(null);
 
     const [ commentsPage, setCommentsPage ] = useState(0);
 
@@ -80,34 +85,34 @@ export const ReleasePage = (props) => {
     const queryClient = useQueryClient();
 
     const fetchCurrentRelease = useQuery({
-        queryKey: ['getCurrentRelease', props.currentChoosenRelease, token],
-        queryFn: () => anixartService.getCurrentRelease(props.currentChoosenRelease, token)
+        queryKey: ['getCurrentRelease', releaseId, token],
+        queryFn: () => anixartService.getCurrentRelease(releaseId, token)
     });
 
     const fetchCurrentReleaseComments = useQuery({
-        queryKey: ['getCurrentRelease', props.currentChoosenRelease, commentsPage, token],
-        queryFn: () => anixartService.getAllComments("release", props.currentChoosenRelease, commentsPage, token)
+        queryKey: ['getCurrentReleaseComments', releaseId, commentsPage, token],
+        queryFn: () => anixartService.getAllComments("release", releaseId, commentsPage, token)
     });
 
     const fetchDeleteFromFavorite = useMutation({
-        mutationKey: ['delete from favorite', props.currentChoosenRelease, token],
-        mutationFn: () => anixartService.setDeleteFromFavorite(props.currentChoosenRelease, token),
+        mutationKey: ['delete from favorite', releaseId, token],
+        mutationFn: () => anixartService.setDeleteFromFavorite(releaseId, token),
         onSuccess() {
             queryClient.refetchQueries({queryKey: ['getCurrentRelease']});
         }
     });
 
     const fetchAddToFavorite = useMutation({
-        mutationKey: ['add to favorite', props.currentChoosenRelease, token],
-        mutationFn: () => anixartService.setAddToFavorite(props.currentChoosenRelease, token),
+        mutationKey: ['add to favorite', releaseId, token],
+        mutationFn: () => anixartService.setAddToFavorite(releaseId, token),
         onSuccess() {
             queryClient.refetchQueries({queryKey: ['getCurrentRelease']});
         }
     });
 
     const fetchAddToList = useMutation({
-        mutationKey: ['add to bookmark list', userList, props.currentChoosenRelease, token],
-        mutationFn: (list: number) => anixartService.addToBookmarkList(list, props.currentChoosenRelease, token),
+        mutationKey: ['add to bookmark list', userList, releaseId, token],
+        mutationFn: (list: number) => anixartService.addToBookmarkList(list, releaseId, token),
         onSuccess() {
             queryClient.refetchQueries({queryKey: ['getCurrentRelease']});
         }
@@ -137,12 +142,16 @@ export const ReleasePage = (props) => {
             console.log(commentsData);
         }
 
-        if(commentsPage === 0 && fetchCurrentReleaseComments.status === "success") {
+        if(fetchCurrentReleaseComments.isSuccess && commentsPage === 0) {
             _loadInitialComments();
             setCommentsPage(commentsPage + 1);
         }
+
+        if(releaseId !== release?.id){
+            setCommentsPage(0);
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fetchCurrentReleaseComments.status]);
+    }, [fetchCurrentReleaseComments.status, releaseId]);
 
     useEffect(() => {
         async function _nextLoadInitialComments() {
@@ -159,17 +168,6 @@ export const ReleasePage = (props) => {
 
     useEffect(() => {
 
-        function handleLineCount() {
-            if(fetchCurrentRelease.status === "success") {
-
-                const el = textInput.current;
-                const lineHeight = parseInt(window.getComputedStyle(el).lineHeight);
-                const lineCount = Math.ceil(el.scrollHeight / lineHeight);
-        
-                setTextLineCount(lineCount);
-            }
-        }
-
         async function _loadInitialRelease() {
             const releaseData = fetchCurrentRelease.data?.data.release;
             setRelease(releaseData);
@@ -184,13 +182,29 @@ export const ReleasePage = (props) => {
             console.log(releaseData)
         }
 
-        if(fetchCurrentRelease.status === "success") {
+        if(fetchCurrentRelease.isSuccess && releaseId !== release?.id) {
             _loadInitialRelease();
+        }
+        console.log("RELEASE", fetchCurrentRelease.status);
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fetchCurrentRelease.status, releaseId]);
+
+    useEffect(() => {
+        function handleLineCount() {
+
+            const el = textInput.current;
+            const lineHeight = parseInt(window.getComputedStyle(el).lineHeight);
+            const lineCount = Math.ceil(el.scrollHeight / lineHeight);
+    
+            setTextLineCount(lineCount);
+        }
+
+        if( release ) {
             handleLineCount();
         }
-        console.log(fetchCurrentRelease.status);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fetchCurrentRelease.status]);
+        
+    }, [release]);
 
     const goToSlide = (index: number) => {
         
@@ -250,6 +264,12 @@ export const ReleasePage = (props) => {
     }
 
     return (
+
+        !release ? 
+        <div className="loader-container">	
+            <i className="loader-circle" />
+        </div>
+        :
         <div className={styles.release_page_wrap}>
 
             <div className={styles.release_page}>
@@ -258,7 +278,7 @@ export const ReleasePage = (props) => {
 
                 <div className={styles.toolbar}>
 
-                    <button onClick={() => props.setCurrentChoosenRelease(null)} className={styles.back_button}>
+                    <button className={styles.back_button} onClick={() => { navigate(-1) }}>
                         <GoArrowLeft className={styles.back_ico} />
                     </button>
 
@@ -281,7 +301,7 @@ export const ReleasePage = (props) => {
                         <div className={styles.video_player_wrap}>
                             <div className={styles.video_player}>
                             
-                                <ReleasePlayer id={props.currentChoosenRelease} />
+                                <ReleasePlayer id={releaseId} />
                             
                             </div>
                         </div>
@@ -452,7 +472,7 @@ export const ReleasePage = (props) => {
                             <div className={styles.description_wrap}>
                                 <p ref={textInput} className={isDescriptionHidden? styles.description_hidden : styles.description}>{release.description}</p>
                                 
-                                {textLineCount > 4 && <button className={styles.description_button} onClick={() => setDescriptionHidden(!isDescriptionHidden)}>
+                                { textLineCount > 4 && <button className={styles.description_button} onClick={() => setDescriptionHidden(!isDescriptionHidden)}>
                                     {isDescriptionHidden ? 'Подробнее...' : 'Скрыть'}
                                 </button>}
                             </div>
@@ -557,14 +577,14 @@ export const ReleasePage = (props) => {
                         { 
                         release.related_releases?.length > 0 &&
                             <div className={styles.recommends_and_related_column}>
-                                {release?.related_releases.map(el => el.id !== release.id && <ReleaseCard key={el.id} release={el} setCurrentChoosenRelease={props.setCurrentChoosenRelease}/>)}
+                                {release?.related_releases.map(el => el.id !== release.id && <ReleaseCard key={el.id} release={el} />)}
                             </div>
                         }
                         <h2 className={styles.section_title}>Рекомендуем также</h2>
                         { 
                         release.recommended_releases?.length > 0 ? 
                             <div className={styles.recommends_and_related_column}>
-                                {release?.recommended_releases.map(el => el.id && <ReleaseCard key={el.id} release={el} setCurrentChoosenRelease={props.setCurrentChoosenRelease}/>)}
+                                {release?.recommended_releases.map(el => el.id && <ReleaseCard key={el.id} release={el} />)}
                             </div> : 'Упс, таких нет'    
                         }                                      
                     </div>

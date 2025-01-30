@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { anixartService } from "../../services/AnixartService";
 import styles from './NewHome.module.css'
@@ -6,12 +6,14 @@ import { useUserStore } from "../../services/auth";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { InterestingCard } from "../../components/InterestingCard/InterestingCard";
 import { ReleaseCard } from "../../components/ReleaseCard/ReleaseCard";
+import { IoShuffle } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
-export const NewHome = (props) => {
+export const NewHome = () => {
 
     const token = useUserStore((state) => state.token);
 
@@ -22,6 +24,8 @@ export const NewHome = (props) => {
     const [ discussingReleases, setDiscussingReleases ] = useState(null);
     const [ watchingReleases, setWatchingReleases ] = useState(null);
 
+    const [ randomRelease, setRandomRelease ] = useState(null);
+
     const [ indxInter, setIndxInter ] = useState(0);
     const [ indxRecom, setIndxRecom ] = useState(0);
     const [ indxLast, setIndxLast ] = useState(0);
@@ -31,21 +35,15 @@ export const NewHome = (props) => {
 
     //Schedule
     const [ monday, setMonday ] = useState(null);
-    const [ tuesday, setTuesday ] = useState(null);
-    const [ wednesday, setWednesday ] = useState(null);
-    const [ thursday, setThursday ] = useState(null);
-    const [ friday, setFriday ] = useState(null);
-    const [ saturday, setSaturday ] = useState(null);
-    const [ sunday, setSunday ] = useState(null);
-
-    //Schedule indxs
+    //Schedule indx
     const [ indxMonday, setIndxMonday ] = useState(0);
-    const [ indxTuesday, setIndxTuesday ] = useState(0);
-    const [ indxWednesday, setIndxWednesday ] = useState(0);
-    const [ indxThursday, setIndxThursday ] = useState(0);
-    const [ indxFriday, setIndxFriday ] = useState(0);
-    const [ indxSaturday, setIndxSaturday ] = useState(0);
-    const [ indxSunday, setIndxSunday ] = useState(0);
+
+    const queryClient = useQueryClient();
+
+    const fetchRandomRelease = useQuery({
+        queryKey: ['get randomRelease'],
+        queryFn: () => anixartService.getRandomRelease()
+    });
 
     const fetchLastUpdatedReleases = useQuery({
         queryKey: ['getLastUpdatedReleases', token],
@@ -54,7 +52,7 @@ export const NewHome = (props) => {
 
     const fetchTop = useQuery({
         queryKey: ['get top releases finished', token],
-        queryFn: () => anixartService.getLastUpdatedReleases("last", token, 0, 1)
+        queryFn: () => anixartService.getLastUpdatedReleases("ongoing", token, 0, 1)
     });
 
     const fetchDiscussing = useQuery({
@@ -64,7 +62,7 @@ export const NewHome = (props) => {
 
     const fetchWatching = useQuery({
         queryKey: ['getWatching'],
-        queryFn: () => anixartService.getWatching()
+        queryFn: () => anixartService.getWatching(0)
     });
 
     const fetchSchedule = useQuery({
@@ -81,6 +79,42 @@ export const NewHome = (props) => {
         queryKey: ['getDiscoverInteresting'],
         queryFn: () => anixartService.getDiscoverInteresting()
     });
+
+    useEffect(() => {
+
+        async function _loadInitialRelease() {
+
+            const randomReleaseData = fetchRandomRelease.data?.data.release;
+
+            if (!randomRelease && fetchRandomRelease.isSuccess) {
+                console.log(randomReleaseData);
+                setRandomRelease(randomReleaseData);
+            }
+
+        }
+
+        _loadInitialRelease();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fetchRandomRelease.status]);
+
+    useEffect(() => {
+
+        async function _loadInitialRelease() {
+
+            const randomReleaseData = fetchRandomRelease.data?.data.release;
+
+            if (!fetchRandomRelease.isRefetching) {
+                // console.log(randomReleaseData);
+                setRandomRelease(randomReleaseData);
+            }
+
+        }
+
+        _loadInitialRelease();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fetchRandomRelease.isRefetching]);
 
     useEffect(() => {
         async function _loadInitialReleases() {
@@ -116,13 +150,34 @@ export const NewHome = (props) => {
             const saturdayData = fetchSchedule.data?.data.saturday;
             const sundayData = fetchSchedule.data?.data.sunday;
 
-            setMonday(mondayData);
-            setTuesday(tuesdayData);
-            setWednesday(wednesdayData);
-            setThursday(thursdayData);
-            setFriday(fridayData);
-            setSaturday(saturdayData);
-            setSunday(sundayData);
+            if(fetchSchedule.isSuccess) {
+                const today = new Date();
+                let todayData;
+                switch(today.getDay()) {
+                    case 1:
+                        todayData = [...mondayData];
+                        break;
+                    case 2:
+                        todayData = [...tuesdayData];
+                        break;
+                    case 3:
+                        todayData = [...wednesdayData];
+                        break;
+                    case 4:
+                        todayData = [...thursdayData];
+                        break;
+                    case 5:
+                        todayData = [...fridayData];
+                        break;
+                    case 6:
+                        todayData = [...saturdayData];
+                        break;
+                    case 7:
+                        todayData = [...sundayData];
+                        break;
+                }
+                setMonday(todayData);
+            }
         }
 
         _loadInitialReleases();
@@ -156,7 +211,7 @@ export const NewHome = (props) => {
     useEffect(() => {
         async function _loadDiscoverInteresting() {
             const interestingData: [] = fetchDiscoverInteresting.status === "success" ? fetchDiscoverInteresting.data?.data.content : [];
-            // console.log(interestingData);
+             console.log(interestingData);
             setInterestingReleases(interestingData);
         }
 
@@ -194,24 +249,6 @@ export const NewHome = (props) => {
             case "monday_inner":
                 carouselMaxLen = (Math.floor(monday.length / 8)) * 8;
                 break;
-            case "tuesday_inner":
-                carouselMaxLen = (Math.floor(tuesday.length / 8)) * 8;
-                break;
-            case "wednesday_inner":
-                carouselMaxLen = (Math.floor(wednesday.length / 8)) * 8;
-                break;
-            case "thursday_inner":
-                carouselMaxLen = (Math.floor(thursday.length / 8)) * 8;
-                break;
-            case "friday_inner":
-                carouselMaxLen = (Math.floor(friday.length / 8)) * 8;
-                break;
-            case "saturday_inner":
-                carouselMaxLen = (Math.floor(saturday.length / 8)) * 8;
-                break;
-            case "sunday_inner":
-                carouselMaxLen = (Math.floor(sunday.length / 8)) * 8;
-                break;
             case "discussing_inner":
                 carouselMaxLen = (Math.floor(discussingReleases.length / 5)) * 5;
                 break;
@@ -240,24 +277,6 @@ export const NewHome = (props) => {
                 break;
             case "monday_inner":
                 setIndxMonday(index);
-                break;
-            case "tuesday_inner":
-                setIndxTuesday(index);
-                break;
-            case "wednesday_inner":
-                setIndxWednesday(index);
-                break;
-            case "thursday_inner":
-                setIndxThursday(index);
-                break;
-            case "friday_inner":
-                setIndxFriday(index);
-                break;
-            case "saturday_inner":
-                setIndxSaturday(index);
-                break;
-            case "sunday_inner":
-                setIndxSunday(index);
                 break;
             case "discussing_inner":
                 setIndxDiscus(index);
@@ -290,24 +309,6 @@ export const NewHome = (props) => {
             case "monday_inner":
                 newIndex = indxMonday + 8;
                 break;
-            case "tuesday_inner":
-                newIndex = indxTuesday + 8;
-                break;
-            case "wednesday_inner":
-                newIndex = indxWednesday + 8;
-                break;
-            case "thursday_inner":
-                newIndex = indxThursday + 8;
-                break;
-            case "friday_inner":
-                newIndex = indxFriday + 8;
-                break;
-            case "saturday_inner":
-                newIndex = indxSaturday + 8;
-                break;
-            case "sunday_inner":
-                newIndex = indxSunday + 8;
-                break;
             case "discussing_inner":
                 newIndex = indxDiscus + 5;
                 break;
@@ -336,24 +337,6 @@ export const NewHome = (props) => {
             case "monday_inner":
                 newIndex = indxMonday - 8;
                 break;
-            case "tuesday_inner":
-                newIndex = indxTuesday - 8;
-                break;
-            case "wednesday_inner":
-                newIndex = indxWednesday - 8;
-                break;
-            case "thursday_inner":
-                newIndex = indxThursday - 8;
-                break;
-            case "friday_inner":
-                newIndex = indxFriday - 8;
-                break;
-            case "saturday_inner":
-                newIndex = indxSaturday - 8;
-                break;
-            case "sunday_inner":
-                newIndex = indxSunday - 8;
-                break;
             case "discussing_inner":
                 newIndex = indxDiscus - 5;
                 break;
@@ -372,7 +355,7 @@ export const NewHome = (props) => {
 
     return (
         <div>
-            { fetchDiscoverInteresting.isPending || fetchSchedule.isPending || !monday || !thursday || !wednesday || !tuesday || !friday || !sunday || !saturday ?
+            { fetchDiscoverInteresting.isPending || fetchSchedule.isPending || !monday ?
             (
             <div className="loader-container_home">	
                 <i className="loader-circle"></i>
@@ -380,6 +363,40 @@ export const NewHome = (props) => {
             ) : (
             <div className={styles.home_page_wrap}>
                 <div className={styles.home_page}>
+
+                    <div className={styles.random_header_wrap}>
+                        <div className={styles.random_header}>
+                            <div className={styles.random_background}>
+                                <img className={styles.title_image_bg} src={randomRelease?.image} alt="" />
+                            </div>
+                            <div className={styles.title_wrap}> 
+                                { fetchRandomRelease.isPending || fetchRandomRelease.isRefetching || !randomRelease ?
+                                (
+                                <div className="loader-container_home">	
+                                    <i className="loader-circle"></i>
+                                </div>
+                                ) : (
+                                    <div className={styles.title}>
+                                        <Link to={`/release/${randomRelease?.id}`} className={styles.image_border}>
+                                            <img className={styles.title_image} src={randomRelease?.image} alt="" />
+                                        </Link>
+
+                                        <div className={styles.title_title}>
+                                            <div className={styles.title_with_button}>
+                                                <h2 className={styles.random_release_title}>{randomRelease?.title_ru}</h2>
+                                                <button className={styles.random_button} onClick={() => queryClient.refetchQueries({queryKey: ['get randomRelease']})} type="button"><IoShuffle className={styles.random_ico}/></button>
+                                            </div>
+                                            <p className={styles.random_description}>{randomRelease?.description}</p>
+                                        </div>
+                                        
+                                    </div>
+                                    )
+                                }
+                            </div>
+
+                        </div>
+
+                    </div>
 
                     <div className={styles.section}>
                         <h2 className={styles.section_title_link}>Последнее</h2>
@@ -394,7 +411,6 @@ export const NewHome = (props) => {
                                             <ReleaseCard 
                                                 key={el.id} 
                                                 release={el}
-                                                setCurrentChoosenRelease={props.setCurrentChoosenRelease}
                                                 currentIndex={indxLast}
                                             />
                                         ) 
@@ -429,7 +445,6 @@ export const NewHome = (props) => {
                                             <ReleaseCard 
                                                 key={el.id} 
                                                 release={el}
-                                                setCurrentChoosenRelease={props.setCurrentChoosenRelease}
                                                 currentIndex={indxRecom}
                                             />
                                         ) 
@@ -464,7 +479,6 @@ export const NewHome = (props) => {
                                             <ReleaseCard 
                                                 key={el.id} 
                                                 release={el}
-                                                setCurrentChoosenRelease={props.setCurrentChoosenRelease}
                                                 currentIndex={indxTop}
                                             />
                                         ) 
@@ -499,7 +513,6 @@ export const NewHome = (props) => {
                                             <InterestingCard 
                                                 key={el.id} 
                                                 release={el}
-                                                setCurrentChoosenRelease={props.setCurrentChoosenRelease}
                                                 currentIndex={indxInter}
                                             />
                                         ) 
@@ -522,9 +535,7 @@ export const NewHome = (props) => {
                     </div>
 
                     <div className={styles.section}>
-                        <h2 className={styles.section_title}>Расписание</h2>
-                        <div className={styles.releases_schedule}>
-                            <h3 className={styles.sh_day_title}>Понедельник</h3>
+                        <div className={styles.shcedule_title}><h2 className={styles.section_title_link_sh}>Расписание</h2><p className={styles.sh_day_title}>Сегодня</p></div>
                             <div className={styles.last_releases}>
                                 <div className="carousel">
                                     <div id="monday_inner" className="carousel-inner">
@@ -535,7 +546,6 @@ export const NewHome = (props) => {
                                                 <ReleaseCard 
                                                     key={el.id} 
                                                     release={el}
-                                                    setCurrentChoosenRelease={props.setCurrentChoosenRelease}
                                                     currentIndex={indxMonday}
                                                     indexID={monday.findIndex(i => i.id === el.id)}
                                                 />
@@ -556,204 +566,12 @@ export const NewHome = (props) => {
 
                                 </div>
                             </div>
-                            <h3 className={styles.sh_day_title}>Вторник</h3>
-                            <div className={styles.last_releases}>
-                                <div className="carousel">
-                                    <div id="tuesday_inner" className="carousel-inner">
-                                        {
-                                            tuesday?.map(
-                                                el => 
-                                                el.id && 
-                                                <ReleaseCard 
-                                                    key={el.id} 
-                                                    release={el}
-                                                    setCurrentChoosenRelease={props.setCurrentChoosenRelease}
-                                                    currentIndex={indxTuesday}
-                                                    indexID={tuesday.findIndex(i => i.id === el.id)}
-                                                />
-                                            ) 
-                                        }
-                                    </div>
-                                </div>
-                                <div className={styles.carousel_buttons}>
-                                    <button className={styles.carousel_button} 
-                                    style={indxTuesday <= 0 ? {opacity: 0, pointerEvents: "none"} : {}} onClick={() => goToPrevSlide("tuesday_inner")}>
-                                        <IoIosArrowBack className={styles.arrow_ico}/>
-                                    </button>
-
-                                    <button className={styles.carousel_button} 
-                                    style={indxTuesday >= (Math.floor(tuesday.length / 8)) * 8 ? {opacity: 0, pointerEvents: "none"} : {}} onClick={() => goToNextSlide("tuesday_inner")}>
-                                        <IoIosArrowForward className={styles.arrow_ico}/>
-                                    </button>
-
-                                </div>
-                            </div>
-                            <h3 className={styles.sh_day_title}>Среда</h3>
-                            <div className={styles.last_releases}>
-                                <div className="carousel">
-                                    <div id="wednesday_inner" className="carousel-inner">
-                                        {
-                                            wednesday?.map(
-                                                el => 
-                                                el.id && 
-                                                <ReleaseCard 
-                                                    key={el.id} 
-                                                    release={el}
-                                                    setCurrentChoosenRelease={props.setCurrentChoosenRelease}
-                                                    currentIndex={indxWednesday}
-                                                    indexID={wednesday.findIndex(i => i.id === el.id)}
-                                                />
-                                            ) 
-                                        }
-                                    </div>
-                                </div>
-                                <div className={styles.carousel_buttons}>
-                                    <button className={styles.carousel_button} 
-                                    style={indxWednesday <= 0 ? {opacity: 0, pointerEvents: "none"} : {}} onClick={() => goToPrevSlide("wednesday_inner")}>
-                                        <IoIosArrowBack className={styles.arrow_ico}/>
-                                    </button>
-
-                                    <button className={styles.carousel_button} 
-                                    style={indxWednesday >= (Math.floor(wednesday.length / 8)) * 8 ? {opacity: 0, pointerEvents: "none"} : {}} onClick={() => goToNextSlide("wednesday_inner")}>
-                                        <IoIosArrowForward className={styles.arrow_ico}/>
-                                    </button>
-
-                                </div>
-                            </div>
-                            <h3 className={styles.sh_day_title}>Четверг</h3>
-                            <div className={styles.last_releases}>
-                                <div className="carousel">
-                                    <div id="thursday_inner" className="carousel-inner">
-                                        {
-                                            thursday?.map(
-                                                el => 
-                                                el.id && 
-                                                <ReleaseCard 
-                                                    key={el.id} 
-                                                    release={el}
-                                                    setCurrentChoosenRelease={props.setCurrentChoosenRelease}
-                                                    currentIndex={indxThursday}
-                                                    indexID={thursday.findIndex(i => i.id === el.id)}
-                                                />
-                                            ) 
-                                        }
-                                    </div>
-                                </div>
-                                <div className={styles.carousel_buttons}>
-                                    <button className={styles.carousel_button} 
-                                    style={indxThursday <= 0 ? {opacity: 0, pointerEvents: "none"} : {}} onClick={() => goToPrevSlide("thursday_inner")}>
-                                        <IoIosArrowBack className={styles.arrow_ico}/>
-                                    </button>
-
-                                    <button className={styles.carousel_button} 
-                                    style={indxThursday >= (Math.floor(thursday.length / 8)) * 8 ? {opacity: 0, pointerEvents: "none"} : {}} onClick={() => goToNextSlide("thursday_inner")}>
-                                        <IoIosArrowForward className={styles.arrow_ico}/>
-                                    </button>
-
-                                </div>
-                            </div>
-                            <h3 className={styles.sh_day_title}>Пятница</h3>
-                            <div className={styles.last_releases}>
-                                <div className="carousel">
-                                    <div id="friday_inner" className="carousel-inner">
-                                        {
-                                            friday?.map(
-                                                el => 
-                                                el.id && 
-                                                <ReleaseCard 
-                                                    key={el.id} 
-                                                    release={el}
-                                                    setCurrentChoosenRelease={props.setCurrentChoosenRelease}
-                                                    currentIndex={indxFriday}
-                                                    indexID={friday.findIndex(i => i.id === el.id)}
-                                                />
-                                            ) 
-                                        }
-                                    </div>
-                                </div>
-                                <div className={styles.carousel_buttons}>
-                                    <button className={styles.carousel_button} 
-                                    style={indxFriday <= 0 ? {opacity: 0, pointerEvents: "none"} : {}} onClick={() => goToPrevSlide("friday_inner")}>
-                                        <IoIosArrowBack className={styles.arrow_ico}/>
-                                    </button>
-
-                                    <button className={styles.carousel_button} 
-                                    style={indxFriday >= ((friday.length / 8)) * 8 ? {opacity: 0, pointerEvents: "none"} : {}} onClick={() => goToNextSlide("friday_inner")}>
-                                        <IoIosArrowForward className={styles.arrow_ico}/>
-                                    </button>
-
-                                </div>
-                            </div>
-                            <h3 className={styles.sh_day_title}>Суббота</h3>
-                            <div className={styles.last_releases}>
-                                <div className="carousel">
-                                    <div id="saturday_inner" className="carousel-inner">
-                                        {
-                                            saturday?.map(
-                                                el => 
-                                                el.id && 
-                                                <ReleaseCard 
-                                                    key={el.id} 
-                                                    release={el}
-                                                    setCurrentChoosenRelease={props.setCurrentChoosenRelease}
-                                                    currentIndex={indxSaturday}
-                                                    indexID={saturday.findIndex(i => i.id === el.id)}
-                                                />
-                                            ) 
-                                        }
-                                    </div>
-                                </div>
-                                <div className={styles.carousel_buttons}>
-                                    <button className={styles.carousel_button} 
-                                    style={indxSaturday <= 0 ? {opacity: 0, pointerEvents: "none"} : {}} onClick={() => goToPrevSlide("saturday_inner")}>
-                                        <IoIosArrowBack className={styles.arrow_ico}/>
-                                    </button>
-
-                                    <button className={styles.carousel_button} 
-                                    style={indxSaturday >= (Math.floor(saturday.length / 8)) * 8 ? {opacity: 0, pointerEvents: "none"} : {}} onClick={() => goToNextSlide("saturday_inner")}>
-                                        <IoIosArrowForward className={styles.arrow_ico}/>
-                                    </button>
-
-                                </div>
-                            </div>
-                            <h3 className={styles.sh_day_title}>Воскресенье</h3>
-                            <div className={styles.last_releases}>
-                                <div className="carousel">
-                                    <div id="sunday_inner" className="carousel-inner">
-                                        {
-                                            sunday?.map(
-                                                el => 
-                                                el.id &&
-                                                <ReleaseCard 
-                                                    key={el.id} 
-                                                    release={el}
-                                                    setCurrentChoosenRelease={props.setCurrentChoosenRelease}
-                                                    currentIndex={indxSunday}
-                                                    indexID={sunday.findIndex(i => i.id === el.id)}
-                                                />
-                                            ) 
-                                        }
-                                    </div>
-                                </div>
-                                <div className={styles.carousel_buttons}>
-                                    <button className={styles.carousel_button} 
-                                    style={indxSunday <= 0 ? {opacity: 0, pointerEvents: "none"} : {}} onClick={() => goToPrevSlide("sunday_inner")}>
-                                        <IoIosArrowBack className={styles.arrow_ico}/>
-                                    </button>
-
-                                    <button className={styles.carousel_button} 
-                                    style={indxSunday >= (Math.floor(sunday.length / 8)) * 8 ? {opacity: 0, pointerEvents: "none"} : {}} onClick={() => goToNextSlide("sunday_inner")}>
-                                        <IoIosArrowForward className={styles.arrow_ico}/>
-                                    </button>
-
-                                </div>
-                            </div>
-                        </div>
+ 
                     </div>
 
                     <div className={styles.section}>
-                        <h2 className={styles.section_title}>Обсуждаемое сегодня</h2>
-
+                        {/* <h2 className={styles.section_title}>Обсуждаемое сегодня</h2> */}
+                        <div className={styles.shcedule_title}><h2 className={styles.section_title_link_sh}>Обсуждаемое</h2><p className={styles.sh_day_title}>Сегодня</p></div>
                         <div className={styles.last_releases}>
                             <div className="carousel">
                                 <div id="discussing_inner" className="carousel-inner">
@@ -764,7 +582,6 @@ export const NewHome = (props) => {
                                             <ReleaseCard 
                                                 key={el.id} 
                                                 release={el}
-                                                setCurrentChoosenRelease={props.setCurrentChoosenRelease}
                                                 currentIndex={indxDiscus}
                                             />
                                         ) 
@@ -787,8 +604,8 @@ export const NewHome = (props) => {
                     </div>
 
                     <div className={styles.section}>
-                        <h2 className={styles.section_title_link}>Смотрят сейчас</h2>
-
+                        {/* <h2 className={styles.section_title_link}>Смотрят сейчас</h2> */}
+                        <div className={styles.shcedule_title}><h2 className={styles.section_title_link_sh}>Смотрят</h2><p className={styles.sh_day_title}>Cейчас</p></div>
                         <div className={styles.last_releases}>
                             <div className="carousel">
                                 <div id="watching_inner" className="carousel-inner">
@@ -799,7 +616,7 @@ export const NewHome = (props) => {
                                             <ReleaseCard 
                                                 key={el.id} 
                                                 release={el}
-                                                setCurrentChoosenRelease={props.setCurrentChoosenRelease}
+
                                                 currentIndex={indxWatching}
                                             />
                                         ) 
@@ -822,7 +639,6 @@ export const NewHome = (props) => {
                     </div>
 
                 </div>
-
             </div>
             )
             }

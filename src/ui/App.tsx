@@ -1,17 +1,13 @@
 import { TopNavigationBar } from './components/TopNavigationBar/TopNavigationBar';
 import styles from './App.module.css'
 import { useEffect, useState } from 'react';
-import { ReleasePage } from './pages/ReleasePage/ReleasePage';
-import { Profile } from './pages/Profile/Profile';
 import { AuthPage } from './pages/Auth/AuthPage';
 import { useUserStore } from './services/auth';
 import { usePreferencesStore } from './services/preferences';
-import { Bookmarks } from './pages/Bookmarks/Bookmarks';
 import { useScrollPosition } from './hooks/useScrollPosition';
-import { NewHome } from './pages/NewHome/NewHome';
-import { Feed } from './pages/Feed/Feed';
+import { Outlet } from 'react-router-dom';
 
-function App() {
+export const App: React.FC = ()=> {
 
   const preferencesStore = usePreferencesStore();
   const userStore = useUserStore((state) => state);
@@ -22,7 +18,7 @@ function App() {
   const [ isHeaderHidden, setHeaderHidden ] = useState(false);
 
   useEffect(() => {
-    if (scrollPosition > 4 && scrollPosition > lastScrolledPos) {
+    if (scrollPosition > 1 && scrollPosition > lastScrolledPos) {
       setLastShowPos(scrollPosition);
       setHeaderHidden(true);
     } else if (scrollPosition <= Math.max(lastShowPos - 2, 0)) {
@@ -33,20 +29,6 @@ function App() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollPosition]);
-
-  // console.log("SCROLL", scrollPosition, lastScrolledPos, lastShowPos);
-
-  const [ currentPage, setCurrentPage ] = useState("home");
-
-  const [ currentChoosenRelease, setCurrentChoosenRelease ] = useState(null);
-
-  const setNextCurrentPage = (page: string) => {
-    setCurrentPage(page);
-    if (currentChoosenRelease !== null) {
-      setCurrentChoosenRelease(null);
-      setHeaderHidden(false);
-    }
-  }
 
   useEffect(() => {
     if (preferencesStore._hasHydrated) {
@@ -74,21 +56,13 @@ function App() {
   return (
       <div className='wrapper'>
 
-        <TopNavigationBar currentPage={currentPage} setNextCurrentPage={setNextCurrentPage} isHeaderHidden={isHeaderHidden}/>
+        <TopNavigationBar isHeaderHidden={isHeaderHidden} avatar={userStore.user.avatar}/>
 
         <div className={styles.content_wrap}>
 
           <div className={styles.content}>
-
-            { currentChoosenRelease !== null && <ReleasePage currentChoosenRelease={currentChoosenRelease} setCurrentChoosenRelease={setCurrentChoosenRelease}/> }
-
-            { currentChoosenRelease === null && currentPage === "home" ? <NewHome setCurrentChoosenRelease={setCurrentChoosenRelease} isHeaderHidden={isHeaderHidden}/>
-              : currentChoosenRelease === null && currentPage === "feed" ? <Feed setCurrentChoosenRelease={setCurrentChoosenRelease}/> 
-              : currentChoosenRelease === null && currentPage === "bookmarks" ? <Bookmarks setCurrentChoosenRelease={setCurrentChoosenRelease} isHeaderHidden={isHeaderHidden}/> 
-              : currentChoosenRelease === null && currentPage === "profile" ? <Profile setCurrentChoosenRelease={setCurrentChoosenRelease} id={userStore.user.id}/> 
-              : currentChoosenRelease === null && currentPage === "settings" && <Profile setCurrentChoosenRelease={setCurrentChoosenRelease} id={userStore.user.id}/> 
-            }
-            
+            <Outlet />
+            <div className={styles.footer} />
           </div>
 
         </div>
@@ -96,5 +70,3 @@ function App() {
       </div>
   )
 }
-
-export default App

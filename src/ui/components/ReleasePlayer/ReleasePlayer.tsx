@@ -132,7 +132,7 @@ export const ReleasePlayer = (props) => {
 
                         <div className={styles.voices_and_sources_dropdowns}>
                             <div className={styles.player_dropdowns}>
-                                <button className={styles.dropdown_button} onClick={() => setIsDropdownVoicesHidden(!isDropdownVoicesHidden)} type='button'>{selectedVoiceover.name}</button>
+                                <button className={styles.dropdown_button} onClick={() => setIsDropdownVoicesHidden(!isDropdownVoicesHidden)} type='button'>{selectedVoiceover?.name}</button>
 
                                 <div className={styles.top_buttons_swiper} style={isDropdownVoicesHidden ? {display: "flex"} : {}}>
                                     {voiceoverInfo.map((voiceover: any) => (
@@ -144,7 +144,7 @@ export const ReleasePlayer = (props) => {
                                 </div>
                             </div>
                             <div className={styles.player_dropdowns}>
-                                <button className={styles.dropdown_button} onClick={() => setIsDropdownSourcesHidden(!isDropdownSourcesHidden)} type='button'>{selectedSource.name}</button>
+                                <button className={styles.dropdown_button} onClick={() => setIsDropdownSourcesHidden(!isDropdownSourcesHidden)} type='button'>{selectedSource?.name}</button>
 
                                 <div className={styles.top_buttons_swiper} style={isDropdownSourcesHidden ? {display: "flex"} : {}}>
                                     {sourcesInfo.map((source: any) => (

@@ -7,7 +7,7 @@ import { useUserStore } from '../../services/auth';
 import parse from 'html-react-parser';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
 
-export const Feed = (props) => {
+export const Feed = () => {
 
     const token = useUserStore((state) => state.token);
     const [ page, setPage ] = useState(0);

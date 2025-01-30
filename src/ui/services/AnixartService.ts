@@ -10,7 +10,10 @@ import {
     DISCOVER_WATCHING,
     EPISODE_WATCH_SOURCE,
     HISTORY_ADD,
-    FEED_NEWS} from "./endpoints";
+    FEED_NEWS,
+    RELEASE_RANDOM,
+    COLLECTION_LIST,
+    COLLECTION} from "./endpoints";
 import { BookmarksList } from "./utils";
 
 export const HEADERS = {
@@ -26,6 +29,42 @@ const StatusList: Record<string, null | number> = {
 };
 
 class AnixartService {
+
+    async getCurrentCollectionReleases(token: string, id: number | string, page: number ) {
+
+        const url = `${BASE_URL}${COLLECTION}${id}/releases/${page}?token=${token}`
+
+        const currentCollectionReleasesData = await axios.get(url);
+
+        return currentCollectionReleasesData;
+    }
+
+    async getCurrentCollection(token: string, id: number | string ) {
+
+        const url = `${BASE_URL}${COLLECTION}${id}?token=${token}`
+
+        const currentCollectionData = await axios.get(url);
+
+        return currentCollectionData;
+    }
+
+    async getCollections(page: number, token: string) {
+
+        const url = `${BASE_URL}${COLLECTION_LIST}${page}?previous_page=${page}&token=${token}`
+
+        const collectionsData = await axios.get(url);
+
+        return collectionsData;
+    }
+
+    async getRandomRelease() {
+
+        const url = `${BASE_URL}${RELEASE_RANDOM}`
+
+        const randomRelease = await axios.get(url);
+
+        return randomRelease;
+    }
 
     async getFeedNews(token: string, page: number | string = 0){
         const url = `${BASE_URL}${FEED_NEWS}${page}?token=${token}`

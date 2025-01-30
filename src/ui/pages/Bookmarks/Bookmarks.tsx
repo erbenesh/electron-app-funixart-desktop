@@ -2,13 +2,45 @@ import { useState, useEffect } from "react";
 import { useScrollPosition } from "../../hooks/useScrollPosition";
 import styles from './Bookmarks.module.css'
 import { useUserStore } from "../../services/auth";
-import { BookmarksNavigationButtons } from "../../components/BookmarksNavigationButtons/BookmarksNavigationButtons";
 import { useQuery } from "@tanstack/react-query";
 import { anixartService } from "../../services/AnixartService";
 import { ReleaseCard } from "../../components/ReleaseCard/ReleaseCard";
 import { IRelease } from "../../interfaces/IRelease";
 
-export const Bookmarks = (props) => {
+const bookmarksArray = [
+    {
+        id: 0,
+        eng_name: "favorite",
+        ru_name: "Избранное",
+    },
+    {
+        id: 1,
+        eng_name: "watching",
+        ru_name: "Смотрю",
+    },
+    {
+        id: 2,
+        eng_name: "planned",
+        ru_name: "В планах",
+    },
+    {
+        id: 3,
+        eng_name: "watched",
+        ru_name: "Просмотрено",
+    },
+    {
+        id: 4,
+        eng_name: "delayed",
+        ru_name: "Отложено",
+    },
+    {
+        id: 5,
+        eng_name: "abandoned",
+        ru_name: "Заброшено",
+    }
+];
+
+export const Bookmarks = () => {
 
     const token = useUserStore((state) => state.token);
 
@@ -134,31 +166,48 @@ export const Bookmarks = (props) => {
     }
 
     return (
-        <div>
+        <div className={styles.bookmarks_page_wrap}>
+            <div className={styles.fake_header_nav}/>
+            <div className={styles.bookmarks_nav_buttons_fixed}>
+                { bookmarksArray.map(button => 
+                    <button key={button.id} className={styles.bookmarks_button} onClick={() => onChangeSection(button.eng_name)} type="button">
 
-            <BookmarksNavigationButtons currentSection={currentBookmarksSection} setCurrentSection={onChangeSection} isHeaderHidden={props.isHeaderHidden}/>
-            
-            <div className={styles.anime_list}>
-    
-                    {
-                        currentBookmarksList?.map((
-                            el: IRelease) => 
-                            el.id && 
-                            <ReleaseCard 
-                                key={el.id} 
-                                release={el}
-                                setCurrentChoosenRelease={props.setCurrentChoosenRelease}
-                            />
-                        ) 
-                    }
+                            <div className={currentBookmarksSection === button.eng_name ? styles.bookmarks_button_title_active : styles.bookmarks_button_title}>
+                                <p className={styles.button_p}>{button.ru_name}</p>
+                            </div>
 
+                    </button>
+                )}
             </div>
 
-            { fetchBookmarks.status === "pending" &&
-                <div className="loader-container_home">	
-                    <i className="loader-circle"></i>
+            <div className={styles.bookmarks_page}>
+
+                <div className={styles.bookmarks_full_wrap}>
+                    <div className={styles.bookmarks_full}>
+                        <div className={styles.anime_list}>
+                
+                                {
+                                    currentBookmarksList?.map((
+                                        el: IRelease) => 
+                                        el.id && 
+                                        <ReleaseCard 
+                                            key={el.id} 
+                                            release={el}
+                                        />
+                                    ) 
+                                }
+
+                        </div>
+
+                        { fetchBookmarks.status === "pending" &&
+                            <div className="loader-container_home">	
+                                <i className="loader-circle"></i>
+                            </div>
+                        }
+                    </div>
                 </div>
-            }
+
+            </div>
         </div>
     )
 }

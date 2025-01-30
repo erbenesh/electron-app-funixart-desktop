@@ -1,12 +1,10 @@
 
-import styles from '../NavigationTopButtons/NavigationTopButtons.module.css'
+import styles from './CollectionsTopButtons.module.css'
 
 const SectionTitleMapping = {
-    watching: "Смотрю",
-    planned: "В планах",
-    watched: "Просмотрено",
-    delayed: "Отложено",
-    abandoned: "Заброшено",
+    collections: "Коллекции",
+    myCollections: "Мои коллекции",
+    bookmarks: "Закладки"
 };
 
 export const BookmarksNavigationButtons = ({...props}) => {
@@ -16,20 +14,11 @@ export const BookmarksNavigationButtons = ({...props}) => {
             <div className={styles.buttons_bg_wrap} style={props.isHeaderHidden ? {transform: "translateY(-9rem)"} : {}}>
                 <ul className={styles.buttons_list}>
 
-                    <li className={props.currentSection === "watching" ? styles.button_active : styles.button} 
-                        onClick={() => props.setCurrentSection("watching")}>{SectionTitleMapping.watching}</li>
+                    <li className={props.currentSection === "collections" ? styles.button_active : styles.button} 
+                        onClick={() => props.setCurrentSection("collections")}>{SectionTitleMapping.collections}</li>
 
-                    <li className={props.currentSection === "planned" ? styles.button_active : styles.button} 
-                        onClick={() => props.setCurrentSection("planned")}>{SectionTitleMapping.planned}</li>
-
-                    <li className={props.currentSection === "watched" ? styles.button_active : styles.button} 
-                        onClick={() => props.setCurrentSection("watched")}>{SectionTitleMapping.watched}</li>
-
-                    <li className={props.currentSection === "delayed" ? styles.button_active : styles.button} 
-                        onClick={() => props.setCurrentSection("delayed")}>{SectionTitleMapping.delayed}</li>
-
-                    <li className={props.currentSection === "abandoned" ? styles.button_active : styles.button} 
-                        onClick={() => props.setCurrentSection("abandoned")}>{SectionTitleMapping.abandoned}</li>
+                    <li className={props.currentSection === "myCollections" ? styles.button_active : styles.button} 
+                        onClick={() => props.setCurrentSection("myCollections")}>{SectionTitleMapping.myCollections}</li>
 
                 </ul>
             </div>

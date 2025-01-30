@@ -6,7 +6,7 @@ import { useUserStore } from '../../services/auth';
 import styles from './Profile.module.css';
 import { unixToDate } from '../../services/utils';
 
-export const Profile = ({...props}) => {
+export const Profile = () => {
 
     const authUser = useUserStore();
     const [ user, setUser ] = useState(null);
@@ -17,8 +17,8 @@ export const Profile = ({...props}) => {
     const [ totalCount, setTotalCount ] = useState(0);
 
     const getProfileData = useQuery({
-        queryKey: ['getProfile', props.id, authUser.token],
-        queryFn: () => anixartService.getProfile(props.id, authUser.token)
+        queryKey: ['getProfile', authUser.user.id, authUser.token],
+        queryFn: () => anixartService.getProfile(authUser.user.id, authUser.token)
     });
 
     useEffect(() => {

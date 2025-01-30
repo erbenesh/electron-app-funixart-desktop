@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { unixToDate } from '../../services/utils';
 import styles from './ReleaseCard.module.css'
 import { IoBookmark } from "react-icons/io5";;
@@ -23,9 +24,7 @@ export const ReleaseCard = (props) => {
     }
 
     return (
-        <div id="vert_card" className={
-            // props.release["@id"] === ( props.currentIndex + 1 ) || props.indexID === ( props.currentIndex ) ? styles.card_first : 
-            styles.card} onClick={() => props.setCurrentChoosenRelease(props.release.id)}>
+        <Link to={`/release/${props.release.id}`} id="vert_card" className={styles.card}>
 
             <div className={styles.release_image_border}>
                 <img className={styles.release_image} src={props.release.image} alt={props.release.title_ru + " image"} loading='lazy'/>
@@ -63,6 +62,6 @@ export const ReleaseCard = (props) => {
 
             </div>
                 
-        </div>
+        </Link>
     )
 }
