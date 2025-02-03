@@ -17,12 +17,14 @@ import { IoBookmark } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { LuReplyAll } from "react-icons/lu";
+import { TbArrowBackUp } from "react-icons/tb";
 
 import interestCardStyles from "../../components/InterestingCard/InterestingCard.module.css"
 import { useUserStore } from '../../services/auth';
 import { ReleaseCard } from './../../components/ReleaseCard/ReleaseCard';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Toolbar } from '../../components/Toolbar/Toolbar';
 
 
 const profile_lists = {
@@ -127,7 +129,6 @@ export const ReleasePage = () => {
             } else {
                 setCommentsPage(commentsPage + 1);
             }
-            // console.log('Обновление страницы', page);
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -276,17 +277,7 @@ export const ReleasePage = () => {
 
                 <div className={styles.fake_header_nav}/>
 
-                <div className={styles.toolbar}>
-
-                    <button className={styles.back_button} onClick={() => { navigate(-1) }}>
-                        <GoArrowLeft className={styles.back_ico} />
-                    </button>
-
-                    <button className={styles.back_button}>
-                        <RxCardStackPlus className={styles.back_ico} />
-                    </button>
-
-                </div>
+                <Toolbar />
 
                 {release.status && release.status.name != "Анонс" && !release.is_view_blocked &&
                 (<div className={styles.release_header}>

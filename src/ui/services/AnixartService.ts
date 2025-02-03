@@ -13,7 +13,8 @@ import {
     FEED_NEWS,
     RELEASE_RANDOM,
     COLLECTION_LIST,
-    COLLECTION} from "./endpoints";
+    COLLECTION
+} from "./endpoints";
 import { BookmarksList } from "./utils";
 
 export const HEADERS = {
@@ -86,27 +87,27 @@ class AnixartService {
         return feedNewsData;
     }
 
-    async getWatching(page: number | string = 0) {
+    async getWatching(page: number | string = 0, token: string) {
 
-        const url = `${BASE_URL}${DISCOVER_WATCHING}${page}`
+        const url = `${BASE_URL}${DISCOVER_WATCHING}${page}?token=${token}`
 
         const watchingData = await axios.post(url);
 
         return watchingData;
     }
 
-    async getDiscussing() {
+    async getDiscussing(token: string) {
 
-        const url = `${BASE_URL}${DISCOVER_DISCUSSING}`
+        const url = `${BASE_URL}${DISCOVER_DISCUSSING}?token=${token}`
 
         const discussingData = await axios.post(url);
 
         return discussingData;
     }
 
-    async getSchedule() {
+    async getSchedule(token: string) {
 
-        const url = `${BASE_URL}${SCHEDULE}`
+        const url = `${BASE_URL}${SCHEDULE}?token=${token}`
 
         const scheduleData = await axios.get(url);
 

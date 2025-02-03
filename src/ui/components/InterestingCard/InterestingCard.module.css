@@ -9,11 +9,15 @@
     cursor: pointer;
     transition: .2s;
 
+    border-radius: 1rem;
+    background-color: rgba(36, 36, 36);
+    border: 1px solid rgb(53, 53, 53);
+
     text-decoration: none;
 }
 
 .card:hover {
-    transform: scale(110%);
+    transform: scale(108%);
     z-index: 1;
     box-shadow: 0 5px 5px 10px rgba(36, 36, 36, 0.5);
 }
@@ -34,10 +38,9 @@
     justify-content: center;
     align-items: center;
     width: 19rem;
-    height: 12rem;
+    height: 10rem;
     overflow: hidden;
-    border-radius: 10px;
-    z-index: 90;
+    border-radius: 1rem;
 }
 
 .release_image {
@@ -50,16 +53,15 @@
 .release_info_border {
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
     width: 18rem;
-    bottom: 0;
-    z-index: 100;
+    padding: 1rem;
 }
 
 .anime_title {
-    text-decoration: none;
     color: aliceblue;
     font-weight: 600;
-    line-height: 2rem;
+    line-height: 0.6rem;
 }
 
 .anime_subinfo {

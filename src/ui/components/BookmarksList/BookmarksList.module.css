@@ -1,0 +1,19 @@
+.bookmarks_full_wrap {
+    position: relative;
+    height: 100vh;
+}
+
+.bookmarks_full {
+    position: relative;
+    height: 100vh;
+    transition: .2s;
+    border-radius: 1rem;
+    padding-top: 1rem;
+}
+
+.anime_list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 103.5rem;
+}

@@ -1,0 +1,84 @@
+.title {
+    display: flex;
+    flex-direction: row;
+    align-self: end;
+    max-width: 60rem;
+    width: 100%;
+    color: rgb(230, 230, 230);
+    text-decoration: none;
+}
+
+.title_with_button {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-height: 4rem;
+    min-width: 100%;
+}
+
+.random_ico {
+    width: 1.6rem;
+    height: 1.6rem;
+}
+
+.random_button {
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    height: 3rem;
+    width: 3rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 1rem;
+    transition: .3s;
+}
+
+.random_button:hover {
+    background-color: rgb(189, 78, 44);
+}
+
+.image_border {
+    border-radius: 1rem;
+    width: 18rem;
+    height: 26rem;
+    overflow: hidden;
+    background-color: grey;
+    cursor: pointer;
+}
+
+.title_image {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.title_title {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 1rem;
+    padding: 1rem;
+    max-width: 60%;
+    width: 100%;
+}
+
+.random_release_title {
+    place-self: end;
+    width: 90%;
+    font-size: x-large;
+    font-weight: 600;
+    color: rgb(230, 230, 230);
+    text-decoration: none;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.random_description {
+    padding-right: 0.5rem;
+    max-height: 18rem;
+    overflow-x: hidden;
+}

@@ -1,0 +1,63 @@
+.bookmarks_nav_buttons_fixed {
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    gap: 0.3rem;
+    transition: .3s;
+    z-index: 99;
+    padding-top: 4rem;
+    /* padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    padding-bottom: 0.3rem;
+    border-radius: 0 0 1rem 1rem;
+    background-color: rgb(36, 36, 36, 0.8); */
+}
+
+.bookmarks_button_title_active:hover,
+.bookmarks_button_title:hover {
+    transform: scale(110%);
+    z-index: 99;
+}
+
+.bookmarks_button_title {
+    align-content: center;
+    place-items: center;
+    width: 6rem;
+    height: 2rem;
+    overflow: hidden;
+    border-radius: 1rem;
+    border: 1px solid rgb(68, 68, 68);
+    z-index: 90;
+    background-color: rgb(36, 36, 36, 0.8);
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: rgb(230, 230, 230);
+    transition: .2s;
+    text-decoration: none;
+}
+
+
+.bookmarks_button_title_active {
+
+    align-content: center;
+    place-items: center;
+    width: 6rem;
+    height: 2rem;
+    overflow: hidden;
+    border-radius: 1rem;
+    border: 1px solid rgb(189, 78, 44);
+    z-index: 90;
+    background-color: rgb(189, 78, 44);
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: rgb(230, 230, 230);
+    text-decoration: none;
+
+    transition: .2s;
+
+}
+
+.bookmarks_button_title:hover {
+    border: 1px solid rgb(189, 78, 44);
+}

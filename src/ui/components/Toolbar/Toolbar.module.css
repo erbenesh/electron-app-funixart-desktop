@@ -1,0 +1,43 @@
+.toolbar {
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    place-self: center;
+    justify-content: space-between;
+    width: 98%;
+    max-width: calc(120rem - 8rem);
+    z-index: 300;
+    margin-top: 5rem;
+    padding: 1rem;
+    pointer-events: none;
+}
+
+.back_button {
+    display: flex;
+    justify-content: center;
+    z-index: 16;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: none;
+    outline: none;
+    border-radius: 0.5rem;
+    background-color: rgb(36, 36, 36, 0.8);
+    border: 1px solid rgb(78, 78, 78);
+    overflow: hidden;
+    transition: .3s;
+    cursor: pointer;
+    /* box-shadow: 0 5px 5px rgba(0,0,0,0.5); */
+    pointer-events: all;
+    z-index: 301;
+}
+
+.back_button:hover {
+    background-color: #555555;
+}
+
+.back_ico {
+    user-select: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    color: rgb(230, 230, 230);
+}

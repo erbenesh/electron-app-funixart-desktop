@@ -1,0 +1,110 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    max-width: 110rem;
+    width: 100%;
+    gap: 0.5rem;
+    place-self: center;
+}
+
+.section_title {
+    width: 100%;
+    place-self: start;
+    font-weight: 400;
+    z-index: 10;
+}
+
+.section_title_link {
+    width: 100%;
+    place-self: start;
+    font-weight: 400;
+    cursor: pointer;
+    transition: .3s;
+    z-index: 10;
+}
+
+.shcedule_title {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    cursor: pointer;
+    transition: .3s;
+    z-index: 10;
+}
+
+.section_title_link_sh {
+    place-self: start;
+    font-weight: 400;
+}
+
+.sh_day_title {
+    text-align: center;
+    font-weight: 500;
+    color: #242424;
+    border-radius: 1rem;
+    width: 5rem;
+    height: 1.5rem;
+    background-color: rgb(189, 78, 44);
+}
+
+.shcedule_title:hover,
+.section_title_link:hover {
+    color:rgb(180, 180, 180);
+}
+
+.releases_schedule {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.last_releases {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0.5rem;
+    max-width: 110rem;
+}
+
+.interesting {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0.5rem;
+    max-width: 110rem;
+}
+
+.carousel_buttons {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    width: 120rem;
+    top: 0;
+    pointer-events: none;
+    height: 100%;
+    z-index: 2;
+}
+
+.carousel_button {
+    border: none;
+    outline: none;
+    width: 5rem;
+    background-color: rgba(36,36,36, 0.5);
+    transition: .3s;
+    cursor: pointer;
+    pointer-events: all;
+    background: linear-gradient(0deg, rgba(36,36,36,0) 20%, rgba(36,36,36,0.6) 50%, rgba(0,0,0,0) 80%);
+}
+
+.carousel_button:hover { 
+    background-color: rgba(36,36,36, 0.5);
+}
+
+.arrow_ico {
+    width: 2rem;
+    height: 2rem;
+}

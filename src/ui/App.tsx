@@ -61,7 +61,7 @@ export const App: React.FC = ()=> {
         <div className={styles.content_wrap}>
 
           <div className={styles.content}>
-            <Outlet />
+            <Outlet context={[isHeaderHidden]}/>
             <div className={styles.footer} />
           </div>
 

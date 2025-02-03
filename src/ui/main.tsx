@@ -11,6 +11,8 @@ import { Profile } from './pages/Profile/Profile'
 import { ReleasePage } from './pages/ReleasePage/ReleasePage'
 import { Bookmarks } from './pages/Bookmarks/Bookmarks'
 import { CollectionPage } from './pages/CollectionPage/CollectionPage'
+import { BookmarksList } from './components/BookmarksList/BookmarksList'
+import { Schedule } from './pages/Schedule/Schedule'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -21,11 +23,27 @@ createRoot(document.getElementById('root')!).render(
 
             <Route index element={<NewHome />} />
 
+            <Route path="/schedule" element={<Schedule />}/>
+
             <Route path="/feed" element={<Feed />} />
 
             <Route path="/collections" element={<Collections />} />
 
-            <Route path="/bookmarks" element={<Bookmarks />} />
+            <Route path="/bookmarks" element={<Bookmarks />}>
+
+              <Route path="/bookmarks/favorite" element={<BookmarksList />}></Route>
+
+              <Route path="/bookmarks/watching" element={<BookmarksList />}></Route>
+
+              <Route path="/bookmarks/planned" element={<BookmarksList />}></Route>
+
+              <Route path="/bookmarks/watched" element={<BookmarksList />}></Route>
+
+              <Route path="/bookmarks/delayed" element={<BookmarksList />}></Route>
+
+              <Route path="/bookmarks/abandoned" element={<BookmarksList />}></Route>
+            
+            </Route>
 
             <Route path="/profile" element={<Profile />} />
 

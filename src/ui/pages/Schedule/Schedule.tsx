@@ -4,12 +4,15 @@ import styles from './Schedule.module.css'
 import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { anixartService } from "../../services/AnixartService";
+import { useUserStore } from "../../services/auth";
 
 export const Schedule = () => {
 
+    const token = useUserStore((state) => state.token);
+
     const fetchSchedule = useQuery({
-        queryKey: ['getSchedule'],
-        queryFn: () => anixartService.getSchedule()
+        queryKey: ['getSchedule', token],
+        queryFn: () => anixartService.getSchedule(token)
     });
 
     //Schedule
