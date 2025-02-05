@@ -67,11 +67,6 @@
     filter: blur(10px);
 }
 
-.fake_header_nav {
-    display: block;
-    height: 2rem;
-}
-
 .video_player_wrap {
     position: relative;
     display: flex;
@@ -80,7 +75,7 @@
     width: 100%;
     place-self: center;
     z-index: 100;
-    border-bottom: 1px solid rgb(75, 75, 75);
+    /* border-bottom: 1px solid rgb(75, 75, 75); */
 }
 
 .video_player {
@@ -97,7 +92,7 @@
 }
 
 .release_block {
-    max-width: 78rem;
+    max-width: 72rem;
     width: 100%;
     padding: 0 1rem 0 1rem;
 }
@@ -110,7 +105,7 @@
     max-width: 100rem;
     gap: 1rem;
     place-self: center;
-    border-bottom: 1px solid rgb(75, 75, 75);
+    /* border-bottom: 1px solid rgb(75, 75, 75); */
 }
 
 .release_info_header {
@@ -185,7 +180,7 @@
     justify-items: center;
     letter-spacing: 0.05rem;
     gap: 0.5rem;
-    font-weight: 500;
+    font-weight: 400;
     padding: 0.4rem 0.8rem 0.4rem 0.8rem;
     text-align: center;
     outline: none;
@@ -208,7 +203,7 @@
     display: flex;
     justify-content: center;
     letter-spacing: 0.05rem;
-    font-weight: 500;
+    font-weight: 600;
     width: 9rem;
     padding: 0.4rem 0.8rem 0.4rem 0.8rem;
     text-align: center;
@@ -223,7 +218,7 @@
     display: flex;
     justify-items: center;
     letter-spacing: 0.05rem;
-    font-weight: 500;
+    font-weight: 600;
     padding: 0.4rem 0.8rem 0.4rem 0.8rem;
     text-align: center;
     outline: none;
@@ -286,55 +281,7 @@
     color: rgb(170, 170, 170);
 }
 
-.rate {
-    display: flex;
-    flex-direction: column;
-    margin-top: 2rem;
-}
 
-.rating_panels {
-    display: flex;
-    flex-direction: row;
-    gap: 2rem;
-}
-
-.big_rate_number {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-}
-
-.grade_number {
-    font-size: 3rem;
-    font-weight: 600;
-}
-
-.votes_count {
-    color: grey;
-}
-
-.rate_lines {
-    display: flex;
-    flex-direction: column;
-    color: grey;
-    list-style: none;
-    padding: 0;
-    line-height: 0.9rem;
-    gap: 0.5rem;
-}
-
-.vote_list_line {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 1rem;
-}
-
-.vote_line {
-    border-radius: 1rem;
-    width: 18rem;
-}
 
 .off_view {
     font-weight: 500;
@@ -401,7 +348,7 @@
     width: 100%;
     gap: 0.5rem;
     place-self: center;
-    border-bottom: 1px solid rgb(75, 75, 75);
+    /* border-bottom: 1px solid rgb(75, 75, 75); */
     overflow: hidden;
 }
 
@@ -480,157 +427,6 @@
     height: 2rem;
 }
 
-.comments_section_wrap {
-    width: 100%;
-}
-
-.comments_section {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
-}
-
-.comment_wrap {
-    width: 100%;
-}
-
-.comment {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-}
-
-.avatar {
-    padding: 0.5rem;
-}
-
-.image_border {
-    border-radius: 50%;
-    width: 4rem;
-    height: 4rem;
-    overflow: hidden;
-}
-
-.ava_image {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-}
-
-.info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.5rem;
-    width: 100%;
-}
-
-.text_block {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-
-}
-
-.login_and_time {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.commenter_login {
-    font-weight: 500;
-}
-
-.timestamp {
-    color: grey;
-    font-size: 0.8rem;
-}
-
-.action_buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-}
-
-.reply_and_like_buttons {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-}
-
-.reply_button {
-    text-align: center;
-    font-weight: 600;
-    color: grey;
-    background-color: transparent;
-    outline: none;
-    border: none;
-    border-radius: 0.5rem;
-    letter-spacing: 0.03rem;
-    cursor: pointer;
-    transition: .3s;
-}
-
-.reply_button:hover {
-    background-color: #363636;
-}
-
-.dislike_and_like_button {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-}
-
-.like_button {
-    display: flex;
-    align-items: center;
-    font-weight: 600;
-    color: grey;
-    background-color: transparent;
-    outline: none;
-    border: none;
-    border-radius: 0.5rem;
-    letter-spacing: 0.03rem;
-    cursor: pointer;
-    transition: .3s;
-}
-
-.likes_count {
-    color:rgb(33, 180, 33);
-}
-
-.like_button:hover {
-    background-color: #363636;
-}
-
-.show_all_replys {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-align: center;
-    font-weight: 600;
-    background-color: transparent;
-    outline: none;
-    border: none;
-    border-radius: 0.5rem;
-    letter-spacing: 0.03rem;
-    cursor: pointer;
-    transition: .3s;
-}
-
-.show_all_replys_ico {
-    width: 1.2rem;
-    height: 1.2rem;
-    color: grey;
-}
-
-.show_all_replys:hover {
-    background-color: #363636;
-}
-
 
 
 
@@ -640,8 +436,8 @@
     place-items: center;
     width: 100%;
     padding: 1rem;
-    max-width: 18rem;
-    border-left: 1px solid rgb(75, 75, 75);
+    max-width: 24rem;
+
 }
 
 .recommends_and_related_column {
@@ -650,7 +446,8 @@
     justify-content: center;
     justify-items: center;
     place-items: center;
-    max-width: 12.5rem;
+    max-width: 22rem;
     gap: 1rem;
     margin-bottom: 2rem;
+
 }

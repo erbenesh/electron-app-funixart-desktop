@@ -6,7 +6,7 @@
 
 .player_loading {
     min-width: 100rem;
-    min-height: 45.3rem;
+    min-height: 44.9rem;
 }
 
 .player_wrap {
@@ -30,24 +30,23 @@
     width: 100%;
     border-radius: 0 1rem 1rem 0;
     padding: 1rem;
-    max-width: 18rem;
+    max-width: 24rem;
     max-height: 42.9rem;
     background-color: rgba(36, 36, 36, 0.5);
     gap: 1rem;
-    /* border-bottom: 1px solid white; */
 }
 
 .player_dropdowns {
     position: relative;
     width: 100%;
+
 }
 
 .voices_and_sources_dropdowns {
     position: relative;
     display: flex;
     flex-direction: row;
-    width: 100%;
-    gap: 0.5rem;
+
 }
 
 .top_buttons_swiper {
@@ -57,11 +56,49 @@
 
     flex-direction: column;
     width: 100%;
-    border-radius: 0.5rem;
+    border-radius: 1rem;
     overflow-x: hidden;
+    height: 24rem;
     transition: transform 0.5s;
-    background-color: rgb(36, 36, 36);
+
     z-index: 10;
+}
+
+.voicer_ico_border {
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 2rem;
+    height: 2rem;
+}
+
+.voicer_ico {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+}
+
+.button_name {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    max-width: 70%;
+}
+
+.info_flex_row {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.info {
+    text-align: left;
+}
+
+.info_ep {
+    text-align: left;
+    color: lightgray;
 }
 
 .episodes_buttons_swiper {
@@ -83,7 +120,7 @@
     border: none;
     width: 100%;
     font-weight: 500;
-    background-color: rgb(61, 61, 61);
+    background-color: rgb(61, 61, 61, 0.8);
     transition: .3s;
     cursor: pointer;
 }
@@ -98,11 +135,15 @@
 }
 
 .dropdown_button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
     text-align: center;
-    border-radius: .5rem;
+    border-radius: 1rem;
     padding: 0.5rem;
     outline: none;
-    border:none;
+    border: none;
     background-color: rgb(189, 78, 44);
     cursor: pointer;
     transition: .3s;
@@ -114,14 +155,19 @@
 }
 
 .dropdown_list_button {
-    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    justify-items: center;
+    align-items: center;
     padding: 0.5rem;
     outline: none;
     border:none;
-    background-color: rgb(61, 61, 61, 0.3);
+    background-color: rgb(36, 36, 36, 0.8);
     cursor: pointer;
     transition: .3s;
     width: 100%;
+    border-top: 1px solid rgb(68, 68, 68);
 }
 
 .dropdown_list_button:hover {

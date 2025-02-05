@@ -4,9 +4,25 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { BsWindow } from "react-icons/bs";
 import { BsCollectionPlay } from "react-icons/bs";
 import styles from './TopNavigationBar.module.css'
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { searchService } from "../../services/SearchService";
+import { useUserStore } from "../../services/api/auth";
+import { useEffect, useState } from "react";
+import { ReleaseCard } from "../ReleaseCard/ReleaseCard";
 
 export const TopNavigationBar = (props) => {
+
+    const location = useLocation();
+
+    const token = useUserStore((state) => state.token);
+
+    const [ searchInputValue, setSearchInputValue ] = useState('');
+
+    const getSearchResult = useQuery({
+        queryKey: ['search results', token, searchInputValue],
+        queryFn: () => searchService.searchResults(token, searchInputValue, null, location.pathname),
+    });
 
     return (
         <div className={styles.top_tools_wrap}>
@@ -52,7 +68,7 @@ export const TopNavigationBar = (props) => {
                                 <GoSearch className={styles.menu_ico}/>
                         </button>
 
-                        <input type="search" placeholder='Поиск...' className={styles.toptools_search_input}/>
+                        <input onChange={el => setSearchInputValue(el.currentTarget.value)} value={searchInputValue} type="search" placeholder='Поиск...' className={styles.toptools_search_input}/>
 
                         <NavLink to="/notifications"
                         className={({ isActive }) =>
@@ -81,6 +97,24 @@ export const TopNavigationBar = (props) => {
                     </div>
                     
                 </div>
+
+                { 
+                searchInputValue !== '' && getSearchResult.data?.data &&
+                <div className={styles.search_results_wrap}>
+                    <div className={styles.search_results}>
+                        
+                        <h2>Результаты поиска</h2>
+                        
+                        <div className={styles.results}>
+                            {
+                                getSearchResult.data?.data.content.map(el => el.id && <ReleaseCard key={el.id} release={el}/>)
+                            }
+                        </div>
+                        
+                    </div>
+                </div>
+                }
+
             </div>
 
         </div>

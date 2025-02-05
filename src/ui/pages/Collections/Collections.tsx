@@ -1,12 +1,12 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
-import { anixartService } from '../../services/AnixartService';
-import { useUserStore } from '../../services/auth';
+import { useUserStore } from '../../services/api/auth';
 import styles from './Collections.module.css'
 import { BookmarksNavigationButtons } from '../../components/BookmarksNavigationButtons/BookmarksNavigationButtons';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
 import { Link } from 'react-router-dom';
+import { collectionService } from '../../services/CollectionService';
 
 export const Collections = () => {
 
@@ -27,7 +27,7 @@ export const Collections = () => {
 
     const fetchCollections = useQuery({
         queryKey: ['get Collections', token, pageCollections],
-        queryFn: () => anixartService.getCollections(pageCollections, token)
+        queryFn: () => collectionService.getCollections(pageCollections, token)
     });
 
     useEffect(() => {

@@ -1,22 +1,23 @@
 .card {
 
-    --card-width-var: calc(21.5rem - 2px);
-    --card-height-var: 14rem;
+    --card-width-var: 100%;
+    --card-max-height: 4rem;
     --card-border-radius: 1rem;
 
     position: relative;
     display: flex;
     flex-direction: row;
+    justify-content: start;
+    justify-items: center;
 
     z-index: 0;
     width: var(--card-width-var);
-    height: var(--card-height-var);
     cursor: pointer;
     transition: .2s;
-    background-color: rgba(36, 36, 36);
-    border: 1px solid rgb(53, 53, 53);
+    border: 1px solid rgb(77, 77, 77);
     border-radius: var(--card-border-radius);
     background-size: cover;
+    height: var(--card-max-height);
 
     opacity: 0;
     transition: .3s;
@@ -28,7 +29,6 @@
 .card:hover {
     transform: scale(105%);
     z-index: 1;
-    box-shadow: 0 5px 5px 10px rgba(36, 36, 36, 0.5);
 }
 
 @keyframes show {
@@ -42,11 +42,19 @@
 
 }
 
+.bg_blur {
+    position: absolute;
+    background-color: rgb(36, 36, 36, 0.5);
+    width: 100%;
+    height: 4rem;
+    border-radius: 1rem;
+}
+
 .release_image_border {
     position: relative;
 
-    width: calc(var(--card-width-var)/2 - 1rem);
-    height: calc(var(--card-height-var) - 2px);
+    width: var(--card-max-height);
+    max-height: var(--card-max-height);
     
     place-content: center;
     align-items: center;
@@ -54,9 +62,6 @@
     overflow: hidden;
     cursor: pointer;
     border-radius: var(--card-border-radius);
-    border: 1px solid rgb(53, 53, 53);
-
-    background-color: rgb(48, 48, 48);
 }
 
 .release_image {
@@ -66,36 +71,15 @@
     user-select: none;
 }
 
-.release_lists_info {
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-    bottom: 0;
-    margin-bottom: 0.3rem;
-}
-
-.bookmark {
-    position: relative;
-    z-index: 3;
-}
-
-.user_list_name {
-    width: calc(100% - 0.8rem);
-    text-align: center;
-    font-weight: 500;
-    font-size: 0.9rem;
-    padding: 0.1rem;
-    color: white;
-    border-radius: var(--card-border-radius);
-}
-
 .release_info {
     position: relative;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
     padding: 0.5rem;
-    width: calc((var(--card-width-var)/2));
+    height: var(--card-height-var);
     z-index: 2;
+    width: 100%;
 }
 
 .anime_title {
@@ -103,13 +87,14 @@
     color: aliceblue;
     font-size: 1.1rem;
     font-weight: 600;
-    margin-top: 0.4rem;
     line-height: 1.2rem;
-
+    width: 100%;
+    height: 100%;
+    align-content: center;
 
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
 
@@ -117,9 +102,9 @@
     display: flex;
     flex-direction: row;
     gap: 0.2rem;
-    max-width: var(--card-width-var/2);
+    max-width: var(--card-width-var/4*3);
     flex-wrap: wrap;
-    margin-top: 0.6rem;
+    margin-top: 0.4rem;
 }
 
 .anime_subinfo {
@@ -133,50 +118,37 @@
 }
 
 .anime_subinfo_noborder {
+    position: relative;
+    display: block;
+    align-content: center;
     font-size: 0.9rem;
-    font-weight: 400;
+    font-weight: 600;
     color: rgb(178, 186, 194);
     line-height: 1rem;
-    margin-top: 0.4rem;
-    margin-bottom: 0.4rem;
+    min-width: 5rem;
+    height: 100%;
 }
 
 .description_and_action_buttons {
 
     opacity: 0;
-
     position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    bottom: 0;
     padding: 1rem;
     gap: 1rem;
     width: calc(var(--card-width-var) - 2rem);
-    height: calc(var(--card-height-var) - 2rem);
+    height: calc(var(--card-max-height) - 2rem);
     border-radius: var(--card-border-radius);
-    background: linear-gradient(rgba(36, 36, 36, 0.9) 0%, rgba(36, 36, 36, 1) 100%);
+    background: rgba(36, 36, 36, 0.6);
     z-index: 3;
-
     transition: .3s;
 }
 
-.card:hover .description_and_action_buttons {
+/* .card:hover .description_and_action_buttons {
     opacity: 1;
-}
-
-.description{
-    position: relative;
-    height: min-content;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    text-decoration: none;
-    line-height: 1.2rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-}
+} */
 
 .card_action_buttons{
     position: relative;
@@ -187,45 +159,61 @@
 }
 
 .card_action_button {
+    position: relative;
     display: flex;
+    justify-content: center;
     border: none;
     outline: none;
-    height: 100%;
-    align-items: center;
+    height: var(--card-max-height);
+    width: 50%;
     border-radius: var(--card-border-radius);
-    background-color: rgb(36, 36, 36, 0.8);
-    border: 1px solid rgb(78, 78, 78);
+    background-color: transparent;
     transition: .3s;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 1rem;
     text-decoration: none;
 }
 
-.card_action_button_active {
-    display: flex;
+.card_action_button_mini {
+    position: relative;
+    align-items: center;
+    place-content: center;
     border: none;
     outline: none;
-    height: 100%;
-    align-items: center;
+    height: var(--card-max-height);
+    width: 4rem;
     border-radius: var(--card-border-radius);
-    background-color: rgb(189, 78, 44, 0.8);
-    border: 1px solid rgb(78, 78, 78);
+    background-color: rgb(36, 36, 36, 0.8);
     transition: .3s;
     cursor: pointer;
-    padding: 0.5rem;
-    text-decoration: none;
+}
+
+.card_action_button_active {
+    position: relative;
+    align-items: center;
+    place-content: center;
+    border: none;
+    outline: none;
+    height: var(--card-max-height);
+    width: 4rem;
+    border-radius: var(--card-border-radius);
+    background-color: rgb(189, 78, 44, 0.8);
+    transition: .3s;
+    cursor: pointer;
 }
 
 .link{
     position: relative;
     text-decoration: none;
     color: rgb(230, 230, 230);
-    text-align: center;
-    line-height: 0.2rem;
+    height: 100%;
+    font-weight: 600;
+    font-size: 1rem;
 }
 
+.card_action_button_mini:hover,
 .card_action_button:hover {
-    background-color: #555555;
+    background-color: rgb(85, 85, 85, 0.3);
 }
 
 .card_action_button_ico {

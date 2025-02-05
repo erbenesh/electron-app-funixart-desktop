@@ -376,15 +376,14 @@ export const SCHEDULE = "schedule"
 // Search API
 
 // POST
-export const SEARCH_PROFILE = "search/profiles/{page}"
-export const SEARCH_RELEASE = "search/releases/{page}"
-export const SEARCH_COLLECTION = "search/collections/{page}"
-export const SEARCH_FAVORITE_COLLECTION = "search/favoriteCollections/{page}"
-export const SEARCH_PROFILE_COLLECTION =
-  "search/profileCollections/{profileId}/{page}"
-export const SEARCH_PROFILE_LIST = "search/profile/list/{status}/{page}"
-export const SEARCH_FAVORITE = "search/favorites/{page}"
-export const SEARCH_HISTORY = "search/history/{page}"
+export const SEARCH_PROFILE = "search/profiles/"//{page}
+export const SEARCH_RELEASE = "search/releases/"//{page}
+export const SEARCH_COLLECTION = "search/collections/"//{page}
+export const SEARCH_FAVORITE_COLLECTION = "search/favoriteCollections/"//{page}
+export const SEARCH_PROFILE_COLLECTION = "search/profileCollections/{profileId}/"//{page}
+export const SEARCH_PROFILE_LIST = "search/profile/list/"//{status}/{page}
+export const SEARCH_FAVORITE = "search/favorites/"//{page}
+export const SEARCH_HISTORY = "search/history/"//{page}
 
 // Type API
 

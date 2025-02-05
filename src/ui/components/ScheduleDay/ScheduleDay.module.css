@@ -1,0 +1,22 @@
+.releases_schedule {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: calc(100% - 2.6rem);
+    padding: 0 1.1rem 0 1.1rem;
+    align-items: center;
+}
+
+.sh_day_title {
+    position: sticky;
+    place-self: center;
+    font-weight: 600;
+    font-size: 1.3rem;
+    list-style: none;
+    top: 0px;
+
+    z-index: 12;
+
+    color: rgb(230, 230, 230);
+}

@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { unixToDate } from '../../services/utils';
+import { unixToDate } from '../../services/api/utils';
 import styles from './ReleaseCard.module.css'
-import { IoBookmark } from "react-icons/io5";;
+import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";import { useEffect } from 'react';
+;
 
 const profile_lists = {
     // 0: "Не смотрю",
@@ -24,24 +25,54 @@ export const ReleaseCard = (props) => {
     }
 
     return (
-        <Link to={`/release/${props.release.id}`} id="vert_card" className={styles.card}>
+        <div id="vert_card" className={styles.card} 
+        style={{backgroundImage: `linear-gradient(rgba(36, 36, 36, 0.9), rgba(36, 36, 36, 1)), url(${props.release.image})`}}>
 
             <div className={styles.release_image_border}>
                 <img className={styles.release_image} src={props.release.image} alt={props.release.title_ru + " image"} loading='lazy'/>
-                {user_list && <div className={styles.user_list_name} style={{background: user_list.bg_color}}>{user_list.name}</div>}
+                <div className={styles.release_lists_info}>
+                    {user_list && <span className={styles.user_list_name} style={{background: user_list.bg_color}}>{user_list.name}</span>}
+                </div>
             </div>
 
-            <div className={styles.anime_title}>{props.release.title_ru}</div>
+            <div className={styles.release_info}>
 
-            <div className={styles.bottom_info}>
-                <span>
-                    <p className={styles.anime_subinfo}>
+                <div className={styles.anime_title}>{props.release.title_ru}</div>
+
+                <div className={styles.anime_subinfo_noborder}>
+                    {/*Жанры*/}
+                    { props.release.genres }
+                </div>
+
+                <div className={styles.bottom_info}>
+
+                    { props.release.category &&
+                        <span className={styles.anime_subinfo}>
+                            {/*Категория*/}
+                            { props.release.category.name }
+                        </span>
+                    }
+
+                    { props.release.status &&
+                        <span className={styles.anime_subinfo}>
+                            {/*Статус*/}
+                            { props.release.status.name }
+                        </span>
+                    }
+
+                    <span className={styles.anime_subinfo}>
                         {/*Сколько эпизодов*/}
                         { props.release.episodes_released && props.release.episodes_released + " из "}
                         {/*Из скольки эпизодов*/}
-                        { props.release.status && props.release.status.id === 3 ? "" : props.release.episodes_total ? props.release.episodes_total + " эп" : "? эп" }
+                        { 
+                            // props.release.status && props.release.status.id !== 3 && 
+                            props.release.episodes_total ? props.release.episodes_total + " эп" : "? эп" 
+                        }
+                    </span>
+
+                    <span className={styles.anime_subinfo}>
                         {/*Оценка или это анонс?*/}
-                        { grade ? " • " + grade 
+                        { grade ? <>&#9733; {grade}</> 
                         : props.release.status 
                         && props.release.status.id === 0
                         && props.release.aired_on_date !== 0 ? (
@@ -56,12 +87,34 @@ export const ReleaseCard = (props) => {
                         ) : (
                             "Скоро"
                         )}
-                    </p>
-                </span>
-                <span>{props.release.is_favorite? <IoBookmark style={{color:"goldenrod"}}/> : ""}</span>
+                    </span>
 
+                    {/* <div className={styles.bookmark}>
+                        {
+                        props.release.is_favorite? 
+                        <IoBookmark style={{color:"rgb(189, 78, 44)", width: '1.2rem', height: '1.2rem'}}/> 
+                        : <IoBookmarkOutline style={{color:"rgb(160, 160, 160)", width: '1.2rem', height: '1.2rem'}}/>
+                        }
+                    </div> */}
+
+                </div>
+                
+            </div>
+
+            <div className={styles.description_and_action_buttons}>
+                <p className={styles.description}>{ props.release.description }</p>
+                <div className={styles.card_action_buttons}>
+                    <button className={styles.card_action_button} type='button'>
+                        <Link to={`/release/${props.release.id}`} className={styles.link}>
+                                Подробнее...
+                        </Link>
+                    </button>
+                    <button className={props.release.is_favorite ? styles.card_action_button_active :  styles.card_action_button} type='button'>
+                        {props.release.is_favorite ? <IoBookmark className={styles.card_action_button_ico} /> : <IoBookmarkOutline className={styles.card_action_button_ico}/>}
+                    </button>
+                </div>
             </div>
                 
-        </Link>
+        </div>
     )
 }

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { unixToDate } from '../../services/utils';
+import { unixToDate } from '../../services/api/utils';
 import styles from './MiniReleaseCard.module.css'
 import { IoBookmark } from "react-icons/io5";;
 

@@ -1,11 +1,11 @@
 
 import { useQuery } from '@tanstack/react-query';
-import { anixartService } from '../../services/AnixartService';
 import styles from './Feed.module.css'
 import { useEffect, useState } from 'react';
-import { useUserStore } from '../../services/auth';
+import { useUserStore } from '../../services/api/auth';
 import parse from 'html-react-parser';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
+import { feedService } from '../../services/FeedService';
 
 export const Feed = () => {
 
@@ -16,7 +16,7 @@ export const Feed = () => {
 
     const fetchFeedNews = useQuery({
         queryKey: ['get feed news', token, page],
-        queryFn: () => anixartService.getFeedNews(token, page)
+        queryFn: () => feedService.getFeedNews(token, page)
     });
 
     useEffect(() => {

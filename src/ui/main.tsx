@@ -6,13 +6,12 @@ import { Provider } from '../Provider'
 import { Routes, Route, HashRouter as Router } from 'react-router-dom'
 import { Feed } from './pages/Feed/Feed';
 import { Collections } from './pages/Collections/Collections'
-import { NewHome } from './pages/NewHome/NewHome'
+import { Home } from './pages/Home/Home'
 import { Profile } from './pages/Profile/Profile'
-import { ReleasePage } from './pages/ReleasePage/ReleasePage'
+import { Release } from './pages/Release/Release'
 import { Bookmarks } from './pages/Bookmarks/Bookmarks'
 import { CollectionPage } from './pages/CollectionPage/CollectionPage'
 import { BookmarksList } from './components/BookmarksList/BookmarksList'
-import { Schedule } from './pages/Schedule/Schedule'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -21,9 +20,7 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="/" element={<App />}>
 
-            <Route index element={<NewHome />} />
-
-            <Route path="/schedule" element={<Schedule />}/>
+            <Route index element={<Home />} />
 
             <Route path="/feed" element={<Feed />} />
 
@@ -49,7 +46,7 @@ createRoot(document.getElementById('root')!).render(
 
             <Route path="/settings" element={<Profile />} />
 
-            <Route path="/release/:releaseId" element={<ReleasePage />} />
+            <Route path="/release/:releaseId" element={<Release />} />
 
             <Route path="/collection/:collectionId" element={<CollectionPage />} />
 

@@ -2,8 +2,8 @@ import { TopNavigationBar } from './components/TopNavigationBar/TopNavigationBar
 import styles from './App.module.css'
 import { useEffect, useState } from 'react';
 import { AuthPage } from './pages/Auth/AuthPage';
-import { useUserStore } from './services/auth';
-import { usePreferencesStore } from './services/preferences';
+import { useUserStore } from './services/api/auth';
+import { usePreferencesStore } from './services/api/preferences';
 import { useScrollPosition } from './hooks/useScrollPosition';
 import { Outlet } from 'react-router-dom';
 

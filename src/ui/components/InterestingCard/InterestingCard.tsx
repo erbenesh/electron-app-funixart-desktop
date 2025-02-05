@@ -9,12 +9,16 @@ export const InterestingCard = ({...props}) => {
 
             <div className={styles.release_image_border}>
                 <img className={styles.release_image} src={props.release.image} alt="" />
+                
+                {
+                props.release.title &&
+                <div className={styles.release_info_border}>
+                    <p className={styles.anime_title}>{props.release.title}</p>
+                    <p className={styles.anime_subinfo}>{props.release.description}</p>
+                </div>  
+                }
+            
             </div>
-
-            <div className={styles.release_info_border}>
-                <p className={styles.anime_title}>{props.release.title}</p>
-                <p className={styles.anime_subinfo}>{props.release.description}</p>
-            </div>  
 
         </Link>
     )

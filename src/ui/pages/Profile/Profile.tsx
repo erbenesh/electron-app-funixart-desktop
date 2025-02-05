@@ -1,10 +1,10 @@
 import { MdAddLink } from "react-icons/md";
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { anixartService } from '../../services/AnixartService';
-import { useUserStore } from '../../services/auth';
+import { useUserStore } from '../../services/api/auth';
 import styles from './Profile.module.css';
-import { unixToDate } from '../../services/utils';
+import { unixToDate } from '../../services/api/utils';
+import { profileService } from "../../services/ProfileService";
 
 export const Profile = () => {
 
@@ -18,7 +18,7 @@ export const Profile = () => {
 
     const getProfileData = useQuery({
         queryKey: ['getProfile', authUser.user.id, authUser.token],
-        queryFn: () => anixartService.getProfile(authUser.user.id, authUser.token)
+        queryFn: () => profileService.getProfile(authUser.user.id, authUser.token)
     });
 
     useEffect(() => {

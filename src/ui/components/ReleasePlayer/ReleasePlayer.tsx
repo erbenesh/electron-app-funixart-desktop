@@ -1,10 +1,10 @@
 
 import { skipToken, useMutation, useQuery } from '@tanstack/react-query'
 import styles from './ReleasePlayer.module.css'
-import { anixartService } from '../../services/AnixartService';
 import { useEffect, useState } from 'react';
-import { useUserStore } from '../../services/auth';
-import { IoEye, IoEyeOffOutline } from "react-icons/io5";
+import { useUserStore } from '../../services/api/auth';
+import { IoEye, IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { playerService } from '../../services/PlayerService';
 
 export const ReleasePlayer = (props) => {
 
@@ -21,10 +21,10 @@ export const ReleasePlayer = (props) => {
 
     const fetchVoiceOver = useMutation({
         mutationKey: ["voice over", props.id],
-        mutationFn: () => anixartService.getReleasePlayer(props.id),
+        mutationFn: () => playerService.getReleasePlayer(props.id),
         onSuccess(data) {
             const voiceover = data.data;
-
+            console.log(voiceover);
             setVoiceoverInfo(voiceover.types);
             setSelectedVoiceover(voiceover.types[0]);
         }
@@ -32,10 +32,10 @@ export const ReleasePlayer = (props) => {
 
     const fetchSources = useMutation({
         mutationKey: ["sources", props.id],
-        mutationFn: () => anixartService.getReleasePlayer(`${props.id}/${selectedVoiceover.id}`),
+        mutationFn: () => playerService.getReleasePlayer(`${props.id}/${selectedVoiceover.id}`),
         onSuccess(data) {
             const sources = data.data;
-
+            
             setSourcesInfo(sources.sources);
             setSelectedSource(sources.sources[0]);
         }
@@ -43,7 +43,7 @@ export const ReleasePlayer = (props) => {
  
     const fetchEpisodes = useMutation({
         mutationKey: ["episodes", props.id],
-        mutationFn: () => anixartService.getReleasePlayer(`${props.id}/${selectedVoiceover.id}/${selectedSource.id}?token=${userStore.token}`),
+        mutationFn: () => playerService.getReleasePlayer(`${props.id}/${selectedVoiceover.id}/${selectedSource.id}?token=${userStore.token}`),
         onSuccess(data) {
             const episodes = data.data;
 
@@ -64,12 +64,12 @@ export const ReleasePlayer = (props) => {
 
     const fetchToHistory = useMutation({
         mutationKey: ["addHistory", props.id, selectedSource?.id, userStore.token],
-        mutationFn: (position) => anixartService.getToHistory(`${props.id}/${selectedSource.id}/${position}?token=${userStore.token}`)
+        mutationFn: (position) => playerService.getToHistory(`${props.id}/${selectedSource.id}/${position}?token=${userStore.token}`)
     });
 
     const fetchMarkWatched = useMutation({
         mutationKey: ["markWatched", props.id, selectedSource?.id, userStore.token],
-        mutationFn: (position) => anixartService.getMarkWatched(`${props.id}/${selectedSource.id}/${position}?token=${userStore.token}`)
+        mutationFn: (position) => playerService.getMarkWatched(`${props.id}/${selectedSource.id}/${position}?token=${userStore.token}`)
     });
 
     useEffect(() => {
@@ -132,25 +132,52 @@ export const ReleasePlayer = (props) => {
 
                         <div className={styles.voices_and_sources_dropdowns}>
                             <div className={styles.player_dropdowns}>
-                                <button className={styles.dropdown_button} onClick={() => setIsDropdownVoicesHidden(!isDropdownVoicesHidden)} type='button'>{selectedVoiceover?.name}</button>
+                                <button className={styles.dropdown_button} onClick={() => setIsDropdownVoicesHidden(!isDropdownVoicesHidden)} type='button'>
+                                    <div className={styles.voicer_ico_border}>
+                                        <img className={styles.voicer_ico} src={selectedVoiceover?.icon} alt="" />
+                                    </div>
+                                    <div className={styles.button_name}>
+                                        <p>{selectedVoiceover?.name}</p>
+                                    </div>
+                                </button>
 
                                 <div className={styles.top_buttons_swiper} style={isDropdownVoicesHidden ? {display: "flex"} : {}}>
-                                    {voiceoverInfo.map((voiceover: any) => (
+                                    {
+                                        voiceoverInfo.map(voiceover => voiceover.id !== selectedVoiceover?.id &&
+                                        (
                                         <button key={`voiceover_${voiceover.id}`} className={styles.dropdown_list_button}
                                         onClick={() => setVoice(voiceover)}>
-                                            {voiceover.name}
+                                            <div className={styles.info_flex_row}>
+                                                <div className={styles.voicer_ico_border}>
+                                                    <img className={styles.voicer_ico} src={voiceover.icon} alt="" />
+                                                </div>                                            
+                                                <div className={styles.button_name}>
+                                                    <p className={styles.info}>{voiceover.name}</p>
+                                                    <p className={styles.info_ep}>{voiceover.episodes_count} эпизодов</p>
+                                                </div>
+                                            </div>
+                                            <div className={styles.info_flex_row} style={{gap: '0.1rem'}}>
+                                                <p className={styles.info_ep}>{voiceover.view_count}</p>
+                                                <IoEyeOutline style={{width: 0.9+'rem', height: 0.9+'rem'}}/> 
+                                            </div>
+
                                         </button>
-                                    ))}
+                                        )
+                                    )
+                                    }
                                 </div>
                             </div>
-                            <div className={styles.player_dropdowns}>
-                                <button className={styles.dropdown_button} onClick={() => setIsDropdownSourcesHidden(!isDropdownSourcesHidden)} type='button'>{selectedSource?.name}</button>
+                            <div className={styles.player_dropdowns} style={{width: '40%'}}>
+                                <button className={styles.dropdown_button} onClick={() => setIsDropdownSourcesHidden(!isDropdownSourcesHidden)} 
+                                type='button' style={{placeContent: 'center', height: '100%'}}>
+                                    {selectedSource?.name}
+                                </button>
 
                                 <div className={styles.top_buttons_swiper} style={isDropdownSourcesHidden ? {display: "flex"} : {}}>
                                     {sourcesInfo.map((source: any) => (
                                         <button key={`source_${source.id}`} className={styles.dropdown_list_button}
                                         onClick={() => setSelectedSource(source)}>
-                                        {source.name}
+                                            {source.name}
                                         </button>
                                     ))}
                                 </div>

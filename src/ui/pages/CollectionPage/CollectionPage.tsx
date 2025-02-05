@@ -1,12 +1,12 @@
 import styles from './CollectionPage.module.css'
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { anixartService } from '../../services/AnixartService';
-import { useUserStore } from '../../services/auth';
+import { useUserStore } from '../../services/api/auth';
 import { ReleaseCard } from '../../components/ReleaseCard/ReleaseCard';
-import { unixToDate } from '../../services/utils';
+import { unixToDate } from '../../services/api/utils';
 import { useParams } from 'react-router-dom';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
+import { collectionService } from '../../services/CollectionService';
 
 export const CollectionPage = () => {
 
@@ -22,12 +22,12 @@ export const CollectionPage = () => {
 
     const fetchCurrentCollection = useQuery({
         queryKey: ['get current collection', token, collectionId],
-        queryFn: () => anixartService.getCurrentCollection(token, collectionId)
+        queryFn: () => collectionService.getCurrentCollection(token, collectionId)
     });
 
     const fetchCurrentCollectionReleases = useQuery({
         queryKey: ['get current collection releases', token, collectionId, pageCollectionReleases],
-        queryFn: () => anixartService.getCurrentCollectionReleases(token, collectionId, pageCollectionReleases)
+        queryFn: () => collectionService.getCurrentCollectionReleases(token, collectionId, pageCollectionReleases)
     });
 
     useEffect(() => {

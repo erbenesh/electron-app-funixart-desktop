@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styles from './AuthPage.module.css';
-import { useUserStore } from '../../services/auth';
-import { setJWT } from '../../services/utils';
+import { useUserStore } from '../../services/api/auth';
+import { setJWT } from '../../services/api/utils';
 import { skipToken, useQuery } from '@tanstack/react-query';
-import { anixartService } from '../../services/AnixartService';
+import { profileService } from '../../services/ProfileService';
 
 export const AuthPage = () => {
 
@@ -16,7 +16,7 @@ export const AuthPage = () => {
 
     const fetchLoginData = useQuery({
         queryKey: ['auth', login, password, isSubmiting],
-        queryFn: isSubmiting ? () => anixartService.postSubmitLogin(login, password) : skipToken
+        queryFn: isSubmiting ? () => profileService.postSubmitLogin(login, password) : skipToken
     });
 
     function submit(event: { preventDefault: () => void; }) {

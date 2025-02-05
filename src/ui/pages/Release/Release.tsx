@@ -1,74 +1,40 @@
-import styles from './ReleasePage.module.css'
-import { GoArrowLeft } from "react-icons/go";
+import styles from './Release.module.css'
+
 import { BsCollectionPlay } from "react-icons/bs";
 import { IoCalendarOutline } from "react-icons/io5";
 import { GrGroup } from "react-icons/gr";
-import { RxCardStackPlus } from "react-icons/rx";
 import { GoHash } from "react-icons/go";
-import { anixartService } from '../../services/AnixartService';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
-import { getSeasonFromUnix, minutesToTime, numberDeclension, sinceUnixDate, unixToDate } from '../../services/utils';
+import { getSeasonFromUnix, minutesToTime } from '../../services/api/utils';
 import { LuFlag } from "react-icons/lu";
 import { ReleasePlayer } from '../../components/ReleasePlayer/ReleasePlayer';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { IoBookmarkOutline } from "react-icons/io5"
 import { IoBookmark } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
-import { IoIosArrowUp } from "react-icons/io";
-import { LuReplyAll } from "react-icons/lu";
-import { TbArrowBackUp } from "react-icons/tb";
+
+import jFlag from '../../assets/icons/j_flag.svg'
+import cnFlag from '../../assets/icons/cn_flag.svg'
 
 import interestCardStyles from "../../components/InterestingCard/InterestingCard.module.css"
-import { useUserStore } from '../../services/auth';
-import { ReleaseCard } from './../../components/ReleaseCard/ReleaseCard';
+import { Comment } from "../../components/Comment/Comment"
+import { useUserStore } from '../../services/api/auth';
+import { ReleaseCard } from '../../components/ReleaseCard/ReleaseCard';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Toolbar } from '../../components/Toolbar/Toolbar';
+import { ReleaseVotesCounter } from '../../components/ReleaseVotesCounter/ReleaseVotesCounter';
+import { FakeHeader } from '../../components/FakeHeader/FakeHeader';
+import { lists, profile_lists, releaseService, weekDay } from '../../services/ReleaseService';
+import { commentService } from '../../services/CommentService';
+import { bookmarksService } from '../../services/BookmarksService';
 
-
-const profile_lists = {
-    0: { name: "Не смотрю", bg_color: "rgb(39, 39, 39)" },
-    1: { name: "Смотрю", bg_color: "rgb(26, 212, 85)" },
-    2: { name: "В планах", bg_color: "rgb(140, 119, 197)" },
-    3: { name: "Просмотрено", bg_color: "rgb(91, 93, 207)" },
-    4: { name: "Отложено", bg_color: "rgb(233, 196, 47)" },
-    5: { name: "Брошено", bg_color: "rgb(231, 115, 80)" },
-};
-
-const lists = [
-    { list: 0, name: "Не смотрю" },
-    { list: 1, name: "Смотрю" },
-    { list: 2, name: "В планах" },
-    { list: 3, name: "Просмотрено" },
-    { list: 4, name: "Отложено" },
-    { list: 5, name: "Брошено" },
-];
-
-const weekDay = [
-    "_",
-    "каждый понедельник",
-    "каждый вторник",
-    "каждую среду",
-    "каждый четверг",
-    "каждую пятницу",
-    "каждую субботу",
-    "каждое воскресенье",
-];
-
-export const ReleasePage = () => {
+export const Release = () => {
 
     const { releaseId } = useParams();
 
-    const navigate = useNavigate();
-
     const token = useUserStore((state) => state.token);
-
-    const [ release, setRelease ] = useState(null);
-
-    const [ commentsPage, setCommentsPage ] = useState(0);
-
-    const [ commentsList, setCommentsList ] = useState(null);
 
     const [ isDescriptionHidden, setDescriptionHidden ] = useState(true);
 
@@ -76,29 +42,35 @@ export const ReleasePage = () => {
 
     const [ currentIndex, setCurrentIndex ] = useState(0);
 
-    const [ userList, setUserList ] = useState(null);
-
-    const [ userFavorite, setUserFavorite ] = useState(false);
-
     const [ isDropdownListsHidden, setIsDropdownListsHidden ] = useState(false);
 
     const textInput = useRef(null);
 
     const queryClient = useQueryClient();
 
-    const fetchCurrentRelease = useQuery({
+    const currentRelease = useQuery({
         queryKey: ['getCurrentRelease', releaseId, token],
-        queryFn: () => anixartService.getCurrentRelease(releaseId, token)
+        queryFn: () => releaseService.getCurrentRelease(releaseId, token),
     });
 
-    const fetchCurrentReleaseComments = useQuery({
-        queryKey: ['getCurrentReleaseComments', releaseId, commentsPage, token],
-        queryFn: () => anixartService.getAllComments("release", releaseId, commentsPage, token)
-    });
+    const release = currentRelease.data?.data.release;
+
+    const currentReleaseComments = useInfiniteQuery({
+        queryKey: ['getCurrentReleaseComments', releaseId, token],
+        queryFn: meta => commentService.getAllComments("release", releaseId, meta.pageParam, token),
+        initialPageParam: 0,
+        getNextPageParam: (lastPage, allPages, lastPageParam) => {
+            if (lastPage.length === 0) {
+              return undefined
+            }
+            return lastPageParam + 1
+          },
+        select: data => data.pages.flatMap((page) => page.content)
+    })
 
     const fetchDeleteFromFavorite = useMutation({
         mutationKey: ['delete from favorite', releaseId, token],
-        mutationFn: () => anixartService.setDeleteFromFavorite(releaseId, token),
+        mutationFn: () => bookmarksService.setDeleteFromFavorite(releaseId, token),
         onSuccess() {
             queryClient.refetchQueries({queryKey: ['getCurrentRelease']});
         }
@@ -106,15 +78,15 @@ export const ReleasePage = () => {
 
     const fetchAddToFavorite = useMutation({
         mutationKey: ['add to favorite', releaseId, token],
-        mutationFn: () => anixartService.setAddToFavorite(releaseId, token),
+        mutationFn: () => bookmarksService.setAddToFavorite(releaseId, token),
         onSuccess() {
             queryClient.refetchQueries({queryKey: ['getCurrentRelease']});
         }
     });
 
     const fetchAddToList = useMutation({
-        mutationKey: ['add to bookmark list', userList, releaseId, token],
-        mutationFn: (list: number) => anixartService.addToBookmarkList(list, releaseId, token),
+        mutationKey: ['add to bookmark list', releaseId, token],
+        mutationFn: (list: number) => bookmarksService.addToBookmarkList(list, releaseId, token),
         onSuccess() {
             queryClient.refetchQueries({queryKey: ['getCurrentRelease']});
         }
@@ -124,72 +96,11 @@ export const ReleasePage = () => {
     useEffect(() => {
         
         if (scrollPosition >= 85) {
-            if(commentsPage === 0) {
-                setCommentsPage(1);
-            } else {
-                setCommentsPage(commentsPage + 1);
-            }
+            currentReleaseComments.fetchNextPage();
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scrollPosition])
-
-    useEffect(() => {
-        
-        async function _loadInitialComments() {
-            const commentsData = fetchCurrentReleaseComments.data?.data.content;
-
-            setCommentsList(commentsData);
-            console.log(commentsData);
-        }
-
-        if(fetchCurrentReleaseComments.isSuccess && commentsPage === 0) {
-            _loadInitialComments();
-            setCommentsPage(commentsPage + 1);
-        }
-
-        if(releaseId !== release?.id){
-            setCommentsPage(0);
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fetchCurrentReleaseComments.status, releaseId]);
-
-    useEffect(() => {
-        async function _nextLoadInitialComments() {
-            const commentsData = fetchCurrentReleaseComments.data?.data.content;
-            const newComments = [...commentsList, ...commentsData]
-            setCommentsList(newComments);
-        }
-
-        if(commentsPage > 0 && fetchCurrentReleaseComments.status === "success") {
-            _nextLoadInitialComments();
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [commentsPage, fetchCurrentReleaseComments.status]);
-
-    useEffect(() => {
-
-        async function _loadInitialRelease() {
-            const releaseData = fetchCurrentRelease.data?.data.release;
-            setRelease(releaseData);
-
-            setUserFavorite(releaseData.is_favorite);
-
-            const profile_list_status = releaseData.profile_list_status;
-      
-            if (profile_list_status != null || profile_list_status != 0) {
-                setUserList(profile_lists[profile_list_status]);
-            }
-            console.log(releaseData)
-        }
-
-        if(fetchCurrentRelease.isSuccess && releaseId !== release?.id) {
-            _loadInitialRelease();
-        }
-        console.log("RELEASE", fetchCurrentRelease.status);
-        
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fetchCurrentRelease.status, releaseId]);
 
     useEffect(() => {
         function handleLineCount() {
@@ -233,8 +144,8 @@ export const ReleasePage = () => {
 
     function addToFavorite() {
         if (token) {
-            setUserFavorite(!userFavorite);
-            if (userFavorite) {
+            // setUserFavorite(!userFavorite);
+            if (release.is_favorite) {
                 fetchDeleteFromFavorite.mutate();
             } else {
                 fetchAddToFavorite.mutate();
@@ -244,29 +155,21 @@ export const ReleasePage = () => {
 
     function addToList(list: number) {
         if (token) {
-            console.log(list);
-            setUserList(profile_lists[list]);
+            
+            
             fetchAddToList.mutate(list);
             setIsDropdownListsHidden(false);
         }
     }
 
-
-    if (fetchCurrentRelease.status === "pending") {
-        return (
-            <div className="loader-container">	
-                <i className="loader-circle"></i>
-            </div>
-        )
-    }
-
-    if (fetchCurrentRelease.status === "error") {
-        return ('An error has occurred: ' + fetchCurrentRelease.error.message);
+    
+    if (currentRelease.status === "error") {
+        return ('An error has occurred: ' + currentRelease.error.message);
     }
 
     return (
 
-        !release ? 
+        currentRelease.isPending || !release ? 
         <div className="loader-container">	
             <i className="loader-circle" />
         </div>
@@ -275,37 +178,41 @@ export const ReleasePage = () => {
 
             <div className={styles.release_page}>
 
-                <div className={styles.fake_header_nav}/>
+                <FakeHeader />
 
                 <Toolbar />
 
-                {release.status && release.status.name != "Анонс" && !release.is_view_blocked &&
-                (<div className={styles.release_header}>
+                {
+                    release.status && release.status.name != "Анонс" && !release.is_view_blocked &&
+                    (
+                        <div className={styles.release_header}>
 
-                    <div className={styles.header_image_borders}>
+                            <div className={styles.header_image_borders}>
 
-                        <div className={styles.header_background_image_border}>
-                            <img className={styles.header_background_title_image} src={release.image} alt={release.title_ru} />
-                        </div>
-
-             
-                        <div className={styles.video_player_wrap}>
-                            <div className={styles.video_player}>
-                            
-                                <ReleasePlayer id={releaseId} />
-                            
+                                <div className={styles.header_background_image_border}>
+                                    <img className={styles.header_background_title_image} src={release.image} alt={release.title_ru} />
+                                </div>
+                    
+                                <div className={styles.video_player_wrap}>
+                                    <div className={styles.video_player}>
+                                    
+                                        <ReleasePlayer id={releaseId} />
+                                    
+                                    </div>
+                                </div>
+                                
                             </div>
-                        </div>
-                        
-                    </div>
 
-                </div>
-                )}
+                        </div>
+                    )
+                }
 
                 <div className={styles.release_page_body}>
                     <div className={styles.release_block}>
                         <div className={styles.release_info}>
+
                         {release.is_view_blocked ? <div className={styles.off_view}>Просмотр только на официальном ресурсе</div> : ''}
+
                             <div className={styles.release_info_header}>
                                 <div className={styles.header_title_image_border}>
                                     <img className={styles.header_title_image} src={release.image} alt={release.title_ru} />
@@ -322,12 +229,12 @@ export const ReleasePage = () => {
                                             <div>
                                                 <button className={styles.info_button} 
                                                 onClick={() => setIsDropdownListsHidden(!isDropdownListsHidden)} 
-                                                style={userList ? {borderColor: `${userList.bg_color}`, color: `${userList.bg_color}`, width: 9+"rem", justifyContent: "center"} : {}} type='button'>
+                                                style={release.profile_list_status ? {borderColor: `${profile_lists[release.profile_list_status].bg_color}`, color: `${profile_lists[release.profile_list_status].bg_color}`, width: 9+"rem", justifyContent: "center"} : {}} type='button'>
                                                     <IoIosArrowDown className={styles.comments_b_ico}/>
-                                                    <p>{userList ? userList.name : "Не смотрю"}</p>
+                                                    <p>{release.profile_list_status ? profile_lists[release.profile_list_status].name : "Не смотрю"}</p>
                                                 </button>
                                                 <div className={styles.dropdown_lists} style={isDropdownListsHidden ? {display: "flex"} : {}}>
-                                                    {lists.map(li => li.name !== userList?.name && (
+                                                    {lists.map(li => li.name !== profile_lists[release.profile_list_status]?.name && (
                                                         <button key={li.list} className={styles.info_button_list} onClick={() => addToList(li.list)} type='button'>
                                                             {li.name}
                                                         </button>
@@ -335,8 +242,8 @@ export const ReleasePage = () => {
                                                 </div>
                                             </div>
                                             
-                                            <button className={userFavorite? styles.info_button_favorite : styles.info_button} onClick={() => addToFavorite()} type='button'>
-                                                {userFavorite? <IoBookmark className={styles.comments_b_ico}/> : <IoBookmarkOutline className={styles.comments_b_ico}/>}
+                                            <button className={release.is_favorite? styles.info_button_favorite : styles.info_button} onClick={() => addToFavorite()} type='button'>
+                                                {release.is_favorite? <IoBookmark className={styles.comments_b_ico}/> : <IoBookmarkOutline className={styles.comments_b_ico}/>}
                                                 {release.favorites_count > 9999 ? 
                                                 `${String(release.favorites_count).slice(0, 2)} ${String(release.favorites_count).slice(2)}` 
                                                 : release.favorites_count > 999 ? 
@@ -360,7 +267,7 @@ export const ReleasePage = () => {
 
                                         <ul className={styles.parameters_icons}>
                                             <li className={styles.icon}>
-                                                <img src={release.country === "Япония" ? "/j_flag.svg" : release.country === "Китай" ? "/cn_flag.svg" : ""} alt="flag" />
+                                                <img src={release.country === "Япония" ? jFlag : release.country === "Китай" ? cnFlag : ""} alt="" />
                                                 {release.country !== "Япония" && release.country !== "Китай" && <LuFlag className={styles.mini_ico}/>}
                                             </li>
                                             <li className={styles.icon}><BsCollectionPlay className={styles.mini_ico}/></li>
@@ -430,32 +337,13 @@ export const ReleasePage = () => {
                                     </div>
 
                                     {
-                                        release.vote_count > 0 && <div>
-                                            <div className={styles.rate}>
-                                                <div className={styles.rating_panels}>
-                                                    <div className={styles.big_rate_number}>
-                                                        <p className={styles.grade_number}>{String(release.grade).slice(0,3)}</p>
-                                                        <p className={styles.votes_count}>{release.vote_count} {numberDeclension(release.vote_count, "голос", "голоса", "голосов")}</p>
-                                                    </div>
-                                                    <ul className={styles.rate_lines}>
-                                                        <li className={styles.vote_list_line}>5 <div className={styles.vote_line} style={{background: `linear-gradient(90deg, rgb(230, 230, 230) 0 ${(release.vote_5_count / release.vote_count * 100)}%, grey 0)`}}/></li>
-                                                        <li className={styles.vote_list_line}>4 <div className={styles.vote_line} style={{background: `linear-gradient(90deg, rgb(230, 230, 230) 0 ${(release.vote_4_count / release.vote_count * 100)}%, grey 0)`}}/></li>
-                                                        <li className={styles.vote_list_line}>3 <div className={styles.vote_line} style={{background: `linear-gradient(90deg, rgb(230, 230, 230) 0 ${(release.vote_3_count / release.vote_count * 100)}%, grey 0)`}}/></li>
-                                                        <li className={styles.vote_list_line}>2 <div className={styles.vote_line} style={{background: `linear-gradient(90deg, rgb(230, 230, 230) 0 ${(release.vote_2_count / release.vote_count * 100)}%, grey 0)`}}/></li>
-                                                        <li className={styles.vote_list_line}>1 <div className={styles.vote_line} style={{background: `linear-gradient(90deg, rgb(230, 230, 230) 0 ${(release.vote_1_count / release.vote_count * 100)}%, grey 0)`}}/></li>
-                                                    </ul>
-                                                </div>
-                                                <div className={styles.my_vote_stars}>
-                                                
-                                                </div>
-                                            </div>
-                                        </div>
+                                        release.vote_count > 0 && 
+                                        <ReleaseVotesCounter release={release}/>
                                     }
+
                                 </div>
                             </div>
-
-                            {/* {release.is_view_blocked ? <div className={styles.off_view}>Просмотр только на официальном ресурсе</div> : ''} */}
-
+          
                             <div className={styles.genres_wrap}>
                                 <p className={styles.genres}><GoHash className={styles.hash_ico} style={{width: 1.2+"rem"}}/> {release.genres}</p>
                             </div>
@@ -514,45 +402,8 @@ export const ReleasePage = () => {
 
                             <div className={styles.comments_section_wrap}>
                                 <div className={styles.comments_section}>
-                                    {commentsList?.map(comment => comment.id && (
-                                        <div key={comment.id} className={styles.comment_wrap}>
-                                            <div className={styles.comment}>
-                                                <div className={styles.avatar}>
-                                                    <div className={styles.image_border}>
-                                                        <img src={comment.profile.avatar} className={styles.ava_image} alt={comment.profile.login + "ava"} />
-                                                    </div>
-                                                </div>
-                                                <div className={styles.info}>
-                                                    <div className={styles.text_block}>
-                                                        <div className={styles.login_and_time}>
-                                                            <p className={styles.commenter_login}>{comment.profile.login}</p>
-                                                            <time className={styles.timestamp} dateTime={comment.timestamp.toString()} title={unixToDate(comment.timestamp, "full")}>
-                                                                {sinceUnixDate(comment.timestamp)}
-                                                            </time>
-                                                        </div>
-                                                        <p>{comment.message}</p>
-                                                    </div>
-                                                    <div className={styles.action_buttons}>
-                                                        <div className={styles.reply_and_like_buttons}>
-                                                            <button className={styles.reply_button} type="button">Ответить</button>
-                                                            <div className={styles.dislike_and_like_button}>
-                                                                <button className={styles.like_button} type="button"><IoIosArrowDown/></button>
-                                                                <p className={styles.likes_count}>{comment.likes_count}</p>
-                                                                <button className={styles.like_button} type="button"><IoIosArrowUp/></button>
-                                                            </div>
-        
-                                                        </div>
-                                                        { 
-                                                        comment.reply_count > 0 && 
-                                                            <button className={styles.show_all_replys} type="button">
-                                                                <LuReplyAll className={styles.show_all_replys_ico}/> 
-                                                                <p>Показать {comment.reply_count} ответов</p>
-                                                            </button>
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    {currentReleaseComments.data?.map(comment => comment.id && (
+                                        <Comment key={comment.id} comment={comment}/>
                                     ))}
                                 </div>
 

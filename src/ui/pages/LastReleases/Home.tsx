@@ -2,11 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { ReleaseCard } from "../../components/ReleaseCard/ReleaseCard";
 import { useScrollPosition } from "../../hooks/useScrollPosition";
-import { anixartService } from "../../services/AnixartService";
 import styles from './Home.module.css'
 import { NavigationTopButtons } from "../../components/NavigationTopButtons/NavigationTopButtons";
 import { IRelease } from "../../interfaces/IRelease";
-import { useUserStore } from "../../services/auth";
+import { useUserStore } from "../../services/api/auth";
+import { releaseService } from "../../services/ReleaseService";
 
 export const Home = (props) => {
 
@@ -22,7 +22,7 @@ export const Home = (props) => {
 
     const fetchLastUpdatedReleases = useQuery({
         queryKey: ['getLastUpdatedReleases', currentSection, page, token],
-        queryFn: () => anixartService.getLastUpdatedReleases(currentSection, token, page)
+        queryFn: () => releaseService.getLastUpdatedReleases(currentSection, token, page)
     });
 
     const onChangeSection = (sectionTitle: string) => {

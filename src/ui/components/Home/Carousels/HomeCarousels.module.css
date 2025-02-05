@@ -5,22 +5,30 @@
     width: 100%;
     gap: 0.5rem;
     place-self: center;
+
 }
 
 .section_title {
     width: 100%;
     place-self: start;
-    font-weight: 400;
+    font-weight: 600;
+    font-size: 1.2rem;
+    transition: .3s;
+    text-decoration: none;
     z-index: 10;
+    color: aliceblue;
 }
 
 .section_title_link {
     width: 100%;
     place-self: start;
-    font-weight: 400;
+    font-weight: 600;
+    font-size: 1.2rem;
     cursor: pointer;
     transition: .3s;
+    text-decoration: none;
     z-index: 10;
+    color: aliceblue;
 }
 
 .shcedule_title {
@@ -30,19 +38,26 @@
     cursor: pointer;
     transition: .3s;
     z-index: 10;
+    text-decoration: none;
 }
 
 .section_title_link_sh {
     place-self: start;
-    font-weight: 400;
+    font-weight: 600;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: .3s;
+    z-index: 10;
+    color: aliceblue;
 }
 
 .sh_day_title {
+    margin-left: 0.3rem;
     text-align: center;
-    font-weight: 500;
+    font-weight: 600;
     color: #242424;
     border-radius: 1rem;
-    width: 5rem;
+    padding: 0 0.5rem 0 0.5rem;
     height: 1.5rem;
     background-color: rgb(189, 78, 44);
 }
@@ -50,6 +65,7 @@
 .shcedule_title:hover,
 .section_title_link:hover {
     color:rgb(180, 180, 180);
+    background-color: rgba(180, 180, 180, 0.1);
 }
 
 .releases_schedule {
