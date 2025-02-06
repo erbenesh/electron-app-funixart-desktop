@@ -6,7 +6,7 @@ import { GrGroup } from "react-icons/gr";
 import { GoHash } from "react-icons/go";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
-import { getSeasonFromUnix, minutesToTime } from '../../services/api/utils';
+import { getSeasonFromUnix, minutesToTime } from '../../services/utils';
 import { LuFlag } from "react-icons/lu";
 import { ReleasePlayer } from '../../components/ReleasePlayer/ReleasePlayer';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
@@ -180,7 +180,7 @@ export const Release = () => {
 
                 <FakeHeader />
 
-                <Toolbar />
+             
 
                 {
                     release.status && release.status.name != "Анонс" && !release.is_view_blocked &&

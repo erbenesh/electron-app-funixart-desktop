@@ -5,7 +5,7 @@
 
 .сollection_page {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 0.5rem;
     opacity: 0;
     transition: .3s;
@@ -13,7 +13,7 @@
     animation-fill-mode: forwards;
     animation-delay: .3s;
     justify-self: center;
-    max-width: 100rem;
+    max-width: 110rem;
 }
 
 @keyframes show {
@@ -29,19 +29,20 @@
 
 .collection_full_wrap {
     position: relative;
-    width: 66rem;
+    width: 110rem;
     height: 100vh;
 }
 
 .collection_full {
     display: block;
+    place-items: center;
     transition: .2s;
+
 }
 
 .collection_poster_border {
     position: relative;
-    width: 66rem;
-    height: 30rem;
+    width: 60rem;
     border-radius: 1rem;
     overflow: hidden;
 }
@@ -54,13 +55,14 @@
 
 .collection_body {
     position: relative;
+    width: 100%;
     padding: 1rem;
+
 }
 
 .collection_releases {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    max-width: 67rem;
-    padding-left: 0.5rem;
+    max-width: 110rem;
 }

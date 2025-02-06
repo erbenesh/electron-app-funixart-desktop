@@ -1,9 +1,4 @@
-.bookmarks_page_wrap {
-    min-height: 100vh;
-    max-width: 120rem;
-}
-
-.bookmarks_page {
+.сollections_page {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -25,4 +20,13 @@
         opacity: 1;
     }
 
+}
+
+.collections_cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    flex-direction: row;
+    width: 110rem;
+    gap: 0.5rem;
 }

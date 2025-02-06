@@ -1,6 +1,6 @@
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
 import { LuReplyAll } from 'react-icons/lu'
-import { unixToDate, sinceUnixDate } from '../../services/Api/utils'
+import { unixToDate, sinceUnixDate } from '../../services/utils'
 import styles from './Comment.module.css'
 
 export const Comment = (props) => {

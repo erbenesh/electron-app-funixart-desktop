@@ -1,5 +1,4 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
 import styles from './Home.module.css'
 import { useUserStore } from "../../services/api/auth";
 import { RandomReleaseCard } from "../../components/Home/RandomReleaseCard/RandomReleaseCard";

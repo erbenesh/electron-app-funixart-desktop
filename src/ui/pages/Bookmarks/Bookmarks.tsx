@@ -2,6 +2,8 @@ import styles from './Bookmarks.module.css'
 import { TopFilterButtons } from "../../components/TopFilterButtons/TopFilterButtons";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
+import { FakeHeader } from '../../components/FakeHeader/FakeHeader';
+import { Toolbar } from '../../components/Toolbar/Toolbar';
 
 export const Bookmarks = () => {
 
@@ -57,7 +59,10 @@ export const Bookmarks = () => {
 
             <div className={styles.bookmarks_page}>
 
-                <div className={styles.fake_header_nav}/>
+                <FakeHeader />
+                <FakeHeader />
+                <FakeHeader />
+             
 
                 <TopFilterButtons buttonsArray={bookmarksArray} />
 

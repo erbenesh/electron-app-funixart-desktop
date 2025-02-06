@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './AuthPage.module.css';
 import { useUserStore } from '../../services/api/auth';
-import { setJWT } from '../../services/api/utils';
+import { setJWT } from '../../services/utils';
 import { skipToken, useQuery } from '@tanstack/react-query';
 import { profileService } from '../../services/ProfileService';
 

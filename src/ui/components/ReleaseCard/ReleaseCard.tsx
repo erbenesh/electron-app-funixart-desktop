@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
-import { unixToDate } from '../../services/api/utils';
+import { unixToDate } from '../../services/utils';
 import styles from './ReleaseCard.module.css'
-import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";import { useEffect } from 'react';
-;
+import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 
 const profile_lists = {
     // 0: "Не смотрю",
@@ -25,7 +24,7 @@ export const ReleaseCard = (props) => {
     }
 
     return (
-        <div id="vert_card" className={styles.card} 
+        <div id="vert_card" className={styles.vert_card} 
         style={{backgroundImage: `linear-gradient(rgba(36, 36, 36, 0.9), rgba(36, 36, 36, 1)), url(${props.release.image})`}}>
 
             <div className={styles.release_image_border}>
@@ -104,11 +103,12 @@ export const ReleaseCard = (props) => {
             <div className={styles.description_and_action_buttons}>
                 <p className={styles.description}>{ props.release.description }</p>
                 <div className={styles.card_action_buttons}>
-                    <button className={styles.card_action_button} type='button'>
-                        <Link to={`/release/${props.release.id}`} className={styles.link}>
-                                Подробнее...
-                        </Link>
-                    </button>
+                    
+                    <Link to={`/release/${props.release.id}`} className={styles.link}>
+                        <button className={styles.card_link_action_button} type='button'>
+                            Подробнее...
+                        </button>
+                    </Link>
                     <button className={props.release.is_favorite ? styles.card_action_button_active :  styles.card_action_button} type='button'>
                         {props.release.is_favorite ? <IoBookmark className={styles.card_action_button_ico} /> : <IoBookmarkOutline className={styles.card_action_button_ico}/>}
                     </button>

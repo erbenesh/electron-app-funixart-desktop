@@ -10,8 +10,9 @@ import { Home } from './pages/Home/Home'
 import { Profile } from './pages/Profile/Profile'
 import { Release } from './pages/Release/Release'
 import { Bookmarks } from './pages/Bookmarks/Bookmarks'
-import { CollectionPage } from './pages/CollectionPage/CollectionPage'
+import { CollectionPage } from './pages/Collection/Collection'
 import { BookmarksList } from './components/BookmarksList/BookmarksList'
+import { CollectionsList } from './components/CollectionsList/CollectionsList'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -24,21 +25,29 @@ createRoot(document.getElementById('root')!).render(
 
             <Route path="/feed" element={<Feed />} />
 
-            <Route path="/collections" element={<Collections />} />
+            <Route path="/collections" element={<Collections />}>
+
+              <Route path="/collections/all" element={<CollectionsList />} />
+
+              <Route path="/collections/my" element={<CollectionsList />} />
+              
+              <Route path="/collections/favorite" element={<CollectionsList />} />
+            
+            </Route>
 
             <Route path="/bookmarks" element={<Bookmarks />}>
 
-              <Route path="/bookmarks/favorite" element={<BookmarksList />}></Route>
+              <Route path="/bookmarks/favorite" element={<BookmarksList />}/>
 
-              <Route path="/bookmarks/watching" element={<BookmarksList />}></Route>
+              <Route path="/bookmarks/watching" element={<BookmarksList />}/>
 
-              <Route path="/bookmarks/planned" element={<BookmarksList />}></Route>
+              <Route path="/bookmarks/planned" element={<BookmarksList />}/>
 
-              <Route path="/bookmarks/watched" element={<BookmarksList />}></Route>
+              <Route path="/bookmarks/watched" element={<BookmarksList />}/>
 
-              <Route path="/bookmarks/delayed" element={<BookmarksList />}></Route>
+              <Route path="/bookmarks/delayed" element={<BookmarksList />}/>
 
-              <Route path="/bookmarks/abandoned" element={<BookmarksList />}></Route>
+              <Route path="/bookmarks/abandoned" element={<BookmarksList />}/>
             
             </Route>
 

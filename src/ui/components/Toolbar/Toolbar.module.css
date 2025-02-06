@@ -4,10 +4,8 @@
     flex-direction: row;
     place-self: center;
     justify-content: space-between;
-    width: 98%;
-    max-width: calc(120rem - 8rem);
+    width: 100vw;
     z-index: 300;
-    margin-top: 5rem;
     padding: 1rem;
     pointer-events: none;
 }

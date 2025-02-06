@@ -5,12 +5,16 @@ import { AuthPage } from './pages/Auth/AuthPage';
 import { useUserStore } from './services/api/auth';
 import { usePreferencesStore } from './services/api/preferences';
 import { useScrollPosition } from './hooks/useScrollPosition';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
+import { Toolbar } from './components/Toolbar/Toolbar';
 
 export const App: React.FC = ()=> {
 
   const preferencesStore = usePreferencesStore();
   const userStore = useUserStore((state) => state);
+
+  const location = useLocation();
+  let params = useParams();
 
   const scrollPosition = useScrollPosition();
   const [ lastScrolledPos, setLastScrolledPos ] = useState(0);
@@ -57,6 +61,10 @@ export const App: React.FC = ()=> {
       <div className='wrapper'>
 
         <TopNavigationBar isHeaderHidden={isHeaderHidden} avatar={userStore.user.avatar}/>
+
+        { location.pathname === `/release/${params.releaseId}` && <Toolbar /> }
+        { location.pathname === `/collection/${params.collectionId}` && <Toolbar /> }
+
 
         <div className={styles.content_wrap}>
 

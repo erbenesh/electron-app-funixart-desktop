@@ -14,9 +14,9 @@ export const Toolbar = () => {
                 <TbArrowBackUp className={styles.back_ico} />
             </button>
 
-            <button className={styles.back_button}>
+            {/* <button className={styles.back_button}>
                 <RxCardStackPlus className={styles.back_ico} />
-            </button>
+            </button> */}
 
         </div>
     )

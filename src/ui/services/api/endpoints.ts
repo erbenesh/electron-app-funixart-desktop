@@ -109,9 +109,9 @@ export const COLLECTION_COMMENTS_DELETE = "collection/comment/delete/"//{id}
 export const COLLECTION_COMMENTS_VOTE = "collection/comment/vote/"//{id}/{mark}
 export const COLLECTION_COMMENTS_VOTES = "collection/comment/votes/"//{commentId}/{page}
 
-export const COLLECTION_FAVORITE = "collectionFavorite/add/"//{id}
-export const COLLECTION_FAVORITE_ADD = "collectionFavorite/delete/"//{id}
-export const COLLECTION_FAVORITE_DELETE = "collectionFavorite/all/"//{page}
+export const COLLECTION_FAVORITE_ADD = "collectionFavorite/add/"//{id}
+export const COLLECTION_FAVORITE_DELETE = "collectionFavorite/delete/"//{id}
+export const COLLECTION_FAVORITE = "collectionFavorite/all/"//{page}
 
 export const COLLECTION_MY = "collectionMy/"//{id}/releases
 export const COLLECTION_MY_DELETE = "collectionMy/delete/"//{id}

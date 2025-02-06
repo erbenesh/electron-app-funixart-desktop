@@ -1,4 +1,4 @@
-import { numberDeclension } from '../../services/api/utils'
+import { numberDeclension } from '../../services/utils'
 import styles from './ReleaseVotesCounter.module.css'
 
 export const ReleaseVotesCounter = (props) => {

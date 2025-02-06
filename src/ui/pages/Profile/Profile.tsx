@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useUserStore } from '../../services/api/auth';
 import styles from './Profile.module.css';
-import { unixToDate } from '../../services/api/utils';
+import { unixToDate } from '../../services/utils';
 import { profileService } from "../../services/ProfileService";
 
 export const Profile = () => {

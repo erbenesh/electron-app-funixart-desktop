@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL, LISTS_ADD, FAVORITE_ADD, FAVORITE_DELETE, LISTS } from "./api/endpoints";
-import { BookmarksList } from "./api/utils";
+import { BookmarksList } from "./utils";
 
 class BookmarksService {
 

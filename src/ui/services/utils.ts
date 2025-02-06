@@ -1,4 +1,4 @@
-import { HEADERS } from "../DiscoverService";
+import { HEADERS } from "./DiscoverService";
 
 export const fetchDataViaGet = async (
     url: string,

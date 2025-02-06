@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { fetchDataViaGet, getJWT, removeJWT } from "./utils";
+import { fetchDataViaGet, getJWT, removeJWT } from "../utils";
 import { BASE_URL, PROFILE } from './endpoints';
 
 interface userState {
