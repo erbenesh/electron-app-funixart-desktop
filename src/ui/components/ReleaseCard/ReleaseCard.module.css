@@ -7,11 +7,11 @@
     flex-direction: row;
 
     z-index: 0;
-    width: calc(21.5rem - 2px);
+    width: calc(21.5rem );
     height: 14rem;
     transition: .2s;
     background-color: rgba(36, 36, 36);
-    border: 1px solid rgb(53, 53, 53);
+    /* border: 1px solid rgb(53, 53, 53); */
     border-radius: 1rem;
     background-size: cover;
 
@@ -42,21 +42,21 @@
 .release_image_border {
     position: relative;
 
-    width: calc((21.5rem - 2px)/2 - 1rem);
-    height: calc(14rem - 2px);
+    width: calc((21.5rem)/2 - 1rem);
+    height: calc(14rem);
     
     place-content: center;
     align-items: center;
 
     overflow: hidden;
     border-radius: 1rem;
-    border: 1px solid rgb(53, 53, 53);
+    /* border: 1px solid rgb(53, 53, 53); */
 
     background-color: rgb(48, 48, 48);
 }
 
 .release_image {
-    object-fit: cover;
+    object-fit:cover;
     width: 100%;
     height: 100%;
     user-select: none;
@@ -90,7 +90,7 @@
 .release_info {
     position: relative;
     padding: 0.5rem;
-    width: calc((21.5rem - 2px)/2);
+    width: calc((21.5rem)/2);
     z-index: 2;
 }
 
@@ -113,7 +113,7 @@
     display: flex;
     flex-direction: row;
     gap: 0.2rem;
-    max-width: calc((21.5rem - 2px)/2);
+    max-width: calc((21.5rem)/2);
     flex-wrap: wrap;
     margin-top: 0.6rem;
 }
@@ -138,7 +138,7 @@
 }
 
 .description_and_action_buttons {
-
+  
     opacity: 0;
 
     position: absolute;
@@ -148,7 +148,7 @@
     bottom: 0;
     padding: 1rem;
     gap: 1rem;
-    width: calc((21.5rem - 2px) - 2rem);
+    width: calc((21.5rem) - 2rem);
     height: calc(14rem - 2rem);
     border-radius: 1rem;
     background: linear-gradient(rgba(36, 36, 36, 0.9) 0%, rgba(36, 36, 36, 1) 100%);

@@ -8,7 +8,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { searchService } from "../../services/SearchService";
 import { useUserStore } from "../../services/api/auth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ReleaseCard } from "../ReleaseCard/ReleaseCard";
 
 export const TopNavigationBar = (props) => {
@@ -32,7 +32,7 @@ export const TopNavigationBar = (props) => {
 
                     <div className={styles.buttons_wraper}>
                         
-                        <NavLink to="/"
+                        <NavLink to="/" button-name-ru="Главная"
                         className={({ isActive }) =>
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
@@ -40,7 +40,7 @@ export const TopNavigationBar = (props) => {
                             <GoHome className={styles.menu_ico}/>
                         </NavLink>
 
-                        <NavLink to="/bookmarks"
+                        <NavLink to="/bookmarks" button-name-ru="Закладки"
                         className={({ isActive }) =>
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
@@ -48,7 +48,7 @@ export const TopNavigationBar = (props) => {
                             <IoBookmarkOutline className={styles.menu_ico}/>
                         </NavLink>
 
-                        <NavLink to="/collections"
+                        <NavLink to="/collections" button-name-ru="Коллекции"
                         className={({ isActive }) =>
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
@@ -56,7 +56,7 @@ export const TopNavigationBar = (props) => {
                             <BsCollectionPlay className={styles.menu_ico}/>
                         </NavLink>
 
-                        <NavLink to="/feed"
+                        <NavLink to="/feed" button-name-ru="Лента"
                         className={({ isActive }) =>
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
@@ -70,7 +70,7 @@ export const TopNavigationBar = (props) => {
 
                         <input onChange={el => setSearchInputValue(el.currentTarget.value)} value={searchInputValue} type="search" placeholder='Поиск...' className={styles.toptools_search_input}/>
 
-                        <NavLink to="/notifications"
+                        <NavLink to="/notifications" button-name-ru="Уведомления"
                         className={({ isActive }) =>
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
@@ -78,7 +78,7 @@ export const TopNavigationBar = (props) => {
                             <IoMdNotificationsOutline className={styles.menu_ico}/>
                         </NavLink>
 
-                        <NavLink to="/settings"
+                        <NavLink to="/settings" button-name-ru="Настройки"
                         className={({ isActive }) =>
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
@@ -86,7 +86,7 @@ export const TopNavigationBar = (props) => {
                             <IoSettingsOutline className={styles.menu_ico}/>
                         </NavLink>
 
-                        <NavLink to="/profile"
+                        <NavLink to="/profile" button-name-ru="Профиль"
                         className={({ isActive }) =>
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }

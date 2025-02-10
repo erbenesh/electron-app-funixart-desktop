@@ -3,7 +3,7 @@
     --card-width-var: 100%;
     --card-max-height: 4rem;
     --card-border-radius: 1rem;
-
+    text-decoration: none;
     position: relative;
     display: flex;
     flex-direction: row;

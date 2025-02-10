@@ -1,7 +1,7 @@
 .card {
 
-    --card-width-var: calc(54.5rem - 2px);
-    --card-height-var: calc(24rem - 2px);
+    --card-width-var: calc(54.5rem);
+    --card-height-var: calc(24rem);
 
     opacity: 0;
     transition: .3s;
@@ -16,7 +16,7 @@
 
     border-radius: 1rem;
     background-color: rgba(36, 36, 36);
-    border: 1px solid rgb(53, 53, 53);
+    /* border: 1px solid rgb(53, 53, 53); */
     
     text-decoration: none;
 }

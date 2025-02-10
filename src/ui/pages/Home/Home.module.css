@@ -75,10 +75,13 @@
     position: relative;
     display: flex;
     justify-content: center;
+    justify-items: center;
     align-items: center;
     padding-left: 5rem;
     padding-right: 5rem;
     height: 32rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     z-index: 11;
     margin-bottom: 0.5rem;
 }

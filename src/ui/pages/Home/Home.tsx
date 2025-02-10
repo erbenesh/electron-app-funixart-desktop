@@ -82,11 +82,9 @@ export const Home = () => {
 
                     <HomeCarouselx2 array={discoverInteresting.data?.data.content} sectionTitle={"Интересное"} sectionTitleAlt={"interestingReleases"}/>
 
-                    <HomeCarouselx5 array={lastUpdatedReleases.data?.data.content} sectionTitle={"Последнее"} sectionTitleAlt={"lastReleases"}/>
+                    <HomeCarouselx5 array={lastUpdatedReleases.data?.data.content} sectionTitle={"Последнее"} sectionTitleAlt={"lastReleases"} link={"/last"}/>
 
-                    <HomeCarouselx5 array={recommendations.data?.data.content} sectionTitle={"Рекомендации"} sectionTitleAlt={"recommendations"}/>
-
-                    <HomeCarouselx5 array={top.data?.data.content} sectionTitle={"Популярное"} sectionTitleAlt={"topReleases"}/>
+                    <HomeCarouselx5 array={top.data?.data.content} sectionTitle={"Популярное"} sectionTitleAlt={"topReleases"} link={"/popular"}/>
 
                     <div className={styles.random_header_wrap}>
                         <div className={styles.random_header}>
@@ -113,9 +111,11 @@ export const Home = () => {
 
                     </div>
 
-                    <HomeCarouselx5 array={discussing.data?.data.content} sectionTitle={"Обсуждаемое"} sectionTitleAlt={"discussingReleases"}/>
+                    <HomeCarouselx5 array={recommendations.data?.data.content} sectionTitle={"Рекомендации"} sectionTitleAlt={"recommendations"} link={"/recommendations/all"}/>
 
-                    <HomeCarouselx5 array={watching.data?.data.content} sectionTitle={"Смотрят"} sectionTitleAlt={"watchingReleases"}/>
+                    {/* <HomeCarouselx5 array={discussing.data?.data.content} sectionTitle={"Обсуждаемое"} sectionTitleAlt={"discussingReleases"} link={"/discussing/all"}/> */}
+
+                    <HomeCarouselx5 array={watching.data?.data.content} sectionTitle={"Смотрят"} sectionTitleAlt={"watchingReleases"} link={"/watching/all"}/>
 
                 </div>
             </div>

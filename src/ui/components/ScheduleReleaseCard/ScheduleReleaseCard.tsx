@@ -7,7 +7,7 @@ export const ScheduleReleaseCard = (props) => {
     // console.log(props.release);
 
     return (
-        <div id="vert_card" className={styles.card} 
+        <Link to={`/release/${props.release.id}`} id="vert_card" className={styles.card} 
         //style={{backgroundImage: `linear-gradient(rgba(36, 36, 36, 0.5) 0%,  rgba(36, 36, 36, 1)100%), url(${props.release.image})`}}
         >
 
@@ -30,21 +30,7 @@ export const ScheduleReleaseCard = (props) => {
                 </div>
                 
             </div>
-
-            <div className={styles.description_and_action_buttons}>
                 
-                <div className={styles.card_action_buttons}>
-                    <button className={styles.card_action_button} type='button'>
-                        <Link to={`/release/${props.release.id}`} className={styles.link}>
-                                Подробнее...
-                        </Link>
-                    </button>
-                    <button className={props.release.is_favorite ? styles.card_action_button_active :  styles.card_action_button_mini} type='button'>
-                        {props.release.is_favorite ? <IoBookmark className={styles.card_action_button_ico} /> : <IoBookmarkOutline className={styles.card_action_button_ico}/>}
-                    </button>
-                </div>
-            </div>
-                
-        </div>
+        </Link>
     )
 }

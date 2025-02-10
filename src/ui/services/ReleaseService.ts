@@ -74,6 +74,10 @@ class ReleaseService {
           statusId = StatusList[status];
         }
 
+        if (status == "ova") {
+            categoryId = 3;
+        }
+
         const data = {
             age_ratings: [],
             category_id: categoryId,

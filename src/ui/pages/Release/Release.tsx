@@ -23,7 +23,6 @@ import { useUserStore } from '../../services/api/auth';
 import { ReleaseCard } from '../../components/ReleaseCard/ReleaseCard';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
 import { useParams } from 'react-router-dom';
-import { Toolbar } from '../../components/Toolbar/Toolbar';
 import { ReleaseVotesCounter } from '../../components/ReleaseVotesCounter/ReleaseVotesCounter';
 import { FakeHeader } from '../../components/FakeHeader/FakeHeader';
 import { lists, profile_lists, releaseService, weekDay } from '../../services/ReleaseService';
@@ -183,7 +182,7 @@ export const Release = () => {
              
 
                 {
-                    release.status && release.status.name != "Анонс" && !release.is_view_blocked &&
+                    release.status && release.status.name != "Анонс" && !release.is_view_blocked ?
                     (
                         <div className={styles.release_header}>
 
@@ -204,14 +203,13 @@ export const Release = () => {
                             </div>
 
                         </div>
-                    )
+                    ) : <div className={styles.off_view}>Просмотр только на официальном ресурсе</div>
+                    
                 }
 
                 <div className={styles.release_page_body}>
                     <div className={styles.release_block}>
                         <div className={styles.release_info}>
-
-                        {release.is_view_blocked ? <div className={styles.off_view}>Просмотр только на официальном ресурсе</div> : ''}
 
                             <div className={styles.release_info_header}>
                                 <div className={styles.header_title_image_border}>
@@ -368,7 +366,7 @@ export const Release = () => {
                                     {release?.screenshot_images?.map((screen: string) => (
                                         <div key={screen} className={styles.screens_card} style={{cursor: "default"}}>
                                             <div className={styles.screens_image_border}>
-                                                <img className={interestCardStyles.release_image} src={screen} alt="screens" />
+                                                <img className={interestCardStyles.release_image} src={screen} alt="" />
                                             </div>
                                         </div>
                                         )
@@ -393,6 +391,42 @@ export const Release = () => {
                         <div className={styles.screens_wrap}>
 
                             <h2 className={styles.section_title}>Трейлеры</h2>
+
+                            <div className="carousel">
+                                <div id='screens_inner' className="carousel-inner">
+                                    {release?.video_banners.map(banner => (
+                                        <div key={banner.image} className={styles.screens_card}>
+                                            <div className={styles.screens_image_border}>
+                                                <img className={interestCardStyles.release_image} src={banner.image} alt="" />
+                                            </div>
+                                    
+                                        </div>
+                                        )
+                                    )}
+                                </div>
+                            
+                                <div className={styles.carousel_buttons}>
+                                    <button className={styles.carousel_prev_button} style={currentIndex <= 0 ? {opacity: 0, pointerEvents: "none"} : {}} onClick={() => goToPrevSlide()}>
+                                        <IoIosArrowBack className={styles.arrow_ico}/>
+                                    </button>
+
+                                    <button className={styles.carousel_next_button} style={currentIndex >= (Math.ceil(release.video_banners.length/3)*2) ? {opacity: 0, pointerEvents: "none"} : {}} onClick={() => goToNextSlide()}>
+                                        <IoIosArrowForward className={styles.arrow_ico}/>
+                                    </button>
+
+                                </div>
+
+                            </div>
+                          
+    
+
+                                    {/* // "name": "Трейлеры",
+                                    // "image": "http://img.youtube.com/vi/ol3VEokpIi4/hqdefault.jpg",
+                                    // "value": "1",
+                                    // "action_id": 0,
+                                    // "is_new": false */}
+                
+                        
 
                         </div>
 

@@ -81,7 +81,7 @@
 }
 
 .toptools_search_input::placeholder {
-    font-weight: 600;
+    font-weight: 400;
     color: grey;
 }
 
@@ -137,6 +137,20 @@ input[type="search"]::-webkit-search-results-decoration {
 .toptools_search_button:hover,
 .toptools__button:hover {
     background-color: rgb(189, 78, 44);
+}
+
+.toptools__active_button:hover::before,
+.toptools__button:hover::before {
+    position: absolute;
+    top: 4rem;
+    content: attr(button-name-ru) '';
+    border-radius: 1rem;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: rgb(36, 36, 36, 0.8);
+    color: lightgray;
+    line-height: 1.1rem;
 }
 
 .search_results_wrap {

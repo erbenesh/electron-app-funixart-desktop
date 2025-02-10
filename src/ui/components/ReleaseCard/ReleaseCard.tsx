@@ -25,7 +25,8 @@ export const ReleaseCard = (props) => {
 
     return (
         <div id="vert_card" className={styles.vert_card} 
-        style={{backgroundImage: `linear-gradient(rgba(36, 36, 36, 0.9), rgba(36, 36, 36, 1)), url(${props.release.image})`}}>
+        // style={{backgroundImage: `linear-gradient(rgba(36, 36, 36, 0.9), rgba(36, 36, 36, 1)), url(${props.release.image})`}}
+        >
 
             <div className={styles.release_image_border}>
                 <img className={styles.release_image} src={props.release.image} alt={props.release.title_ru + " image"} loading='lazy'/>
