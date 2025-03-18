@@ -1,7 +1,8 @@
 .collection_card {
     position: relative;
     z-index: 10;
-    width: 21.5rem;
+    min-width: 27rem;
+    width: 27rem;
     cursor: pointer;
     transition: .2s;
     border-radius: 1rem;
@@ -11,12 +12,11 @@
     animation: show .3s;
     animation-fill-mode: forwards;
     animation-delay: .3s;
-
     text-decoration: none;
 }
 
 .collection_card:hover .release_image_border {
-    border: 2px solid rgb(189, 78, 44);
+    border: 1px solid rgb(189, 78, 44);
 }
 
 /* .collection_card:hover .release_info_border {
@@ -46,7 +46,7 @@
     box-shadow: 0 0 2rem 2rem rgba(36, 36, 36, 0.8);
 }
 
-.release_image_border_bg {
+/* .release_image_border_bg {
     position: relative;
     display: flex;
     justify-content: center;
@@ -56,25 +56,39 @@
     height: 0.5rem;
     overflow: hidden;
     border-radius: 1rem 1rem 0 0;
-    background-color: rgb(54, 54, 54);
+    background-color: rgb(27, 27, 27);
     z-index: 90;
-    border-top: 2px solid rgb(68, 68, 68);
-}
+    border-top: 1px solid rgb(68, 68, 68);
+} */
 
 .release_image_border {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 20.5rem;
-    height: 12rem;
+    width: 27rem;
+    height: 16.5rem;
     overflow: hidden;
     border-radius: 1rem;
-    border: 2px solid rgb(68, 68, 68);
+    border: 1px solid rgb(68, 68, 68);
     z-index: 90;
-    background-color: rgb(48, 48, 48);
-    padding: 0.5rem;
+    background-color: rgb(27, 27, 27);
     transition: .3s;
+}
+
+.release_image_border::after {
+    position: absolute;
+    content: "";
+    opacity: 1;
+    width: 27rem;
+    height: 16.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 5rem rgba(0,0,0,0.9) inset;
+    transition: .3s;
+}
+
+.collection_card:hover .release_image_border::after {
+    opacity: 0;
 }
 
 .release_image {

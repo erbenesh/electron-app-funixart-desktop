@@ -286,6 +286,9 @@
 
 
 .off_view {
+    max-width: 96rem;
+    width: 100%;
+    align-self: center;
     font-weight: 500;
     padding: 1rem;
     border-radius: 1rem;

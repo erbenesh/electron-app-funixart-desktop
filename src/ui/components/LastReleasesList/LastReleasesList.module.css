@@ -27,6 +27,6 @@
     flex-wrap: wrap;
     justify-content: left;
     flex-direction: row;
-    width: 110rem;
+    width: 100rem;
     gap: 0.5rem;
 }

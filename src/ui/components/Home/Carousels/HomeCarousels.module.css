@@ -13,7 +13,7 @@
     width: 100%;
     place-self: start;
     font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     transition: .3s;
     text-decoration: none;
     z-index: 10;
@@ -28,7 +28,7 @@
     width: calc(100% - 1.5rem);
     place-self: start;
     font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     cursor: pointer;
     transition: .3s;
     text-decoration: none;
@@ -57,7 +57,7 @@
 .section_title_link_sh {
     place-self: start;
     font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     cursor: pointer;
     transition: .3s;
     z-index: 10;

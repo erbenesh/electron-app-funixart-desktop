@@ -4,22 +4,24 @@
 
     position: relative;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+
+    min-width: 19.5rem;
 
     z-index: 0;
-    width: calc(21.5rem );
-    height: 14rem;
+    width: 19.5rem;
     transition: .2s;
     background-color: rgba(36, 36, 36);
-    /* border: 1px solid rgb(53, 53, 53); */
     border-radius: 1rem;
     background-size: cover;
+    overflow: hidden;
 
     opacity: 0;
     transition: .3s;
     animation: show .3s;
     animation-fill-mode: forwards;
     animation-delay: .3s;
+    cursor: pointer;
 }
 
 .vert_card:hover {
@@ -42,17 +44,30 @@
 .release_image_border {
     position: relative;
 
-    width: calc((21.5rem)/2 - 1rem);
-    height: calc(14rem);
-    
-    place-content: center;
-    align-items: center;
+    width: 19.5rem;
+    height: 28rem;
 
     overflow: hidden;
     border-radius: 1rem;
-    /* border: 1px solid rgb(53, 53, 53); */
 
     background-color: rgb(48, 48, 48);
+}
+
+.release_image_border::after {
+    position: absolute;
+    content: "";
+    opacity: 1;
+    top: 0;
+    left: 0;
+    width: calc(19.5rem);
+    height: calc(28rem);
+    border-radius: 1rem;
+    box-shadow: 0 0 10rem rgba(0,0,0,0.9) inset;
+    transition: .3s;
+}
+
+.vert_card:hover .release_image_border::after {
+    opacity: 0;
 }
 
 .release_image {
@@ -69,7 +84,7 @@
     justify-content: center;
     width: 100%;
     bottom: 0;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
 }
 
 .bookmark {
@@ -78,19 +93,20 @@
 }
 
 .user_list_name {
-    width: calc(100% - 0.8rem);
+    width: calc(100% - 2rem);
     text-align: center;
     font-weight: 500;
-    font-size: 0.9rem;
-    padding: 0.1rem;
+    font-size: 1rem;
+    padding: 0.25rem;
     color: white;
     border-radius: 1rem;
 }
 
 .release_info {
     position: relative;
-    padding: 0.5rem;
-    width: calc((21.5rem)/2);
+    /* padding: 0.5rem; */
+
+    width: calc((19.5rem - 2rem));
     z-index: 2;
 }
 
@@ -113,7 +129,7 @@
     display: flex;
     flex-direction: row;
     gap: 0.2rem;
-    max-width: calc((21.5rem)/2);
+    max-width: calc((21.5rem));
     flex-wrap: wrap;
     margin-top: 0.6rem;
 }
@@ -140,25 +156,28 @@
 .description_and_action_buttons {
   
     opacity: 0;
+    transform: scaleY(0) translateY(-100%);
 
     position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    bottom: 0;
+    align-self: center;
     padding: 1rem;
     gap: 1rem;
-    width: calc((21.5rem) - 2rem);
-    height: calc(14rem - 2rem);
     border-radius: 1rem;
-    background: linear-gradient(rgba(36, 36, 36, 0.9) 0%, rgba(36, 36, 36, 1) 100%);
+    width: calc((19.5rem) - 2rem);
+    background: linear-gradient(rgba(36, 36, 36, 1) 0%, rgba(36, 36, 36, 0.5) 90% , rgba(36, 36, 36, 0) 100%);
     z-index: 3;
+    pointer-events: none;
+    overflow: hidden;
 
     transition: .3s;
 }
 
 .vert_card:hover .description_and_action_buttons {
     opacity: 1;
+    transform: scaleY(100%);
 }
 
 .description{
@@ -188,6 +207,8 @@
     outline: none;
     height: 100%;
     align-items: center;
+    align-self: center;
+    place-content: center;
     border-radius: 1rem;
     background-color: rgb(36, 36, 36, 0.8);
     border: 1px solid rgb(78, 78, 78);
@@ -195,6 +216,7 @@
     cursor: pointer;
     padding: 0.5rem;
     text-decoration: none;
+    pointer-events: all;
 }
 
 .card_link_action_button {
@@ -211,6 +233,7 @@
     cursor: pointer;
     padding: 0.5rem;
     text-decoration: none;
+
 }
 
 .card_action_button_active {
@@ -220,13 +243,17 @@
     outline: none;
     height: 100%;
     align-items: center;
+    align-self: center;
+    place-content: center;
     border-radius: 1rem;
-    background-color: rgb(189, 78, 44, 0.8);
-    border: 1px solid rgb(78, 78, 78);
+    background-color: rgb(36, 36, 36, 0.8);
+    border: 1px solid rgb(189, 78, 44);
     transition: .3s;
     cursor: pointer;
     padding: 0.5rem;
     text-decoration: none;
+
+    pointer-events: all;
 }
 
 .link {
@@ -239,14 +266,22 @@
 }
 
 .card_action_button:hover,
+.card_action_button_active:hover, 
 .link:hover {
-    background-color: #555555;
+    background-color: #444444;
 }
 
 .card_action_button_ico {
     user-select: none;
     width: 1.2rem;
     height: 1.2rem;
-    color: rgb(230, 230, 230);
+    color: rgb(150, 150, 150);
+}
+
+.card_action_button_ico_active {
+    user-select: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    color: rgb(189, 78, 44);
 }
   

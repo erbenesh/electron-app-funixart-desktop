@@ -14,7 +14,7 @@ export const App: React.FC = ()=> {
   const userStore = useUserStore((state) => state);
 
   const location = useLocation();
-  let params = useParams();
+  const params = useParams();
 
   const scrollPosition = useScrollPosition();
   const [ lastScrolledPos, setLastScrolledPos ] = useState(0);

@@ -25,7 +25,6 @@
 .collections_cards {
     display: flex;
     flex-wrap: wrap;
-    justify-content: left;
     flex-direction: row;
     width: 110rem;
     gap: 0.5rem;

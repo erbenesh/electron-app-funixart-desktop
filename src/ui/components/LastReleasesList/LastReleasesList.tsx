@@ -44,6 +44,7 @@ export const LastReleasesList = () => {
         </div>
         ) :
         <div className={styles.last_releases_list_page}>
+
             <div className={styles.last_releases_list_cards}>
                 
                 {

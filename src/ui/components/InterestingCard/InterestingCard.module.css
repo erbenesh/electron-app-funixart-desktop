@@ -48,6 +48,21 @@
     border-radius: 1rem;
 }
 
+.release_image_border::after {
+    position: absolute;
+    content: "";
+    opacity: 1;
+    width: var(--card-width-var);
+    height: var(--card-height-var);
+    border-radius: 1rem;
+    box-shadow: 0 0 10rem rgba(0,0,0,0.9) inset;
+    transition: .3s;
+}
+
+.card:hover .release_image_border::after {
+    opacity: 0;
+}
+
 .release_image {
     object-fit: cover;
     width: 100%;

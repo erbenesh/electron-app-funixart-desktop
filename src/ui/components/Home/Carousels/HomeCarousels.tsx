@@ -24,7 +24,7 @@ export const HomeCarouselx5 = (props) => {
 
         console.log(Math.floor(props.array.length / 5) * 5, "/", indx);
 
-        document.getElementById(`inner-${props.sectionTitleAlt}`)!.style.transform = `translateX(-${index * 22}rem)`;
+        document.getElementById(`inner-${props.sectionTitleAlt}`)!.style.transform = `translateX(-${index * 20}rem)`;
     }
     
     const goToNextSlide = () => {

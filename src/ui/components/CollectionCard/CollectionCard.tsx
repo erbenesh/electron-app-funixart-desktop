@@ -6,9 +6,9 @@ export const CollectionCard = (props) => {
     return (
         <Link to={`/collection/${props.collection.id}`} id="collection_card" className={styles.collection_card}>
 
-            <div className={styles.release_image_border_bg} style={{width:'17.5rem'}}/>
+            {/* <div className={styles.release_image_border_bg} style={{width:'17.5rem'}}/>
 
-            <div className={styles.release_image_border_bg}/>
+            <div className={styles.release_image_border_bg}/> */}
 
             <div className={styles.release_image_border}>
 
