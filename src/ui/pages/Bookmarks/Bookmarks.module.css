@@ -1,6 +1,7 @@
 .bookmarks_page_wrap {
     min-height: 100vh;
     max-width: 120rem;
+    padding-top: 5.5rem;
 }
 
 .bookmarks_page {

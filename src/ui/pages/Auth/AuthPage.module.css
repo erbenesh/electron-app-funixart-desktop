@@ -24,6 +24,9 @@
     flex-direction: column;
     justify-self: center;
     gap: 0.5rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    background: linear-gradient( rgba(36, 36, 36, 0.8) 0%, rgba(189, 78, 44, 0.4) 100%);
 }
 
 .auth_form_input_col {

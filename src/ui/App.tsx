@@ -70,7 +70,6 @@ export const App: React.FC = ()=> {
 
           <div className={styles.content}>
             <Outlet context={[isHeaderHidden]}/>
-            <div className={styles.footer} />
           </div>
 
         </div>

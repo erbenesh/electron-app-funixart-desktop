@@ -1,9 +1,9 @@
 .title {
     display: flex;
-    padding-left: 1rem;
     flex-direction: row;
-    max-width: 55rem;
-    width: 50%;
+    justify-content: center;
+    width: 100rem;
+    height: 28rem;
     color: rgb(230, 230, 230);
     text-decoration: none;
 }
@@ -41,8 +41,8 @@
 
 .image_border {
     border-radius: 1rem;
-    width: 16rem;
-    height: 24rem;
+    width: 19.5rem;
+    height: 28rem;
     overflow: hidden;
     background-color: grey;
     cursor: pointer;
@@ -60,8 +60,7 @@
     justify-content: start;
     gap: 1rem;
     padding: 1rem;
-    max-width: 60%;
-    width: 100%;
+    width: 80rem;
 }
 
 .random_release_title {
@@ -79,6 +78,6 @@
 
 .random_description {
     padding-right: 0.5rem;
-    max-height: 18rem;
+    max-height: 22rem;
     overflow-x: hidden;
 }

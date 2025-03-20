@@ -1,6 +1,8 @@
 .recommendations_page_wrap {
     min-height: 100vh;
     max-width: 120rem;
+
+    padding-top: 5.5rem;
 }
 
 .recommendations_page {
@@ -13,7 +15,7 @@
     animation-fill-mode: forwards;
     animation-delay: .3s;
     justify-self: center;
-    max-width: 110rem;
+    max-width: 100rem;
 }
 
 @keyframes show {

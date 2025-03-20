@@ -52,10 +52,7 @@ export const LastReleases = () => {
         <div className={styles.lastReleases_page_wrap}>
 
             <div className={styles.lastReleases_page}>   
-
-                <FakeHeader />
-                <FakeHeader />
-              
+            
                 <TopFilterButtons buttonsArray={lastReleasesArray} />
 
                 <Outlet />

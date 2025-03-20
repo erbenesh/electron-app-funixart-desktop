@@ -1,22 +1,31 @@
 .releases_schedule {
     position: relative;
     display: flex;
+
     flex-direction: column;
-    gap: 0.5rem;
-    width: calc(100% - 2.6rem);
-    padding: 0 1.1rem 0 1.1rem;
-    align-items: center;
+    border-radius: 1rem;
+
+    /* background-color: transparent; */
+  
+    transition: .3s;
+    z-index: 110;
+
 }
 
 .sh_day_title {
-    position: sticky;
-    place-self: center;
+ 
+    /* position: sticky; */
+    /* border-radius: 1rem; */
     font-weight: 600;
-    font-size: 1.3rem;
+    font-size: 1.125rem;
     list-style: none;
-    top: 0px;
-
     z-index: 110;
 
+    border-bottom: 0.0625rem solid grey;
+
+    padding: 1rem;
+
+    box-sizing: border-box;
+    /* background: linear-gradient(to right, rgba(36, 36, 36, 0.8) 0%, rgba(189, 78, 44, 0.4) 100%); */
     color: rgb(230, 230, 230);
 }

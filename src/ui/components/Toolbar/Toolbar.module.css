@@ -5,8 +5,8 @@
     place-self: center;
     justify-content: space-between;
     width: 100vw;
-    z-index: 300;
-    padding: 1rem;
+    z-index: 997;
+    padding: 0.5rem;
     pointer-events: none;
 }
 
@@ -26,7 +26,6 @@
     cursor: pointer;
     /* box-shadow: 0 5px 5px rgba(0,0,0,0.5); */
     pointer-events: all;
-    z-index: 301;
 }
 
 .back_button:hover {

@@ -40,11 +40,7 @@ export const Collections = () => {
         <div className={styles.сollections_page_wrap}>
 
             <div className={styles.сollections_page}>   
-
-                <FakeHeader />
-                <FakeHeader />
               
-
                 <TopFilterButtons buttonsArray={collectionsArray} />
 
                 <Outlet />

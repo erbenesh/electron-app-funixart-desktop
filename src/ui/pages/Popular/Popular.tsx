@@ -46,9 +46,6 @@ export const Popular = () => {
         <div className={styles.popular_page_wrap}>
 
             <div className={styles.popular_page}>   
-
-                <FakeHeader />
-                <FakeHeader />
               
                 <TopFilterButtons buttonsArray={popularArray} />
 

@@ -8,11 +8,8 @@ export const Recommendations = () => {
     return (
         <div className={styles.recommendations_page_wrap}>
 
-            <div className={styles.recommendations_page}>   
-
-                <FakeHeader />
-                <FakeHeader />
-
+            <div className={styles.recommendations_page}>
+                   
                 <RecommendationsList />
 
             </div>

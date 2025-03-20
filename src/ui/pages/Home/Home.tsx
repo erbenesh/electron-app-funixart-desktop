@@ -1,12 +1,14 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import styles from './Home.module.css'
 import { useUserStore } from "../../services/api/auth";
-import { RandomReleaseCard } from "../../components/Home/RandomReleaseCard/RandomReleaseCard";
+import { RandomReleaseCard } from "../../components/RandomReleaseCard/RandomReleaseCard";
 import { HomeCarouselx2, HomeCarouselx5 } from "../../components/Home/Carousels/HomeCarousels";
 import { FakeHeader } from "../../components/FakeHeader/FakeHeader";
 import { releaseService } from "../../services/ReleaseService";
 import { discoverService } from "../../services/DiscoverService";
-import { Schedule } from "../../components/Schedule/Schedule";
+import { Schedule } from "../Schedule/Schedule";
+import { RandomRelease } from "../../components/RandomRelease/RandomRelease";
+import { SchedulePreview } from "../../components/SchedulePreview/SchedulePreview";
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -15,8 +17,6 @@ function getRandomInt(max) {
 export const Home = () => {
 
     const token = useUserStore((state) => state.token);
-
-    const queryClient = useQueryClient();
 
     const randomRelease = useQuery({
         queryKey: ['get randomRelease'],
@@ -38,10 +38,10 @@ export const Home = () => {
         queryFn: () => discoverService.getDiscussing(token)
     });
 
-    const watching = useQuery({
-        queryKey: ['getWatching', token],
-        queryFn: () => discoverService.getWatching(0, token)
-    });
+    // const watching = useQuery({
+    //     queryKey: ['getWatching', token],
+    //     queryFn: () => discoverService.getWatching(0, token)
+    // });
 
     const schedule = useQuery({
         queryKey: ['getSchedule', token],
@@ -68,7 +68,9 @@ export const Home = () => {
             { 
             
                 discoverInteresting.isPending || recommendations.isPending || randomRelease.isPending || lastUpdatedReleases.isPending
-                || schedule.isPending || watching.isPending || discussing.isPending || top.isPending ?
+                || schedule.isPending ||
+                //  watching.isPending || 
+                discussing.isPending || top.isPending ?
 
             (
             <div className="loader-container_home">	
@@ -78,7 +80,7 @@ export const Home = () => {
             <div className={styles.home_page_wrap}>
                 <div className={styles.home_page}>
 
-                    <FakeHeader />
+        
 
                     <HomeCarouselx2 array={discoverInteresting.data?.data.content} sectionTitle={"Интересное"} sectionTitleAlt={"interestingReleases"}/>
 
@@ -86,36 +88,15 @@ export const Home = () => {
 
                     <HomeCarouselx5 array={top.data?.data.content} sectionTitle={"Популярное"} sectionTitleAlt={"topReleases"} link={"/popular"}/>
 
-                    <div className={styles.random_header_wrap}>
-                        <div className={styles.random_header}>
-                            <div className={styles.random_background}>
-                                <img className={styles.title_image_bg} src={randomRelease?.data?.data.release.image} alt="" />
-                            </div>
-                            <div className={styles.title_wrap}> 
+                    <RandomRelease randomRelease={randomRelease} fetchSchedule={schedule}/>
 
-                                <Schedule />
-
-                                { randomRelease.isPending || randomRelease.isRefetching ?
-                                (
-                                <div className="loader-container_home">	
-                                    <i className="loader-circle"></i>
-                                </div>
-                                ) : (
-                                        <RandomReleaseCard randomRelease={randomRelease.data?.data.release} queryClient={queryClient}/>
-                                    )
-                                }
-
-                            </div>
-
-                        </div>
-
-                    </div>
+                    <SchedulePreview schedule={schedule} sectionTitle={"Расписание"} link={"/schedule"}/>
 
                     <HomeCarouselx5 array={recommendations.data?.data.content} sectionTitle={"Рекомендации"} sectionTitleAlt={"recommendations"} link={"/recommendations/all"}/>
 
                     {/* <HomeCarouselx5 array={discussing.data?.data.content} sectionTitle={"Обсуждаемое"} sectionTitleAlt={"discussingReleases"} link={"/discussing/all"}/> */}
 
-                    <HomeCarouselx5 array={watching.data?.data.content} sectionTitle={"Смотрят"} sectionTitleAlt={"watchingReleases"} link={"/watching/all"}/>
+                    {/* <HomeCarouselx5 array={watching.data?.data.content} sectionTitle={"Смотрят"} sectionTitleAlt={"watchingReleases"} link={"/watching/all"}/> */}
 
                 </div>
             </div>

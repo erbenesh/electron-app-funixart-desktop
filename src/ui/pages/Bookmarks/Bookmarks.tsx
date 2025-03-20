@@ -57,12 +57,7 @@ export const Bookmarks = () => {
     return (
         <div className={styles.bookmarks_page_wrap}>
 
-            <div className={styles.bookmarks_page}>
-
-                <FakeHeader />
-                <FakeHeader />
-                <FakeHeader />
-             
+            <div className={styles.bookmarks_page}>          
 
                 <TopFilterButtons buttonsArray={bookmarksArray} />
 

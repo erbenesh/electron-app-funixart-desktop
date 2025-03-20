@@ -1,5 +1,6 @@
 import { NavLink, useOutletContext } from 'react-router-dom';
 import styles from './TopFilterButtons.module.css'
+import { FilterButton } from '../FilterButton/FilterButton';
 
 export const TopFilterButtons = (props) => {
 
@@ -7,21 +8,13 @@ export const TopFilterButtons = (props) => {
     const [ isHeaderHidden ]: any = useOutletContext();
 
     return(
-        <div className={styles.bookmarks_nav_buttons_fixed} style={isHeaderHidden ? {paddingTop: 0.3+'rem'} : {}}>
-            { props.buttonsArray.map(button => 
-                <NavLink to={button.link} key={button.id} 
-                className={
-                    ({ isActive }) =>
-                    isActive ? 
-                    styles.bookmarks_button_title_active : 
-                    styles.bookmarks_button_title
-                } 
-                >
-
-                    <p>{button.ru_name}</p>
-
-                </NavLink>
-            )}
+        <div className={styles.bookmarks_nav_buttons_wrap}>
+            <div className={styles.bookmarks_nav_buttons_fixed} style={isHeaderHidden ? {transform: "translateY(-5rem)", paddingTop: "2rem"} : {}}>
+                { props.buttonsArray.map(button => 
+                    <FilterButton key={button.id} button={button}/>
+                )}
+            </div>
         </div>
+        
     )
 }

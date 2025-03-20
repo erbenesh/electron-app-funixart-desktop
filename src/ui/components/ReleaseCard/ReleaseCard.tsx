@@ -8,11 +8,11 @@ import { useUserStore } from '../../services/api/auth';
 
 const profile_lists = {
     // 0: "Не смотрю",
-    1: { name: "Смотрю", bg_color: "rgb(26, 212, 85, 0.8)" },
-    2: { name: "В планах", bg_color: "rgb(140, 119, 197, 0.8)" },
-    3: { name: "Просмотрено", bg_color: "rgb(91, 93, 207, 0.8)" },
-    4: { name: "Отложено", bg_color: "rgb(233, 196, 47, 0.8)" },
-    5: { name: "Брошено", bg_color: "rgb(231, 115, 80, 0.8)" },
+    1: { name: "Смотрю", bg_color: "rgba(26, 212, 85, 0.8)" },
+    2: { name: "В планах", bg_color: "rgba(140, 119, 197, 0.8)" },
+    3: { name: "Просмотрено", bg_color: "rgba(91, 93, 207, 0.8)" },
+    4: { name: "Отложено", bg_color: "rgba(233, 196, 47, 0.8)" },
+    5: { name: "Брошено", bg_color: "rgba(231, 115, 80, 0.8)" },
 };
 
 const yearSeason = ["_", "Зима", "Весна", "Лето", "Осень"];

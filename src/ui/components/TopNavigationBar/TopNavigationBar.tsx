@@ -1,8 +1,6 @@
-import { GoHome, GoSearch } from "react-icons/go";
-import { IoBookmarkOutline, IoSettingsOutline } from "react-icons/io5";
+import { GoSearch } from "react-icons/go";
+import { IoSettingsOutline } from "react-icons/io5";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { BsWindow } from "react-icons/bs";
-import { BsCollectionPlay } from "react-icons/bs";
 import styles from './TopNavigationBar.module.css'
 import { NavLink, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -37,7 +35,8 @@ export const TopNavigationBar = (props) => {
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
                         >
-                            <GoHome className={styles.menu_ico}/>
+                            {/* <GoHome className={styles.menu_ico}/> */}
+                            Главная
                         </NavLink>
 
                         <NavLink to="/bookmarks" button-name-ru="Закладки"
@@ -45,7 +44,8 @@ export const TopNavigationBar = (props) => {
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
                         >
-                            <IoBookmarkOutline className={styles.menu_ico}/>
+                            {/* <IoBookmarkOutline className={styles.menu_ico}/> */}
+                            Закладки
                         </NavLink>
 
                         <NavLink to="/collections" button-name-ru="Коллекции"
@@ -53,7 +53,8 @@ export const TopNavigationBar = (props) => {
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
                         >
-                            <BsCollectionPlay className={styles.menu_ico}/>
+                            {/* <BsCollectionPlay className={styles.menu_ico}/> */}
+                            Коллекции
                         </NavLink>
 
                         <NavLink to="/feed" button-name-ru="Лента"
@@ -61,30 +62,18 @@ export const TopNavigationBar = (props) => {
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
                         >
-                            <BsWindow className={styles.menu_ico}/>
+                            {/* <BsWindow className={styles.menu_ico}/> */}
+                            Лента
                         </NavLink>
 
-                        <button onClick={() => {}} className={styles.toptools_search_button}>
+                        {/* <button onClick={() => {}} className={styles.toptools_search_button}>
                                 <GoSearch className={styles.menu_ico}/>
-                        </button>
+                        </button> */}
 
-                        <input onChange={el => setSearchInputValue(el.currentTarget.value)} value={searchInputValue} type="search" placeholder='Поиск...' className={styles.toptools_search_input}/>
-
-                        <NavLink to="/notifications" button-name-ru="Уведомления"
-                        className={({ isActive }) =>
-                                    isActive ? styles.toptools__active_button : styles.toptools__button
-                                }
-                        >
-                            <IoMdNotificationsOutline className={styles.menu_ico}/>
-                        </NavLink>
-
-                        <NavLink to="/settings" button-name-ru="Настройки"
-                        className={({ isActive }) =>
-                                    isActive ? styles.toptools__active_button : styles.toptools__button
-                                }
-                        >
-                            <IoSettingsOutline className={styles.menu_ico}/>
-                        </NavLink>
+                        <div className={styles.serach_input_wrapper}>
+                            <input onChange={el => setSearchInputValue(el.currentTarget.value)} value={searchInputValue} type="search" placeholder='Поиск аниме' className={styles.toptools_search_input}/>
+                            <GoSearch className={styles.menu_ico}/>
+                        </div>
 
                         <NavLink to="/profile" button-name-ru="Профиль"
                         className={({ isActive }) =>
@@ -92,6 +81,23 @@ export const TopNavigationBar = (props) => {
                                 }
                         >
                             <img src={props.avatar} alt="" className={styles.nav_avatar}/>
+                        
+                            <div className={styles.profile_btn_context_menu}>
+                                <NavLink to="/settings" button-name-ru="Настройки"
+                                className={({ isActive }) =>
+                                            isActive ? styles.toptools__active_button : styles.toptools__button
+                                        }
+                                >
+                                    <IoSettingsOutline className={styles.menu_ico}/>
+                                </NavLink>
+                                <NavLink to="/notifications" button-name-ru="Уведомления"
+                                className={({ isActive }) =>
+                                            isActive ? styles.toptools__active_button : styles.toptools__button
+                                        }
+                                >
+                                    <IoMdNotificationsOutline className={styles.menu_ico}/>
+                                </NavLink>
+                            </div>
                         </NavLink>
 
                     </div>

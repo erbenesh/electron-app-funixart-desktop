@@ -20,6 +20,7 @@ import { PopularList } from './components/PopularList/PopularList'
 import { Popular } from './pages/Popular/Popular'
 import { Watching } from './pages/Watching/Watching'
 import { Discussing } from './pages/Discussing/Discussing'
+import { Schedule } from './pages/Schedule/Schedule'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -91,6 +92,8 @@ createRoot(document.getElementById('root')!).render(
             <Route path='/recommendations/all' element={<Recommendations />} />
 
             <Route path='/discussing/all' element={<Discussing />} />
+
+            <Route path='/schedule' element={<Schedule />} />
 
             <Route path='/watching/all' element={<Watching />} />
 

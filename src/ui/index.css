@@ -38,6 +38,10 @@ body {
   overflow-x: hidden;
 }
 
+.wrapper {
+  padding-bottom: 5.5rem;
+}
+
 .loader-container {
   position: fixed;
 	top: 0;

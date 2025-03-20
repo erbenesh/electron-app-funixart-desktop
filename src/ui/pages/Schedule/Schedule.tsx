@@ -1,9 +1,9 @@
 
 import styles from './Schedule.module.css'
-import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
-import { useUserStore } from "../../services/api/auth";
 import { ScheduleDay } from '../../components/ScheduleDay/ScheduleDay';
+import { useQuery } from '@tanstack/react-query';
+import { useUserStore } from '../../services/api/auth';
 import { discoverService } from '../../services/DiscoverService';
 
 export const Schedule = () => {
@@ -26,13 +26,14 @@ export const Schedule = () => {
 
     useEffect(() => {
         async function _loadInitialReleases() {
-            const mondayData = fetchSchedule.data?.data.monday;
-            const tuesdayData = fetchSchedule.data?.data.tuesday;
-            const wednesdayData = fetchSchedule.data?.data.wednesday;
-            const thursdayData = fetchSchedule.data?.data.thursday;
-            const fridayData = fetchSchedule.data?.data.friday;
-            const saturdayData = fetchSchedule.data?.data.saturday;
-            const sundayData = fetchSchedule.data?.data.sunday;
+            const data = fetchSchedule.data?.data;
+            const mondayData = data.monday;
+            const tuesdayData = data.tuesday;
+            const wednesdayData = data.wednesday;
+            const thursdayData = data.thursday;
+            const fridayData = data.friday;
+            const saturdayData = data.saturday;
+            const sundayData = data.sunday;
 
             setMonday(mondayData);
             setTuesday(tuesdayData);
@@ -61,15 +62,15 @@ export const Schedule = () => {
             </div>
             ) : (
             <div className={styles.section}>
-                {/* <h2 className={styles.section_title}>Расписание</h2> */}
+                <h2 className={styles.section_title}>Расписание</h2>
 
-                <ScheduleDay array={monday} day_title={"Понедельник"}/>
-                <ScheduleDay array={thursday} day_title={"Вторник"}/>
-                <ScheduleDay array={wednesday} day_title={"Среда"}/>
-                <ScheduleDay array={tuesday} day_title={"Четверг"}/>
-                <ScheduleDay array={friday} day_title={"Пятница"}/>
-                <ScheduleDay array={sunday} day_title={"Суббота"}/>
-                <ScheduleDay array={saturday} day_title={"Воскресенье"}/>
+                <ScheduleDay key={"monday"} array={monday} day_title={"Понедельник"}/>
+                <ScheduleDay key={"thursday"} array={thursday} day_title={"Вторник"}/>
+                <ScheduleDay key={"wednesday"} array={wednesday} day_title={"Среда"}/>
+                <ScheduleDay key={"tuesday"} array={tuesday} day_title={"Четверг"}/>
+                <ScheduleDay key={"friday"} array={friday} day_title={"Пятница"}/>
+                <ScheduleDay key={"sunday"} array={sunday} day_title={"Суббота"}/>
+                <ScheduleDay key={"saturday"} array={saturday} day_title={"Воскресенье"}/>
             </div>
             )
             }   

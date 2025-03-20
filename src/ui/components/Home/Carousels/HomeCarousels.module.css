@@ -5,6 +5,7 @@
     width: 100%;
     gap: 0.5rem;
     place-self: center;
+    
 
 }
 
@@ -18,6 +19,7 @@
     text-decoration: none;
     z-index: 10;
     color: aliceblue;
+    
 }
 
 .section_title_link {
@@ -34,6 +36,7 @@
     text-decoration: none;
     z-index: 10;
     color: aliceblue;
+    background: transparent;
 }
 
 .title_row_wrap {
@@ -52,6 +55,7 @@
     transition: .3s;
     z-index: 10;
     text-decoration: none;
+    background: transparent;
 }
 
 .section_title_link_sh {
@@ -62,6 +66,7 @@
     transition: .3s;
     z-index: 10;
     color: aliceblue;
+    background: transparent;
 }
 
 .sh_day_title {
@@ -78,7 +83,7 @@
 
 .shcedule_title:hover,
 .section_title_link:hover {
-    background-color: rgba(180, 180, 180, 0.1);
+    background: linear-gradient(to right, rgba(36, 36, 36, 0.8) 0%, rgba(189, 78, 44, 0.4) 50%);
 }
 
 .title_arrow_ico {
