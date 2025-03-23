@@ -1,7 +1,8 @@
 import axios from "axios";
 import { 
     BASE_URL, DISCOVER_INTERESTING, USER_AGENT, DISCOVER_RECOMMENDATIONS, 
-    SCHEDULE, DISCOVER_DISCUSSING, DISCOVER_WATCHING 
+    SCHEDULE, DISCOVER_DISCUSSING, DISCOVER_WATCHING, 
+    DISCOVER_COMMENTS
 } from "./api/endpoints";
 
 export const HEADERS = {
@@ -10,6 +11,15 @@ export const HEADERS = {
 };
 
 class DiscoverService {
+
+    async getComments(token: string) {
+
+        const url = `${BASE_URL}${DISCOVER_COMMENTS}?token=${token}`
+
+        const commentsData = await axios.post(url);
+
+        return commentsData;
+    }
 
     async getWatching(page: number | string = 0, token: string) {
 

@@ -28,6 +28,7 @@ import { FakeHeader } from '../../components/FakeHeader/FakeHeader';
 import { lists, profile_lists, releaseService, weekDay } from '../../services/ReleaseService';
 import { commentService } from '../../services/CommentService';
 import { bookmarksService } from '../../services/BookmarksService';
+import { ScheduleReleaseCard } from '../../components/ScheduleReleaseCard/ScheduleReleaseCard';
 
 export const Release = () => {
 
@@ -453,14 +454,14 @@ export const Release = () => {
                         { 
                         release.related_releases?.length > 0 &&
                             <div className={styles.recommends_and_related_column}>
-                                {release?.related_releases.map(el => el.id !== release.id && <ReleaseCard key={el.id} release={el} />)}
+                                {release?.related_releases.map(el => el.id !== release.id && <ScheduleReleaseCard key={el.id} release={el} />)}
                             </div>
                         }
                         <h2 className={styles.section_title}>Рекомендуем также</h2>
                         { 
                         release.recommended_releases?.length > 0 ? 
                             <div className={styles.recommends_and_related_column}>
-                                {release?.recommended_releases.map(el => el.id && <ReleaseCard key={el.id} release={el} />)}
+                                {release?.recommended_releases.map(el => el.id && <ScheduleReleaseCard key={el.id} release={el} />)}
                             </div> : 'Упс, таких нет'    
                         }                                      
                     </div>

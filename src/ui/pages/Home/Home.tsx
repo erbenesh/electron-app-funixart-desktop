@@ -9,6 +9,7 @@ import { discoverService } from "../../services/DiscoverService";
 import { Schedule } from "../Schedule/Schedule";
 import { RandomRelease } from "../../components/RandomRelease/RandomRelease";
 import { SchedulePreview } from "../../components/SchedulePreview/SchedulePreview";
+import { PopularComments } from "../../components/PopularComments/PopularComments";
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -57,7 +58,11 @@ export const Home = () => {
         queryKey: ['getDiscoverInteresting'],
         queryFn: () => discoverService.getDiscoverInteresting()
     });
-    
+
+    const popularComments = useQuery({
+        queryKey: ['getPopularComments', token],
+        queryFn: () => discoverService.getComments(token)
+    });
 
     if (discoverInteresting.status === "error") {
         return ('An error has occurred: ' + discoverInteresting.error.message);
@@ -68,7 +73,7 @@ export const Home = () => {
             { 
             
                 discoverInteresting.isPending || recommendations.isPending || randomRelease.isPending || lastUpdatedReleases.isPending
-                || schedule.isPending ||
+                || schedule.isPending || popularComments.isPending ||
                 //  watching.isPending || 
                 discussing.isPending || top.isPending ?
 
@@ -93,6 +98,8 @@ export const Home = () => {
                     <SchedulePreview schedule={schedule} sectionTitle={"Расписание"} link={"/schedule"}/>
 
                     <HomeCarouselx5 array={recommendations.data?.data.content} sectionTitle={"Рекомендации"} sectionTitleAlt={"recommendations"} link={"/recommendations/all"}/>
+
+                    <PopularComments popularComments={popularComments}/>
 
                     {/* <HomeCarouselx5 array={discussing.data?.data.content} sectionTitle={"Обсуждаемое"} sectionTitleAlt={"discussingReleases"} link={"/discussing/all"}/> */}
 

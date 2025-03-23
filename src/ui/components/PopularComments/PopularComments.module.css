@@ -1,0 +1,22 @@
+.schedule_preview_wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    justify-items: center;
+    align-items: center;
+    width: 110rem;
+
+    align-self: center;
+
+
+    /* background: linear-gradient(to right, rgba(36, 36, 36, 0.8) 0%, rgba(189, 78, 44, 0.8) 100%); */
+}
+
+.schedule {
+    column-count: 2;
+    column-gap: 0.5rem;
+    box-sizing: border-box;
+    column-fill: balance;
+    padding: 1rem;
+}

@@ -1,10 +1,10 @@
 import axios from "axios";
-import { BASE_URL, FEED_NEWS } from "./api/endpoints";
+import { BASE_URL, FEED_MY } from "./api/endpoints";
 
 class FeedService {
 
     async getFeedNews(token: string, page: number | string = 0){
-        const url = `${BASE_URL}${FEED_NEWS}${page}?token=${token}`
+        const url = `${BASE_URL}${FEED_MY}${page}?token=${token}`
 
         const data = {
             DATE_DAY: 2,

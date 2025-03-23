@@ -6,11 +6,13 @@ import { Link } from 'react-router-dom';
 
 const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
+const today = new Date().getDay();
+
 export const SchedulePreview = (props) => {
 
     const [ schedulePreview, setSchedulePreview ] = useState(null);
 
-    const [ currentDay, setCurrentDay ] = useState(new Date().getDay());
+    const [ currentDay, setCurrentDay ] = useState(today);
 
     useEffect(() => {
         async function _loadInitialReleases() {
@@ -35,11 +37,27 @@ export const SchedulePreview = (props) => {
         <div className={styles.schedule_preview_wrap}>
 
             <div className={styles.schedule}>
-            <Link to={`${props.link}`} className={styles.section_title_link}>{props.sectionTitle} <IoIosArrowForward className={styles.title_arrow_ico}/></Link>
+                
+                <Link to={`${props.link}`} className={styles.section_title_link}>{props.sectionTitle} <IoIosArrowForward className={styles.title_arrow_ico}/></Link>
+
                 <div className={styles.day_filters}>
-                    <button className={styles.bookmarks_button_title} type="button" onClick={() => setCurrentDay(new Date().getDay() - 1)}>Вчера</button>
-                    <button className={styles.bookmarks_button_title} type="button" onClick={() => setCurrentDay(new Date().getDay())}>Сегодня</button>
-                    <button className={styles.bookmarks_button_title} type="button" onClick={() => setCurrentDay(new Date().getDay() + 1)}>Завтра</button>
+                    <button className={ 
+                        today - 1 < 0 ? 
+                        (currentDay > today ? styles.bookmarks_button_title_active : styles.bookmarks_button_title) :
+                        (currentDay < today ? styles.bookmarks_button_title_active : styles.bookmarks_button_title)} 
+                        type="button" 
+                        onClick={() => setCurrentDay(today - 1 < 0 ? 6 : today - 1)}>Вчера</button>
+
+                    <button className={ currentDay === today ? styles.bookmarks_button_title_active : styles.bookmarks_button_title } type="button" 
+                        onClick={() => setCurrentDay(today)}>Сегодня</button>
+
+                    <button className={ 
+                        today + 1 > 6 ? 
+                        (currentDay < today ? styles.bookmarks_button_title_active : styles.bookmarks_button_title) : 
+                        (currentDay > today ? styles.bookmarks_button_title_active : styles.bookmarks_button_title)} 
+                        type="button" 
+                        onClick={() => setCurrentDay(today + 1 > 6 ? 0 : today + 1)}>Завтра</button>
+
                 </div>
 
                 { props.schedule.isPending || !schedulePreview ?

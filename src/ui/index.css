@@ -97,3 +97,141 @@ body {
   width: 300%;
   transition: transform 0.5s;
 }
+
+
+/* Release card bottom */
+
+
+.glowing-elements {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.glow-1,
+.glow-2,
+.glow-3 {
+  position: absolute;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 72, 0, 0.3) 0%,
+    rgba(0, 255, 170, 0) 70%
+  );
+  filter: blur(1rem);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.glow-1 {
+  top: -1rem;
+  left: -1rem;
+}
+.glow-2 {
+  top: 50%;
+  right: -2rem;
+  transform: translateY(-50%);
+}
+.glow-3 {
+  bottom: -1rem;
+  left: 30%;
+}
+
+.card-particles span {
+  position: absolute;
+  width: 0.25rem;
+  height: 0.25rem;
+  background: rgb(255, 72, 0);
+  border-radius: 50%;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  animation: particleFloat 2s infinite;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(var(--x, 0) * 2rem), calc(var(--y, 0) * 2rem));
+    opacity: 0;
+  }
+}
+
+/* Particle positions */
+.card-particles span:nth-child(1) {
+  --x: 1;
+  --y: -1;
+  top: 40%;
+  left: 20%;
+}
+.card-particles span:nth-child(2) {
+  --x: -1;
+  --y: -1;
+  top: 60%;
+  right: 20%;
+}
+.card-particles span:nth-child(3) {
+  --x: 0.5;
+  --y: 1;
+  top: 20%;
+  left: 40%;
+}
+.card-particles span:nth-child(4) {
+  --x: -0.5;
+  --y: 1;
+  top: 80%;
+  right: 40%;
+}
+.card-particles span:nth-child(5) {
+  --x: 1;
+  --y: 0.5;
+  top: 30%;
+  left: 60%;
+}
+.card-particles span:nth-child(6) {
+  --x: -1;
+  --y: 0.5;
+  top: 70%;
+  right: 60%;
+}
+
+
+
+/* tec */
+
+
+/* .carousel {
+  position: absolute;
+  left: 0;
+
+  animation: carousel 10s linear var(--carousel_direction, normal) infinite;
+}
+
+.carousel[data-direction="right"] {
+  --carousel_direction: reverse;
+}
+.carousel[data-position="top"] {
+  top: 0.75rem;
+}
+.carousel[data-position="bottom"] {
+  bottom: 0.75rem;
+}
+
+.carousel .carousel__text {
+  font-size: 0.75rem;
+  color: black;
+  text-wrap: nowrap;
+}
+
+@keyframes carousel {
+  to {
+    transform: translate(-50%);
+  }
+} */

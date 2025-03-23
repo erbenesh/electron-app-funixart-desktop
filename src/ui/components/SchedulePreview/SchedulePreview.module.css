@@ -38,8 +38,8 @@
     flex-direction: row;
     gap: 0.5rem;
 
-    border-bottom: 0.0625rem solid grey;
-    
+    /* border-bottom: 0.0625rem solid grey;
+     */
     padding: 0.5rem;
 
 }
@@ -51,14 +51,16 @@
     width: 6rem;
     height: 2rem;
     overflow: hidden;
-    border-radius: 1rem;
+    /* border-radius: 1rem; */
     border: none;
-    background-color: rgba(72, 72, 72, 0.8);
+    /* background-color: rgba(72, 72, 72, 0.8); */
+    background-color: transparent;
     font-weight: 600;
     font-size: 0.8rem;
     color: rgb(230, 230, 230);
     transition: .2s;
     text-decoration: none;
+    border-bottom: 0.0625rem solid transparent;
 }
 
 
@@ -70,12 +72,12 @@
     width: 6rem;
     height: 2rem;
     overflow: hidden;
-    border-radius: 1rem;
+    /* border-radius: 1rem; */
     border: none;
-    background-color: rgb(189, 78, 44);
+    background-color: transparent;
     font-weight: 600;
     font-size: 0.8rem;
-    color: rgb(230, 230, 230);
+    color: rgb(189, 78, 44);
     transition: .2s;
     text-decoration: none;
 
@@ -83,9 +85,10 @@
 
 .bookmarks_button_title_active:hover,
 .bookmarks_button_title:hover {
-    background-color: rgb(189, 78, 44);
+    color: rgb(189, 78, 44);
     z-index: 999;
     cursor: pointer;
+    border-bottom: 0.0625rem solid rgb(189, 78, 44);
 }
 
 .section_title_link {
