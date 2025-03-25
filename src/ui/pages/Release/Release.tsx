@@ -13,14 +13,9 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { IoBookmarkOutline } from "react-icons/io5"
 import { IoBookmark } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
-
-import jFlag from '../../assets/icons/j_flag.svg'
-import cnFlag from '../../assets/icons/cn_flag.svg'
-
 import interestCardStyles from "../../components/InterestingCard/InterestingCard.module.css"
 import { Comment } from "../../components/Comment/Comment"
 import { useUserStore } from '../../services/api/auth';
-import { ReleaseCard } from '../../components/ReleaseCard/ReleaseCard';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
 import { useParams } from 'react-router-dom';
 import { ReleaseVotesCounter } from '../../components/ReleaseVotesCounter/ReleaseVotesCounter';
@@ -29,6 +24,9 @@ import { lists, profile_lists, releaseService, weekDay } from '../../services/Re
 import { commentService } from '../../services/CommentService';
 import { bookmarksService } from '../../services/BookmarksService';
 import { ScheduleReleaseCard } from '../../components/ScheduleReleaseCard/ScheduleReleaseCard';
+
+import jFlag from '../../assets/icons/j_flag.svg'
+import cnFlag from '../../assets/icons/cn_flag.svg'
 
 export const Release = () => {
 
@@ -204,7 +202,20 @@ export const Release = () => {
                             </div>
 
                         </div>
-                    ) : <div className={styles.off_view}>Просмотр только на официальном ресурсе</div>
+                    ) : 
+                    <div className={styles.off_view}>
+                        <div data-position="top" className={styles.info_carousel}>
+                  
+                            <span className={styles.info_carousel__text}>
+                                • Просмотр только на официальном ресурсе • Просмотр только на официальном ресурсе • Просмотр только на официальном ресурсе
+                                • Просмотр только на официальном ресурсе • Просмотр только на официальном ресурсе • Просмотр только на официальном ресурсе
+                                • Просмотр только на официальном ресурсе • Просмотр только на официальном ресурсе • Просмотр только на официальном ресурсе
+                                • Просмотр только на официальном
+                            </span>
+                  
+                        </div>
+                    </div>
+                    // <div className={styles.off_view}>Просмотр только на официальном ресурсе</div>
                     
                 }
 

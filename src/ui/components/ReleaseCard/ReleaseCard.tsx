@@ -48,7 +48,7 @@ export const ReleaseCard = (props) => {
     return (
         <div id="vert_card" className={styles.vert_card}>
 
-            <Link to={`/release/${props.release.id}`} className={styles.release_image_border}>
+            <Link to={`/release/${props.release.id}`} onClick={() => props.clickCallBack && props.clickCallBack("")} className={styles.release_image_border}>
                 <img className={styles.release_image} src={props.release.image} alt={props.release.title_ru + " image"} loading='lazy'/>
             </Link>
 

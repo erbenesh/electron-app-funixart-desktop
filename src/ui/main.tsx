@@ -21,6 +21,8 @@ import { Popular } from './pages/Popular/Popular'
 import { Watching } from './pages/Watching/Watching'
 import { Discussing } from './pages/Discussing/Discussing'
 import { Schedule } from './pages/Schedule/Schedule'
+import { FavoriteList } from './components/FavoriteList/FavoriteList'
+import { FeedList } from './components/FeedList/FeedList'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -71,7 +73,7 @@ createRoot(document.getElementById('root')!).render(
 
             <Route path="/bookmarks" element={<Bookmarks />}>
 
-              <Route path="/bookmarks/favorite" element={<BookmarksList />}/>
+              <Route path="/bookmarks/favorite" element={<FavoriteList />}/>
 
               <Route path="/bookmarks/watching" element={<BookmarksList />}/>
 
@@ -83,6 +85,14 @@ createRoot(document.getElementById('root')!).render(
 
               <Route path="/bookmarks/abandoned" element={<BookmarksList />}/>
             
+            </Route>
+
+            <Route path="/feed" element={<Feed />}>
+
+              <Route path="/feed/news" element={<FeedList />}/>
+
+              <Route path="/feed/latest" element={<FeedList />}/>
+
             </Route>
             
             <Route path="/profile" element={<Profile />} />

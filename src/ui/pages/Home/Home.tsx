@@ -39,10 +39,10 @@ export const Home = () => {
         queryFn: () => discoverService.getDiscussing(token)
     });
 
-    // const watching = useQuery({
-    //     queryKey: ['getWatching', token],
-    //     queryFn: () => discoverService.getWatching(0, token)
-    // });
+    const watching = useQuery({
+        queryKey: ['getWatching', token],
+        queryFn: () => discoverService.getWatching(0, token)
+    });
 
     const schedule = useQuery({
         queryKey: ['getSchedule', token],
@@ -99,11 +99,11 @@ export const Home = () => {
 
                     <HomeCarouselx5 array={recommendations.data?.data.content} sectionTitle={"Рекомендации"} sectionTitleAlt={"recommendations"} link={"/recommendations/all"}/>
 
+                    {/* <HomeCarouselx5 array={watching.data?.data.content} sectionTitle={"Смотрят"} sectionTitleAlt={"watchingReleases"} link={"/watching/all"}/> */}
+
                     <PopularComments popularComments={popularComments}/>
 
                     {/* <HomeCarouselx5 array={discussing.data?.data.content} sectionTitle={"Обсуждаемое"} sectionTitleAlt={"discussingReleases"} link={"/discussing/all"}/> */}
-
-                    {/* <HomeCarouselx5 array={watching.data?.data.content} sectionTitle={"Смотрят"} sectionTitleAlt={"watchingReleases"} link={"/watching/all"}/> */}
 
                 </div>
             </div>

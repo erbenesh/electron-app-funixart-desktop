@@ -1,4 +1,4 @@
-.comments_section_wrap {
+/* .comments_section_wrap {
     width: 100%;
 }
 
@@ -7,7 +7,7 @@
     flex-direction: column;
     gap: 1rem;
     width: 100%;
-}
+} */
 
 .comment_wrap {
     width: 100%;

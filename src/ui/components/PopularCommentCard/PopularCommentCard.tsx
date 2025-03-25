@@ -7,8 +7,10 @@ import { Link } from 'react-router-dom';
 
 export const PopularCommentCard = (props) => {
 
+    console.log(props.comment.release, props.comment.release.id ? props.comment.release.id : props.array.find(comment => props.comment.release === comment.release["@id"]).release.id);
+
     return (
-        <Link to={`/release/${props.comment.release.id ? props.comment.release.id : props.array[props.comment.release- 1].release.id}`} className={styles.comment_wrap}>
+        <Link to={`/release/${props.comment.release.id ? props.comment.release.id : props.array.find(comment => props.comment.release === comment.release["@id"]).release.id}`} className={styles.comment_wrap}>
             <div className={styles.comment}>
                 <div className={styles.avatar}>
                     <div className={styles.image_border}>
@@ -22,7 +24,7 @@ export const PopularCommentCard = (props) => {
 
                             <span className={styles.timestamp}>к релизу</span>
                             <>
-                                <p className={styles.timestamp}>{props.comment.release.title_ru ? props.comment.release.title_ru : props.array[props.comment.release- 1].release.title_ru}</p> 
+                                <p className={styles.timestamp}>{props.comment.release.title_ru ? props.comment.release.title_ru : props.array.find(comment => props.comment.release === comment.release["@id"]).release.title_ru}</p> 
                                 <IoIosArrowForward style={{color: "grey", height: "0.9rem"}}/>
                             </>
                         

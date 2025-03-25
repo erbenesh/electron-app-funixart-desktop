@@ -1,4 +1,4 @@
-import { NavLink, useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import styles from './TopFilterButtons.module.css'
 import { FilterButton } from '../FilterButton/FilterButton';
 

@@ -6,8 +6,9 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { searchService } from "../../services/SearchService";
 import { useUserStore } from "../../services/api/auth";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ReleaseCard } from "../ReleaseCard/ReleaseCard";
+import { useClickOutside } from "../../hooks/useClickOutside";
 
 export const TopNavigationBar = (props) => {
 
@@ -22,6 +23,10 @@ export const TopNavigationBar = (props) => {
         queryFn: () => searchService.searchResults(token, searchInputValue, null, location.pathname),
     });
 
+    const searchInputRef = useRef(null);
+
+    useClickOutside(searchInputRef, () => setSearchInputValue(''));
+
     return (
         <div className={styles.top_tools_wrap}>
 
@@ -34,6 +39,7 @@ export const TopNavigationBar = (props) => {
                         className={({ isActive }) =>
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
+                        onClick={() => setSearchInputValue('')}
                         >
                             {/* <GoHome className={styles.menu_ico}/> */}
                             Главная
@@ -43,6 +49,7 @@ export const TopNavigationBar = (props) => {
                         className={({ isActive }) =>
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
+                                onClick={() => setSearchInputValue('')}
                         >
                             {/* <IoBookmarkOutline className={styles.menu_ico}/> */}
                             Закладки
@@ -52,6 +59,7 @@ export const TopNavigationBar = (props) => {
                         className={({ isActive }) =>
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
+                                onClick={() => setSearchInputValue('')}
                         >
                             {/* <BsCollectionPlay className={styles.menu_ico}/> */}
                             Коллекции
@@ -61,6 +69,7 @@ export const TopNavigationBar = (props) => {
                         className={({ isActive }) =>
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
+                                onClick={() => setSearchInputValue('')}
                         >
                             {/* <BsWindow className={styles.menu_ico}/> */}
                             Лента
@@ -70,7 +79,7 @@ export const TopNavigationBar = (props) => {
                                 <GoSearch className={styles.menu_ico}/>
                         </button> */}
 
-                        <div className={styles.serach_input_wrapper}>
+                        <div className={styles.serach_input_wrapper} ref={searchInputRef}>
                             <input onChange={el => setSearchInputValue(el.currentTarget.value)} value={searchInputValue} type="search" placeholder='Поиск аниме' className={styles.toptools_search_input}/>
                             <GoSearch className={styles.menu_ico}/>
                         </div>
@@ -79,6 +88,7 @@ export const TopNavigationBar = (props) => {
                         className={({ isActive }) =>
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
+                                onClick={() => setSearchInputValue('')}
                         >
                             <img src={props.avatar} alt="" className={styles.nav_avatar}/>
                         
@@ -87,6 +97,7 @@ export const TopNavigationBar = (props) => {
                                 className={({ isActive }) =>
                                             isActive ? styles.toptools__active_button : styles.toptools__button
                                         }
+                                        onClick={() => setSearchInputValue('')}
                                 >
                                     <IoSettingsOutline className={styles.menu_ico}/>
                                 </NavLink>
@@ -94,6 +105,7 @@ export const TopNavigationBar = (props) => {
                                 className={({ isActive }) =>
                                             isActive ? styles.toptools__active_button : styles.toptools__button
                                         }
+                                        onClick={() => setSearchInputValue('')}
                                 >
                                     <IoMdNotificationsOutline className={styles.menu_ico}/>
                                 </NavLink>
@@ -106,14 +118,14 @@ export const TopNavigationBar = (props) => {
 
                 { 
                 searchInputValue !== '' && getSearchResult.data?.data &&
-                <div className={styles.search_results_wrap}>
+                <div ref={searchInputRef} className={styles.search_results_wrap}>
                     <div className={styles.search_results}>
                         
                         <h2>Результаты поиска</h2>
                         
                         <div className={styles.results}>
                             {
-                                getSearchResult.data?.data.content.map(el => el.id && <ReleaseCard key={el.id} release={el}/>)
+                                getSearchResult.data?.data.content.map(el => el.id && <ReleaseCard key={el.id} release={el} clickCallBack={setSearchInputValue}/>)
                             }
                         </div>
                         

@@ -61,6 +61,12 @@ export const ACHIEVEMENT_GET = "achievement/get/"//{id}
 export const FEED_MY = "feed/my/all/"//{page}
 export const FEED_NEWS = "feed/news/all/"//{page}
 
+//Channel API
+
+//GET
+
+export const CHANNEL_SUBS_ALL = "channel/subscription/all/"//{page}
+
 // Article API
 
 // GET
@@ -75,6 +81,7 @@ export const ARTICLE_CREATE = "article/create/"//{c_id}
 export const ARTICLE_DELETE = "article/delete/"//{a_id}
 export const ARTICLE_EDIT = "article/edit/"//{a_id}
 export const ARTICLE_VOTES = "article/votes/"//{a_id}/{page}
+export const ARTICLE_LATEST_ALL = "article/latest/all/"//{page}
 
 // Article Comment API
 
@@ -93,6 +100,8 @@ export const ARTICLE_COMMENT_PROCESS = "article/comment/process/"//{commentId}
 export const ARTICLE_COMMENT_REPLIES = "article/comment/replies/"//{commentId}/{page}
 export const ARTICLE_COMMENT_REPORT = "article/comment/report/"//{commentId}
 export const ARTICLE_COMMENT_VOTES = "article/comment/votes/"//{commentId}/{page}
+//SUGGESTION
+export const SUGGESTION_ALL = "article/suggestion/all/"//{page}
 
 
 // Collection API
@@ -169,9 +178,9 @@ export const EPISODE_WATCH_POSITION =
   "episode/watch/{releaseId}/{sourceId}/{position}"
 export const EPISODE_WATCH_SOURCE = "episode/watch/"//{releaseId}/{sourceId}
 export const EPISODE_UNWATCH_POSITION =
-  "episode/unwatch/{releaseId}/{sourceId}/{position}"
-export const EPISODE_UNWATCH_SOURCE = "episode/unwatch/{releaseId}/{sourceId}"
-export const EPISODE_REPORT = "episode/report/{releaseId}/{sourceId}/{position}"
+  "episode/unwatch/"//{releaseId}/{sourceId}/{position}
+export const EPISODE_UNWATCH_SOURCE = "episode/unwatch/"//{releaseId}/{sourceId}
+export const EPISODE_REPORT = "episode/report/"//{releaseId}/{sourceId}/{position}
 
 // Import API
 
@@ -187,7 +196,7 @@ export const EXPORT_BOOKMARKS = "export/bookmarks"
 // Favorite API
 
 // GET
-export const FAVORITES = "favorite/all/{page}"
+export const FAVORITES = "favorite/all/"//{page}
 export const FAVORITE_ADD = "favorite/add/"
 export const FAVORITE_DELETE = "favorite/delete/"
 

@@ -1,146 +1,78 @@
-
 import { useQuery } from '@tanstack/react-query';
 import styles from './Feed.module.css'
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useUserStore } from '../../services/api/auth';
-import parse from 'html-react-parser';
-import { useScrollPosition } from '../../hooks/useScrollPosition';
 import { feedService } from '../../services/FeedService';
+import { TopFilterButtons } from '../../components/TopFilterButtons/TopFilterButtons';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { PostInput } from '../../components/PostInput/PostInput';
+
+const feedArray = [
+    {
+        id: 0,
+        eng_name: "feed",
+        ru_name: "Моя лента",
+        link: '/feed/news'
+    },
+    {
+        id: 1,
+        eng_name: "latesst",
+        ru_name: "Свежее",
+        link: '/feed/latest'
+    }
+];
 
 export const Feed = () => {
 
-    const token = useUserStore((state) => state.token);
-    const [ page, setPage ] = useState(0);
+    const userStore = useUserStore((state) => state);
 
-    const [ newsList, setNewsList ] = useState(null);
-
-    const fetchFeedNews = useQuery({
-        queryKey: ['get feed news', token, page],
-        queryFn: () => feedService.getFeedNews(token, page)
+    const channelSubs = useQuery({
+        queryKey: ['get channel subs all', userStore.token, 0],
+        queryFn: () => feedService.getChannelSubs(0, userStore.token)
     });
 
-    useEffect(() => {
-
-        function loadNews() {
-            const newsData = fetchFeedNews.data?.data.content;
-            console.log(newsData);
-            setNewsList(newsData);
-        }
-
-        if(!newsList) {
-
-            loadNews();
-                
-        }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fetchFeedNews.status]);
+    const navigate = useNavigate();
 
     useEffect(() => {
-
-        function loadNextNews() {
-            const newsData = fetchFeedNews.isPending ? [] : fetchFeedNews.data?.data.content;
-            const newNews = [...newsList, ...newsData];
-
-            setNewsList(newNews);
-        }
-
-        if (page > 0) {
-
-            loadNextNews();
-                
-        }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page, fetchFeedNews.status]);
-
-    const scrollPosition = useScrollPosition();
-    useEffect(() => {
+        navigate("/feed/news");
         
-        if (scrollPosition >= 90) {
-            if(page === 0) {
-                setPage(1);
-            } else {
-                setPage(page + 1);
-            }
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [scrollPosition])
-
-    
-    if (fetchFeedNews.status === "error") {
-        return ('An error has occurred: ' + fetchFeedNews.error.message);
-    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
-        <div>
-            { !newsList ?
-            (
-            <div className="loader-container_home">	
-                <i className="loader-circle"></i>
-            </div>
-            ) : (
-            <div className={styles.feed_page_wrap}>
+  
+        <div className={styles.feed_page_wrap}>
 
-                <div className={styles.feed_page}>
+            <div className={styles.feed_page}>
 
-                    <div className={styles.feed_channels}>
+                <TopFilterButtons buttonsArray={feedArray} />
 
-                    </div>
+                <div className={styles.feed_channels}>
+                    {channelSubs.data?.data.content.map((channel, index) => 
+                        <div key={channel.id} className={styles.channel_subed}>
+                            <div className={styles.channel_avatar_border}>
+                                <img className={styles.channel_avatar} src={channel.avatar} alt="" />
+                            </div>
 
-                    <div className={styles.feed_news}>
-                        {
-
-                            newsList?.map(post => post.id && (
-                                <div key={post.id} className={styles.news_post}>
-                                    <div className={styles.post_channel}>
-                                        <div className={styles.channel_avatar}>
-                                            <img className={styles.channel_avatar_image} src={post.channel.avatar} alt="" />
-                                        </div>
-                                        <p className={styles.channel_title}>{post.channel.title}</p>
-                                    </div>
-
-                                    <div className={styles.post_blocks}>
-                                        {post.payload.blocks?.map(block => block.id && block.type === "paragraph" ? 
-                                        <p key={block.id} className={styles.post_text_blocks}>{parse(block.data.text)}</p> 
-                                        : block.type === "media" 
-                                        && <div key={block.id} className={styles.post_images_flex}>
-                                            { 
-                                                block.data.items?.map(item => item.id && 
-                                                <img key={item.id} src={item.url} className={styles.post_image}
-                                                // style={{width: `${item.width}`, height: `${item.height}`,}} 
-                                                alt=""/>)
-                                            }
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    <div className={styles.post_image}>
-                                        
-                                    </div>
-
-                                    <div className={styles.post_action_buttons}>
-                                        
-                                    </div>
-
-                                </div>
-                            ))
-
-                        }
-                    </div>
-
+                            <p className={styles.channel_title}>
+                                {channel.title}
+                            </p>
+                        </div>
+                    )}
                 </div>
 
-            </div>
-            )
-            }        
-            { fetchFeedNews.isPending &&
-                <div className="loader-container_home">	
-                    <i className="loader-circle"></i>
+                <div className={styles.feed_channels}>
+                    <PostInput avatarUrl={userStore.user.avatar} />
                 </div>
-            }
+
+                <Outlet />
+
+                {/* <FeedList newsList={feedNews.data}/> */}
+
+            </div>
+
         </div>
+
 
     )
 }

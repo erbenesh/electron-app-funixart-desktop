@@ -216,12 +216,13 @@ input[type="search"]::-webkit-search-results-decoration {
 .search_results_wrap {
     position: absolute;
     place-items: center;
-    pointer-events: all;
+    pointer-events: none;
     padding: 1.2rem;
     width: 100%;
     top:0;
-    margin-top: 3rem;
-    
+    margin-top: 2.4rem;
+    height: 100vh;
+    background-color: rgb(0, 0, 0, 0.5);
 }
 
 .search_results {
@@ -230,7 +231,8 @@ input[type="search"]::-webkit-search-results-decoration {
     gap: 1rem;
     padding: 1rem;
     max-width: 100rem;
-    max-height: 88vh;
+    pointer-events: all;
+    max-height: 40rem;
     overflow-x: hidden;
     border-radius: 1rem;
     background-color: rgb(36, 36, 36, 0.8);

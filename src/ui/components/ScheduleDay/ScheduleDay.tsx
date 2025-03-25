@@ -1,7 +1,5 @@
-import { useRef, useState } from 'react'
 import { ScheduleList } from '../ScheduleList/ScheduleList'
 import styles from './ScheduleDay.module.css'
-import { useClickOutside } from '../../hooks/useClickOutside';
 
 export const ScheduleDay = (props) => {
 

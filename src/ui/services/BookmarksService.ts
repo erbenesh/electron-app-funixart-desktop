@@ -1,8 +1,16 @@
 import axios from "axios";
-import { BASE_URL, LISTS_ADD, FAVORITE_ADD, FAVORITE_DELETE, LISTS } from "./api/endpoints";
+import { BASE_URL, LISTS_ADD, FAVORITE_ADD, FAVORITE_DELETE, LISTS, FAVORITES } from "./api/endpoints";
 import { BookmarksList } from "./utils";
 
 class BookmarksService {
+
+    async getFavorites(token: string, page: string | number = 0) {
+        const url = `${BASE_URL}${FAVORITES}${page}?token=${token}`;
+
+        const bookmarksData = await axios.get(url);
+
+        return bookmarksData.data;
+    }
 
     async addToBookmarkList(list: number, release_id: number | string, token: string) {
 
