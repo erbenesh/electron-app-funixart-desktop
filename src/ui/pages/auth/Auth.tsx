@@ -1,8 +1,7 @@
 import { AuthPage } from "../../sections/Auth/AuthPage";
-import { Home } from "../../sections/Home/Home";
 
 export const metadata = {
-    title: 'Главная | Anixart Desktop',
+    title: 'Авторизация | Anixart Desktop',
     description: '...',
 }
 
@@ -12,7 +11,7 @@ export default function Page() {
         <>
             <title>{metadata.title}</title>
             
-            <Home />
+            <AuthPage/>
         </>
     )
 }

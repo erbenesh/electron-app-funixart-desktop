@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './ScheduleReleaseCard.module.css'
-import { unixToDate } from '../../services/utils';
+import { unixToDate } from '../../utils/utils';
 
 const yearSeason = ["_", "Зима", "Весна", "Лето", "Осень"];
 

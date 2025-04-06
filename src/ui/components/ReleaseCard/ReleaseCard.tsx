@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { unixToDate } from '../../services/utils';
+import { unixToDate } from '../../utils/utils';
 import styles from './ReleaseCard.module.css';
 import { useEffect, useState } from 'react';
 import { FastAverageColor } from 'fast-average-color';
