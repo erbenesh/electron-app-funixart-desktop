@@ -1,10 +1,9 @@
-
 import { useMutation } from '@tanstack/react-query'
 import styles from './ReleasePlayer.module.css'
 import { useEffect, useState } from 'react';
 import { IoEye, IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { useAuthStore } from '../../auth/store/authStore';
-import { playerService } from '../../api/player/PlayerService';
+import { playerService } from '../../../../api/player/PlayerService';
+import { useAuthStore } from '../../../../auth/store/authStore';
 
 export const ReleasePlayer = (props) => {
 

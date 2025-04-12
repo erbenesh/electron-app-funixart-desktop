@@ -4,7 +4,7 @@ import styles from './CollectionCard.module.css';
 export const CollectionCard = (props) => {
 
     return (
-        <Link to={`/collection/${props.collection.id}`} id="collection_card" className={styles.collection_card}>
+        <Link to={`/collection/${props.collection.id}`} id="collection_card" className={styles.collection_card} onClick={() => props.clickCallBack && props.clickCallBack("")}>
 
             {/* <div className={styles.release_image_border_bg} style={{width:'17.5rem'}}/>
 

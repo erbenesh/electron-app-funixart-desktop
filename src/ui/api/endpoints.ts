@@ -1,35 +1,8 @@
-
 // API URLs
 export const BASE_URL = "https://api.anixart.tv/"
 export const ALT_URL = "https://api-s2.anixart.tv/"
 
 export const USER_AGENT = "AnixartApp/8.2.1-23121216 (Android 9; SDK 28; arm64-v8a; samsung SM-G975N; en)"
-
-// Comment
-export enum EComment {
-  DISLIKE = 1,
-  LIKE = 2
-}
-
-// Vote
-export enum EVote {
-  LAST_FIRST = 1,
-  OLD_FIRST = 2,
-  STAR_5 = 3,
-  STAR_4 = 4,
-  STAR_3 = 5,
-  STAR_2 = 6,
-  STAR_1 = 7
-}
-
-// Lists
-export enum ELists {
-  WATCHING = 1,
-  IN_PLANS = 2,
-  WATCHED = 3,
-  POSTPONED = 4,
-  DROPPED = 5
-}
 
 // Auth API
 

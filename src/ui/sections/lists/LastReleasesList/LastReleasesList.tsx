@@ -1,4 +1,3 @@
-
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -7,6 +6,7 @@ import styles from './LastReleasesList.module.css';
 import { ReleaseCard } from '../../../components/ReleaseCard/ReleaseCard';
 import { useAuthStore } from '../../../auth/store/authStore';
 import { releaseService } from '../../../api/release/ReleaseService';
+
 export const LastReleasesList = () => {
 
     const token = useAuthStore((state) => state.token);

@@ -1,9 +1,7 @@
-
 import { useEffect } from "react";
 import styles from './Popular.module.css'
 import { useNavigate, Outlet } from "react-router-dom";
-import { FakeHeader } from "../../components/FakeHeader/FakeHeader";
-import { TopFilterButtons } from "../../layouts/navigation/FilterButtons/FilterButtons";
+import { FilterButtons } from "../../layouts/navigation/FilterButtons/FilterButtons";
 
 export const Popular = () => {
 
@@ -37,7 +35,7 @@ export const Popular = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        navigate("/popular/ongoing");
+        navigate(popularArray[0].link);
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -47,7 +45,7 @@ export const Popular = () => {
 
             <div className={styles.popular_page}>   
               
-                <TopFilterButtons buttonsArray={popularArray} />
+                <FilterButtons buttonsArray={popularArray} />
 
                 <Outlet />
 

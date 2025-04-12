@@ -1,4 +1,4 @@
-import { ScheduleList } from '../ScheduleList/ScheduleList'
+import { ScheduleList } from '../../sections/lists/ScheduleList/ScheduleList'
 import styles from './ScheduleDay.module.css'
 
 export const ScheduleDay = (props) => {

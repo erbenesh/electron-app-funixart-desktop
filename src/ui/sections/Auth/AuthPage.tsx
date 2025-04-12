@@ -1,49 +1,32 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './AuthPage.module.css';
-import { skipToken, useQuery } from '@tanstack/react-query';
+import { useLogin } from '../../auth/hooks/useAuth';
 import { useAuthStore } from '../../auth/store/authStore';
-import { profileService } from '../../api/profile/ProfileService';
-import { setJWT } from '../../auth/jwt/utils/jwt-local-storage';
 
 export const AuthPage = () => {
 
-    const [login, setLogin] = useState("");
+    const [loginInp, setLoginInp] = useState("");
     const [password, setPassword] = useState("");
-    const [remember, setRemember] = useState(true);
-    const userStore = useAuthStore();
+    // const [remember, setRemember] = useState(true);
 
-    const [ isSubmiting, setIsSubmiting ] = useState(false);
-
-    const fetchLoginData = useQuery({
-        queryKey: ['auth', login, password, isSubmiting],
-        queryFn: isSubmiting ? () => profileService.postSubmitLogin(login, password) : skipToken
-    });
+    const { mutate: login, isPending } = useLogin();
+    //  const { checkAuth } = useAuthStore();
 
     function submit(event: { preventDefault: () => void; }) {
         event.preventDefault();
 
-        setIsSubmiting(true);
-
-    }
-
-    if(isSubmiting && fetchLoginData.status === "success") {
-        const data = fetchLoginData.data?.data;
-
-        console.log(data);
-
-        if (data.profileToken) {
-            userStore.login(data.profile, data.profileToken.token);
-            if (remember) {
-                setJWT(data.profile.id, data.profileToken.token);
-            }
-            setIsSubmiting(false);
-        } else {
-            alert("Неверные данные.");
-            setIsSubmiting(false);
+        const body = {
+            params : {
+                login: loginInp, 
+                password: password
+            }           
         }
+
+        login(body);
+
     }
 
-    if (isSubmiting && fetchLoginData.status === "pending") {
+    if (isPending) {
         return (
             <div className="loader-container">	
                 <i className="loader-circle"></i>
@@ -51,9 +34,13 @@ export const AuthPage = () => {
         )
     }
 
-    if (fetchLoginData.status === "error") {
-        return ('An error has occurred: ' + fetchLoginData.error.message);
-    }
+    // useEffect(() => {
+    //     checkAuth();
+    // }, [])
+
+    // if (isError) {
+    //     return ('An error has occurred: ' + .error.message);
+    // }
 
     return (
         <section className={styles.auth_page_wrap}>
@@ -64,7 +51,7 @@ export const AuthPage = () => {
 
                     <div className={styles.auth_form_input_col}>
                         <label htmlFor="email">Логин или эл. почта</label>
-                        <input type="text" name="email" id="email" className={styles.auth_input} placeholder="name@company.com" value={login} onChange={(e) => setLogin(e.target.value)} required={true}/>
+                        <input type="text" name="email" id="email" className={styles.auth_input} placeholder="name@company.com" value={loginInp} onChange={(e) => setLoginInp(e.target.value)} required={true}/>
 
                     </div>
 
@@ -74,13 +61,13 @@ export const AuthPage = () => {
 
                     </div>
 
-                    <div className={styles.remember_button_wrap}>
+                    {/* <div className={styles.remember_button_wrap}>
                         <div className={styles.auth_form_input_line}>
                             <input id="remember" aria-describedby="remember" type="checkbox" className={styles.remember_button} required={true} checked={remember} onChange={(e) => setRemember(e.target.checked)}/>
                             <label htmlFor="remember" className={styles.remember_button} style={{userSelect: "none"}}>Запомнить вход</label>
 
                         </div>
-                    </div>
+                    </div> */}
 
                     <button type="submit" className={styles.submit_button}>Войти</button>
 

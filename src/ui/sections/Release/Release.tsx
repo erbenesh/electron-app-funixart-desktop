@@ -8,7 +8,7 @@ import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tansta
 import { useEffect, useRef, useState } from 'react';
 import { getSeasonFromUnix, minutesToTime } from '../../utils/utils';
 import { LuFlag } from "react-icons/lu";
-import { ReleasePlayer } from '../../components/ReleasePlayer/ReleasePlayer';
+
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { IoBookmarkOutline } from "react-icons/io5"
 import { IoBookmark } from "react-icons/io5";
@@ -17,8 +17,6 @@ import interestCardStyles from "../../components/InterestingCard/InterestingCard
 import { Comment } from "../../components/Comment/Comment"
 import { useScrollPosition } from '../../hooks/useScrollPosition';
 import { useParams } from 'react-router-dom';
-import { ReleaseVotesCounter } from '../../components/ReleaseVotesCounter/ReleaseVotesCounter';
-import { FakeHeader } from '../../components/FakeHeader/FakeHeader';
 import { ScheduleReleaseCard } from '../../components/ScheduleReleaseCard/ScheduleReleaseCard';
 
 import jFlag from '../../assets/icons/j_flag.svg'
@@ -27,6 +25,8 @@ import { useAuthStore } from '../../auth/store/authStore';
 import { bookmarksService } from '../../api/bookmarks/BookmarksService';
 import { commentService } from '../../api/comments/CommentService';
 import { releaseService, profile_lists, lists, weekDay } from '../../api/release/ReleaseService';
+import { ReleasePlayer } from './components/ReleasePlayer/ReleasePlayer';
+import { ReleaseVotesCounter } from './components/ReleaseVotesCounter/ReleaseVotesCounter';
 
 export const Release = () => {
 
@@ -175,9 +175,6 @@ export const Release = () => {
         <div className={styles.release_page_wrap}>
 
             <div className={styles.release_page}>
-
-                <FakeHeader />
-
              
 
                 {

@@ -4,13 +4,21 @@ import { useAuthStore } from '../auth/store/authStore';
 
 export default function PrivateRoute({ children }: { children: ReactNode }) {
   const location = useLocation();
-  const { isAuth, initialize } = useAuthStore();
-  
-  useEffect(() => { initialize(); }, [initialize]);
+  const { user, checkAuth } = useAuthStore();
+  // const test = useAuthStore();
 
-  if (isAuth === null) return null; // или лоадер
-  
-  return isAuth ? (
+  useEffect(() => {
+    // initialize();
+    checkAuth(); // Проверяем токен при каждом переходе
+  }, [])
+  // console.log(test.user, test.token)
+  if (user === null) return (
+  <div className="loader-container">	
+    <i className="loader-circle"></i>
+  </div>
+  )
+
+  return user ? (
     <>{children}</>
   ) : (
     <Navigate to="/login" state={{ from: location }} replace />

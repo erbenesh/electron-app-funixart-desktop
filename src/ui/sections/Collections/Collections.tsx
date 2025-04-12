@@ -1,9 +1,7 @@
-
 import { useEffect } from 'react';
 import styles from './Collections.module.css'
 import { Outlet, useNavigate } from 'react-router-dom';
-import { TopFilterButtons } from '../../layouts/navigation/FilterButtons/FilterButtons';
-import { FakeHeader } from '../../components/FakeHeader/FakeHeader';
+import { FilterButtons } from '../../layouts/navigation/FilterButtons/FilterButtons';
 
 export const Collections = () => {
 
@@ -41,7 +39,7 @@ export const Collections = () => {
 
             <div className={styles.сollections_page}>   
               
-                <TopFilterButtons buttonsArray={collectionsArray} />
+                <FilterButtons buttonsArray={collectionsArray} />
 
                 <Outlet />
 

@@ -7,9 +7,10 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
-    const { token } = useAuthStore.getState();
+    const token = localStorage.getItem('token');
+
     if (token) {
-        config.headers.Authorization = `${token}`;
+        config.params.token = `${token}`;
     }
     return config;
 });
@@ -18,7 +19,7 @@ apiClient.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response?.status === 401) {
-        useAuthStore.getState().logout();
+            useAuthStore.getState().logout();
         }
         return Promise.reject(error);
     }

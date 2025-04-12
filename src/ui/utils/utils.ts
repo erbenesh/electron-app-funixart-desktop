@@ -1,23 +1,23 @@
-export const fetchDataViaGet = async (
-    url: string,
-    API_V2: string | boolean = false
-) => {
-    if (API_V2) {
-      HEADERS["API-Version"] = "v2";
-    }
-    try {
-      const response = await fetch(url, {
-        headers: HEADERS,
-      });
-      if (response.status !== 200) {
-        return null;
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
-};
+// export const fetchDataViaGet = async (
+//     url: string,
+//     API_V2: string | boolean = false
+// ) => {
+//     if (API_V2) {
+//       HEADERS["API-Version"] = "v2";
+//     }
+//     try {
+//       const response = await fetch(url, {
+//         headers: HEADERS,
+//       });
+//       if (response.status !== 200) {
+//         return null;
+//       }
+//       const data = await response.json();
+//       return data;
+//     } catch (error) {
+//       console.log(error);
+//     }
+// };
 
 // export const fetchDataViaPost = async (
 //     url: string,

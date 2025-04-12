@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import styles from './Feed.module.css'
 import { useEffect } from 'react';
-import { TopFilterButtons } from '../../layouts/navigation/FilterButtons/FilterButtons';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { PostInput } from './components/PostInput/PostInput';
 import { useAuthStore } from '../../auth/store/authStore';
 import { feedService } from '../../api/feed/FeedService';
+import { FilterButtons } from '../../layouts/navigation/FilterButtons/FilterButtons';
 
 const feedArray = [
     {
@@ -45,7 +45,7 @@ export const Feed = () => {
 
             <div className={styles.feed_page}>
 
-                <TopFilterButtons buttonsArray={feedArray} />
+                <FilterButtons buttonsArray={feedArray} />
 
                 <div className={styles.feed_channels}>
                     {channelSubs.data?.data.content.map((channel, index) => 

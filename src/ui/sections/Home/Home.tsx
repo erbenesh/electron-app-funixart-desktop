@@ -86,7 +86,7 @@ export const Home = () => {
 
                     <HomeCarouselx2 array={discoverInteresting.data?.data.content} sectionTitle={"Интересное"} sectionTitleAlt={"interestingReleases"}/>
 
-                    <HomeCarouselx5 array={lastUpdatedReleases.data?.data.content} sectionTitle={"Последнее"} sectionTitleAlt={"lastReleases"} link={"/last"}/>
+                    <HomeCarouselx5 array={lastUpdatedReleases.data?.data.content} sectionTitle={"Последнее"} sectionTitleAlt={"lastReleases"} link={"/last-releases"}/>
 
                     <HomeCarouselx5 array={top.data?.data.content} sectionTitle={"Популярное"} sectionTitleAlt={"topReleases"} link={"/popular"}/>
 
@@ -94,7 +94,7 @@ export const Home = () => {
 
                     <SchedulePreview schedule={schedule} sectionTitle={"Расписание"} link={"/schedule"}/>
 
-                    <HomeCarouselx5 array={recommendations.data?.data.content} sectionTitle={"Рекомендации"} sectionTitleAlt={"recommendations"} link={"/recommendations/all"}/>
+                    <HomeCarouselx5 array={recommendations.data?.data.content} sectionTitle={"Рекомендации"} sectionTitleAlt={"recommendations"} link={"/recommendations"}/>
 
                     {/* <HomeCarouselx5 array={watching.data?.data.content} sectionTitle={"Смотрят"} sectionTitleAlt={"watchingReleases"} link={"/watching/all"}/> */}
 

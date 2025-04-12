@@ -7,7 +7,7 @@ import { unixToDate } from '../../../../../../utils/utils';
 
 export const PopularCommentCard = (props) => {
 
-    console.log(props.comment.release, props.comment.release.id ? props.comment.release.id : props.array.find(comment => props.comment.release === comment.release["@id"]).release.id);
+    // console.log(props.comment.release, props.comment.release.id ? props.comment.release.id : props.array.find(comment => props.comment.release === comment.release["@id"]).release.id);
 
     return (
         <Link to={`/release/${props.comment.release.id ? props.comment.release.id : props.array.find(comment => props.comment.release === comment.release["@id"]).release.id}`} className={styles.comment_wrap}>

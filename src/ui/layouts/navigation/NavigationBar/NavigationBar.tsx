@@ -1,14 +1,14 @@
 import { GoSearch } from "react-icons/go";
-import { IoSettingsOutline } from "react-icons/io5";
-import { IoMdNotificationsOutline } from "react-icons/io";
 import styles from './NavigationBar.module.css'
-import { NavLink, useLocation } from "react-router-dom";
+import { matchPath, NavLink, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { searchService } from "../../../api/search/SearchService";
 import { useAuthStore } from "../../../auth/store/authStore";
 import { ReleaseCard } from "../../../components/ReleaseCard/ReleaseCard";
 import { useClickOutside } from "../../../hooks/useClickOutside";
+import { ProfileCard } from "../../../components/ProfileCard/ProfileCard";
+import { CollectionCard } from "../../../components/CollectionCard/CollectionCard";
 
 
 export const NavigationBar = (props) => {
@@ -16,6 +16,7 @@ export const NavigationBar = (props) => {
     const location = useLocation();
 
     const token = useAuthStore((state) => state.token);
+    const user = useAuthStore((state) => state.user);
 
     const [ searchInputValue, setSearchInputValue ] = useState('');
 
@@ -27,6 +28,9 @@ export const NavigationBar = (props) => {
     const searchInputRef = useRef(null);
 
     useClickOutside(searchInputRef, () => setSearchInputValue(''));
+
+    const isProfile = matchPath('/profile/*', window.location.pathname);
+    const isCollections = matchPath('/collections/*', window.location.pathname);
 
     return (
         <div className={styles.top_tools_wrap}>
@@ -85,7 +89,7 @@ export const NavigationBar = (props) => {
                             <GoSearch className={styles.menu_ico}/>
                         </div>
 
-                        <NavLink to="/profile" button-name-ru="Профиль"
+                        <NavLink to={`/profile/${user.id}`} button-name-ru="Профиль"
                         className={({ isActive }) =>
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
@@ -93,24 +97,14 @@ export const NavigationBar = (props) => {
                         >
                             <img src={props.avatar} alt="" className={styles.nav_avatar}/>
                         
-                            <div className={styles.profile_btn_context_menu}>
-                                <NavLink to="/settings" button-name-ru="Настройки"
-                                className={({ isActive }) =>
-                                            isActive ? styles.toptools__active_button : styles.toptools__button
-                                        }
-                                        onClick={() => setSearchInputValue('')}
-                                >
+                            {/* <div className={styles.profile_btn_context_menu}>
+                                <Link to="/settings" button-name-ru="Настройки" className={ styles.toptools__button } onClick={() => setSearchInputValue('')}>
                                     <IoSettingsOutline className={styles.menu_ico}/>
-                                </NavLink>
-                                <NavLink to="/notifications" button-name-ru="Уведомления"
-                                className={({ isActive }) =>
-                                            isActive ? styles.toptools__active_button : styles.toptools__button
-                                        }
-                                        onClick={() => setSearchInputValue('')}
-                                >
+                                </Link>
+                                <Link to="/notifications" button-name-ru="Уведомления" className={ styles.toptools__button } onClick={() => setSearchInputValue('')}>
                                     <IoMdNotificationsOutline className={styles.menu_ico}/>
-                                </NavLink>
-                            </div>
+                                </Link>
+                            </div> */}
                         </NavLink>
 
                     </div>
@@ -123,10 +117,14 @@ export const NavigationBar = (props) => {
                     <div className={styles.search_results}>
                         
                         <h2>Результаты поиска</h2>
-                        
+                      
                         <div className={styles.results}>
                             {
-                                getSearchResult.data?.data.content.map(el => el.id && <ReleaseCard key={el.id} release={el} clickCallBack={setSearchInputValue}/>)
+                                isProfile ?
+                                getSearchResult.data?.data.content.map(el => el.id && <ProfileCard key={el.id} profile={el} clickCallBack={setSearchInputValue}/>) 
+                                : isCollections ?
+                                getSearchResult.data?.data.content.map(el => el.id && <CollectionCard key={el.id} collection={el} clickCallBack={setSearchInputValue}/>) 
+                                : getSearchResult.data?.data.content.map(el => el.id && <ReleaseCard key={el.id} release={el} clickCallBack={setSearchInputValue}/>)
                             }
                         </div>
                         

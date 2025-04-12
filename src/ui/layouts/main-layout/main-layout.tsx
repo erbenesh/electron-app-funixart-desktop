@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react"
+import { createContext, ReactNode, useContext, useEffect, useState } from "react"
 import styles from './main-layout.module.css'
 import { useLocation, useParams } from "react-router-dom";
 import { Toolbar } from "../navigation/Toolbar/Toolbar";
@@ -10,11 +10,19 @@ interface MainLayoutProps {
     children?: ReactNode
 }
 
+type RouteContextType = {
+  isHeaderHidden: boolean
+};
+
+const RouteContext = createContext<RouteContextType | undefined>(undefined);
+
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     
     const userStore = useAuthStore((state) => state);
     const location = useLocation();
     const params = useParams();
+
+    const { checkAuth } = useAuthStore();
 
     const scrollPosition = useScrollPosition();
     const [ lastScrolledPos, setLastScrolledPos ] = useState(0);
@@ -34,24 +42,38 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scrollPosition]);
 
+    useEffect(() => {
+      checkAuth(); // Проверяем токен при каждом переходе
+    }, [])
+
     return (
-        <div className='wrapper'>
+    <RouteContext.Provider value={{isHeaderHidden}}>
+      <div className='wrapper'>
 
-            <NavigationBar isHeaderHidden={isHeaderHidden} avatar={userStore.user.avatar}/>
+          { userStore.token && <NavigationBar isHeaderHidden={isHeaderHidden} avatar={userStore.user.avatar}/> }
 
-            { location.pathname === `/release/${params.releaseId}` && <Toolbar /> }
-            { location.pathname === `/collection/${params.collectionId}` && <Toolbar /> }
+          { location.pathname === `/release/${params.releaseId}` && <Toolbar /> }
+          { location.pathname === `/collection/${params.collectionId}` && <Toolbar /> }
 
 
-            <div className={styles.content_wrap}>
+          <div className={styles.content_wrap}>
 
             <div className={styles.content}>
-
-                { children }
+              { children }
             </div>
 
-            </div>
+          </div>
 
       </div>
+    </RouteContext.Provider>
     )
+}
+
+// Хук для удобного использования контекста
+export function useRouteContext() {
+  const context = useContext(RouteContext);
+  if (context === undefined) {
+    throw new Error('useRouteContext must be used within a RouteProvider');
+  }
+  return context;
 }

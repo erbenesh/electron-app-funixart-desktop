@@ -11,11 +11,17 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: loginApi,
     onSuccess: (data) => {
-      authStore.login(data.user, data.token);
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      queryClient.invalidateQueries(['profile']);
-      navigate('/dashboard');
+      if (data.profileToken) {
+        authStore.login(data.profile, data.profileToken.token);
+
+        localStorage.setItem('token', data.profileToken.token);
+        localStorage.setItem('user', JSON.stringify(data.profile));
+
+        // queryClient.invalidateQueries({ queryKey: ['profile'] });
+        navigate('/home');
+      } else {
+        alert("Неверные данные.");
+      }
     },
   });
 };

@@ -22,7 +22,7 @@ export const HomeCarouselx5 = (props) => {
 
         setIndxLast(index);
 
-        console.log(Math.floor(props.array.length / 5) * 5, "/", indx);
+        //console.log(Math.floor(props.array.length / 5) * 5, "/", indx);
 
         document.getElementById(`inner-${props.sectionTitleAlt}`)!.style.transform = `translateX(-${index * 20}rem)`;
     }

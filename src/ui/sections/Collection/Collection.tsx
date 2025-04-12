@@ -5,7 +5,6 @@ import { ReleaseCard } from '../../components/ReleaseCard/ReleaseCard';
 import { unixToDate } from '../../utils/utils';
 import { useParams } from 'react-router-dom';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
-import { FakeHeader } from '../../components/FakeHeader/FakeHeader';
 import { useAuthStore } from '../../auth/store/authStore';
 import { collectionService } from '../../api/collections/CollectionService';
 
@@ -89,8 +88,6 @@ export const CollectionPage = () => {
 
             <div className={styles.сollection_page}>
 
-                <FakeHeader />
-   
 
                 <div className={styles.collection_full_wrap}>
                     {collection && 

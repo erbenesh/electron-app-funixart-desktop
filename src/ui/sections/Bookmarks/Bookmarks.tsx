@@ -1,5 +1,5 @@
 import styles from './Bookmarks.module.css'
-import { TopFilterButtons } from "../../layouts/navigation/FilterButtons/FilterButtons";
+import { FilterButtons } from "../../layouts/navigation/FilterButtons/FilterButtons";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 
@@ -57,7 +57,7 @@ export const Bookmarks = () => {
 
             <div className={styles.bookmarks_page}>          
 
-                <TopFilterButtons buttonsArray={bookmarksArray} />
+                <FilterButtons buttonsArray={bookmarksArray} />
 
                 <Outlet />
 

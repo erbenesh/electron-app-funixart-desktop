@@ -1,6 +1,4 @@
-
 import styles from './Recommendations.module.css'
-import { FakeHeader } from "../../components/FakeHeader/FakeHeader";
 import { RecommendationsList } from '../lists/RecommendationsList/RecommendationsList';
 
 export const Recommendations = () => {

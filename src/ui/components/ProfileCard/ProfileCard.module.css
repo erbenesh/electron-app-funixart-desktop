@@ -1,0 +1,42 @@
+.profile_card {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 1rem;
+    transition: .3s;
+}
+
+.profile_card:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.profile_avatar_wrapper {
+    padding: 0.5rem;
+}
+
+.profile_avatar {
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+    overflow: hidden;
+}
+
+.avatar {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.profile_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0.5rem;
+    width: 100%;
+}
+
+.profile_login {
+
+}

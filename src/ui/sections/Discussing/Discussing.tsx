@@ -1,6 +1,5 @@
 
 import styles from './Discussing.module.css'
-import { FakeHeader } from "../../components/FakeHeader/FakeHeader";
 import { DiscussingList } from '../lists/DiscussingList/DiscussingList';
 
 export const Discussing = () => {
@@ -9,9 +8,6 @@ export const Discussing = () => {
         <div className={styles.discussing_page_wrap}>
 
             <div className={styles.discussing_page}>   
-
-                <FakeHeader />
-                <FakeHeader />
 
                 <DiscussingList />
 

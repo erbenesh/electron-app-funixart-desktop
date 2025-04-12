@@ -1,5 +1,4 @@
-
-import { ScheduleReleaseCard } from '../ScheduleReleaseCard/ScheduleReleaseCard'
+import { ScheduleReleaseCard } from '../../../components/ScheduleReleaseCard/ScheduleReleaseCard'
 import styles from './ScheduleList.module.css'
 
 export const ScheduleList = (props) => {
