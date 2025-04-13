@@ -5,6 +5,7 @@ import { Toolbar } from "../navigation/Toolbar/Toolbar";
 import { NavigationBar } from "../navigation/NavigationBar/NavigationBar";
 import { useScrollPosition } from "../../hooks/useScrollPosition";
 import { useAuthStore } from "../../auth/store/authStore";
+import { useScrollToTop } from "./hooks/useScrollToTop ";
 
 interface MainLayoutProps {
     children?: ReactNode
@@ -17,8 +18,8 @@ type RouteContextType = {
 const RouteContext = createContext<RouteContextType | undefined>(undefined);
 
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-    
-    const userStore = useAuthStore((state) => state);
+    const user = useAuthStore((state) => state.user);
+    const token = useAuthStore((state) => state.token);
     const location = useLocation();
     const params = useParams();
 
@@ -46,11 +47,13 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       checkAuth(); // Проверяем токен при каждом переходе
     }, [])
 
+    useScrollToTop([location]);
+
     return (
     <RouteContext.Provider value={{isHeaderHidden}}>
       <div className='wrapper'>
 
-          { userStore.token && <NavigationBar isHeaderHidden={isHeaderHidden} avatar={userStore.user.avatar}/> }
+          { token && <NavigationBar isHeaderHidden={isHeaderHidden} avatar={user.avatar}/> }
 
           { location.pathname === `/release/${params.releaseId}` && <Toolbar /> }
           { location.pathname === `/collection/${params.collectionId}` && <Toolbar /> }

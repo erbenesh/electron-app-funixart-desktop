@@ -3,16 +3,13 @@ import styles from './Schedule.module.css'
 import { useState, useEffect } from "react";
 import { ScheduleDay } from '../../components/ScheduleDay/ScheduleDay';
 import { useQuery } from '@tanstack/react-query';
-import { useAuthStore } from '../../auth/store/authStore';
 import { discoverService } from '../../api/discover/DiscoverService';
 
 export const Schedule = () => {
 
-    const token = useAuthStore((state) => state.token);
-
     const fetchSchedule = useQuery({
-        queryKey: ['getSchedule', token],
-        queryFn: () => discoverService.getSchedule(token)
+        queryKey: ['getSchedule'],
+        queryFn: () => discoverService.getSchedule()
     });
 
     //Schedule

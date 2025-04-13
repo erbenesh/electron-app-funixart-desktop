@@ -32,8 +32,6 @@ export const Release = () => {
 
     const { releaseId } = useParams();
 
-    const token = useAuthStore((state) => state.token);
-
     const [ isDescriptionHidden, setDescriptionHidden ] = useState(true);
 
     const [ textLineCount, setTextLineCount] = useState(0);
@@ -47,15 +45,15 @@ export const Release = () => {
     const queryClient = useQueryClient();
 
     const currentRelease = useQuery({
-        queryKey: ['getCurrentRelease', releaseId, token],
-        queryFn: () => releaseService.getCurrentRelease(releaseId, token),
+        queryKey: ['getCurrentRelease', releaseId],
+        queryFn: () => releaseService.getCurrentRelease(releaseId),
     });
 
     const release = currentRelease.data?.data.release;
 
     const currentReleaseComments = useInfiniteQuery({
-        queryKey: ['getCurrentReleaseComments', releaseId, token],
-        queryFn: meta => commentService.getAllComments("release", releaseId, meta.pageParam, token),
+        queryKey: ['getCurrentReleaseComments', releaseId],
+        queryFn: meta => commentService.getAllComments("release", releaseId, meta.pageParam),
         initialPageParam: 0,
         getNextPageParam: (lastPage, allPages, lastPageParam) => {
             if (lastPage.length === 0) {
@@ -67,24 +65,24 @@ export const Release = () => {
     })
 
     const fetchDeleteFromFavorite = useMutation({
-        mutationKey: ['delete from favorite', releaseId, token],
-        mutationFn: () => bookmarksService.setDeleteFromFavorite(releaseId, token),
+        mutationKey: ['delete from favorite', releaseId],
+        mutationFn: () => bookmarksService.setDeleteFromFavorite(releaseId),
         onSuccess() {
             queryClient.refetchQueries({queryKey: ['getCurrentRelease']});
         }
     });
 
     const fetchAddToFavorite = useMutation({
-        mutationKey: ['add to favorite', releaseId, token],
-        mutationFn: () => bookmarksService.setAddToFavorite(releaseId, token),
+        mutationKey: ['add to favorite', releaseId],
+        mutationFn: () => bookmarksService.setAddToFavorite(releaseId),
         onSuccess() {
             queryClient.refetchQueries({queryKey: ['getCurrentRelease']});
         }
     });
 
     const fetchAddToList = useMutation({
-        mutationKey: ['add to bookmark list', releaseId, token],
-        mutationFn: (list: number) => bookmarksService.addToBookmarkList(list, releaseId, token),
+        mutationKey: ['add to bookmark list', releaseId],
+        mutationFn: (list: number) => bookmarksService.addToBookmarkList(list, releaseId),
         onSuccess() {
             queryClient.refetchQueries({queryKey: ['getCurrentRelease']});
         }
@@ -141,23 +139,18 @@ export const Release = () => {
 
 
     function addToFavorite() {
-        if (token) {
-            // setUserFavorite(!userFavorite);
-            if (release.is_favorite) {
-                fetchDeleteFromFavorite.mutate();
-            } else {
-                fetchAddToFavorite.mutate();
-            }
+        if (release.is_favorite) {
+            fetchDeleteFromFavorite.mutate();
+        } else {
+            fetchAddToFavorite.mutate();
         }
+        
     }
 
-    function addToList(list: number) {
-        if (token) {
-            
-            
-            fetchAddToList.mutate(list);
-            setIsDropdownListsHidden(false);
-        }
+    function addToList(list: number) {                      
+        fetchAddToList.mutate(list);
+        setIsDropdownListsHidden(false);
+        
     }
 
     

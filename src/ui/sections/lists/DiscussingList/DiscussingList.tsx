@@ -7,11 +7,9 @@ import { discoverService } from '../../../api/discover/DiscoverService';
 
 export const DiscussingList = () => {
 
-    const token = useAuthStore((state) => state.token);
-
     const discussing = useQuery({
-        queryKey: ['getDiscussing', token],
-        queryFn: () => discoverService.getDiscussing(token)
+        queryKey: ['getDiscussing'],
+        queryFn: () => discoverService.getDiscussing()
     });
 
     return (

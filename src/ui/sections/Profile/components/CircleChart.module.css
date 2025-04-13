@@ -1,0 +1,41 @@
+.circle-chart-container {
+    position: relative;
+    margin: 0 auto;
+}
+  
+  .circle-chart {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .chart-label {
+    font-size: 8px;
+    font-weight: bold;
+    fill: #333;
+  }
+  
+  .chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 15px;
+    gap: 8px;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px; 
+  }
+  
+  .legend-color {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    margin-right: 5px;
+  }
+  
+  .legend-text {
+    white-space: nowrap;
+  }

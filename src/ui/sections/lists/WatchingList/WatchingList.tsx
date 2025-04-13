@@ -1,19 +1,15 @@
-
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useScrollPosition } from '../../../hooks/useScrollPosition';
 import styles from './WatchingList.module.css';
 import { ReleaseCard } from '../../../components/ReleaseCard/ReleaseCard';
-import { useAuthStore } from '../../../auth/store/authStore';
 import { discoverService } from '../../../api/discover/DiscoverService';
 
 export const WatchingList = () => {
 
-    const token = useAuthStore((state) => state.token);
-
     const list = useInfiniteQuery({
-        queryKey: ['get watching list', token],
-        queryFn: meta => discoverService.getWatching(meta.pageParam, token),
+        queryKey: ['get watching list'],
+        queryFn: meta => discoverService.getWatching(meta.pageParam),
         initialPageParam: 0,
         getNextPageParam: (lastPage, allPages, lastPageParam) => {
             if (lastPage.data.length === 0 || lastPageParam >= Math.ceil(lastPage.data.total_count/25)) {

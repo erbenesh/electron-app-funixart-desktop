@@ -1,5 +1,7 @@
 import styles from './Recommendations.module.css'
-import { RecommendationsList } from '../lists/RecommendationsList/RecommendationsList';
+import { releaseService } from '../../api/release/ReleaseService';
+import { ReleaseCard } from '../../components/ReleaseCard/ReleaseCard';
+import { InfiniteScrollList } from '../../components/infinite-scroll-list/InfiniteScrollList';
 
 export const Recommendations = () => {
 
@@ -8,7 +10,14 @@ export const Recommendations = () => {
 
             <div className={styles.recommendations_page}>
                    
-                <RecommendationsList />
+                <InfiniteScrollList
+                    queryKey="getInfiniteList recommendations"
+                    queryFn={({ pathParam, pageParam }) => 
+                        releaseService.getLastUpdatedReleases(pathParam, pageParam, 1)
+                    }
+                    pathIndex={2}
+                    renderItem={(release) => release.id && <ReleaseCard key={release.id} release={release} />}
+                    />
 
             </div>
         </div>

@@ -15,12 +15,11 @@ import Release from "../pages/release/Release";
 import Collection from "../pages/collection/Collection";
 import Bookmarks from "../pages/bookmarks/Bookmarks";
 import { App } from "../app";
-import LastReleasesList from "../pages/last-releases-list/LastReleasesList";
-import PopularList from "../pages/popular-list/PopularList";
-import { FavoriteList } from "../sections/lists/FavoriteList/FavoriteList";
-import { BookmarksList } from "../sections/lists/BookmarksList/BookmarksList";
-import { CollectionsList } from "../sections/lists/CollectionsList/CollectionsList";
 import { FeedList } from "../sections/lists/FeedList/FeedList";
+import { bookmarksRoutes } from "./bookmarks-routes";
+import { lastReleasesRoutes } from "./last-releases-routes";
+import { collectionsRoutes } from "./collections-routes";
+import { popularRoutes } from "./popular-routes";
 
 export const router = createBrowserRouter([
     {
@@ -49,101 +48,25 @@ export const router = createBrowserRouter([
         {
           path: '/last-releases',
           element: <PrivateRoute><LastReleases /></PrivateRoute>,
-          children: [
-            {
-              path: 'last',
-              element: <LastReleasesList/>
-            },
-            {
-              path: 'ongoing',
-              element: <LastReleasesList/>
-            },
-            {
-              path: 'announce',
-              element: <LastReleasesList/>
-            },
-            {
-              path: 'finished',
-              element: <LastReleasesList/>
-            },
-            {
-              path: 'films',
-              element: <LastReleasesList/>
-            }
-          ]
+          children: lastReleasesRoutes
           // loader: dashboardLoader
         },
         {
           path: '/popular',
           element: <PrivateRoute><Popular /></PrivateRoute>,
-          children: [
-            {
-              path: 'ongoing',
-              element: <PopularList/>
-            },
-            {
-              path: 'finished',
-              element: <PopularList/>
-            },
-            {
-              path: 'films',
-              element: <PopularList/>
-            },
-            {
-              path: 'ova',
-              element: <PopularList/>
-            }
-          ]
+          children: popularRoutes
           // loader: dashboardLoader
         },
         {
           path: '/collections',
           element: <PrivateRoute><Collections /></PrivateRoute>,
-          children: [
-            {
-              path: 'all',
-              element: <CollectionsList/>
-            },
-            {
-              path: 'my',
-              element: <CollectionsList/>
-            },
-            {
-              path: 'favorite',
-              element: <CollectionsList/>
-            },
-          ]
+          children: collectionsRoutes
           // loader: dashboardLoader
         },
         {
           path: '/bookmarks',
           element: <PrivateRoute><Bookmarks /></PrivateRoute>,
-          children: [
-            {
-              path: 'favorite',
-              element: <FavoriteList/>
-            },
-            {
-              path: 'watching',
-              element: <BookmarksList/>
-            },
-            {
-              path: 'planned',
-              element: <BookmarksList/>
-            },
-            {
-              path: 'watched',
-              element: <BookmarksList/>
-            },
-            {
-              path: 'delayed',
-              element: <BookmarksList/>
-            },
-            {
-              path: 'abandoned',
-              element: <BookmarksList/>
-            },
-          ]
+          children: bookmarksRoutes,
           // loader: dashboardLoader
         },
         {

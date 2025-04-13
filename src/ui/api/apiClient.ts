@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { useAuthStore } from './store/authStore';
 import { BASE_URL } from '../api/endpoints';
+import { useAuthStore } from '../auth/store/authStore';
 
 const apiClient = axios.create({
     baseURL: BASE_URL,
@@ -8,9 +8,10 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');
-
+    
     if (token) {
-        config.params.token = `${token}`;
+        config.params = config.params || {}; // Создаем объект, если его нет
+        config.params.token = token;
     }
     return config;
 });

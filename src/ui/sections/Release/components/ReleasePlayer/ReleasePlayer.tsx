@@ -7,7 +7,7 @@ import { useAuthStore } from '../../../../auth/store/authStore';
 
 export const ReleasePlayer = (props) => {
 
-    const userStore = useAuthStore();
+    //const userStore = useAuthStore();
     const [voiceoverInfo, setVoiceoverInfo] = useState(null);
     const [selectedVoiceover, setSelectedVoiceover] = useState(null);
     const [sourcesInfo, setSourcesInfo] = useState(null);
@@ -42,7 +42,7 @@ export const ReleasePlayer = (props) => {
  
     const fetchEpisodes = useMutation({
         mutationKey: ["episodes", props.id],
-        mutationFn: () => playerService.getReleasePlayer(`${props.id}/${selectedVoiceover.id}/${selectedSource.id}?token=${userStore.token}`),
+        mutationFn: () => playerService.getReleasePlayer(`${props.id}/${selectedVoiceover.id}/${selectedSource.id}`),
         onSuccess(data) {
             const episodes = data.data;
 
@@ -62,13 +62,13 @@ export const ReleasePlayer = (props) => {
     });
 
     const fetchToHistory = useMutation({
-        mutationKey: ["addHistory", props.id, selectedSource?.id, userStore.token],
-        mutationFn: (position) => playerService.getToHistory(`${props.id}/${selectedSource.id}/${position}?token=${userStore.token}`)
+        mutationKey: ["addHistory", props.id, selectedSource?.id],
+        mutationFn: (position) => playerService.getToHistory(`${props.id}/${selectedSource.id}/${position}`)
     });
 
     const fetchMarkWatched = useMutation({
-        mutationKey: ["markWatched", props.id, selectedSource?.id, userStore.token],
-        mutationFn: (position) => playerService.getMarkWatched(`${props.id}/${selectedSource.id}/${position}?token=${userStore.token}`)
+        mutationKey: ["markWatched", props.id, selectedSource?.id],
+        mutationFn: (position) => playerService.getMarkWatched(`${props.id}/${selectedSource.id}/${position}`)
     });
 
     useEffect(() => {
@@ -88,10 +88,10 @@ export const ReleasePlayer = (props) => {
             fetchEpisodes.mutate();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedSource, userStore.token]);
+    }, [selectedSource, ]);
 
     async function _addToHistory(episode: any) {
-        if(episode && userStore.token) {
+        if(episode) {
             fetchToHistory.mutate(episode.position);
             fetchMarkWatched.mutate(episode.position);
         }

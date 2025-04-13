@@ -15,10 +15,6 @@
     text-decoration: none;
 }
 
-.collection_card:hover .release_image_border {
-    border: 1px solid rgb(189, 78, 44);
-}
-
 /* .collection_card:hover .release_info_border {
 
     transform: scale(110%);
@@ -43,7 +39,7 @@
 .collection_card:hover {
     transform: scale(105%);
     z-index: 11;
-    box-shadow: 0 0 2rem 2rem rgba(36, 36, 36, 0.8);
+    box-shadow: 0 0 1rem 1rem rgba(36, 36, 36, 0.8);
 }
 
 /* .release_image_border_bg {
@@ -70,7 +66,6 @@
     height: 16.5rem;
     overflow: hidden;
     border-radius: 1rem;
-    border: 1px solid rgb(68, 68, 68);
     z-index: 90;
     background-color: rgb(27, 27, 27);
     transition: .3s;
@@ -103,7 +98,7 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
     padding: 1rem;
     border-radius: 1rem;
     max-width: 16rem;
@@ -111,6 +106,18 @@
     transition: .3s;
 
     background: rgb(48, 48, 48, 0.8);
+}
+
+
+.collection_card:hover .release_info_border {
+
+}
+
+.collection_chips {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    gap: 0.5rem;
 }
 
 .anime_title {
@@ -125,7 +132,15 @@
 }
 
 .anime_subinfo {
-    font-size: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 0.9rem;
     font-weight: 400;
     color: rgb(200, 200, 200);
+    gap: 0.25rem;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    box-sizing: border-box;
+    background-color: rgb(0, 0, 0, 0.3);
 }

@@ -1,23 +1,28 @@
-import axios from "axios";
-import { BASE_URL, RELEASE_COMMENTS_PAGE, COLLECTION_COMMENTS } from "../endpoints";
+import { RELEASE_COMMENTS_PAGE, COLLECTION_COMMENTS } from "../endpoints";
+import apiClient from "../apiClient";
 
 class CommentService {
 
     async getAllComments(
         type: string,
         release_id: number | string, 
-        page: string | number,
-        token: string
+        page: string | number
     ) {
 
         let url;
         if (type == "release") {
-            url = `${BASE_URL}${RELEASE_COMMENTS_PAGE}${release_id}/${page}?sort=1&token=${token}`;
+            url = `${RELEASE_COMMENTS_PAGE}${release_id}/${page}`;
         } else if (type == "collection") {
-            url = `${BASE_URL}${COLLECTION_COMMENTS}${release_id}/${page}?sort=1&token=${token}`;
+            url = `${COLLECTION_COMMENTS}${release_id}/${page}`;
         }
 
-        const commentsData = await axios.get(url);
+        const queryParams = {
+            params: {
+                sort: 1,
+            }
+        }
+
+        const commentsData = await apiClient.get(url, queryParams);
 
         return commentsData.data;
 

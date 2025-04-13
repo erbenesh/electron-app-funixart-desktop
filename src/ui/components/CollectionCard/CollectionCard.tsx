@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import styles from './CollectionCard.module.css';
+import { BiCommentDetail } from "react-icons/bi";
+import { IoBookmarkOutline } from "react-icons/io5"
 
 export const CollectionCard = (props) => {
 
@@ -17,7 +19,18 @@ export const CollectionCard = (props) => {
                 <div className={styles.release_info_border}>
 
                     <p className={styles.anime_title}>{props.collection.title}</p>
-
+                    <div className={styles.collection_chips}>
+                        <div className={styles.anime_subinfo}>
+                            <p>{props.collection.comment_count}</p>
+                            <BiCommentDetail/>
+                        </div>
+                        
+                        <div className={styles.anime_subinfo}>
+                            <p>{props.collection.favorites_count}</p>
+                            <IoBookmarkOutline/>
+                        </div>
+                    </div>
+                    
                 </div>  
             </div>
 

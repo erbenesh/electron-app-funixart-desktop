@@ -1,60 +1,70 @@
-import axios from "axios";
-import { BASE_URL, COLLECTION, COLLECTION_FAVORITE, COLLECTION_FAVORITE_ADD, COLLECTION_FAVORITE_DELETE, COLLECTION_LIST, COLLECTION_PROFILE } from "../endpoints";
+import { COLLECTION, COLLECTION_FAVORITE, COLLECTION_FAVORITE_ADD, COLLECTION_FAVORITE_DELETE, COLLECTION_LIST, COLLECTION_PROFILE } from "../endpoints";
+import apiClient from "../apiClient";
 
 class CollectionService {
 
-    async addToFavorite(collection_id: number | string, token: string) {
+    async addToFavorite(collection_id: number | string) {
 
-        const url = `${BASE_URL}${COLLECTION_FAVORITE_ADD}${collection_id}?token=${token}`;
+        const url = `${COLLECTION_FAVORITE_ADD}${collection_id}`;
 
-        const addToFavorite = await axios.get(url);
+        const addToFavorite = await apiClient.get(url);
 
         return addToFavorite;
     }
 
 
-    async deleteFromFavorite(collection_id: number | string, token: string) {
+    async deleteFromFavorite(collection_id: number | string) {
 
-        const url = `${BASE_URL}${COLLECTION_FAVORITE_DELETE}${collection_id}?token=${token}`;
+        const url = `${COLLECTION_FAVORITE_DELETE}${collection_id}`;
 
-        const deletedFromFavorite = await axios.get(url);
+        const deletedFromFavorite = await apiClient.get(url);
 
         return deletedFromFavorite;
     }
 
-    async getCurrentCollectionReleases(token: string, id: number | string, page: number ) {
+    async getCurrentCollectionReleases(id: number | string, page: number ) {
 
-        const url = `${BASE_URL}${COLLECTION}${id}/releases/${page}?token=${token}`
+        const url = `${COLLECTION}${id}/releases/${page}`
 
-        const currentCollectionReleasesData = await axios.get(url);
+        const currentCollectionReleasesData = await apiClient.get(url);
 
         return currentCollectionReleasesData.data;
     }
 
-    async getCurrentCollection(token: string, id: number | string ) {
+    async getCurrentCollection(id: number | string ) {
 
-        const url = `${BASE_URL}${COLLECTION}${id}?token=${token}`
+        const url = `${COLLECTION}${id}`
 
-        const currentCollectionData = await axios.get(url);
+        const currentCollectionData = await apiClient.get(url);
 
         return currentCollectionData;
     }
 
-    async getCollections(page: number, token: string, loc: string = '/collections/all', profileID: string | number) {
-
+    async getCollections(loc: string = 'all', page: number, profileID?: number | string, someProfile?: number | string) {
         let LIST: string;
+        console.log(loc)
 
-        if(loc === '/collections/my'){
+        if(profileID && loc === 'my'){
             LIST = COLLECTION_PROFILE + `${profileID}/`;
-        } else if(loc === '/collections/favorite') {
+        } else if(someProfile && loc === 'profile') {
+            LIST = COLLECTION_PROFILE + `${someProfile}/`;
+        } else if(loc === 'favorite') {
             LIST = COLLECTION_FAVORITE;
         } else {
             LIST = COLLECTION_LIST;
         }
 
-        const url = `${BASE_URL}${LIST}${page}?previous_page=${page}&token=${token}`
+        const prev_page = page !== 0 ? page - 1 : 0;
 
-        const collectionsData = await axios.get(url);
+        const queryParams = {
+            params: {
+                previous_page: prev_page,
+            }
+        }
+        console.log('LIST', LIST)
+        const url = `${LIST}${page}`
+
+        const collectionsData = await apiClient.get(url, queryParams);
 
         return collectionsData.data;
     }

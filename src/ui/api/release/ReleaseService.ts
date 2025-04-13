@@ -1,5 +1,5 @@
-import axios from "axios";
-import { BASE_URL, RELEASE_RANDOM, RELEASE, RELEASE_FILTER } from "../endpoints";
+import apiClient from "../apiClient";
+import { RELEASE_RANDOM, RELEASE, RELEASE_FILTER } from "../endpoints";
 
 const StatusList: Record<string, null | number> = {
     last: null,
@@ -40,28 +40,21 @@ export const weekDay = [
 class ReleaseService {
 
     async getRandomRelease() {
-
-        const url = `${BASE_URL}${RELEASE_RANDOM}`
-
-        const randomRelease = await axios.get(url);
+        const randomRelease = await apiClient.get(RELEASE_RANDOM);
 
         return randomRelease;
     }
 
-    async getCurrentRelease(
-        id: number | string,
-        token: string | null,
-    ) {
-        const url = `${BASE_URL}${RELEASE}${id}?token=${token}`;
+    async getCurrentRelease( id: number | string ) {
+        const url = `${RELEASE}${id}`;
 
-        const currentRelease = await axios.get(url);
+        const currentRelease = await apiClient.get(url);
 
         return currentRelease;
     }
 
     async getLastUpdatedReleases(
         status: string,
-        token: string | null,
         page: string | number = 0,
         sort: null | number = 0
     ) {
@@ -98,14 +91,11 @@ class ReleaseService {
             types:[]
         };
 
-        let url = `${BASE_URL}${RELEASE_FILTER}${page}`;
-        if (token) {
-            url += `?token=${token}`;
-        }
+        let url = `${RELEASE_FILTER}${page}`;
         
-        const lastUpdatedReleases = await axios.post(url, data);
+        const lastUpdatedReleases = await apiClient.post(url, data);
         
-        return lastUpdatedReleases;
+        return lastUpdatedReleases.data;
     }
 
 }

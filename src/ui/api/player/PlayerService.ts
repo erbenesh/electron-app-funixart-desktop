@@ -1,25 +1,25 @@
-import axios from "axios";
-import { BASE_URL, HISTORY_ADD, EPISODE_WATCH_SOURCE, EPISODE } from "../endpoints";
+import { HISTORY_ADD, EPISODE_WATCH_SOURCE, EPISODE } from "../endpoints";
+import apiClient from "../apiClient";
 
 class PlayerService {
 
     async getToHistory(url: string) {
-        const fullUrl = `${BASE_URL}${HISTORY_ADD}${url}`;
-        const toHistory =  await axios.get(fullUrl);
+        const fullUrl = `${HISTORY_ADD}${url}`;
+        const toHistory =  await apiClient.get(fullUrl);
         console.log("HISTORY");
         return toHistory;
     }
 
     async getMarkWatched(url: string) {
-        const fullUrl = `${BASE_URL}${EPISODE_WATCH_SOURCE}${url}`;
-        const markWatched =  await axios.post(fullUrl);
+        const fullUrl = `${EPISODE_WATCH_SOURCE}${url}`;
+        const markWatched =  await apiClient.post(fullUrl);
         console.log("MARK");
         return markWatched;
     }
 
     async getReleasePlayer(url: string) {
-        const fullUrl = `${BASE_URL}${EPISODE}${url}`;
-        const playerData =  await axios.get(fullUrl);
+        const fullUrl = `${EPISODE}${url}`;
+        const playerData =  await apiClient.get(fullUrl);
 
         return playerData;
     }

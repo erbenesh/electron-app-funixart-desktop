@@ -6,18 +6,15 @@ import { useEffect } from 'react';
 import { useScrollPosition } from '../../../hooks/useScrollPosition';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
-import { useAuthStore } from '../../../auth/store/authStore';
 import { feedService } from '../../../api/feed/FeedService';
 
 export const FeedList = () => {
 
-    const token = useAuthStore((state) => state.token);
-
     const location = useLocation();
 
     const feedNews = useInfiniteQuery({
-        queryKey: ['get feed news', String(location.pathname).slice(6), token],
-        queryFn: meta => feedService.getFeed(String(location.pathname).slice(6), token, meta.pageParam),
+        queryKey: ['get feed news', String(location.pathname).slice(6)],
+        queryFn: meta => feedService.getFeed(String(location.pathname).slice(6), meta.pageParam),
         initialPageParam: 0,
         getNextPageParam: (lastPage, allPages, lastPageParam) => {
             if (lastPage.data.content.length === 0) {

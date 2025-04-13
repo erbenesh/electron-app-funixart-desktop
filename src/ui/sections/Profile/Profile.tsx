@@ -1,31 +1,20 @@
 import { MdAddLink } from "react-icons/md";
 import styles from './Profile.module.css';
 import { minutesToTime, unixToDate } from '../../utils/utils';
-import { useAuthStore } from "../../auth/store/authStore";
 import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "../../auth/authApi";
 import { useLocation } from "react-router-dom";
+import { CircleChart } from "./components/CircleChart";
 
 export const Profile: React.FC = () => {
-
-    const { token } = useAuthStore();
 
     const location = useLocation();
 
     const { data: profile, isPending, status, error } = useQuery({
-        queryKey: ['profile', location.pathname.slice(9), token],
-        queryFn: () => getProfile(location.pathname.slice(9), token),
+        queryKey: ['profile', location.pathname.slice(9)],
+        queryFn: () => getProfile(location.pathname.slice(9)),
         // enabled: token ? true : false,
     });
-
-    const totalCount = profile && 
-    (
-        profile.profile.watching_count + 
-        profile.profile.plan_count + 
-        profile.profile.completed_count + 
-        profile.profile.hold_on_count + 
-        profile.profile.dropped_count
-    );
 
     if (isPending) {
         return (
@@ -132,35 +121,29 @@ export const Profile: React.FC = () => {
                                         Брошено <span className={styles.total_state_value}>{profile.profile.dropped_count}</span>
                                     </li>
                                 </ul>
-                                <div className={styles.total_stats_viewed}>
-                                    <p className={styles.state_viewed}>Просмотрено серий: <span className={styles.total_state_value}>{profile.profile.watched_episode_count}</span></p>
-                                    <p className={styles.state_viewed}>Время просомтра: <span className={styles.total_state_value}>{minutesToTime(profile.profile.watched_time)}</span></p>
-                                </div>
+                                
                             </div>
-                            <div className={styles.analytics_pie_chart_wrap}>
-                                <div className={styles.analytics_pie_chart} 
-                                style={
-                                    {
-                                        background: ` 
-                                            conic-gradient(
-                                            var(--color-watching) ${(profile.profile.watching_count/totalCount*100)}%, 
-                                            var(--color-plans) 0 ${(profile.profile.watching_count/totalCount*100)+(profile.profile.plan_count/totalCount*100)}%, 
-                                            var(--color-viewed) 0 ${((profile.profile.watching_count/totalCount*100)+(profile.profile.plan_count/totalCount*100))+(profile.profile.completed_count/totalCount*100)}%, 
-                                            var(--color-hold) 0 ${(((profile.profile.watching_count/totalCount*100)+(profile.profile.plan_count/totalCount*100))+(profile.profile.completed_count/totalCount*100))+(profile.profile.hold_on_count/totalCount*100)}%, 
-                                            var(--color-droped) 0
-                                        `,
-                                        mask: `
-                                        radial-gradient(
-                                            transparent 3rem, 
-                                            white 3rem
-                                        )
-                                        `
-                                    }
-                                }>
-                                </div>
-
+                            <div className={styles.analytics_stats}>
+                                <CircleChart
+                                    size={250}
+                                    strokeWidth={25}
+                                    gapSize={1.5}
+                                    showLabels={true}
+                                    segments={[
+                                        { color: 'rgb(26, 212, 85)', value: profile.profile.watching_count, label: 'Watching' },
+                                        { color: 'rgb(140, 119, 197)', value: profile.profile.plan_count, label: 'Planned' },
+                                        { color: 'rgb(91, 93, 207)', value: profile.profile.completed_count, label: 'Completed' },
+                                        { color: 'rgb(233, 196, 47)', value: profile.profile.hold_on_count, label: 'On Hold' },
+                                        { color: 'rgb(231, 115, 80)', value: profile.profile.dropped_count, label: 'Dropped' },
+                                    ]}
+                                />
                             </div>
+                        
+                        </div>
 
+                        <div className={styles.total_stats_viewed}>
+                            <p className={styles.state_viewed}>Просмотрено серий: <span className={styles.total_state_value}>{profile.profile.watched_episode_count}</span></p>
+                            <p className={styles.state_viewed}>Время просомтра: <span className={styles.total_state_value}>{minutesToTime(profile.profile.watched_time)}</span></p>
                         </div>
                     </div>
                 </div>

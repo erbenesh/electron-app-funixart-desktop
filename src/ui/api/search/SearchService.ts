@@ -1,10 +1,10 @@
-import axios from "axios";
-import { BASE_URL, SEARCH_COLLECTION, SEARCH_PROFILE, SEARCH_RELEASE } from "../endpoints";
+import apiClient from "../apiClient";
+import { SEARCH_COLLECTION, SEARCH_PROFILE, SEARCH_RELEASE } from "../endpoints";
 import { matchPath } from "react-router-dom";
 
 class SearchService {
 
-    async searchResults(token: string, value: string, searchBy: string, location: string) {
+    async searchResults(value: string, searchBy: string, location: string) {
 
         const isProfile = matchPath('/profile/*', window.location.pathname);
         const isCollections = matchPath('/collections/*', window.location.pathname);
@@ -24,9 +24,9 @@ class SearchService {
             SEARCH = SEARCH_RELEASE;
         }
 
-        const url = `${BASE_URL}${SEARCH}0?token=${token}`;
+        const url = `${SEARCH}0`;
 
-        const resultsData = await axios.post(url, data);
+        const resultsData = await apiClient.post(url, data);
 
         return resultsData;
     }

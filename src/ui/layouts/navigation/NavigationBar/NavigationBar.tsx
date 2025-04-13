@@ -14,15 +14,14 @@ import { CollectionCard } from "../../../components/CollectionCard/CollectionCar
 export const NavigationBar = (props) => {
 
     const location = useLocation();
-
-    const token = useAuthStore((state) => state.token);
+    
     const user = useAuthStore((state) => state.user);
 
     const [ searchInputValue, setSearchInputValue ] = useState('');
 
     const getSearchResult = useQuery({
-        queryKey: ['search results', token, searchInputValue],
-        queryFn: () => searchService.searchResults(token, searchInputValue, null, location.pathname),
+        queryKey: ['search results', searchInputValue],
+        queryFn: () => searchService.searchResults(searchInputValue, null, location.pathname),
     });
 
     const searchInputRef = useRef(null);
@@ -40,7 +39,7 @@ export const NavigationBar = (props) => {
 
                     <div className={styles.buttons_wraper}>
                         
-                        <NavLink to="/" button-name-ru="Главная"
+                        <NavLink to="/home" button-name-ru="Главная"
                         className={({ isActive }) =>
                                     isActive ? styles.toptools__active_button : styles.toptools__button
                                 }
