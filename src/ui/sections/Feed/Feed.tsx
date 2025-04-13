@@ -65,8 +65,10 @@ export const Feed = () => {
                     <PostInput avatarUrl={userStore.user.avatar} />
                 </div>
 
-                <Outlet />
-
+                <div className={styles.feed_news}>
+                    <Outlet />
+                </div>
+                
                 {/* <FeedList newsList={feedNews.data}/> */}
 
             </div>

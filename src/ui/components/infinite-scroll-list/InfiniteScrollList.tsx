@@ -72,7 +72,7 @@ export const InfiniteScrollList = <T,>({
         <>
         {isPending ? (
             loadingComponent
-        ) : (
+        ) : location.pathname.split('/')[1] !== 'feed' ? (
             <div className={styles.last_releases_list_page}>
                 <div className={styles.last_releases_list_cards} style={location.pathname.split('/')[1] === 'collections' ? {width: "110rem"} : {}}>
                     {
@@ -83,7 +83,11 @@ export const InfiniteScrollList = <T,>({
 
                 {isFetchingNextPage && loadingComponent}
             </div>
-        )}
+        ) : 
+            infiniteList.length ? infiniteList?.map((item) => renderItem(item))
+            : <p style={{margin: 'auto', alignContent: 'center', height: '100vh'}}>Ой, а тут ничего нет!</p>
+            
+        }
         </>
     );
 };

@@ -20,6 +20,7 @@ import { bookmarksRoutes } from "./bookmarks-routes";
 import { lastReleasesRoutes } from "./last-releases-routes";
 import { collectionsRoutes } from "./collections-routes";
 import { popularRoutes } from "./popular-routes";
+import { feedRoutes } from "./feed-routes";
 
 export const router = createBrowserRouter([
     {
@@ -72,16 +73,7 @@ export const router = createBrowserRouter([
         {
           path: '/feed',
           element: <PrivateRoute><Feed /></PrivateRoute>,
-          children: [
-            {
-              path: 'news',
-              element: <FeedList/>
-            },
-            {
-              path: 'latest',
-              element: <FeedList/>
-            },
-          ]
+          children: feedRoutes
           // loader: dashboardLoader
         },
         {

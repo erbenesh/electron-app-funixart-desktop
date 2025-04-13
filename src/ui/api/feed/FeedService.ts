@@ -49,7 +49,7 @@ class FeedService {
 
         const feedNewsData = await apiClient.post(url, data);
 
-        return feedNewsData;
+        return feedNewsData.data;
     }
 
 }
