@@ -1,17 +1,16 @@
-import { Schedule } from "../../sections/Schedule/Schedule"
+import { Schedule } from '../../sections/Schedule/Schedule';
 
 export const metadata = {
-    title: 'Расписание | Anixart Desktop',
-    description: '...',
-}
+  title: 'Расписание | Anixart Desktop',
+  description: '...',
+};
 
 export default function Page() {
+  return (
+    <>
+      <title>{metadata.title}</title>
 
-    return (
-        <>
-            <title>{metadata.title}</title>
-            
-            <Schedule />
-        </>
-    )
+      <Schedule />
+    </>
+  );
 }

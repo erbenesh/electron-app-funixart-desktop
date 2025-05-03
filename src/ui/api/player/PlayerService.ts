@@ -1,29 +1,27 @@
-import { HISTORY_ADD, EPISODE_WATCH_SOURCE, EPISODE } from "../endpoints";
-import apiClient from "../apiClient";
+import apiClient from '../apiClient';
+import { EPISODE, HISTORY_ADD, EPISODE_WATCH_SOURCE } from '../endpoints';
 
 class PlayerService {
+  async getToHistory(url: string) {
+    const fullUrl = `${HISTORY_ADD}${url}`;
+    const toHistory = await apiClient.get(fullUrl);
+    console.log('HISTORY');
+    return toHistory;
+  }
 
-    async getToHistory(url: string) {
-        const fullUrl = `${HISTORY_ADD}${url}`;
-        const toHistory =  await apiClient.get(fullUrl);
-        console.log("HISTORY");
-        return toHistory;
-    }
+  async getMarkWatched(url: string) {
+    const fullUrl = `${EPISODE_WATCH_SOURCE}${url}`;
+    const markWatched = await apiClient.post(fullUrl);
+    console.log('MARK');
+    return markWatched;
+  }
 
-    async getMarkWatched(url: string) {
-        const fullUrl = `${EPISODE_WATCH_SOURCE}${url}`;
-        const markWatched =  await apiClient.post(fullUrl);
-        console.log("MARK");
-        return markWatched;
-    }
+  async getReleasePlayer(url: string) {
+    const fullUrl = `${EPISODE}${url}`;
+    const playerData = await apiClient.get(fullUrl);
 
-    async getReleasePlayer(url: string) {
-        const fullUrl = `${EPISODE}${url}`;
-        const playerData =  await apiClient.get(fullUrl);
-
-        return playerData;
-    }
-
+    return playerData;
+  }
 }
 
 export const playerService = new PlayerService();

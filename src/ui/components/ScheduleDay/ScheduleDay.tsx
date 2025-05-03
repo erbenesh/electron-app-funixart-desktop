@@ -1,14 +1,11 @@
-import { ScheduleList } from '../../sections/lists/ScheduleList/ScheduleList'
-import styles from './ScheduleDay.module.css'
+import styles from './ScheduleDay.module.css';
 
-export const ScheduleDay = (props) => {
+import { ScheduleList } from '../../sections/lists/ScheduleList/ScheduleList';
 
-    return (
-        <div key={props.key} className={styles.releases_schedule}>
-            <li className={styles.sh_day_title}>{props.day_title}</li>
+export const ScheduleDay = (props) => (
+    <div key={props.key} className={styles.releases_schedule}>
+      <li className={styles.sh_day_title}>{props.day_title}</li>
 
-            <ScheduleList array={props.array}/>
-            
-        </div>
-    )
-}
+      <ScheduleList array={props.array} />
+    </div>
+  );

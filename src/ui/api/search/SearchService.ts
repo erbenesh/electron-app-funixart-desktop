@@ -1,36 +1,34 @@
-import apiClient from "../apiClient";
-import { SEARCH_COLLECTION, SEARCH_PROFILE, SEARCH_RELEASE } from "../endpoints";
-import { matchPath } from "react-router-dom";
+import { matchPath } from 'react-router-dom';
+
+import apiClient from '../apiClient';
+import { SEARCH_PROFILE, SEARCH_RELEASE, SEARCH_COLLECTION } from '../endpoints';
 
 class SearchService {
+  async searchResults(value: string, searchBy: string, location: string) {
+    const isProfile = matchPath('/profile/*', window.location.pathname);
+    const isCollections = matchPath('/collections/*', window.location.pathname);
 
-    async searchResults(value: string, searchBy: string, location: string) {
+    const data = {
+      query: value,
+      searchBy,
+    };
 
-        const isProfile = matchPath('/profile/*', window.location.pathname);
-        const isCollections = matchPath('/collections/*', window.location.pathname);
+    let SEARCH = SEARCH_RELEASE;
 
-        const data = {
-            query: value,
-            searchBy: searchBy
-        };
-
-        let SEARCH = SEARCH_RELEASE;
-        
-        if(isProfile) {
-            SEARCH = SEARCH_PROFILE;
-        } else if(isCollections) {
-            SEARCH = SEARCH_COLLECTION
-        } else {
-            SEARCH = SEARCH_RELEASE;
-        }
-
-        const url = `${SEARCH}0`;
-
-        const resultsData = await apiClient.post(url, data);
-
-        return resultsData;
+    if (isProfile) {
+      SEARCH = SEARCH_PROFILE;
+    } else if (isCollections) {
+      SEARCH = SEARCH_COLLECTION;
+    } else {
+      SEARCH = SEARCH_RELEASE;
     }
 
+    const url = `${SEARCH}0`;
+
+    const resultsData = await apiClient.post(url, data);
+
+    return resultsData;
+  }
 }
 
-export const searchService = new SearchService(); 
+export const searchService = new SearchService();

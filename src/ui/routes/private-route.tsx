@@ -1,5 +1,8 @@
+import type { ReactNode} from 'react';
+
+import { useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { ReactNode, useEffect } from 'react';
+
 import { useAuthStore } from '../auth/store/authStore';
 
 export default function PrivateRoute({ children }: { children: ReactNode }) {
@@ -10,17 +13,14 @@ export default function PrivateRoute({ children }: { children: ReactNode }) {
   useEffect(() => {
     // initialize();
     checkAuth(); // Проверяем токен при каждом переходе
-  }, [])
+  }, []);
   // console.log(test.user, test.token)
-  if (user === null) return (
-  <div className="loader-container">	
-    <i className="loader-circle"></i>
-  </div>
-  )
+  if (user === null)
+    return (
+      <div className="loader-container">
+        <i className="loader-circle" />
+      </div>
+    );
 
-  return user ? (
-    <>{children}</>
-  ) : (
-    <Navigate to="/login" state={{ from: location }} replace />
-  );
+  return user ? <>{children}</> : <Navigate to="/login" state={{ from: location }} replace />;
 }

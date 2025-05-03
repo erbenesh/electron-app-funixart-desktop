@@ -1,17 +1,16 @@
-import { Popular } from "../../sections/Popular/Popular";
+import { Popular } from '../../sections/Popular/Popular';
 
 export const metadata = {
-    title: 'Популярное | Anixart Desktop',
-    description: '...',
-}
+  title: 'Популярное | Anixart Desktop',
+  description: '...',
+};
 
 export default function Page() {
+  return (
+    <>
+      <title>{metadata.title}</title>
 
-    return (
-        <>
-            <title>{metadata.title}</title>
-            
-            <Popular />
-        </>
-    )
+      <Popular />
+    </>
+  );
 }

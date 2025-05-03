@@ -1,17 +1,16 @@
-import { Profile } from "../../sections/Profile/Profile"
+import { Profile } from '../../sections/Profile/Profile';
 
 export const metadata = {
-    title: 'Профиль | Anixart Desktop',
-    description: '...',
-}
+  title: 'Профиль | Anixart Desktop',
+  description: '...',
+};
 
 export default function Page() {
+  return (
+    <>
+      <title>{metadata.title}</title>
 
-    return (
-        <>
-            <title>{metadata.title}</title>
-            
-            <Profile />
-        </>
-    )
+      <Profile />
+    </>
+  );
 }

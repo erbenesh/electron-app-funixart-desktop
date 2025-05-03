@@ -1,16 +1,14 @@
 import { Outlet } from 'react-router-dom';
-import { QueryProvider } from '../QueryProvider';
-import { MainLayout } from './layouts/main-layout/main-layout';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-export const App: React.FC = ()=> {
+import { QueryProvider } from './providers/QueryProvider';
+import { MainLayout } from './layouts/main-layout/main-layout';
 
-  return (
+export const App: React.FC = () => (
     <QueryProvider>
       <MainLayout>
         <Outlet />
       </MainLayout>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryProvider>
-  )
-}
+  );

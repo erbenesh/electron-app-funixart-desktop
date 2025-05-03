@@ -1,17 +1,16 @@
-import { Feed } from "../../sections/Feed/Feed";
+import { Feed } from '../../sections/Feed/Feed';
 
 export const metadata = {
-    title: 'Лента | Anixart Desktop',
-    description: '...',
-}
+  title: 'Лента | Anixart Desktop',
+  description: '...',
+};
 
 export default function Page() {
+  return (
+    <>
+      <title>{metadata.title}</title>
 
-    return (
-        <>
-            <title>{metadata.title}</title>
-            
-            <Feed />
-        </>
-    )
+      <Feed />
+    </>
+  );
 }

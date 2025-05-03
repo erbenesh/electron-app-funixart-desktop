@@ -1,12 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 export function useScrollPositionInElement(el: string) {
   const [scrollPosition, setScrollPosition] = useState(0);
 
   function handleScroll() {
     const height =
-      document.querySelector(el).scrollHeight -
-      document.querySelector(el).clientHeight;
+      document.querySelector(el).scrollHeight - document.querySelector(el).clientHeight;
 
     const windowScroll = document.querySelector(el).scrollTop;
 
@@ -16,10 +15,9 @@ export function useScrollPositionInElement(el: string) {
   }
 
   useEffect(() => {
-
-    document.querySelector(el)?.addEventListener("scroll", handleScroll, { passive: true });
+    document.querySelector(el)?.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
-        document.querySelector(el)?.removeEventListener("scroll", handleScroll);
+      document.querySelector(el)?.removeEventListener('scroll', handleScroll);
     };
   });
 

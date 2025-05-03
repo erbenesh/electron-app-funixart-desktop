@@ -1,23 +1,9 @@
-import { ScheduleReleaseCard } from '../../../components/ScheduleReleaseCard/ScheduleReleaseCard'
-import styles from './ScheduleList.module.css'
+import styles from './ScheduleList.module.css';
 
-export const ScheduleList = (props) => {
+import { ScheduleReleaseCard } from '../../../components/ScheduleReleaseCard/ScheduleReleaseCard';
 
-
-    return(
-        <div className={styles.last_releases}>
-    
-        {
-            props.array?.map(
-                el => 
-                el.id && 
-                <ScheduleReleaseCard 
-                    key={el.id} 
-                    release={el}
-                />
-            ) 
-        }
-
-        </div>
-    )
-}
+export const ScheduleList = (props) => (
+    <div className={styles.last_releases}>
+      {props.array?.map((el) => el.id && <ScheduleReleaseCard key={el.id} release={el} />)}
+    </div>
+  );

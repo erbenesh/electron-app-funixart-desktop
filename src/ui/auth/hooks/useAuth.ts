@@ -1,7 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { login as loginApi, } from '../authApi';
-import { useAuthStore } from '../store/authStore';
 import { useNavigate } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { login as loginApi } from '../authApi';
+import { useAuthStore } from '../store/authStore';
 
 export const useLogin = () => {
   const authStore = useAuthStore();
@@ -20,7 +21,7 @@ export const useLogin = () => {
         // queryClient.invalidateQueries({ queryKey: ['profile'] });
         navigate('/home');
       } else {
-        alert("Неверные данные.");
+        alert('Неверные данные.');
       }
     },
   });

@@ -1,62 +1,55 @@
-import { LISTS_ADD, FAVORITE_ADD, FAVORITE_DELETE, LISTS, FAVORITES } from "../endpoints";
-import { BookmarksList } from "../../utils/utils";
-import apiClient from "../apiClient";
+import apiClient from '../apiClient';
+import { BookmarksList } from '../../utils/utils';
+import { LISTS, LISTS_ADD, FAVORITES, FAVORITE_ADD, FAVORITE_DELETE } from '../endpoints';
 
 class BookmarksService {
+  async getFavorites(loc: string, page: string | number = 0) {
+    const url = `${FAVORITES}${page}`;
 
-    async getFavorites(loc: string, page: string | number = 0) {
+    const bookmarksData = await apiClient.get(url);
 
-        const url = `${FAVORITES}${page}`;
+    return bookmarksData.data;
+  }
 
-        const bookmarksData = await apiClient.get(url);
+  async addToBookmarkList(list: number, release_id: number | string) {
+    const url = `${LISTS_ADD}${list}/${release_id}`;
 
-        return bookmarksData.data;
-    }
+    const addToList = await apiClient.get(url);
 
-    async addToBookmarkList(list: number, release_id: number | string) {
+    return addToList;
+  }
 
-        const url = `${LISTS_ADD}${list}/${release_id}`
+  async setAddToFavorite(release_id: number | string) {
+    const url = `${FAVORITE_ADD}${release_id}`;
 
-        const addToList = await apiClient.get(url);
+    const addToFavorite = await apiClient.get(url);
 
-        return addToList;
-    }
+    return addToFavorite;
+  }
 
-    async setAddToFavorite(release_id: number | string) {
+  async setDeleteFromFavorite(release_id: number | string) {
+    const url = `${FAVORITE_DELETE}${release_id}`;
 
-        const url = `${FAVORITE_ADD}${release_id}`;
+    const deletedFromFavorite = await apiClient.get(url);
 
-        const addToFavorite = await apiClient.get(url);
+    return deletedFromFavorite;
+  }
 
-        return addToFavorite;
-    }
+  async getBookmarks(listName: string, page: string | number = 0) {
+    // url = `${ENDPOINTS.user.bookmark}/all/${props.profile_id}/${BookmarksList[listName]}/0?sort=1&token=${token}`;
+    // url = `${ENDPOINTS.user.bookmark}/all/${BookmarksList[listName]}/0?sort=1&token=${token}`;
 
+    const queryParams = {
+      params: {
+        sort: 1,
+      },
+    };
+    const url = `${LISTS}${BookmarksList[listName]}/${page}`;
 
-    async setDeleteFromFavorite(release_id: number | string) {
+    const bookmarksData = await apiClient.get(url, queryParams);
 
-        const url = `${FAVORITE_DELETE}${release_id}`;
-
-        const deletedFromFavorite = await apiClient.get(url);
-
-        return deletedFromFavorite;
-    }
-
-    async getBookmarks(listName: string, page: string | number = 0) {
-        // url = `${ENDPOINTS.user.bookmark}/all/${props.profile_id}/${BookmarksList[listName]}/0?sort=1&token=${token}`;
-        // url = `${ENDPOINTS.user.bookmark}/all/${BookmarksList[listName]}/0?sort=1&token=${token}`;
-
-        const queryParams = {
-            params: {
-                sort: 1,
-            }
-        }
-        const url = `${LISTS}${BookmarksList[listName]}/${page}`;
-
-        const bookmarksData = await apiClient.get(url, queryParams);
-
-        return bookmarksData.data;
-    }
-
+    return bookmarksData.data;
+  }
 }
 
 export const bookmarksService = new BookmarksService();

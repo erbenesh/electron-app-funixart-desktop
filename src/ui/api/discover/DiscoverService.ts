@@ -1,71 +1,67 @@
-import { 
-    DISCOVER_INTERESTING, USER_AGENT, DISCOVER_RECOMMENDATIONS, 
-    SCHEDULE, DISCOVER_DISCUSSING, DISCOVER_WATCHING, 
-    DISCOVER_COMMENTS
-} from "../endpoints";
-import apiClient from "../apiClient";
+import apiClient from '../apiClient';
+import {
+  SCHEDULE,
+  USER_AGENT,
+  DISCOVER_WATCHING,
+  DISCOVER_COMMENTS,
+  DISCOVER_DISCUSSING,
+  DISCOVER_INTERESTING,
+  DISCOVER_RECOMMENDATIONS,
+} from '../endpoints';
 
 export const HEADERS = {
-  "User-Agent": USER_AGENT,
-  "Content-Type": "application/json; charset=UTF-8",
+  'User-Agent': USER_AGENT,
+  'Content-Type': 'application/json; charset=UTF-8',
 };
 
 class DiscoverService {
+  async getComments() {
+    const commentsData = await apiClient.post(DISCOVER_COMMENTS);
 
-    async getComments() {
+    return commentsData;
+  }
 
-        const commentsData = await apiClient.post(DISCOVER_COMMENTS);
+  async getWatching(page: number | string = 0) {
+    const url = `${DISCOVER_WATCHING}${page}`;
 
-        return commentsData;
-    }
+    const watchingData = await apiClient.post(url);
 
-    async getWatching(page: number | string = 0) {
+    return watchingData;
+  }
 
-        const url = `${DISCOVER_WATCHING}${page}`
+  async getDiscussing() {
+    const discussingData = await apiClient.post(DISCOVER_DISCUSSING);
 
-        const watchingData = await apiClient.post(url);
+    return discussingData.data;
+  }
 
-        return watchingData;
-    }
+  async getRecommendations(loc: string, page: number) {
+    const prev_page = page !== 0 ? page - 1 : 0;
 
-    async getDiscussing() {
+    const queryParams = {
+      params: {
+        previous_page: prev_page,
+      },
+    };
 
-        const discussingData = await apiClient.post(DISCOVER_DISCUSSING);
+    const url = `${DISCOVER_RECOMMENDATIONS}${page}`;
 
-        return discussingData.data;
-    }
+    const recommendationsData = await apiClient.post(url, null, queryParams);
 
-    async getRecommendations(loc: string, page: number) {
+    return recommendationsData.data;
+  }
 
-        const prev_page = page !== 0 ? page - 1 : 0;
+  async getDiscoverInteresting() {
+    const discoverInteresting = await apiClient.get(DISCOVER_INTERESTING);
 
-        const queryParams = {
-            params: {
-                previous_page: prev_page,
-            }
-        }
+    return discoverInteresting.data;
+  }
 
-        const url = `${DISCOVER_RECOMMENDATIONS}${page}`
+  async getSchedule() {
+    const scheduleData = await apiClient.get(SCHEDULE);
 
-        const recommendationsData = await apiClient.post(url, null, queryParams);
-
-        return recommendationsData.data;
-    }
-
-    async getDiscoverInteresting() {
-
-        const discoverInteresting = await apiClient.get(DISCOVER_INTERESTING);
-
-        return discoverInteresting.data;
-    }
-
-    async getSchedule() {
-
-        const scheduleData = await apiClient.get(SCHEDULE);
-
-        return scheduleData;
-    }
-
+    return scheduleData;
+  }
 }
 
 export const discoverService = new DiscoverService();

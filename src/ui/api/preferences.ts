@@ -1,6 +1,6 @@
-import { deepmerge } from "deepmerge-ts";
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { deepmerge } from 'deepmerge-ts';
+import { persist } from 'zustand/middleware';
 
 interface preferencesState {
   _hasHydrated: boolean;
@@ -17,7 +17,7 @@ interface preferencesState {
       enabled: boolean;
       homeCategory: string;
       bookmarksCategory: string;
-    }
+    };
     // color: {
     //   primary: string;
     //   secondary: string;
@@ -25,8 +25,8 @@ interface preferencesState {
     // }
   };
   setHasHydrated: (state: boolean) => void;
-  setFlags: (flags: preferencesState["flags"]) => void;
-  setParams: (params: preferencesState["params"]) => void;
+  setFlags: (flags: preferencesState['flags']) => void;
+  setParams: (params: preferencesState['params']) => void;
 }
 
 export const usePreferencesStore = create<preferencesState>()(
@@ -41,12 +41,12 @@ export const usePreferencesStore = create<preferencesState>()(
       },
       params: {
         isFirstLaunch: true,
-        version: "3.0.0",
+        version: '3.0.0',
         skipToCategory: {
           enabled: false,
-          homeCategory: "last",
-          bookmarksCategory: "watching",
-        }
+          homeCategory: 'last',
+          bookmarksCategory: 'watching',
+        },
       },
       setHasHydrated: (state) => {
         set({
@@ -61,13 +61,9 @@ export const usePreferencesStore = create<preferencesState>()(
       },
     }),
     {
-      name: "preferences",
-      onRehydrateStorage: (state) => {
-        return () => state.setHasHydrated(true);
-      },
-      merge: (persistedState , currentState) => {
-        return deepmerge(currentState as preferencesState, persistedState as preferencesState);
-      }
+      name: 'preferences',
+      onRehydrateStorage: (state) => () => state.setHasHydrated(true),
+      merge: (persistedState, currentState) => deepmerge(currentState as preferencesState, persistedState as preferencesState),
     }
   )
 );
