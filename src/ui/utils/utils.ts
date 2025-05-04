@@ -56,6 +56,7 @@ export function numberDeclension(number: number, one: string, two: string, five:
   if (last_num == 1) return one;
   if ([2, 3, 4].includes(last_num)) return two;
   if ([5, 6, 7, 8, 9, 0].includes(last_num)) return five;
+  return number
 }
 
 const months = [
@@ -90,6 +91,8 @@ export function unixToDate(unix: number, type: 'full' | 'dayMonth' | 'dayMonthYe
   if (type === 'dayMonth') return date.getDate() + ' ' + months[date.getMonth()];
   if (type === 'dayMonthYear')
     return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+
+  return 0
 }
 
 export const getSeasonFromUnix = (unix: number) => {
@@ -142,6 +145,8 @@ export function minutesToTime(min: number, type?: 'full' | 'daysOnly' | 'daysHou
   } else {
     return `${d > 0 ? dDisplay : ''}${h > 0 ? ', ' + hDisplay : ''}${m > 0 ? ', ' + mDisplay : ''}`;
   }
+
+  return 0
 }
 
 export const BookmarksList = {
@@ -167,7 +172,7 @@ export const SortList = {
  * @param {boolean} [showFullDate=false] - показывать ли полную дату для старых постов
  * @returns {string} - форматированная строка с датой
  */
-export function formatPostTimestamp(timestamp, showFullDate = false) {
+export function formatPostTimestamp(timestamp: number, showFullDate = false) {
   // Проверяем, нужно ли умножать на 1000 (для timestamp в секундах)
   const ts = timestamp < 1e12 ? timestamp * 1000 : timestamp;
   const postDate: any = new Date(ts);
@@ -180,14 +185,14 @@ export function formatPostTimestamp(timestamp, showFullDate = false) {
   const diffInDays = Math.floor(diff / (1000 * 60 * 60 * 24));
 
   // Форматирование времени (добавляем ведущий ноль)
-  const formatTime = (date) => {
+  const formatTime = (date: { getHours: () => { (): any; new(): any; toString: { (): string; new(): any; }; }; getMinutes: () => { (): any; new(): any; toString: { (): string; new(): any; }; }; }) => {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
   };
 
   // Форматирование даты
-  const formatDate = (date) => {
+  const formatDate = (date: { getDate: () => { (): any; new(): any; toString: { (): string; new(): any; }; }; getMonth: () => number; getFullYear: () => any; }) => {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear();
@@ -229,7 +234,7 @@ export function formatPostTimestamp(timestamp, showFullDate = false) {
 }
 
 // Вспомогательная функция для склонения слов
-function pluralize(number, words) {
+function pluralize(number: number, words: any[]) {
   const cases = [2, 0, 1, 1, 1, 2];
   return words[number % 100 > 4 && number % 100 < 20 ? 2 : cases[Math.min(number % 10, 5)]];
 }
