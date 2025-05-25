@@ -1,5 +1,5 @@
 import { feedService } from '../api/feed/FeedService';
-import { FeedPost } from '../components/feed-post/feedPost';
+import { FeedPost, IPost } from '../components/feed-post/FeedPost';
 import { InfiniteScrollList } from '../components/infinite-scroll-list/InfiniteScrollList';
 
 export const feedRoutes = [
@@ -10,7 +10,7 @@ export const feedRoutes = [
         queryKey="getInfiniteList popular"
         queryFn={({ pathParam, pageParam }) => feedService.getFeed(pathParam, pageParam)}
         pathIndex={2}
-        renderItem={(post) => post.id && <FeedPost key={post.id} post={post} />}
+        renderItem={(post: IPost) => <FeedPost key={post.id} post={post} />}
       />
     ),
   },
@@ -21,7 +21,7 @@ export const feedRoutes = [
         queryKey="getInfiniteList popular"
         queryFn={({ pathParam, pageParam }) => feedService.getFeed(pathParam, pageParam)}
         pathIndex={2}
-        renderItem={(post) => post.id && <FeedPost key={post.id} post={post} />}
+        renderItem={(post: IPost) => <FeedPost key={post.id} post={post} />}
       />
     ),
   },

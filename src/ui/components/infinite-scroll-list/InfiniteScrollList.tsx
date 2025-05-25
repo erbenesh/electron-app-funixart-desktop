@@ -79,7 +79,7 @@ export const InfiniteScrollList = <T,>({
             className={styles.last_releases_list_cards}
             style={location.pathname.split('/')[1] === 'collections' ? { width: '110rem' } : {}}
           >
-            {infiniteList.length ? (
+            {infiniteList?.length ? (
               infiniteList?.map((item) => renderItem(item))
             ) : (
               <p style={{ margin: 'auto', alignContent: 'center', height: '100vh' }}>
@@ -90,7 +90,7 @@ export const InfiniteScrollList = <T,>({
 
           {isFetchingNextPage && loadingComponent}
         </div>
-      ) : infiniteList.length ? (
+      ) : infiniteList?.length ? (
         infiniteList?.map((item) => renderItem(item))
       ) : (
         <p style={{ margin: 'auto', alignContent: 'center', height: '100vh' }}>

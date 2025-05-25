@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getProfile } from '../../auth/authApi';
 import { CircleChart } from './components/CircleChart';
 import { unixToDate, minutesToTime } from '../../utils/utils';
+import { IRelease } from '../Release/IRelease';
 
 export const Profile: React.FC = () => {
   const location = useLocation();
@@ -205,14 +206,14 @@ export const Profile: React.FC = () => {
             <div className={styles.voted_releases_5_len}>
               <ul className={styles.voted_releases_list}>
                 {profile.profile.votes?.map(
-                  (voted_release) =>
+                  (voted_release: IRelease) =>
                     voted_release.id && (
                       <li className={styles.voted_release} key={voted_release.id}>
                         <div className={styles.voted_release_image_wrap}>
                           <img
                             className={styles.voted_release_image}
                             src={voted_release.image}
-                            alt={`${voted_release.name} image`}
+                            alt=""
                           />
                         </div>
 

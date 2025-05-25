@@ -1,6 +1,7 @@
 import { ReleaseCard } from '../components/ReleaseCard/ReleaseCard';
 import { bookmarksService } from '../api/bookmarks/BookmarksService';
 import { InfiniteScrollList } from '../components/infinite-scroll-list/InfiniteScrollList';
+import { IRelease } from '../sections/Release/IRelease';
 
 export const bookmarksRoutes = [
   {
@@ -10,7 +11,9 @@ export const bookmarksRoutes = [
         queryKey="getInfiniteList"
         queryFn={({ pathParam, pageParam }) => bookmarksService.getFavorites(pathParam, pageParam)}
         pathIndex={2}
-        renderItem={(release) => release.id && <ReleaseCard key={release.id} release={release} />}
+        renderItem={(release: IRelease) =>
+          release.id && <ReleaseCard key={release.id} release={release} />
+        }
       />
     ),
   },
@@ -21,7 +24,9 @@ export const bookmarksRoutes = [
         queryKey="getInfiniteList"
         queryFn={({ pathParam, pageParam }) => bookmarksService.getBookmarks(pathParam, pageParam)}
         pathIndex={2}
-        renderItem={(release) => release.id && <ReleaseCard key={release.id} release={release} />}
+        renderItem={(release: IRelease) =>
+          release.id && <ReleaseCard key={release.id} release={release} />
+        }
       />
     ),
   },
@@ -32,7 +37,9 @@ export const bookmarksRoutes = [
         queryKey="getInfiniteList"
         queryFn={({ pathParam, pageParam }) => bookmarksService.getBookmarks(pathParam, pageParam)}
         pathIndex={2}
-        renderItem={(release) => release.id && <ReleaseCard key={release.id} release={release} />}
+        renderItem={(release: IRelease) =>
+          release.id && <ReleaseCard key={release.id} release={release} />
+        }
       />
     ),
   },
@@ -43,7 +50,9 @@ export const bookmarksRoutes = [
         queryKey="getInfiniteList"
         queryFn={({ pathParam, pageParam }) => bookmarksService.getBookmarks(pathParam, pageParam)}
         pathIndex={2}
-        renderItem={(release) => release.id && <ReleaseCard key={release.id} release={release} />}
+        renderItem={(release: IRelease) =>
+          release.id && <ReleaseCard key={release.id} release={release} />
+        }
       />
     ),
   },
@@ -54,7 +63,9 @@ export const bookmarksRoutes = [
         queryKey="getInfiniteList"
         queryFn={({ pathParam, pageParam }) => bookmarksService.getBookmarks(pathParam, pageParam)}
         pathIndex={2}
-        renderItem={(release) => release.id && <ReleaseCard key={release.id} release={release} />}
+        renderItem={(release: IRelease) =>
+          release.id && <ReleaseCard key={release.id} release={release} />
+        }
       />
     ),
   },
@@ -65,7 +76,9 @@ export const bookmarksRoutes = [
         queryKey="getInfiniteList"
         queryFn={({ pathParam, pageParam }) => bookmarksService.getBookmarks(pathParam, pageParam)}
         pathIndex={2}
-        renderItem={(release) => release.id && <ReleaseCard key={release.id} release={release} />}
+        renderItem={(release: IRelease) =>
+          release.id && <ReleaseCard key={release.id} release={release} />
+        }
       />
     ),
   },

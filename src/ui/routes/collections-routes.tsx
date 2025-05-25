@@ -13,7 +13,7 @@ export const collectionsRoutes = [
         }
         pathIndex={2}
         additionalParams={{}}
-        renderItem={(collection) =>
+        renderItem={(collection: any) =>
           collection.id && <CollectionCard key={collection.id} collection={collection} />
         }
       />
@@ -29,7 +29,7 @@ export const collectionsRoutes = [
         }
         pathIndex={2}
         additionalParams={{}}
-        renderItem={(collection) =>
+        renderItem={(collection: any) =>
           collection.id && <CollectionCard key={collection.id} collection={collection} />
         }
       />
@@ -45,7 +45,7 @@ export const collectionsRoutes = [
         }
         pathIndex={2}
         additionalParams={{}}
-        renderItem={(collection) =>
+        renderItem={(collection: any) =>
           collection.id && <CollectionCard key={collection.id} collection={collection} />
         }
       />

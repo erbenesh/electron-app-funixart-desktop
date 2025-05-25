@@ -1,11 +1,20 @@
 import styles from './ScheduleDay.module.css';
 
-import { ScheduleList } from '../../sections/lists/ScheduleList/ScheduleList';
+import { IRelease } from 'src/ui/sections/Release/IRelease';
+import { ScheduleReleaseCard } from '../ScheduleReleaseCard/ScheduleReleaseCard';
 
-export const ScheduleDay = (props) => (
-    <div key={props.key} className={styles.releases_schedule}>
-      <li className={styles.sh_day_title}>{props.day_title}</li>
+interface Props {
+  key: string;
+  array: IRelease[];
+  day_title: string;
+}
 
-      <ScheduleList array={props.array} />
+export const ScheduleDay = ({ key, array, day_title }: Props) => (
+  <div key={key} className={styles.releases_schedule}>
+    <li className={styles.sh_day_title}>{day_title}</li>
+
+    <div className={styles.last_releases}>
+      {array?.map((el: IRelease) => el.id && <ScheduleReleaseCard key={el.id} release={el} />)}
     </div>
-  );
+  </div>
+);

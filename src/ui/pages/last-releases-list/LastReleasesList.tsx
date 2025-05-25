@@ -1,4 +1,4 @@
-import { LastReleasesList } from '../../sections/lists/LastReleasesList/LastReleasesList';
+import { LastReleases } from 'src/ui/sections/LastReleases/LastReleases';
 
 export const metadata = {
   title: 'Последние релизы -  | Anixart Desktop',
@@ -10,7 +10,7 @@ export default function Page() {
     <>
       <title>{metadata.title}</title>
 
-      <LastReleasesList />
+      <LastReleases />
     </>
   );
 }

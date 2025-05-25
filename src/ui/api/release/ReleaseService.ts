@@ -37,6 +37,8 @@ export const weekDay = [
   'каждое воскресенье',
 ];
 
+export interface IResponseRandomRelease {}
+
 class ReleaseService {
   async getRandomRelease() {
     const randomRelease = await apiClient.get(RELEASE_RANDOM);

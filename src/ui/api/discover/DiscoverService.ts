@@ -1,3 +1,4 @@
+import { IRelease } from 'src/ui/sections/Release/IRelease';
 import apiClient from '../apiClient';
 import {
   SCHEDULE,
@@ -13,6 +14,17 @@ export const HEADERS = {
   'User-Agent': USER_AGENT,
   'Content-Type': 'application/json; charset=UTF-8',
 };
+
+export interface IResponseSchedule {
+  monday: IRelease[];
+  saturday: IRelease[];
+  sunday: IRelease[];
+  thursday: IRelease[];
+  friday: IRelease[];
+  tuesday: IRelease[];
+  wednesday: IRelease[];
+  [key: string]: any;
+}
 
 class DiscoverService {
   async getComments() {
@@ -35,7 +47,7 @@ class DiscoverService {
     return discussingData.data;
   }
 
-  async getRecommendations(loc: string, page: number) {
+  async getRecommendations(page: number) {
     const prev_page = page !== 0 ? page - 1 : 0;
 
     const queryParams = {
@@ -58,9 +70,9 @@ class DiscoverService {
   }
 
   async getSchedule() {
-    const scheduleData = await apiClient.get(SCHEDULE);
+    const scheduleData = await apiClient.get<IResponseSchedule>(SCHEDULE);
 
-    return scheduleData;
+    return scheduleData.data;
   }
 }
 

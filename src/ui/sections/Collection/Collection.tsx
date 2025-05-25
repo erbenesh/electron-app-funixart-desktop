@@ -5,29 +5,26 @@ import { useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
 
 import { unixToDate } from '../../utils/utils';
-import { useAuthStore } from '../../auth/store/authStore';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
 import { ReleaseCard } from '../../components/ReleaseCard/ReleaseCard';
 import { collectionService } from '../../api/collections/CollectionService';
 
 export const CollectionPage = () => {
-  const token = useAuthStore((state) => state.token);
-
   const { collectionId } = useParams();
 
   const queryClient = useQueryClient();
 
   const currentCollection = useQuery({
-    queryKey: ['get current collection', token, collectionId],
-    queryFn: () => collectionService.getCurrentCollection(token, collectionId),
+    queryKey: ['get current collection', collectionId],
+    queryFn: () => collectionService.getCurrentCollection(collectionId ?? ''),
   });
 
   const collection = currentCollection.data?.data.collection;
 
   const currentCollectionReleases = useInfiniteQuery({
-    queryKey: ['get current collection releases', token, collectionId],
+    queryKey: ['get current collection releases', collectionId],
     queryFn: (meta) =>
-      collectionService.getCurrentCollectionReleases(token, collectionId, meta.pageParam),
+      collectionService.getCurrentCollectionReleases(collectionId ?? '', meta.pageParam),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
       if (lastPage.length === 0) {
@@ -39,28 +36,26 @@ export const CollectionPage = () => {
   });
 
   const fetchDeleteFromFavorite = useMutation({
-    mutationKey: ['delete from favorite collections', collectionId, token],
-    mutationFn: () => collectionService.deleteFromFavorite(collectionId, token),
+    mutationKey: ['delete from favorite collections', collectionId],
+    mutationFn: () => collectionService.deleteFromFavorite(collectionId ?? ''),
     onSuccess() {
       queryClient.refetchQueries({ queryKey: ['get current collection'] });
     },
   });
 
   const fetchAddToFavorite = useMutation({
-    mutationKey: ['add to favorite collections', collectionId, token],
-    mutationFn: () => collectionService.addToFavorite(collectionId, token),
+    mutationKey: ['add to favorite collections', collectionId],
+    mutationFn: () => collectionService.addToFavorite(collectionId ?? ''),
     onSuccess() {
       queryClient.refetchQueries({ queryKey: ['get current collection'] });
     },
   });
 
   function addToFavorite() {
-    if (token) {
-      if (collection.is_favorite) {
-        fetchDeleteFromFavorite.mutate();
-      } else {
-        fetchAddToFavorite.mutate();
-      }
+    if (collection.is_favorite) {
+      fetchDeleteFromFavorite.mutate();
+    } else {
+      fetchAddToFavorite.mutate();
     }
   }
 

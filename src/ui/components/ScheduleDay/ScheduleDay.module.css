@@ -1,31 +1,37 @@
 .releases_schedule {
-    position: relative;
-    display: flex;
+  position: relative;
+  display: flex;
 
-    flex-direction: column;
-    border-radius: 1rem;
+  flex-direction: column;
+  border-radius: 1rem;
 
-    /* background-color: transparent; */
-  
-    transition: .3s;
-    z-index: 110;
+  /* background-color: transparent; */
 
+  transition: 0.3s;
+  z-index: 110;
 }
 
 .sh_day_title {
- 
-    /* position: sticky; */
-    /* border-radius: 1rem; */
-    font-weight: 600;
-    font-size: 1.125rem;
-    list-style: none;
-    z-index: 110;
+  /* position: sticky; */
+  /* border-radius: 1rem; */
+  font-weight: 600;
+  font-size: 1.125rem;
+  list-style: none;
+  z-index: 110;
 
-    border-bottom: 0.0625rem solid grey;
+  border-bottom: 0.0625rem solid grey;
 
-    padding: 1rem;
+  padding: 1rem;
 
-    box-sizing: border-box;
-    /* background: linear-gradient(to right, rgba(36, 36, 36, 0.8) 0%, rgba(189, 78, 44, 0.4) 100%); */
-    color: rgb(230, 230, 230);
+  box-sizing: border-box;
+  /* background: linear-gradient(to right, rgba(36, 36, 36, 0.8) 0%, rgba(189, 78, 44, 0.4) 100%); */
+  color: rgb(230, 230, 230);
+}
+
+.last_releases {
+  column-count: 5;
+  column-gap: 0.5rem;
+  box-sizing: border-box;
+  column-fill: balance;
+  padding: 1rem;
 }

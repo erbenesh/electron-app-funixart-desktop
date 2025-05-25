@@ -1,33 +1,33 @@
 import styles from './RandomRelease.module.css';
 
-import { useQueryClient } from '@tanstack/react-query';
-
 import { RandomReleaseCard } from '../RandomReleaseCard/RandomReleaseCard';
+import { IRelease } from 'src/ui/sections/Release/IRelease';
+import axios from 'axios';
+import { DefinedQueryObserverResult } from '@tanstack/react-query';
 
-export const RandomRelease = (props) => {
-  const queryClient = useQueryClient();
+interface Props {
+  randomRelease: DefinedQueryObserverResult<axios.AxiosResponse<any, any>, Error> | any;
+}
 
+export const RandomRelease = ({ randomRelease }: Props) => {
   return (
     <div className={styles.title_wrap}>
       <div className={styles.random_background}>
         <img
           className={styles.title_image_bg}
-          src={props.randomRelease?.data?.data.release.image}
+          src={randomRelease?.data?.data.release.image}
           alt=""
         />
       </div>
 
       {/* <Schedule fetchSchedule={props.fetchSchedule} /> */}
 
-      {props.randomRelease.isPending || props.randomRelease.isRefetching ? (
+      {randomRelease.isPending || randomRelease.isRefetching ? (
         <div className="loader-container_home">
           <i className="loader-circle" />
         </div>
       ) : (
-        <RandomReleaseCard
-          randomRelease={props.randomRelease.data?.data.release}
-          queryClient={queryClient}
-        />
+        <RandomReleaseCard randomRelease={randomRelease.data?.data.release} />
       )}
     </div>
   );

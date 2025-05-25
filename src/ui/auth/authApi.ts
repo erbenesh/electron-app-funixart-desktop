@@ -1,7 +1,7 @@
 import apiClient from '../api/apiClient';
 import { PROFILE, SIGN_IN } from '../api/endpoints';
 
-export const login = async (credentials) => {
+export const login = async (credentials: any) => {
   const response = await apiClient.post(SIGN_IN, null, credentials);
   return response.data;
 };

@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { discoverService } from '../../api/discover/DiscoverService';
 import { ScheduleDay } from '../../components/ScheduleDay/ScheduleDay';
+import { IRelease } from '../Release/IRelease';
 
 export const Schedule = () => {
   const fetchSchedule = useQuery({
@@ -13,32 +14,34 @@ export const Schedule = () => {
   });
 
   //Schedule
-  const [monday, setMonday] = useState(null);
-  const [tuesday, setTuesday] = useState(null);
-  const [wednesday, setWednesday] = useState(null);
-  const [thursday, setThursday] = useState(null);
-  const [friday, setFriday] = useState(null);
-  const [saturday, setSaturday] = useState(null);
-  const [sunday, setSunday] = useState(null);
+  const [monday, setMonday] = useState<IRelease[]>();
+  const [tuesday, setTuesday] = useState<IRelease[]>();
+  const [wednesday, setWednesday] = useState<IRelease[]>();
+  const [thursday, setThursday] = useState<IRelease[]>();
+  const [friday, setFriday] = useState<IRelease[]>();
+  const [saturday, setSaturday] = useState<IRelease[]>();
+  const [sunday, setSunday] = useState<IRelease[]>();
 
   useEffect(() => {
     async function _loadInitialReleases() {
-      const data = fetchSchedule.data?.data;
-      const mondayData = data.monday;
-      const tuesdayData = data.tuesday;
-      const wednesdayData = data.wednesday;
-      const thursdayData = data.thursday;
-      const fridayData = data.friday;
-      const saturdayData = data.saturday;
-      const sundayData = data.sunday;
+      const data = fetchSchedule.data;
+      if (data) {
+        const mondayData = data.monday;
+        const tuesdayData = data.tuesday;
+        const wednesdayData = data.wednesday;
+        const thursdayData = data.thursday;
+        const fridayData = data.friday;
+        const saturdayData = data.saturday;
+        const sundayData = data.sunday;
 
-      setMonday(mondayData);
-      setTuesday(tuesdayData);
-      setWednesday(wednesdayData);
-      setThursday(thursdayData);
-      setFriday(fridayData);
-      setSaturday(saturdayData);
-      setSunday(sundayData);
+        setMonday(mondayData);
+        setTuesday(tuesdayData);
+        setWednesday(wednesdayData);
+        setThursday(thursdayData);
+        setFriday(fridayData);
+        setSaturday(saturdayData);
+        setSunday(sundayData);
+      }
     }
 
     _loadInitialReleases();

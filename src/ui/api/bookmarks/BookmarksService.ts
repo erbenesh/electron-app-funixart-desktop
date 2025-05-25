@@ -44,7 +44,7 @@ class BookmarksService {
         sort: 1,
       },
     };
-    const url = `${LISTS}${BookmarksList[listName]}/${page}`;
+    const url = `${LISTS}${BookmarksList[listName as unknown as keyof typeof BookmarksList]}/${page}`;
 
     const bookmarksData = await apiClient.get(url, queryParams);
 

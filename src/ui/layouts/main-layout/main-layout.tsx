@@ -1,6 +1,6 @@
 import styles from './main-layout.module.css';
 
-import type { ReactNode} from 'react';
+import type { ReactNode } from 'react';
 
 import { useParams, useLocation } from 'react-router-dom';
 import { useState, useEffect, useContext, createContext } from 'react';

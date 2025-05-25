@@ -11,8 +11,14 @@ import { searchService } from '../../../api/search/SearchService';
 import { ReleaseCard } from '../../../components/ReleaseCard/ReleaseCard';
 import { ProfileCard } from '../../../components/ProfileCard/ProfileCard';
 import { CollectionCard } from '../../../components/CollectionCard/CollectionCard';
+import { IRelease } from 'src/ui/sections/Release/IRelease';
 
-export const NavigationBar = (props) => {
+interface Props {
+  isHeaderHidden: boolean;
+  avatar: string;
+}
+
+export const NavigationBar = ({ isHeaderHidden, avatar }: Props) => {
   const location = useLocation();
 
   const user = useAuthStore((state) => state.user);
@@ -21,7 +27,7 @@ export const NavigationBar = (props) => {
 
   const getSearchResult = useQuery({
     queryKey: ['search results', searchInputValue],
-    queryFn: () => searchService.searchResults(searchInputValue, null, location.pathname),
+    queryFn: () => searchService.searchResults(searchInputValue, '', location.pathname),
   });
 
   const searchInputRef = useRef(null);
@@ -35,7 +41,7 @@ export const NavigationBar = (props) => {
     <div className={styles.top_tools_wrap}>
       <div
         className={styles.top_tools}
-        style={props.isHeaderHidden ? { transform: 'translateY(-5rem)' } : {}}
+        style={isHeaderHidden ? { transform: 'translateY(-5rem)' } : {}}
       >
         <div className={styles.header_wrap}>
           <div className={styles.buttons_wraper}>
@@ -110,7 +116,7 @@ export const NavigationBar = (props) => {
               }
               onClick={() => setSearchInputValue('')}
             >
-              <img src={props.avatar} alt="" className={styles.nav_avatar} />
+              <img src={avatar} alt="" className={styles.nav_avatar} />
 
               {/* <div className={styles.profile_btn_context_menu}>
                                 <Link to="/settings" button-name-ru="Настройки" className={ styles.toptools__button } onClick={() => setSearchInputValue('')}>
@@ -132,7 +138,7 @@ export const NavigationBar = (props) => {
               <div className={styles.results}>
                 {isProfile
                   ? getSearchResult.data?.data.content.map(
-                      (el) =>
+                      (el: IRelease) =>
                         el.id && (
                           <ProfileCard
                             key={el.id}
@@ -143,7 +149,7 @@ export const NavigationBar = (props) => {
                     )
                   : isCollections
                     ? getSearchResult.data?.data.content.map(
-                        (el) =>
+                        (el: IRelease) =>
                           el.id && (
                             <CollectionCard
                               key={el.id}
@@ -153,7 +159,7 @@ export const NavigationBar = (props) => {
                           )
                       )
                     : getSearchResult.data?.data.content.map(
-                        (el) =>
+                        (el: IRelease) =>
                           el.id && (
                             <ReleaseCard
                               key={el.id}

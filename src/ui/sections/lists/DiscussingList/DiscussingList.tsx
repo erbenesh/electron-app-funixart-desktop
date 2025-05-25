@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { discoverService } from '../../../api/discover/DiscoverService';
 import { ReleaseCard } from '../../../components/ReleaseCard/ReleaseCard';
+import { IRelease } from '../../Release/IRelease';
 
 export const DiscussingList = () => {
   const discussing = useQuery({
@@ -19,7 +20,7 @@ export const DiscussingList = () => {
     <div className={styles.discussing_list_page}>
       <div className={styles.discussing_list_cards}>
         {discussing.data?.data.content.map(
-          (release) => release.id && <ReleaseCard key={release.id} release={release} />
+          (release: IRelease) => release.id && <ReleaseCard key={release.id} release={release} />
         )}
       </div>
     </div>

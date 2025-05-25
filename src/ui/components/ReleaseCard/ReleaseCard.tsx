@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { FastAverageColor } from 'fast-average-color';
 
 import { unixToDate } from '../../utils/utils';
+import { IRelease } from 'src/ui/sections/Release/IRelease';
 
 const profile_lists = {
   // 0: "Не смотрю",
@@ -17,46 +18,63 @@ const profile_lists = {
 
 const yearSeason = ['_', 'Зима', 'Весна', 'Лето', 'Осень'];
 
-export const ReleaseCard = (props) => {
-  const grade = props.release.grade ? props.release.grade.toFixed(1) : null;
+interface Props {
+  release: IRelease;
+  clickCallBack?: (arg: string) => void;
+}
 
-  const profile_list_status = props.release.profile_list_status;
+export const ReleaseCard = ({ release, clickCallBack }: Props) => {
+  const grade = release.grade ? release.grade.toFixed(1) : null;
+
+  const profile_list_status = release.profile_list_status;
 
   let user_list = null;
 
   if (profile_list_status != null || profile_list_status != 0) {
-    user_list = profile_lists[profile_list_status];
+    user_list = profile_lists[profile_list_status as keyof typeof profile_lists];
   }
 
   const [dominantColor, setDominantColor] = useState('rgba(36, 36, 36, 1)');
 
   useEffect(() => {
-    if (dominantColor === 'rgba(36, 36, 36, 1)') {
-      const fac = new FastAverageColor();
+    if (release.image) {
+      if (dominantColor === 'rgba(36, 36, 36, 1)') {
+        const fac = new FastAverageColor();
+        // const img = new Image();
 
-      fac
-        .getColorAsync(props.release.image)
-        .then((color) => {
-          setDominantColor(
-            `rgba(${color.value[0] - 80}, ${color.value[1] - 80}, ${color.value[2] - 80}, 1)`
-          );
-          console.log(color);
-        })
-        .catch(console.error);
+        // img.onload = function () {
+        //   const color = fac.getColor(img);
+        //   console.log(color);
+        // };
+        // img.onerror = function () {
+        //   console.error('Image failed to load');
+        // };
+        // img.src = release.image;
+
+        fac
+          .getColorAsync(release.image)
+          .then((color) => {
+            setDominantColor(
+              `rgba(${color.value[0] - 80}, ${color.value[1] - 80}, ${color.value[2] - 80}, 1)`
+            );
+            // console.log(color);
+          })
+          .catch(console.error);
+      }
     }
-  }, [props.release.image]);
+  }, [release.image]);
 
   return (
     <div id="vert_card" className={styles.vert_card}>
       <Link
-        to={`/release/${props.release.id}`}
-        onClick={() => props.clickCallBack && props.clickCallBack('')}
+        to={`/release/${release.id}`}
+        onClick={() => clickCallBack && clickCallBack('')}
         className={styles.release_image_border}
       >
         <img
           className={styles.release_image}
-          src={props.release.image}
-          alt={props.release.title_ru + ' image'}
+          src={release.image}
+          alt={release.title_ru + ' image'}
           loading="lazy"
         />
       </Link>
@@ -68,38 +86,38 @@ export const ReleaseCard = (props) => {
         }}
       >
         <div className={styles.release_info}>
-          <div className={styles.anime_title}>{props.release.title_ru}</div>
+          <div className={styles.anime_title}>{release.title_ru}</div>
 
           <div className={styles.anime_subinfo_noborder}>
-            {/*Жанры*/}# {props.release.genres}
+            {/*Жанры*/}# {release.genres}
           </div>
 
           <div className={styles.bottom_info}>
-            {props.release.category && (
+            {release.category && (
               <>
                 <span className={styles.anime_subinfo}>
                   {/*Категория*/}
-                  {props.release.category.name}
+                  {release.category.name}
                 </span>
                 •
               </>
             )}
-            {props.release.status && (
+            {release.status && (
               <>
                 <span className={styles.anime_subinfo}>
                   {/*Статус*/}
-                  {props.release.status.name}
+                  {release.status.name}
                 </span>
                 •
               </>
             )}
             <span className={styles.anime_subinfo}>
               {/*Сколько эпизодов*/}
-              {props.release.episodes_released && props.release.episodes_released + ' из '}
+              {release.episodes_released && release.episodes_released + ' из '}
               {/*Из скольки эпизодов*/}
               {
                 // props.release.status && props.release.status.id !== 3 &&
-                props.release.episodes_total ? props.release.episodes_total + ' эп' : '? эп'
+                release.episodes_total ? release.episodes_total + ' эп' : '? эп'
               }
             </span>
             •
@@ -107,16 +125,12 @@ export const ReleaseCard = (props) => {
               {/*Оценка или это анонс?*/}
               {grade ? (
                 <>&#9733; {grade}</>
-              ) : props.release.status &&
-                props.release.status.id === 0 &&
-                props.release.aired_on_date !== 0 ? (
-                unixToDate(props.release.aired_on_date, 'dayMonthYear')
-              ) : props.release.year ? (
+              ) : release.status && release.status.id === 0 && release.aired_on_date !== 0 ? (
+                unixToDate(release.aired_on_date, 'dayMonthYear')
+              ) : release.year ? (
                 <>
-                  {props.release.season && props.release.season != 0
-                    ? `${yearSeason[props.release.season]} `
-                    : ''}
-                  {props.release.year && `${props.release.year} г.`}
+                  {release.season && release.season != 0 ? `${yearSeason[release.season]} ` : ''}
+                  {release.year && `${release.year} г.`}
                 </>
               ) : (
                 'Скоро'

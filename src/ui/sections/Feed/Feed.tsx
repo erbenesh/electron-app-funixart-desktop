@@ -1,6 +1,6 @@
 import styles from './Feed.module.css';
 
-import { useEffect } from 'react';
+import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Outlet, useNavigate } from 'react-router-dom';
 
@@ -25,11 +25,11 @@ const feedArray = [
 ];
 
 export const Feed = () => {
-  const userStore = useAuthStore((state) => state);
+  const user = useAuthStore((state) => state.user);
 
   const channelSubs = useQuery({
-    queryKey: ['get channel subs all', userStore.token, 0],
-    queryFn: () => feedService.getChannelSubs(0, userStore.token),
+    queryKey: ['get channel subs all', 0],
+    queryFn: () => feedService.getChannelSubs(0),
   });
 
   const navigate = useNavigate();
@@ -46,19 +46,33 @@ export const Feed = () => {
         <FilterButtons buttonsArray={feedArray} />
 
         <div className={styles.feed_channels}>
-          {channelSubs.data?.data.content.map((channel, index) => (
-            <div key={channel.id} className={styles.channel_subed}>
-              <div className={styles.channel_avatar_border}>
-                <img className={styles.channel_avatar} src={channel.avatar} alt="" />
-              </div>
+          {channelSubs.data?.data.content.map(
+            (channel: {
+              id: Key | null | undefined;
+              avatar: string | undefined;
+              title:
+                | string
+                | number
+                | boolean
+                | ReactElement<any, string | JSXElementConstructor<any>>
+                | Iterable<ReactNode>
+                | ReactPortal
+                | null
+                | undefined;
+            }) => (
+              <div key={channel.id} className={styles.channel_subed}>
+                <div className={styles.channel_avatar_border}>
+                  <img className={styles.channel_avatar} src={channel.avatar} alt="" />
+                </div>
 
-              <p className={styles.channel_title}>{channel.title}</p>
-            </div>
-          ))}
+                <p className={styles.channel_title}>{channel.title}</p>
+              </div>
+            )
+          )}
         </div>
 
         <div className={styles.feed_channels}>
-          <PostInput avatarUrl={userStore.user.avatar} />
+          <PostInput avatarUrl={user.avatar} />
         </div>
 
         <div className={styles.feed_news}>

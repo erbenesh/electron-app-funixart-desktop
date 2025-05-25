@@ -6,9 +6,9 @@ import { LuFlag } from 'react-icons/lu';
 import { GrGroup } from 'react-icons/gr';
 import { useParams } from 'react-router-dom';
 import { BsCollectionPlay } from 'react-icons/bs';
-import { useRef, useState, useEffect } from 'react';
-import { IoIosArrowDown , IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { IoBookmark , IoCalendarOutline , IoBookmarkOutline } from 'react-icons/io5';
+import { useRef, useState, useEffect, Key } from 'react';
+import { IoIosArrowDown, IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { IoBookmark, IoCalendarOutline, IoBookmarkOutline } from 'react-icons/io5';
 import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
 
 import jFlag from '../../assets/icons/j_flag.svg';
@@ -22,6 +22,7 @@ import { ReleasePlayer } from './components/ReleasePlayer/ReleasePlayer';
 import { ReleaseVotesCounter } from './components/ReleaseVotesCounter/ReleaseVotesCounter';
 import { ScheduleReleaseCard } from '../../components/ScheduleReleaseCard/ScheduleReleaseCard';
 import { lists, weekDay, profile_lists, releaseService } from '../../api/release/ReleaseService';
+import { IRelease } from './IRelease';
 
 export const Release = () => {
   const { releaseId } = useParams();
@@ -40,14 +41,14 @@ export const Release = () => {
 
   const currentRelease = useQuery({
     queryKey: ['getCurrentRelease', releaseId],
-    queryFn: () => releaseService.getCurrentRelease(releaseId),
+    queryFn: () => releaseService.getCurrentRelease(String(releaseId)),
   });
 
-  const release = currentRelease.data?.data.release;
+  const release: IRelease = currentRelease.data?.data.release;
 
   const currentReleaseComments = useInfiniteQuery({
     queryKey: ['getCurrentReleaseComments', releaseId],
-    queryFn: (meta) => commentService.getAllComments('release', releaseId, meta.pageParam),
+    queryFn: (meta) => commentService.getAllComments('release', String(releaseId), meta.pageParam),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
       if (lastPage.length === 0) {
@@ -60,7 +61,7 @@ export const Release = () => {
 
   const fetchDeleteFromFavorite = useMutation({
     mutationKey: ['delete from favorite', releaseId],
-    mutationFn: () => bookmarksService.setDeleteFromFavorite(releaseId),
+    mutationFn: () => bookmarksService.setDeleteFromFavorite(String(releaseId)),
     onSuccess() {
       queryClient.refetchQueries({ queryKey: ['getCurrentRelease'] });
     },
@@ -68,7 +69,7 @@ export const Release = () => {
 
   const fetchAddToFavorite = useMutation({
     mutationKey: ['add to favorite', releaseId],
-    mutationFn: () => bookmarksService.setAddToFavorite(releaseId),
+    mutationFn: () => bookmarksService.setAddToFavorite(String(releaseId)),
     onSuccess() {
       queryClient.refetchQueries({ queryKey: ['getCurrentRelease'] });
     },
@@ -76,7 +77,7 @@ export const Release = () => {
 
   const fetchAddToList = useMutation({
     mutationKey: ['add to bookmark list', releaseId],
-    mutationFn: (list: number) => bookmarksService.addToBookmarkList(list, releaseId),
+    mutationFn: (list: number) => bookmarksService.addToBookmarkList(list, String(releaseId)),
     onSuccess() {
       queryClient.refetchQueries({ queryKey: ['getCurrentRelease'] });
     },
@@ -93,7 +94,7 @@ export const Release = () => {
 
   useEffect(() => {
     function handleLineCount() {
-      const el = textInput.current;
+      const el: HTMLElement = textInput.current!;
       const lineHeight = parseInt(window.getComputedStyle(el).lineHeight);
       const lineCount = Math.ceil(el.scrollHeight / lineHeight);
 
@@ -114,7 +115,7 @@ export const Release = () => {
     console.log(Math.ceil(release.screenshot_images.length / 3) * 2);
     console.log(index, currentIndex);
     setCurrentIndex(index);
-    document.getElementById('screens_inner').style.transform = `translateX(-${index * 24.5}rem)`;
+    document.getElementById('screens_inner')!.style.transform = `translateX(-${index * 24.5}rem)`;
   };
 
   const goToNextSlide = () => {
@@ -165,7 +166,7 @@ export const Release = () => {
 
                 <div className={styles.video_player_wrap}>
                   <div className={styles.video_player}>
-                    <ReleasePlayer id={releaseId} />
+                    {releaseId && <ReleasePlayer id={releaseId} />}
                   </div>
                 </div>
               </div>
@@ -213,8 +214,8 @@ export const Release = () => {
                           style={
                             release.profile_list_status
                               ? {
-                                  borderColor: `${profile_lists[release.profile_list_status].bg_color}`,
-                                  color: `${profile_lists[release.profile_list_status].bg_color}`,
+                                  borderColor: `${profile_lists[release.profile_list_status as keyof typeof profile_lists].bg_color}`,
+                                  color: `${profile_lists[release.profile_list_status as keyof typeof profile_lists].bg_color}`,
                                   width: 9 + 'rem',
                                   justifyContent: 'center',
                                 }
@@ -225,7 +226,9 @@ export const Release = () => {
                           <IoIosArrowDown className={styles.comments_b_ico} />
                           <p>
                             {release.profile_list_status
-                              ? profile_lists[release.profile_list_status].name
+                              ? profile_lists[
+                                  release.profile_list_status as keyof typeof profile_lists
+                                ].name
                               : 'Не смотрю'}
                           </p>
                         </button>
@@ -235,7 +238,10 @@ export const Release = () => {
                         >
                           {lists.map(
                             (li) =>
-                              li.name !== profile_lists[release.profile_list_status]?.name && (
+                              li.name !==
+                                profile_lists[
+                                  release.profile_list_status as keyof typeof profile_lists
+                                ]?.name && (
                                 <button
                                   key={li.list}
                                   className={styles.info_button_list}
@@ -315,8 +321,7 @@ export const Release = () => {
                       </li>
 
                       <li className={styles.param}>
-                        {release.episodes_released ? release.episodes_released : '?'}
-                        /
+                        {release.episodes_released ? release.episodes_released : '?'}/
                         {release.episodes_total ? release.episodes_total + ' эп. ' : '? эп. '}
                         {release.duration != 0 &&
                           `по ${minutesToTime(release.duration, 'daysHours')}`}
@@ -334,11 +339,11 @@ export const Release = () => {
                           <>
                             {'Студия '}
                             {release.studio.split(', ').map((studio: string, index: number) => (
-                                <div key={index} style={{ display: 'inline' }}>
-                                  {index > 0 && ', '}
-                                  <a>{studio}</a>
-                                </div>
-                              ))}
+                              <div key={index} style={{ display: 'inline' }}>
+                                {index > 0 && ', '}
+                                <a>{studio}</a>
+                              </div>
+                            ))}
                             {(release.author || release.director) && ', '}
                           </>
                         )}
@@ -438,12 +443,12 @@ export const Release = () => {
 
               <div className="carousel">
                 <div id="screens_inner" className="carousel-inner">
-                  {release?.video_banners.map((banner) => (
+                  {release?.video_banners.map((banner: { image: Key | null | undefined }) => (
                     <div key={banner.image} className={styles.screens_card}>
                       <div className={styles.screens_image_border}>
                         <img
                           className={interestCardStyles.release_image}
-                          src={banner.image}
+                          src={String(banner.image)}
                           alt=""
                         />
                       </div>
@@ -501,7 +506,8 @@ export const Release = () => {
             {release.related_releases?.length > 0 && (
               <div className={styles.recommends_and_related_column}>
                 {release?.related_releases.map(
-                  (el) => el.id !== release.id && <ScheduleReleaseCard key={el.id} release={el} />
+                  (el: IRelease) =>
+                    el.id !== release.id && <ScheduleReleaseCard key={el.id} release={el} />
                 )}
               </div>
             )}
@@ -509,7 +515,7 @@ export const Release = () => {
             {release.recommended_releases?.length > 0 ? (
               <div className={styles.recommends_and_related_column}>
                 {release?.recommended_releases.map(
-                  (el) => el.id && <ScheduleReleaseCard key={el.id} release={el} />
+                  (el: IRelease) => el.id && <ScheduleReleaseCard key={el.id} release={el} />
                 )}
               </div>
             ) : (

@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { MutableRefObject, useEffect } from 'react';
 
-export const useClickOutside = (ref, callback) => {
-  const handleClick = (event) => {
+export const useClickOutside = (ref: MutableRefObject<any>, callback: { (): void; (): void }) => {
+  const handleClick = (event: { target: any }) => {
     if (ref.current && !ref.current.contains(event.target)) {
       callback();
     }
@@ -15,8 +15,12 @@ export const useClickOutside = (ref, callback) => {
   });
 };
 
-export const useClickOutsideWithButton = (ref, callback, buttonRef) => {
-  const handleClick = (event) => {
+export const useClickOutsideWithButton = (
+  ref: { current: { contains: (arg0: any) => any } },
+  callback: () => void,
+  buttonRef: { current: { contains: (arg0: any) => any } }
+) => {
+  const handleClick = (event: { target: any }) => {
     if (
       ref.current &&
       !ref.current.contains(event.target) &&

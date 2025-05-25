@@ -4,34 +4,41 @@ import { useState, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { IoEye, IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
 
-import { playerService } from '../../../../api/player/PlayerService';
+import { IEpisode, ISource, IType, playerService } from '../../../../api/player/PlayerService';
 
-export const ReleasePlayer = (props) => {
+interface Props {
+  id: string;
+}
+
+export const ReleasePlayer = ({ id }: Props) => {
   //const userStore = useAuthStore();
-  const [voiceoverInfo, setVoiceoverInfo] = useState(null);
-  const [selectedVoiceover, setSelectedVoiceover] = useState(null);
-  const [sourcesInfo, setSourcesInfo] = useState(null);
-  const [selectedSource, setSelectedSource] = useState(null);
-  const [episodeInfo, setEpisodeInfo] = useState(null);
-  const [selectedEpisode, setSelectedEpisode] = useState(null);
+
+  const [voiceoverInfo, setVoiceoverInfo] = useState<IType[]>();
+  const [selectedVoiceover, setSelectedVoiceover] = useState<IType>();
+
+  const [sourcesInfo, setSourcesInfo] = useState<ISource[]>();
+  const [selectedSource, setSelectedSource] = useState<ISource>();
+
+  const [episodeInfo, setEpisodeInfo] = useState<IEpisode[]>();
+  const [selectedEpisode, setSelectedEpisode] = useState<IEpisode>();
 
   const [isDropdownVoicesHidden, setIsDropdownVoicesHidden] = useState(false);
   const [isDropdownSourcesHidden, setIsDropdownSourcesHidden] = useState(false);
 
   const fetchVoiceOver = useMutation({
-    mutationKey: ['voice over', props.id],
-    mutationFn: () => playerService.getReleasePlayer(props.id),
+    mutationKey: ['voice over', id],
+    mutationFn: () => playerService.getReleasePlayer(id),
     onSuccess(data) {
       const voiceover = data.data;
-      console.log(voiceover);
+      // console.log(voiceover);
       setVoiceoverInfo(voiceover.types);
       setSelectedVoiceover(voiceover.types[0]);
     },
   });
 
   const fetchSources = useMutation({
-    mutationKey: ['sources', props.id],
-    mutationFn: () => playerService.getReleasePlayer(`${props.id}/${selectedVoiceover.id}`),
+    mutationKey: ['sources', id],
+    mutationFn: () => playerService.getReleasePlayer(`${id}/${selectedVoiceover?.id}`),
     onSuccess(data) {
       const sources = data.data;
 
@@ -41,16 +48,18 @@ export const ReleasePlayer = (props) => {
   });
 
   const fetchEpisodes = useMutation({
-    mutationKey: ['episodes', props.id],
+    mutationKey: ['episodes', id],
     mutationFn: () =>
-      playerService.getReleasePlayer(`${props.id}/${selectedVoiceover.id}/${selectedSource.id}`),
+      playerService.getReleasePlayer(`${id}/${selectedVoiceover?.id}/${selectedSource?.id}`),
     onSuccess(data) {
       const episodes = data.data;
 
       if (episodes.episodes.length === 0) {
-        const remSources = sourcesInfo.filter((source) => source.id !== selectedSource.id);
-        setSourcesInfo(remSources);
-        setSelectedSource(remSources[0]);
+        const remSources = sourcesInfo?.filter((source) => source.id !== selectedSource?.id);
+        if (remSources) {
+          setSourcesInfo(remSources);
+          setSelectedSource(remSources[0]);
+        }
 
         return;
       }
@@ -61,15 +70,14 @@ export const ReleasePlayer = (props) => {
   });
 
   const fetchToHistory = useMutation({
-    mutationKey: ['addHistory', props.id, selectedSource?.id],
-    mutationFn: (position) =>
-      playerService.getToHistory(`${props.id}/${selectedSource.id}/${position}`),
+    mutationKey: ['addHistory', id, selectedSource?.id],
+    mutationFn: (position) => playerService.getToHistory(`${id}/${selectedSource?.id}/${position}`),
   });
 
   const fetchMarkWatched = useMutation({
-    mutationKey: ['markWatched', props.id, selectedSource?.id],
+    mutationKey: ['markWatched', id, selectedSource?.id],
     mutationFn: (position) =>
-      playerService.getMarkWatched(`${props.id}/${selectedSource.id}/${position}`),
+      playerService.getMarkWatched(`${id}/${selectedSource?.id}/${position}`),
   });
 
   useEffect(() => {
@@ -127,11 +135,7 @@ export const ReleasePlayer = (props) => {
       ) : (
         <div className={styles.player_row}>
           <div className={styles.player_wrap}>
-            <iframe
-              allowFullScreen
-              src={selectedEpisode.url}
-              className={styles.player}
-             />
+            <iframe allowFullScreen src={selectedEpisode?.url} className={styles.player} />
           </div>
 
           <div className={styles.episodes_buttons_swiper_wrap}>
@@ -194,7 +198,7 @@ export const ReleasePlayer = (props) => {
                   className={styles.top_buttons_swiper}
                   style={isDropdownSourcesHidden ? { display: 'flex' } : {}}
                 >
-                  {sourcesInfo.map((source: any) => (
+                  {sourcesInfo?.map((source: any) => (
                     <button
                       key={`source_${source.id}`}
                       className={styles.dropdown_list_button}
@@ -217,13 +221,15 @@ export const ReleasePlayer = (props) => {
                     episode.is_watched = true;
                     _addToHistory(episode);
                   }}
-                  disabled={selectedEpisode.position === episode.position}
+                  disabled={selectedEpisode?.position === episode.position}
                 >
                   <p>
                     {episode.name
                       ? episode.name + ` `
                       : `${
-                          selectedSource.name !== 'Sibnet' ? episode.position : episode.position + 1
+                          selectedSource?.name !== 'Sibnet'
+                            ? episode.position
+                            : episode.position + 1
                         }`}
                   </p>
                   <p className={styles.eye_ico}>

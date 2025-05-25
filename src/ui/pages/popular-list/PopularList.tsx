@@ -1,4 +1,4 @@
-import { PopularList } from '../../sections/lists/PopularList/PopularList';
+import { Popular } from 'src/ui/sections/Popular/Popular';
 
 export const metadata = {
   title: 'Популярное - | Anixart Desktop',
@@ -10,7 +10,7 @@ export default function Page() {
     <>
       <title>{metadata.title}</title>
 
-      <PopularList />
+      <Popular />
     </>
   );
 }

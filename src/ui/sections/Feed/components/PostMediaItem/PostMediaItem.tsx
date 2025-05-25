@@ -1,13 +1,17 @@
 import styles from './PostMediaItem.module.css';
 
-export const PostMediaItem = (props) => (
-    <div className={styles.post_image}>
-      <img src={props.item.url} loading="lazy" alt="" />
+interface Props {
+  item: any;
+  index: number;
+  dataCount: number;
+}
 
-      {props.index === props.dataCount && (
-        <>
-          {props.dataCount > 5 && <div className={styles.image_count}>+{props.dataCount - 5}</div>}
-        </>
-      )}
-    </div>
-  );
+export const PostMediaItem = ({ item, index, dataCount }: Props) => (
+  <div className={styles.post_image}>
+    <img src={item.url} loading="lazy" alt="" />
+
+    {index === dataCount && (
+      <>{dataCount > 5 && <div className={styles.image_count}>+{dataCount - 5}</div>}</>
+    )}
+  </div>
+);

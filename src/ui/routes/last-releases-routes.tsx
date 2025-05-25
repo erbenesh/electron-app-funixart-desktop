@@ -1,6 +1,7 @@
 import { releaseService } from '../api/release/ReleaseService';
 import { ReleaseCard } from '../components/ReleaseCard/ReleaseCard';
 import { InfiniteScrollList } from '../components/infinite-scroll-list/InfiniteScrollList';
+import { IRelease } from '../sections/Release/IRelease';
 
 export const lastReleasesRoutes = [
   {
@@ -12,7 +13,9 @@ export const lastReleasesRoutes = [
           releaseService.getLastUpdatedReleases(pathParam, pageParam)
         }
         pathIndex={2}
-        renderItem={(release) => release.id && <ReleaseCard key={release.id} release={release} />}
+        renderItem={(release: IRelease) =>
+          release.id && <ReleaseCard key={release.id} release={release} />
+        }
       />
     ),
   },
@@ -25,7 +28,9 @@ export const lastReleasesRoutes = [
           releaseService.getLastUpdatedReleases(pathParam, pageParam)
         }
         pathIndex={2}
-        renderItem={(release) => release.id && <ReleaseCard key={release.id} release={release} />}
+        renderItem={(release: IRelease) =>
+          release.id && <ReleaseCard key={release.id} release={release} />
+        }
       />
     ),
   },
@@ -38,7 +43,9 @@ export const lastReleasesRoutes = [
           releaseService.getLastUpdatedReleases(pathParam, pageParam)
         }
         pathIndex={2}
-        renderItem={(release) => release.id && <ReleaseCard key={release.id} release={release} />}
+        renderItem={(release: IRelease) =>
+          release.id && <ReleaseCard key={release.id} release={release} />
+        }
       />
     ),
   },
@@ -51,7 +58,9 @@ export const lastReleasesRoutes = [
           releaseService.getLastUpdatedReleases(pathParam, pageParam)
         }
         pathIndex={2}
-        renderItem={(release) => release.id && <ReleaseCard key={release.id} release={release} />}
+        renderItem={(release: IRelease) =>
+          release.id && <ReleaseCard key={release.id} release={release} />
+        }
       />
     ),
   },
@@ -64,7 +73,9 @@ export const lastReleasesRoutes = [
           releaseService.getLastUpdatedReleases(pathParam, pageParam)
         }
         pathIndex={2}
-        renderItem={(release) => release.id && <ReleaseCard key={release.id} release={release} />}
+        renderItem={(release: IRelease) =>
+          release.id && <ReleaseCard key={release.id} release={release} />
+        }
       />
     ),
   },

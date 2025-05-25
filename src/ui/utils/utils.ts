@@ -56,7 +56,7 @@ export function numberDeclension(number: number, one: string, two: string, five:
   if (last_num == 1) return one;
   if ([2, 3, 4].includes(last_num)) return two;
   if ([5, 6, 7, 8, 9, 0].includes(last_num)) return five;
-  return number
+  return number;
 }
 
 const months = [
@@ -92,7 +92,7 @@ export function unixToDate(unix: number, type: 'full' | 'dayMonth' | 'dayMonthYe
   if (type === 'dayMonthYear')
     return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
 
-  return 0
+  return 0;
 }
 
 export const getSeasonFromUnix = (unix: number) => {
@@ -146,7 +146,7 @@ export function minutesToTime(min: number, type?: 'full' | 'daysOnly' | 'daysHou
     return `${d > 0 ? dDisplay : ''}${h > 0 ? ', ' + hDisplay : ''}${m > 0 ? ', ' + mDisplay : ''}`;
   }
 
-  return 0
+  return 0;
 }
 
 export const BookmarksList = {
@@ -185,14 +185,21 @@ export function formatPostTimestamp(timestamp: number, showFullDate = false) {
   const diffInDays = Math.floor(diff / (1000 * 60 * 60 * 24));
 
   // Форматирование времени (добавляем ведущий ноль)
-  const formatTime = (date: { getHours: () => { (): any; new(): any; toString: { (): string; new(): any; }; }; getMinutes: () => { (): any; new(): any; toString: { (): string; new(): any; }; }; }) => {
+  const formatTime = (date: {
+    getHours: () => { (): any; new (): any; toString: { (): string; new (): any } };
+    getMinutes: () => { (): any; new (): any; toString: { (): string; new (): any } };
+  }) => {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
   };
 
   // Форматирование даты
-  const formatDate = (date: { getDate: () => { (): any; new(): any; toString: { (): string; new(): any; }; }; getMonth: () => number; getFullYear: () => any; }) => {
+  const formatDate = (date: {
+    getDate: () => { (): any; new (): any; toString: { (): string; new (): any } };
+    getMonth: () => number;
+    getFullYear: () => any;
+  }) => {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear();

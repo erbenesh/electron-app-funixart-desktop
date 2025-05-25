@@ -16,7 +16,7 @@ class CommentService {
       },
     };
 
-    const commentsData = await apiClient.get(url, queryParams);
+    const commentsData = await apiClient.get(url ?? '', queryParams);
 
     return commentsData.data;
   }

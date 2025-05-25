@@ -7,9 +7,9 @@ import { discoverService } from '../../api/discover/DiscoverService';
 import { RandomRelease } from './components/RandomRelease/RandomRelease';
 import { SchedulePreview } from './components/SchedulePreview/SchedulePreview';
 import { PopularComments } from './components/PopularComments/PopularComments';
-import { HomeCarouselx2, HomeCarouselx5 } from './components/Carousels/HomeCarousels';
+import { HomeCarousel } from './components/Carousels/HomeCarousels';
 
-function getRandomInt(max) {
+function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);
 }
 
@@ -39,14 +39,18 @@ export const Home = () => {
     queryFn: () => discoverService.getWatching(0),
   });
 
-  const schedule = useQuery({
+  const {
+    data: schedule,
+    isPending: isSchedulePending,
+    isError: isScheduleError,
+  } = useQuery({
     queryKey: ['getSchedule'],
     queryFn: () => discoverService.getSchedule(),
   });
 
   const recommendations = useQuery({
     queryKey: ['getRecommendations'],
-    queryFn: () => discoverService.getRecommendations(null, getRandomInt(3)),
+    queryFn: () => discoverService.getRecommendations(getRandomInt(3)),
   });
 
   const discoverInteresting = useQuery({
@@ -69,7 +73,7 @@ export const Home = () => {
       recommendations.isPending ||
       randomRelease.isPending ||
       lastUpdatedReleases.isPending ||
-      schedule.isPending ||
+      isSchedulePending ||
       popularComments.isPending ||
       // || watching.isPending
       // || discussing.isPending
@@ -80,35 +84,50 @@ export const Home = () => {
       ) : (
         <div className={styles.home_page_wrap}>
           <div className={styles.home_page}>
-            <HomeCarouselx2
+            <HomeCarousel
               array={discoverInteresting.data.content}
               sectionTitle="Интересное"
               sectionTitleAlt="interestingReleases"
+              itemsPerSlide={2}
+              translateAmount={55}
             />
 
-            <HomeCarouselx5
+            <HomeCarousel
               array={lastUpdatedReleases.data.content}
               sectionTitle="Последнее"
               sectionTitleAlt="lastReleases"
               link="/last-releases"
+              itemsPerSlide={5}
+              translateAmount={20}
             />
 
-            <HomeCarouselx5
+            <HomeCarousel
               array={top.data.content}
               sectionTitle="Популярное"
               sectionTitleAlt="topReleases"
               link="/popular"
+              itemsPerSlide={5}
+              translateAmount={20}
             />
 
-            <RandomRelease randomRelease={randomRelease} fetchSchedule={schedule} />
+            <RandomRelease randomRelease={randomRelease} />
 
-            <SchedulePreview schedule={schedule} sectionTitle="Расписание" link="/schedule" />
+            {schedule && (
+              <SchedulePreview
+                schedule={schedule}
+                isSchedulePending={isSchedulePending}
+                sectionTitle="Расписание"
+                link="/schedule"
+              />
+            )}
 
-            <HomeCarouselx5
+            <HomeCarousel
               array={recommendations.data.content}
               sectionTitle="Рекомендации"
               sectionTitleAlt="recommendations"
               link="/recommendations"
+              itemsPerSlide={5}
+              translateAmount={20}
             />
 
             {/* <HomeCarouselx5 array={watching.data?.data.content} sectionTitle={"Смотрят"} sectionTitleAlt={"watchingReleases"} link={"/watching/all"}/> */}

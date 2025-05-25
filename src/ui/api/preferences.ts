@@ -63,7 +63,8 @@ export const usePreferencesStore = create<preferencesState>()(
     {
       name: 'preferences',
       onRehydrateStorage: (state) => () => state.setHasHydrated(true),
-      merge: (persistedState, currentState) => deepmerge(currentState as preferencesState, persistedState as preferencesState),
+      merge: (persistedState, currentState) =>
+        deepmerge(currentState as preferencesState, persistedState as preferencesState),
     }
   )
 );

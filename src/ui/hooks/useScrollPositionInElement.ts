@@ -4,14 +4,16 @@ export function useScrollPositionInElement(el: string) {
   const [scrollPosition, setScrollPosition] = useState(0);
 
   function handleScroll() {
-    const height =
-      document.querySelector(el).scrollHeight - document.querySelector(el).clientHeight;
+    const element = document.querySelector(el);
+    if (!!element) {
+      const height = element.scrollHeight - element.clientHeight;
 
-    const windowScroll = document.querySelector(el).scrollTop;
+      const windowScroll = element.scrollTop;
 
-    const scrolled = (windowScroll / height) * 100;
+      const scrolled = (windowScroll / height) * 100;
 
-    setScrollPosition(scrolled);
+      setScrollPosition(scrolled);
+    }
   }
 
   useEffect(() => {
