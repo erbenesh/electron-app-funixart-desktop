@@ -1,12 +1,13 @@
 import { TopNavigationBar } from './components/TopNavigationBar/TopNavigationBar';
 import styles from './App.module.css'
 import { useEffect, useState } from 'react';
-import { AuthPage } from './pages/Auth/AuthPage';
-import { useUserStore } from './services/api/auth';
-import { usePreferencesStore } from './services/api/preferences';
+import { AuthPage } from './auth/view/AuthPage';
+import { useUserStore } from './auth/store/auth';
+import { usePreferencesStore } from './api/preferences';
 import { useScrollPosition } from './hooks/useScrollPosition';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { Toolbar } from './components/Toolbar/Toolbar';
+import { Spinner } from 'ui-kit/components/Spinner/Spinner';
 
 export const App: React.FC = ()=> {
 
@@ -43,8 +44,8 @@ export const App: React.FC = ()=> {
 
   if (!preferencesStore._hasHydrated && !userStore._hasHydrated || userStore.state === "loading") {
     return (
-        <div className="loader-container">	
-          <i className="loader-circle"></i>
+        <div className="loader-container">
+          <Spinner />
         </div>
     );
   }

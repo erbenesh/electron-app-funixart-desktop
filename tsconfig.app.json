@@ -17,13 +17,15 @@
         "name": "next"
       }
     ],
-    "baseUrl": "app",
+    "baseUrl": ".",
     "paths": {
-      "#/components/*": ["components/*"],
-      "#/api/*": ["api/*"],
-      "#/store/*": ["store/*"],
-      "#/hooks/*": ["hooks/*"],
-      "#/pages/*": ["pages/*"]
+      "#/*": ["src/ui/*"],
+      "#/components/*": ["src/ui/components/*"],
+      "#/api/*": ["src/ui/api/*"],
+      "#/store/*": ["src/ui/store/*"],
+      "#/hooks/*": ["src/ui/hooks/*"],
+      "#/pages/*": ["src/ui/pages/*"],
+      "ui-kit/*": ["src/ui-kit/*"]
     }
   },
   "include": ["src"],

@@ -1,5 +1,5 @@
-import styles from './PopularComments.module.css';
 import { PopularCommentCard } from '../PopularCommentCard/PopularCommentCard';
+import styles from './PopularComments.module.css';
 
 export const PopularComments = (props) => {
 
@@ -10,7 +10,7 @@ export const PopularComments = (props) => {
 
             <div className={styles.schedule}>
 
-                { props.popularComments.data?.data.content.map(com => <PopularCommentCard key={com.id} comment={com} array={props.popularComments.data?.data.content}/>) }
+                { props.popularComments.data?.content?.map(com => <PopularCommentCard key={com.id} comment={com} array={props.popularComments.data?.content}/>) }
             
             </div>
 

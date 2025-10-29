@@ -1,0 +1,111 @@
+.articles_page {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    opacity: 0;
+    transition: .3s;
+    animation: show .3s;
+    animation-fill-mode: forwards;
+    animation-delay: .3s;
+    padding: 1rem;
+    max-width: 110rem;
+    margin: 0 auto;
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.section_title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: rgb(230, 230, 230);
+    margin: 0;
+}
+
+.articles_list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.article_card {
+    position: relative;
+    z-index: 10;
+    min-width: 27rem;
+    width: 27rem;
+    cursor: pointer;
+    transition: .2s;
+    border-radius: 1rem;
+    opacity: 0;
+    animation: show .3s;
+    animation-fill-mode: forwards;
+    animation-delay: .3s;
+    text-decoration: none;
+    display: block;
+}
+
+.article_card:hover {
+    transform: scale(105%);
+    z-index: 11;
+    box-shadow: 0 0 2rem 2rem rgba(36, 36, 36, 0.8);
+}
+
+.article_card_fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    gap: 1rem;
+    min-width: 27rem;
+    width: 27rem;
+    height: 16.5rem;
+    border-radius: 1rem;
+    border: 1px solid rgb(68, 68, 68);
+    background-color: rgb(27, 27, 27);
+}
+
+.article_info {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    max-width: 16rem;
+    background: rgb(48, 48, 48, 0.8);
+}
+
+.article_title {
+    position: relative;
+    text-decoration: none;
+    color: rgb(230, 230, 230);
+    font-weight: 600;
+    line-height: 1.2rem;
+    font-size: 1rem;
+    width: 100%;
+    transition: .3s;
+    margin: 0;
+}
+
+.empty_state {
+    padding: 3rem;
+    text-align: center;
+    color: rgb(160, 160, 160);
+    font-size: 1rem;
+    width: 100%;
+}
+

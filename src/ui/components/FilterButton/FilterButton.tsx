@@ -1,20 +1,11 @@
-import { NavLink } from 'react-router-dom'
-import styles from './FilterButton.module.css'
+import { NavLink, useMatch } from 'react-router-dom'
+import { Chip } from 'ui-kit/components/Chip/Chip'
 
 export const FilterButton = (props) => {
-
+    const match = useMatch(props.button.link);
     return (
-        <NavLink to={props.button.link} key={props.button.id} 
-        className={
-            ({ isActive }) =>
-            isActive ? 
-            styles.bookmarks_button_title_active : 
-            styles.bookmarks_button_title
-        } 
-        >
-
-            <p>{props.button.ru_name}</p>
-
+        <NavLink to={props.button.link} key={props.button.id} style={{ textDecoration: 'none' }}>
+            <Chip active={!!match}>{props.button.ru_name}</Chip>
         </NavLink>
     )
 

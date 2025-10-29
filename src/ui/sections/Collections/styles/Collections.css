@@ -1,0 +1,31 @@
+.сollections_page_wrap {
+    min-height: 100vh;
+    max-width: 120rem;
+    padding-top: 6.5rem;
+}
+
+.сollections_page {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: .3s;
+    animation: show .3s;
+    animation-fill-mode: forwards;
+    animation-delay: .3s;
+    justify-self: center;
+    max-width: 110rem;
+}
+
+@keyframes show {
+
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+
+}
+
+

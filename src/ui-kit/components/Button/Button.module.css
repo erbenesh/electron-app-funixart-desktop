@@ -1,0 +1,66 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-family);
+  font-size: var(--text-md);
+  font-weight: 600;
+  line-height: 1;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-3);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease, transform .05s ease;
+}
+
+.button:hover {
+  border-color: var(--color-accent);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.primary {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+.primary:hover {
+  background-color: var(--color-accent-hover);
+}
+
+.ghost {
+  background-color: transparent;
+}
+
+.danger {
+  background-color: var(--color-danger);
+  border-color: var(--color-danger);
+  color: #fff;
+}
+
+.sm { font-size: var(--text-sm); padding: var(--space-1) var(--space-3); }
+.lg { font-size: var(--text-lg); padding: var(--space-3) var(--space-6); border-radius: var(--radius-4); }
+
+.block { width: 100%; }
+
+.disabled { opacity: 0.5; cursor: not-allowed; }
+
+
+/* Extra accent background for subscribe CTA */
+.subscribe_button_bg {
+  background-color: rgb(189, 78, 44);
+  color: #fff;
+  border-color: rgb(189, 78, 44);
+}
+
+.subscribe_button_bg:hover {
+  background-color: rgb(199, 88, 54);
+  border-color: rgb(199, 88, 54);
+}
+

@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import styles from './PostInput.module.css'; // Стили (см. ниже)
 import { IoIosArrowForward } from 'react-icons/io';
+import styles from './PostInput.module.css'; // Стили (см. ниже)
 
 interface PostInputProps {
   avatarUrl: string;
   placeholder?: string;
   onPostSubmit?: (text: string) => void;
+  rightAccessory?: React.ReactNode;
 }
 
 export const PostInput: React.FC<PostInputProps> = ({ 
   avatarUrl, 
   placeholder = "Что у вас нового?", 
-  onPostSubmit 
+  onPostSubmit,
+  rightAccessory,
 }) => {
   const [postText, setPostText] = useState('');
 
@@ -44,7 +46,11 @@ export const PostInput: React.FC<PostInputProps> = ({
             placeholder={placeholder}
             className={styles.post_input}
             />
-            
+            {rightAccessory && (
+            <div className={styles.right_accessory}>
+                {rightAccessory}
+            </div>
+            )}
             {postText && (
             <button type="submit" className={styles.submit_button}>
                 <IoIosArrowForward style={{width: 1.25+"rem", height: 1.25+"rem"}}/>

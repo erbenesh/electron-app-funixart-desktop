@@ -1,9 +1,9 @@
-import { IoIosArrowForward } from 'react-icons/io'
-import { LuReplyAll } from 'react-icons/lu'
-import { unixToDate } from '../../services/utils'
-import styles from './PopularCommentCard.module.css'
 import parse from 'html-react-parser';
+import { IoIosArrowForward } from 'react-icons/io';
+import { LuReplyAll } from 'react-icons/lu';
 import { Link } from 'react-router-dom';
+import { unixToDate } from '../../api/utils';
+import styles from './PopularCommentCard.module.css';
 
 export const PopularCommentCard = (props) => {
 

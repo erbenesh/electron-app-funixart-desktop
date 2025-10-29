@@ -1,0 +1,43 @@
+.home_page_wrap {
+    min-height: 100vh;
+    max-width: 120rem;
+    overflow: hidden;
+
+    padding-top: 5.5rem;
+}
+
+.home_page {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: .3s;
+    animation: show .3s;
+    animation-fill-mode: forwards;
+    animation-delay: .3s;
+}
+
+.home_page::before {
+    position: fixed;
+    content: '';
+    z-index: 2;
+    width: 120rem;
+    height: 100%;
+    top:0;
+    overflow: hidden;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(36,36,36,1) 0%, rgba(0,0,0,0) 5%, rgba(0,0,0,0) 95%, rgba(36,36,36,1) 100%);
+}
+
+@keyframes show {
+
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+
+}
+
+

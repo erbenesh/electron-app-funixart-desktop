@@ -1,0 +1,20 @@
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+
+.iconButton:hover { border-color: var(--color-accent); }
+.primary { background-color: var(--color-accent); color: #fff; border-color: var(--color-accent); }
+.ghost { background-color: transparent; }
+.disabled { opacity: .5; cursor: not-allowed; }
+
+

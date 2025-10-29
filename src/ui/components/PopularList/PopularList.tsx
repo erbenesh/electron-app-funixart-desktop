@@ -1,12 +1,11 @@
 
-import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
-import { useUserStore } from '../../services/api/auth';
+import { useUserStore } from '../../auth/store/auth';
 import styles from './PopularList.module.css';
 import { ReleaseCard } from '../ReleaseCard/ReleaseCard';
-import { releaseService } from '../../services/ReleaseService';
+import { useGetLastUpdatedReleasesInfinite } from '../../api/hooks/useRelease';
 
 export const PopularList = () => {
 
@@ -14,18 +13,7 @@ export const PopularList = () => {
 
     const location = useLocation();
 
-    const list = useInfiniteQuery({
-        queryKey: ['get top releases', String(location.pathname), token],
-        queryFn: meta => releaseService.getLastUpdatedReleases(location.pathname.split('/')[2], token, meta.pageParam, 1),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPage.data.length === 0 || lastPageParam >= Math.ceil(lastPage.data.total_count/25)) {
-                return undefined
-            }
-            return lastPageParam + 1
-          },
-        select: data => data.pages.flatMap((page) => page.data.content)
-    });
+    const list = useGetLastUpdatedReleasesInfinite({ status: location.pathname.split('/')[2], token, sort: 1 });
 
     const scrollPosition = useScrollPosition();
     useEffect(() => {
@@ -47,7 +35,7 @@ export const PopularList = () => {
             <div className={styles.popular_list_cards}>
                 
                 {
-                list.data?.map(release => release.id && (
+                list.data?.pages.map(release => release.id && (
                     <ReleaseCard key={release.id} release={release}/>
                 ))
                 }

@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom';
-import { unixToDate } from '../../services/utils';
-import styles from './ReleaseCard.module.css';
-import { useEffect, useState } from 'react';
 import { FastAverageColor } from 'fast-average-color';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { MediaCard } from 'ui-kit/components/MediaCard/MediaCard';
+import { unixToDate } from '../../api/utils';
+import styles from './ReleaseCard.module.css';
 
 
 const profile_lists = {
@@ -48,102 +49,103 @@ export const ReleaseCard = (props) => {
     return (
         <div id="vert_card" className={styles.vert_card}>
 
-            <Link to={`/release/${props.release.id}`} onClick={() => props.clickCallBack && props.clickCallBack("")} className={styles.release_image_border}>
-                <img className={styles.release_image} src={props.release.image} alt={props.release.title_ru + " image"} loading='lazy'/>
-            </Link>
+            <div className={styles.release_image_border}>
+            <MediaCard
+                imageUrl={props.release.image}
+                link={
+                    <Link 
+                        to={`/release/${props.release.id}`} 
+                        onClick={() => props.clickCallBack && props.clickCallBack("")}
+                    />
+                }
+                bottomOverlay={
+                    <div className={styles.release_info}>
 
-            <div className={styles.description_and_action_buttons} style={{background: `linear-gradient(${dominantColor.replace('1)', '0)')} 0%, ${dominantColor.replace('1)', '0.8)')} 30%, ${dominantColor.replace('1)', '1)')} 60%)`}}>
+                        <div className={styles.anime_title}>{props.release.title_ru}</div>
 
-                <div className={styles.release_info}>
+                        <div className={styles.anime_subinfo_noborder}>
+                            {/*Жанры*/}
+                            # { props.release.genres }
+                        </div>
 
-                    <div className={styles.anime_title}>{props.release.title_ru}</div>
-
-                    <div className={styles.anime_subinfo_noborder}>
-                        {/*Жанры*/}
-                        # { props.release.genres }
-                    </div>
-
-                    <div className={styles.bottom_info}>
-                    
-                        { props.release.category &&
-                        <>
-                            <span className={styles.anime_subinfo}>
-                                {/*Категория*/}
-                                { props.release.category.name }
-                            </span>
-                            •
-                        </>
-                        }
-                
-                        { props.release.status &&
-                        <>
-                            <span className={styles.anime_subinfo}>
-                                {/*Статус*/}
-                                { props.release.status.name }
-                            </span>
-                            •
-                        </>
-                        }
-            
-                        <span className={styles.anime_subinfo}>
-                            {/*Сколько эпизодов*/}
-                            { props.release.episodes_released && props.release.episodes_released + " из "}
-                            {/*Из скольки эпизодов*/}
-                            { 
-                                // props.release.status && props.release.status.id !== 3 && 
-                                props.release.episodes_total ? props.release.episodes_total + " эп" : "? эп" 
-                            }
-                        </span>
-                    •        
-                        <span className={styles.anime_subinfo}>
-                            {/*Оценка или это анонс?*/}
-                            { grade ? <>&#9733; {grade}</> 
-                            : props.release.status 
-                            && props.release.status.id === 0
-                            && props.release.aired_on_date !== 0 ? (
-                                unixToDate(props.release.aired_on_date, "dayMonthYear")
-                            ) : props.release.year ? (
-                                <>
-                                    {props.release.season && props.release.season != 0
-                                    ? `${yearSeason[props.release.season]} `
-                                    : ""}
-                                    {props.release.year && `${props.release.year} г.`}
-                                </>
-                            ) : (
-                                "Скоро"
-                            )}
-                        </span>
-
-                        {/* <div className={styles.bookmark}>
-                            {
-                            props.release.is_favorite? 
-                            <IoBookmark style={{color:"rgb(189, 78, 44)", width: '1.2rem', height: '1.2rem'}}/> 
-                            : <IoBookmarkOutline style={{color:"rgb(160, 160, 160)", width: '1.2rem', height: '1.2rem'}}/>
-                            }
-                        </div> */}
-
+                        <div className={styles.bottom_info}>
                         
-                    </div>
-                                
-                    <div className={styles.release_lists_info}>
-
-                        {user_list && 
-                        <span className={styles.user_list_name} style={{background: user_list.bg_color}}>
-                            {user_list.name}
-                        </span>
-                        }
-
-                    </div>
-
-                </div>
-
+                            { props.release.category &&
+                            <>
+                                <span className={styles.anime_subinfo}>
+                                    {/*Категория*/}
+                                    { props.release.category.name }
+                                </span>
+                                •
+                            </>
+                            }
+                    
+                            { props.release.status &&
+                            <>
+                                <span className={styles.anime_subinfo}>
+                                    {/*Статус*/}
+                                    { props.release.status.name }
+                                </span>
+                                •
+                            </>
+                            }
                 
+                            <span className={styles.anime_subinfo}>
+                                {/*Сколько эпизодов*/}
+                                { props.release.episodes_released && props.release.episodes_released + " из "}
+                                {/*Из скольки эпизодов*/}
+                                { 
+                                    // props.release.status && props.release.status.id !== 3 && 
+                                    props.release.episodes_total ? props.release.episodes_total + " эп" : "? эп" 
+                                }
+                            </span>
+                        •        
+                            <span className={styles.anime_subinfo}>
+                                {/*Оценка или это анонс?*/}
+                                { grade ? <>&#9733; {grade}</> 
+                                : props.release.status 
+                                && props.release.status.id === 0
+                                && props.release.aired_on_date !== 0 ? (
+                                    unixToDate(props.release.aired_on_date, "dayMonthYear")
+                                ) : props.release.year ? (
+                                    <>
+                                        {props.release.season && props.release.season != 0
+                                        ? `${yearSeason[props.release.season]} `
+                                        : ""}
+                                        {props.release.year && `${props.release.year} г.`}
+                                    </>
+                                ) : (
+                                    "Скоро"
+                                )}
+                            </span>
 
-                {/* <p className={styles.description}>{ props.release.description }</p> */}
+                            {/* <div className={styles.bookmark}>
+                                {
+                                props.release.is_favorite? 
+                                <IoBookmark style={{color:"rgb(189, 78, 44)", width: '1.2rem', height: '1.2rem'}}/> 
+                                : <IoBookmarkOutline style={{color:"rgb(160, 160, 160)", width: '1.2rem', height: '1.2rem'}}/>
+                                }
+                            </div> */}
 
-                {/* <button className={props.release.is_favorite ? styles.card_action_button_active :  styles.card_action_button} onClick={() => addToFavorite()} type='button'>
-                    {props.release.is_favorite ? <IoBookmark className={styles.card_action_button_ico_active} /> : <IoBookmarkOutline className={styles.card_action_button_ico}/>}
-                </button> */}
+                            
+                        </div>
+                                    
+                        <div className={styles.release_lists_info}>
+
+                            {user_list && 
+                            <span className={styles.user_list_name} style={{background: user_list.bg_color}}>
+                                {user_list.name}
+                            </span>
+                            }
+
+                        </div>
+
+                    </div>
+                }
+                overlayStyle={{
+                    background: `linear-gradient(to top, ${dominantColor.replace('1)', '0.95)')} 0%, ${dominantColor.replace('1)', '0.75)')} 40%, ${dominantColor.replace('1)', '0.3)')} 70%, ${dominantColor.replace('1)', '0)')} 100%)`
+                }}
+            />
             </div>
                 
         </div>

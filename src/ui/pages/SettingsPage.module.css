@@ -1,0 +1,70 @@
+.settings_page {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    opacity: 0;
+    transition: .3s;
+    animation: show .3s;
+    animation-fill-mode: forwards;
+    animation-delay: .3s;
+    padding: 1rem;
+    max-width: 110rem;
+    margin: 0 auto;
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.section_title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: rgb(230, 230, 230);
+    margin: 0;
+}
+
+.settings_content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.preferences_card {
+    padding: 1.5rem;
+    background-color: rgb(27, 27, 27);
+    border: 1px solid rgb(68, 68, 68);
+    border-radius: 1rem;
+}
+
+.card_title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: rgb(230, 230, 230);
+    margin: 0 0 1rem 0;
+}
+
+.preferences_info {
+    overflow-x: auto;
+}
+
+.preferences_json {
+    font-size: 0.875rem;
+    color: rgb(200, 200, 200);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 0;
+    font-family: 'Courier New', monospace;
+}
+
+.empty_state {
+    padding: 3rem;
+    text-align: center;
+    color: rgb(160, 160, 160);
+    font-size: 1rem;
+}
+

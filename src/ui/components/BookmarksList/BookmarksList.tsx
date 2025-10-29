@@ -1,13 +1,12 @@
 
 import { useEffect } from 'react';
-import { IRelease } from '../../interfaces/IRelease'
-import { ReleaseCard } from '../ReleaseCard/ReleaseCard'
-import styles from './BookmarksList.module.css'
 import { useLocation } from 'react-router-dom';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useUserStore } from '../../services/api/auth';
+import { useGetBookmarksInfinite } from '../../api/hooks/useBookmarks';
+import { useUserStore } from '../../auth/store/auth';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
-import { bookmarksService } from '../../services/BookmarksService';
+import { IRelease } from '../../types/IRelease';
+import { ReleaseCard } from '../ReleaseCard/ReleaseCard';
+import styles from './BookmarksList.module.css';
 
 export const BookmarksList = () => {
 
@@ -15,18 +14,7 @@ export const BookmarksList = () => {
 
     const location = useLocation();
 
-    const bookmarks = useInfiniteQuery({
-        queryKey: ['get bookmarks', String(location.pathname).slice(11), token],
-        queryFn: meta => bookmarksService.getBookmarks(String(location.pathname).slice(11), token, meta.pageParam),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPage.length === 0) {
-              return undefined
-            }
-            return lastPageParam + 1
-          },
-        select: data => data.pages.flatMap((page) => page.content)
-    });
+    const bookmarks = useGetBookmarksInfinite({ listName: String(location.pathname).slice(11), token });
 
     const scrollPosition = useScrollPosition();
     useEffect(() => {
@@ -56,14 +44,15 @@ export const BookmarksList = () => {
                 <div className={styles.anime_list}>
 
                     {
-                        bookmarks.data?.map((
-                            el: IRelease) => 
-                            el.id && 
-                            <ReleaseCard 
-                                key={el.id} 
-                                release={el}
-                            />
-                        ) 
+                        bookmarks.data?.pages.map(
+                            (el: IRelease) =>
+                                el.id && (
+                                    <ReleaseCard
+                                        key={el.id}
+                                        release={el}
+                                    />
+                                )
+                        )
                     }
 
                 </div>

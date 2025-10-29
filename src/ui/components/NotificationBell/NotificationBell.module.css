@@ -1,0 +1,146 @@
+.notificationBell {
+    position: relative;
+}
+
+.bellButton {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bellButton:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.bellIcon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: aliceblue;
+}
+
+.badge {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+    border-radius: 50%;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding: 0 0.25rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(36, 36, 36, 0.8);
+}
+
+.notificationPanel {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    width: 24rem;
+    max-height: 32rem;
+    background: rgba(36, 36, 36, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow: hidden;
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.panelHeader {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panelHeader h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: aliceblue;
+}
+
+.notificationList {
+    max-height: 24rem;
+    overflow-y: auto;
+}
+
+.notificationItem {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+    transition: background 0.2s ease;
+}
+
+.notificationItem:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.notificationItem.unread {
+    background: rgba(233, 130, 60, 0.1);
+    border-left: 3px solid rgba(233, 130, 60, 0.6);
+}
+
+.notificationContent {
+    flex: 1;
+    color: rgb(230, 230, 230);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.deleteButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(150, 150, 150, 0.7);
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.deleteButton:hover {
+    color: aliceblue;
+    background: rgba(231, 115, 80, 0.2);
+}
+
+.emptyState {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: rgba(150, 150, 150, 0.7);
+    font-size: 0.95rem;
+}
+

@@ -1,14 +1,16 @@
-import { GoSearch } from "react-icons/go";
-import { IoSettingsOutline } from "react-icons/io5";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import styles from './TopNavigationBar.module.css'
-import { NavLink, useLocation } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { searchService } from "../../services/SearchService";
-import { useUserStore } from "../../services/api/auth";
 import { useRef, useState } from "react";
-import { ReleaseCard } from "../ReleaseCard/ReleaseCard";
+import { GoSearch } from "react-icons/go";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { IoSettingsOutline } from "react-icons/io5";
+import { NavLink, useLocation } from "react-router-dom";
+import { Button } from "ui-kit/components/Button/Button";
+import { SearchInput } from "ui-kit/components/SearchInput/SearchInput";
+import { useSearchResults } from "../../api/hooks/useSearch";
+import { useUserStore } from "../../auth/store/auth";
 import { useClickOutside } from "../../hooks/useClickOutside";
+import { NotificationBell } from "../NotificationBell/NotificationBell";
+import { ReleaseCard } from "../ReleaseCard/ReleaseCard";
+import styles from './TopNavigationBar.module.css';
 
 export const TopNavigationBar = (props) => {
 
@@ -18,10 +20,7 @@ export const TopNavigationBar = (props) => {
 
     const [ searchInputValue, setSearchInputValue ] = useState('');
 
-    const getSearchResult = useQuery({
-        queryKey: ['search results', token, searchInputValue],
-        queryFn: () => searchService.searchResults(token, searchInputValue, null, location.pathname),
-    });
+    const getSearchResult = useSearchResults({ token, query: searchInputValue, searchBy: null, location: location.pathname });
 
     const searchInputRef = useRef(null);
 
@@ -35,44 +34,36 @@ export const TopNavigationBar = (props) => {
 
                     <div className={styles.buttons_wraper}>
                         
-                        <NavLink to="/" button-name-ru="Главная"
-                        className={({ isActive }) =>
-                                    isActive ? styles.toptools__active_button : styles.toptools__button
-                                }
-                        onClick={() => setSearchInputValue('')}
-                        >
-                            {/* <GoHome className={styles.menu_ico}/> */}
-                            Главная
+                        <NavLink to="/" button-name-ru="Главная" onClick={() => setSearchInputValue('')}>
+                            {({ isActive }) => (
+                                <Button variant={isActive ? 'primary' : 'ghost'}>
+                                    Главная
+                                </Button>
+                            )}
                         </NavLink>
 
-                        <NavLink to="/bookmarks" button-name-ru="Закладки"
-                        className={({ isActive }) =>
-                                    isActive ? styles.toptools__active_button : styles.toptools__button
-                                }
-                                onClick={() => setSearchInputValue('')}
-                        >
-                            {/* <IoBookmarkOutline className={styles.menu_ico}/> */}
-                            Закладки
+                        <NavLink to="/bookmarks" button-name-ru="Закладки" onClick={() => setSearchInputValue('')}>
+                            {({ isActive }) => (
+                                <Button variant={isActive ? 'primary' : 'ghost'}>
+                                    Закладки
+                                </Button>
+                            )}
                         </NavLink>
 
-                        <NavLink to="/collections" button-name-ru="Коллекции"
-                        className={({ isActive }) =>
-                                    isActive ? styles.toptools__active_button : styles.toptools__button
-                                }
-                                onClick={() => setSearchInputValue('')}
-                        >
-                            {/* <BsCollectionPlay className={styles.menu_ico}/> */}
-                            Коллекции
+                        <NavLink to="/collections" button-name-ru="Коллекции" onClick={() => setSearchInputValue('')}>
+                            {({ isActive }) => (
+                                <Button variant={isActive ? 'primary' : 'ghost'}>
+                                    Коллекции
+                                </Button>
+                            )}
                         </NavLink>
 
-                        <NavLink to="/feed" button-name-ru="Лента"
-                        className={({ isActive }) =>
-                                    isActive ? styles.toptools__active_button : styles.toptools__button
-                                }
-                                onClick={() => setSearchInputValue('')}
-                        >
-                            {/* <BsWindow className={styles.menu_ico}/> */}
-                            Лента
+                        <NavLink to="/feed" button-name-ru="Лента" onClick={() => setSearchInputValue('')}>
+                            {({ isActive }) => (
+                                <Button variant={isActive ? 'primary' : 'ghost'}>
+                                    Лента
+                                </Button>
+                            )}
                         </NavLink>
 
                         {/* <button onClick={() => {}} className={styles.toptools_search_button}>
@@ -80,36 +71,38 @@ export const TopNavigationBar = (props) => {
                         </button> */}
 
                         <div className={styles.serach_input_wrapper} ref={searchInputRef}>
-                            <input onChange={el => setSearchInputValue(el.currentTarget.value)} value={searchInputValue} type="search" placeholder='Поиск аниме' className={styles.toptools_search_input}/>
+                            <SearchInput
+                                placeholder='Поиск аниме'
+                                value={searchInputValue}
+                                onChange={el => setSearchInputValue(el.currentTarget.value)}
+                            />
                             <GoSearch className={styles.menu_ico}/>
                         </div>
 
-                        <NavLink to="/profile" button-name-ru="Профиль"
-                        className={({ isActive }) =>
-                                    isActive ? styles.toptools__active_button : styles.toptools__button
-                                }
-                                onClick={() => setSearchInputValue('')}
-                        >
-                            <img src={props.avatar} alt="" className={styles.nav_avatar}/>
-                        
-                            <div className={styles.profile_btn_context_menu}>
-                                <NavLink to="/settings" button-name-ru="Настройки"
-                                className={({ isActive }) =>
-                                            isActive ? styles.toptools__active_button : styles.toptools__button
-                                        }
-                                        onClick={() => setSearchInputValue('')}
-                                >
-                                    <IoSettingsOutline className={styles.menu_ico}/>
-                                </NavLink>
-                                <NavLink to="/notifications" button-name-ru="Уведомления"
-                                className={({ isActive }) =>
-                                            isActive ? styles.toptools__active_button : styles.toptools__button
-                                        }
-                                        onClick={() => setSearchInputValue('')}
-                                >
-                                    <IoMdNotificationsOutline className={styles.menu_ico}/>
-                                </NavLink>
-                            </div>
+                        <NotificationBell />
+
+                        <NavLink to="/profile" button-name-ru="Профиль" onClick={() => setSearchInputValue('')}>
+                            {({ isActive }) => (
+                                <Button variant={isActive ? 'primary' : 'ghost'}>
+                                    <img src={props.avatar} alt="" className={styles.nav_avatar}/>
+                                    <div className={styles.profile_btn_context_menu}>
+                                        <NavLink to="/settings" button-name-ru="Настройки" onClick={() => setSearchInputValue('')}>
+                                            {({ isActive: isSettingsActive }) => (
+                                                <Button variant={isSettingsActive ? 'primary' : 'ghost'}>
+                                                    <IoSettingsOutline className={styles.menu_ico}/>
+                                                </Button>
+                                            )}
+                                        </NavLink>
+                                        <NavLink to="/notifications" button-name-ru="Уведомления" onClick={() => setSearchInputValue('')}>
+                                            {({ isActive: isNotifActive }) => (
+                                                <Button variant={isNotifActive ? 'primary' : 'ghost'}>
+                                                    <IoMdNotificationsOutline className={styles.menu_ico}/>
+                                                </Button>
+                                            )}
+                                        </NavLink>
+                                    </div>
+                                </Button>
+                            )}
                         </NavLink>
 
                     </div>

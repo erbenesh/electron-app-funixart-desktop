@@ -1,50 +1,113 @@
-# React + TypeScript + Vite
+# Anixart Desktop — Electron + React (Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Проект настольного приложения на Electron с фронтендом на React + TypeScript (Vite). Сборка фронтенда складывается в `dist-react`, а Electron подхватывает `index.html` из этой папки.
 
-Currently, two official plugins are available:
+## Требования
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js 18+ (рекомендуется LTS)
+- npm 9+
+- Windows/macOS/Linux
 
-## Expanding the ESLint configuration
+## Установка
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Скрипты
+
+- `npm run dev:react` — запуск Vite дев-сервера (фронтенд) на http://localhost:5173
+- `npm run dev:electron` — запуск Electron (читает собранный `dist-react`)
+- `npm run electron:dev` — быстрый старт: поднимает Vite и открывает Electron
+- `npm run build` — типизация + прод-сборка фронтенда в `dist-react`
+- `npm run transpile:electron` — транспиляция кода `src/electron` (если используется TS-конфиг)
+- `npm run electron:build` — прод-сборка фронта и упаковка приложения через electron-builder (артефакты в `out/`)
+- `npm run lint` — запуск ESLint
+- `npm run preview` — локальный предпросмотр собранного фронтенда
+
+## Как запустить в разработке
+
+Вариант 1 (рекомендован): два терминала
+
+1. Терминал A — фронтенд:
+   ```bash
+   npm run dev:react
+   ```
+2. Терминал B — Electron (после первого успешного старта Vite):
+   ```bash
+   npm run dev:electron
+   ```
+
+Вариант 2 (одной командой):
+
+```bash
+npm run electron:dev
+```
+
+Примечание: команда запускает Vite и затем Electron. Если окно Electron открылось без стилей/контента, дождитесь готовности Vite или перезапустите Electron-окно.
+
+## Продакшн-сборка
+
+1. Собрать фронтенд:
+   ```bash
+   npm run build
+   ```
+2. Упаковать приложение:
+   ```bash
+   npm run electron:build
+   ```
+   Готовые установщики и билды появятся в папке `out/`.
+
+## Стек и структура
+
+- React 18, TypeScript, Vite
+- Electron 33, electron-builder
+- React Router, Zustand, @tanstack/react-query
+- ESLint (flat config)
+
+Ключевые директории:
+
+- `src/ui` — основной UI-код (страницы, компоненты, хуки)
+- `src/ui-kit` — дизайн-система (UI-компоненты)
+- `src/ui/api` — сервисы и хуки для API
+- `src/electron` — основная точка входа Electron (`main.js`)
+- `dist-react` — результат сборки фронтенда
+- `out` — артефакты сборки electron-builder
+
+## Конфигурация
+
+Vite:
+
+```ts
+// vite.config.ts
+build: {
+  outDir: 'dist-react'
+}
+```
+
+Electron загружает фронтенд из `dist-react/index.html`:
 
 ```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+// src/electron/main.js
+mainWindow.loadFile(path.join(app.getAppPath(), '/dist-react/index.html'))
 ```
+
+## Качество кода
+
+- Линтинг:
+  ```bash
+  npm run lint
+  ```
+- Типизация (в составе build):
+  ```bash
+  npm run build
+  ```
+
+## Трюки и советы
+
+- Если Electron открывается с пустым экраном в дев-режиме, убедитесь, что Vite поднялся и отдал `index.html`. Перезапуск Electron после старта Vite обычно помогает.
+- При изменении конфигурации ESLint (flat config) используйте массив конфигов и точечные `files`/`rules` для переопределений.
+
+## Лицензия
+
+MIT (если не указано иное).

@@ -1,11 +1,11 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
-import { collectionService } from '../../services/CollectionService';
+import { useGetCollectionsInfinite } from '../../api/hooks/useCollection';
 import styles from './CollectionsList.module.css'
-import { useUserStore } from '../../services/api/auth';
+import { useUserStore } from '../../auth/store/auth';
 import { CollectionCard } from '../CollectionCard/CollectionCard';
+import { Spinner } from 'ui-kit/components/Spinner/Spinner';
 
 export const CollectionsList = () => {
 
@@ -14,18 +14,7 @@ export const CollectionsList = () => {
 
     const location = useLocation();
 
-    const collections = useInfiniteQuery({
-        queryKey: ['get Collections', String(location.pathname), token],
-        queryFn: meta => collectionService.getCollections(meta.pageParam, token, String(location.pathname), profileID),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPageParam >= lastPage.total_page_count) {
-                return undefined
-            }
-            return lastPageParam + 1
-          },
-        select: data => data.pages.flatMap((page) => page.content)
-    });
+    const collections = useGetCollectionsInfinite({ token, location: String(location.pathname), profileID });
 
     const scrollPosition = useScrollPosition();
     useEffect(() => {
@@ -39,14 +28,14 @@ export const CollectionsList = () => {
     return (
         collections.isPending ?
         (
-        <div className="loader-container_home">	
-            <i className="loader-circle"></i>
+        <div className="loader-container_home">
+            <Spinner />
         </div>
         ) :
         <div className={styles.сollections_page}>
             <div className={styles.collections_cards}>
                 {
-                    collections.data.length ? collections.data?.map(collection => collection.id && (
+                    collections.data?.pages.length ? collections.data.pages.map(collection => collection.id && (
                         <CollectionCard key={collection.id} collection={collection}/>
                     )) : <p style={{margin: 'auto', alignContent: 'center', height: '100vh'}}>Ой, а тут коллекций нет!</p>
                 }
@@ -55,8 +44,8 @@ export const CollectionsList = () => {
             {
                 collections.isFetchingNextPage &&
                 (
-                <div className="loader-container_home">	
-                    <i className="loader-circle"></i>
+                <div className="loader-container_home">
+                    <Spinner />
                 </div>
                 )
             }

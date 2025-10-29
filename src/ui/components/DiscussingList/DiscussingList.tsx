@@ -1,18 +1,14 @@
 
-import { useQuery } from '@tanstack/react-query';
-import { useUserStore } from '../../services/api/auth';
+import { useUserStore } from '../../auth/store/auth';
 import styles from './DiscussingList.module.css';
 import { ReleaseCard } from '../ReleaseCard/ReleaseCard';
-import { discoverService } from '../../services/DiscoverService';
+import { useGetDiscussing } from '../../api/hooks/useDiscover';
 
 export const DiscussingList = () => {
 
     const token = useUserStore((state) => state.token);
 
-    const discussing = useQuery({
-        queryKey: ['getDiscussing', token],
-        queryFn: () => discoverService.getDiscussing(token)
-    });
+    const discussing = useGetDiscussing(token);
 
     return (
         discussing.isPending ?

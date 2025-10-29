@@ -1,10 +1,11 @@
-
-import { skipToken, useMutation, useQuery } from '@tanstack/react-query'
-import styles from './ReleasePlayer.module.css'
-import { useEffect, useState } from 'react';
-import { useUserStore } from '../../services/api/auth';
-import { IoEye, IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { playerService } from '../../services/PlayerService';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useRef, useState } from 'react';
+import { IoEye, IoEyeOffOutline } from "react-icons/io5";
+import { useAddHistory, useLoadPlayerEpisodes, useLoadPlayerSources, useLoadPlayerVoiceovers, useMarkWatched } from '../../api/hooks/usePlayer';
+import { useUserStore } from '../../auth/store/auth';
+import { useClickOutside } from '../../hooks/useClickOutside';
+import { VoiceoverPicker } from '../VoiceoverPicker/VoiceoverPicker';
+import styles from './ReleasePlayer.module.css';
 
 export const ReleasePlayer = (props) => {
 
@@ -19,58 +20,54 @@ export const ReleasePlayer = (props) => {
     const [ isDropdownVoicesHidden, setIsDropdownVoicesHidden ] = useState(false);
     const [ isDropdownSourcesHidden, setIsDropdownSourcesHidden ] = useState(false);
 
-    const fetchVoiceOver = useMutation({
-        mutationKey: ["voice over", props.id],
-        mutationFn: () => playerService.getReleasePlayer(props.id),
-        onSuccess(data) {
+    const fetchVoiceOver = useLoadPlayerVoiceovers(props.id);
+
+    // Close dropdowns on outside click
+    const voicesRef = useRef<HTMLDivElement | null>(null);
+    const sourcesRef = useRef<HTMLDivElement | null>(null);
+    useClickOutside(voicesRef, () => setIsDropdownVoicesHidden(false));
+    useClickOutside(sourcesRef, () => setIsDropdownSourcesHidden(false));
+    useEffect(() => {
+        if (fetchVoiceOver.isSuccess) {
+            const data = fetchVoiceOver.data as any;
             const voiceover = data.data;
             console.log(voiceover);
             setVoiceoverInfo(voiceover.types);
             setSelectedVoiceover(voiceover.types[0]);
         }
-    });
+    }, [fetchVoiceOver.isSuccess]);
 
-    const fetchSources = useMutation({
-        mutationKey: ["sources", props.id],
-        mutationFn: () => playerService.getReleasePlayer(`${props.id}/${selectedVoiceover.id}`),
-        onSuccess(data) {
+    const fetchSources = useLoadPlayerSources(props.id, selectedVoiceover?.id);
+    useEffect(() => {
+        if (fetchSources.isSuccess) {
+            const data = fetchSources.data as any;
             const sources = data.data;
-            
             setSourcesInfo(sources.sources);
             setSelectedSource(sources.sources[0]);
         }
-    });
+    }, [fetchSources.isSuccess]);
  
-    const fetchEpisodes = useMutation({
-        mutationKey: ["episodes", props.id],
-        mutationFn: () => playerService.getReleasePlayer(`${props.id}/${selectedVoiceover.id}/${selectedSource.id}?token=${userStore.token}`),
-        onSuccess(data) {
+    const fetchEpisodes = useLoadPlayerEpisodes({ releaseId: props.id, voiceoverId: selectedVoiceover?.id, sourceId: selectedSource?.id, token: userStore.token });
+    useEffect(() => {
+        if (fetchEpisodes.isSuccess) {
+            const data = fetchEpisodes.data as any;
             const episodes = data.data;
-
             if (episodes.episodes.length === 0) {
                 const remSources = sourcesInfo.filter(
                     (source) => source.id !== selectedSource.id
                 );
                 setSourcesInfo(remSources);
                 setSelectedSource(remSources[0]);
-
                 return;
             }
-
             setEpisodeInfo(episodes.episodes);
             setSelectedEpisode(episodes.episodes[0]);
         }
-    });
+    }, [fetchEpisodes.isSuccess]);
 
-    const fetchToHistory = useMutation({
-        mutationKey: ["addHistory", props.id, selectedSource?.id, userStore.token],
-        mutationFn: (position) => playerService.getToHistory(`${props.id}/${selectedSource.id}/${position}?token=${userStore.token}`)
-    });
+    const fetchToHistory = useAddHistory({ releaseId: props.id, sourceId: selectedSource?.id, token: userStore.token });
 
-    const fetchMarkWatched = useMutation({
-        mutationKey: ["markWatched", props.id, selectedSource?.id, userStore.token],
-        mutationFn: (position) => playerService.getMarkWatched(`${props.id}/${selectedSource.id}/${position}?token=${userStore.token}`)
-    });
+    const fetchMarkWatched = useMarkWatched({ releaseId: props.id, sourceId: selectedSource?.id, token: userStore.token });
 
     useEffect(() => {
         fetchVoiceOver.mutate();
@@ -131,7 +128,7 @@ export const ReleasePlayer = (props) => {
                     <div className={styles.episodes_buttons_swiper_wrap}>
 
                         <div className={styles.voices_and_sources_dropdowns}>
-                            <div className={styles.player_dropdowns}>
+                            <div className={styles.player_dropdowns} ref={voicesRef}>
                                 <button className={styles.dropdown_button} onClick={() => setIsDropdownVoicesHidden(!isDropdownVoicesHidden)} type='button'>
                                     <div className={styles.voicer_ico_border}>
                                         <img className={styles.voicer_ico} src={selectedVoiceover?.icon} alt="" />
@@ -142,32 +139,27 @@ export const ReleasePlayer = (props) => {
                                 </button>
 
                                 <div className={styles.top_buttons_swiper} style={isDropdownVoicesHidden ? {display: "flex"} : {}}>
-                                    {
-                                        voiceoverInfo.map(voiceover => voiceover.id !== selectedVoiceover?.id &&
-                                        (
-                                        <button key={`voiceover_${voiceover.id}`} className={styles.dropdown_list_button}
-                                        onClick={() => setVoice(voiceover)}>
-                                            <div className={styles.info_flex_row}>
-                                                <div className={styles.voicer_ico_border}>
-                                                    <img className={styles.voicer_ico} src={voiceover.icon} alt="" />
-                                                </div>                                            
-                                                <div className={styles.button_name}>
-                                                    <p className={styles.info}>{voiceover.name}</p>
-                                                    <p className={styles.info_ep}>{voiceover.episodes_count} эпизодов</p>
-                                                </div>
-                                            </div>
-                                            <div className={styles.info_flex_row} style={{gap: '0.1rem'}}>
-                                                <p className={styles.info_ep}>{voiceover.view_count}</p>
-                                                <IoEyeOutline style={{width: 0.9+'rem', height: 0.9+'rem'}}/> 
-                                            </div>
-
-                                        </button>
-                                        )
-                                    )
-                                    }
+                                    {isDropdownVoicesHidden && (
+                                        <VoiceoverPicker
+                                            items={voiceoverInfo.map((v:any) => ({
+                                                id: v.id,
+                                                title: v.name,
+                                                episodesCount: v.episodes_count,
+                                                viewsCount: v.view_count,
+                                                logoUrl: v.icon,
+                                                kind: 'dub',
+                                                isNew: false,
+                                            }))}
+                                            onSelect={(item) => {
+                                                const found = voiceoverInfo.find((v:any) => v.id === item.id);
+                                                if (found) setVoice(found);
+                                                setIsDropdownVoicesHidden(false);
+                                            }}
+                                        />
+                                    )}
                                 </div>
                             </div>
-                            <div className={styles.player_dropdowns} style={{width: '40%'}}>
+                            <div className={styles.player_dropdowns} style={{width: '40%'}} ref={sourcesRef}>
                                 <button className={styles.dropdown_button} onClick={() => setIsDropdownSourcesHidden(!isDropdownSourcesHidden)} 
                                 type='button' style={{placeContent: 'center', height: '100%'}}>
                                     {selectedSource?.name}

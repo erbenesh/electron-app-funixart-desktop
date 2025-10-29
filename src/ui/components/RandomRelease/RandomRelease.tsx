@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
-import styles from './RandomRelease.module.css'
 import { RandomReleaseCard } from "../RandomReleaseCard/RandomReleaseCard";
+import styles from './RandomRelease.module.css';
 
 export const RandomRelease = (props) => {
 
@@ -10,7 +10,7 @@ export const RandomRelease = (props) => {
         <div className={styles.title_wrap}> 
 
             <div className={styles.random_background}>
-                <img className={styles.title_image_bg} src={props.randomRelease?.data?.data.release.image} alt="" />
+                <img className={styles.title_image_bg} src={props.randomRelease?.data?.release?.image} alt="" />
             </div>
 
             {/* <Schedule fetchSchedule={props.fetchSchedule} /> */}
@@ -21,7 +21,7 @@ export const RandomRelease = (props) => {
                 <i className="loader-circle"></i>
             </div>
             ) : (
-                    <RandomReleaseCard randomRelease={props.randomRelease.data?.data.release} queryClient={queryClient}/>
+                    <RandomReleaseCard randomRelease={props.randomRelease.data?.release} queryClient={queryClient}/>
                 )
             }
 

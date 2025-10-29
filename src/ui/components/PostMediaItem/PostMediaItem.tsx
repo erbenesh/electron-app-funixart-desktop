@@ -1,4 +1,4 @@
-import styles from './PostMediaItem.module.css'
+import styles from './PostMediaItem.module.css';
 
 export const PostMediaItem = (props) => {
 

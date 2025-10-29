@@ -1,28 +1,16 @@
 import { useEffect } from 'react';
-import { IRelease } from '../../interfaces/IRelease'
-import { ReleaseCard } from '../ReleaseCard/ReleaseCard'
-import styles from './FavoriteList.module.css'
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useUserStore } from '../../services/api/auth';
+import { useGetFavoritesInfinite } from '../../api/hooks/useBookmarks';
+import { useUserStore } from '../../auth/store/auth';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
-import { bookmarksService } from '../../services/BookmarksService';
+import { IRelease } from '../../types/IRelease';
+import { ReleaseCard } from '../ReleaseCard/ReleaseCard';
+import styles from './FavoriteList.module.css';
 
 export const FavoriteList = () => {
 
     const token = useUserStore((state) => state.token);
 
-    const favorites = useInfiniteQuery({
-        queryKey: ['get favorite', token],
-        queryFn: meta => bookmarksService.getFavorites(token, meta.pageParam),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPage.length === 0) {
-              return undefined
-            }
-            return lastPageParam + 1
-          },
-        select: data => data.pages.flatMap((page) => page.content)
-    });
+    const favorites = useGetFavoritesInfinite(token);
 
     const scrollPosition = useScrollPosition();
     useEffect(() => {
@@ -52,14 +40,15 @@ export const FavoriteList = () => {
                 <div className={styles.anime_list}>
 
                     {
-                        favorites.data?.map((
-                            el: IRelease) => 
-                            el.id && 
-                            <ReleaseCard 
-                                key={el.id} 
-                                release={el}
-                            />
-                        ) 
+                        favorites.data?.pages.map(
+                            (el: IRelease) =>
+                                el.id && (
+                                    <ReleaseCard
+                                        key={el.id}
+                                        release={el}
+                                    />
+                                )
+                        )
                     }
 
                 </div>

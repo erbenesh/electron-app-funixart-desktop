@@ -1,28 +1,15 @@
-
-import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
-import { useUserStore } from '../../services/api/auth';
+import { useUserStore } from '../../auth/store/auth';
 import styles from './RecommendationsList.module.css';
 import { ReleaseCard } from '../ReleaseCard/ReleaseCard';
-import { discoverService } from '../../services/DiscoverService';
+import { useGetRecommendationsInfinite } from '../../api/hooks/useDiscover';
 
 export const RecommendationsList = () => {
 
     const token = useUserStore((state) => state.token);
 
-    const recom = useInfiniteQuery({
-        queryKey: ['get last', token],
-        queryFn: meta => discoverService.getRecommendations(meta.pageParam, token),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPage.data.length === 0 || lastPageParam >= lastPage.data.total_page_count) {
-                return undefined
-            }
-            return lastPageParam + 1
-          },
-        select: data => data.pages.flatMap((page) => page.data.content)
-    });
+    const recom = useGetRecommendationsInfinite(token);
 
     const scrollPosition = useScrollPosition();
     useEffect(() => {
@@ -44,7 +31,7 @@ export const RecommendationsList = () => {
             <div className={styles.recom_list_cards}>
                 
                 {
-                recom.data?.map(release => release.id && (
+                recom.data?.pages.map(release => release.id && (
                     <ReleaseCard key={release.id} release={release}/>
                 ))
                 }

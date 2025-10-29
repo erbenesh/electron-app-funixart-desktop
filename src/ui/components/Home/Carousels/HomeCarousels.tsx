@@ -1,14 +1,14 @@
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io"
-import { ReleaseCard } from "../../ReleaseCard/ReleaseCard"
-import styles from "./HomeCarousels.module.css"
 import { useState } from "react";
-import { InterestingCard } from "../../InterestingCard/InterestingCard";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { InterestingCard } from "../../InterestingCard/InterestingCard";
+import { ReleaseCard } from "../../ReleaseCard/ReleaseCard";
+import styles from "./HomeCarousels.module.css";
 
 export const HomeCarouselx5 = (props) => {
     const [ indx, setIndxLast ] = useState(0);
 
-    const maxLen = props.array.length % 5 === 0 ? Math.floor(props.array.length / 5) * 5 - 5 : Math.floor(props.array.length / 5) * 5;
+    const maxLen = props.array ? props.array.length % 5 === 0 ? Math.floor(props.array.length / 5) * 5 - 5 : Math.floor(props.array.length / 5) * 5 : 0;
 
     const goToSlide = (index: number) => {
 

@@ -1,12 +1,11 @@
 
-import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
-import { useUserStore } from '../../services/api/auth';
+import { useUserStore } from '../../auth/store/auth';
 import styles from './LastReleasesList.module.css';
 import { ReleaseCard } from '../ReleaseCard/ReleaseCard';
-import { releaseService } from '../../services/ReleaseService';
+import { useGetLastUpdatedReleasesInfinite } from '../../api/hooks/useRelease';
 
 export const LastReleasesList = () => {
 
@@ -14,18 +13,7 @@ export const LastReleasesList = () => {
 
     const location = useLocation();
 
-    const last = useInfiniteQuery({
-        queryKey: ['get last', String(location.pathname), token],
-        queryFn: meta => releaseService.getLastUpdatedReleases(location.pathname.split('/')[2], token, meta.pageParam),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPage.data.content.length === 0) {
-                return undefined
-            }
-            return lastPageParam + 1
-          },
-        select: data => data.pages.flatMap((page) => page.data.content)
-    });
+    const last = useGetLastUpdatedReleasesInfinite({ status: location.pathname.split('/')[2], token });
 
     const scrollPosition = useScrollPosition();
     useEffect(() => {
@@ -48,7 +36,7 @@ export const LastReleasesList = () => {
             <div className={styles.last_releases_list_cards}>
                 
                 {
-                last.data?.map(release => release.id && (
+                last.data?.pages.map(release => release.id && (
                     <ReleaseCard key={release.id} release={release}/>
                 ))
                 }

@@ -1,4 +1,3 @@
-import { RxCardStackPlus } from 'react-icons/rx'
 import { TbArrowBackUp } from 'react-icons/tb'
 import styles from './Toolbar.module.css'
 import { useNavigate } from 'react-router-dom'

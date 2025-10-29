@@ -1,13 +1,17 @@
-import { PostMediaItem } from '../PostMediaItem/PostMediaItem'
 import parse from 'html-react-parser';
-import styles from './FeedList.module.css'
-import { formatPostTimestamp } from '../../services/utils';
 import { useEffect } from 'react';
+import { BiRepost } from 'react-icons/bi';
+import { IoHeartOutline } from 'react-icons/io5';
+import { Link, useLocation } from 'react-router-dom';
+import { articleService } from '../../api/ArticleService';
+import { commentService } from '../../api/CommentService';
+import { useGetFeedInfinite } from '../../api/hooks/useFeed';
+import { formatPostTimestamp } from '../../api/utils';
+import { useUserStore } from '../../auth/store/auth';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useUserStore } from '../../services/api/auth';
-import { feedService } from '../../services/FeedService';
-import { useLocation } from 'react-router-dom';
+import { PostInput } from '../PostInput/PostInput';
+import { PostMediaItem } from '../PostMediaItem/PostMediaItem';
+import styles from './FeedList.module.css';
 
 export const FeedList = () => {
 
@@ -15,18 +19,7 @@ export const FeedList = () => {
 
     const location = useLocation();
 
-    const feedNews = useInfiniteQuery({
-        queryKey: ['get feed news', String(location.pathname).slice(6), token],
-        queryFn: meta => feedService.getFeed(String(location.pathname).slice(6), token, meta.pageParam),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPage.data.content.length === 0) {
-                return undefined
-            }
-            return lastPageParam + 1
-          },
-        select: data => data.pages.flatMap((page) => page.data.content)
-    });
+    const feedNews = useGetFeedInfinite({ path: String(location.pathname).slice(6), token });
 
     console.log(String(location.pathname).slice(5));
 
@@ -47,21 +40,20 @@ export const FeedList = () => {
         <div className={styles.feed_news}>
             {
 
-                feedNews.data?.map(post => post.id && (
+                feedNews.data?.pages.map(post => post.id && (
                     <div key={post.id} className={styles.news_post}>
 
                         <div className={styles.post_channel}>
 
-                            <div className={styles.channel}>
+                            <Link to={`/channel/${post.channel?.id}`} className={styles.channel}>
                                 <div className={styles.channel_avatar}>
-                                    <img className={styles.channel_avatar_image} src={post.channel.avatar} alt="" />
+                                    <img className={styles.channel_avatar_image} src={post.channel.avatar} alt={post.channel.title || 'Канал'} />
                                 </div>
-                            
                                 <p className={styles.channel_title}>
                                     {post.channel.title}
                                 </p>   
 
-                            </div>                    
+                            </Link>                    
 
                             <span className={styles.post_timing}>
                                 {formatPostTimestamp(post.last_update_date)}
@@ -93,7 +85,32 @@ export const FeedList = () => {
                         </div>
 
                         <div className={styles.post_action_buttons}>
-                            
+                            <button className={`${styles.post_action_button} ${styles.like_button}`} type='button'
+                                onClick={async () => {
+                                    if (!token) return;
+                                    try { await articleService.voteArticle(post.id, 1, token); } catch {}
+                                }}>
+                                <IoHeartOutline className={styles.action_icon}/>
+                                Нравится
+                            </button>
+                            <button className={`${styles.post_action_button} ${styles.repost_button}`} type='button'
+                                onClick={() => {/* TODO: implement repost when API is available */}}>
+                                <BiRepost className={styles.action_icon}/>
+                                Репост
+                            </button>
+                        </div>
+
+                        <div className={styles.post_comment_add}>
+                            <PostInput
+                                avatarUrl={useUserStore.getState().user?.avatar || ''}
+                                placeholder={'Написать комментарий...'}
+                                onPostSubmit={async (text) => {
+                                    if (!token) return;
+                                    const message = text.trim();
+                                    if (!message) return;
+                                    try { await commentService.addArticleComment(post.id, { message, spoiler: false }, token); } catch {}
+                                }}
+                            />
                         </div>
 
                     </div>
