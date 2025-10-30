@@ -13,7 +13,7 @@
   -moz-osx-font-smoothing: grayscale;
   --header-height: 48px;
   --aside-width: 48px;
-  scrollbar-gutter: stable;
+  scrollbar-gutter: stable both-edges;
 
   /* Ant Design-like breakpoints */
   --bp-xs: 480px;   /* < 576px (fallback) */
@@ -133,7 +133,7 @@ html, body, #root {
 @media (max-width: calc(var(--bp-sm) - 1px)) {
   html { font-size: 15px; }
   :root {
-    --header-height: 96px;
+    --header-height: calc(96px + env(safe-area-inset-top, 0));
   }
   /* Cap media height on small screens */
   video, iframe {

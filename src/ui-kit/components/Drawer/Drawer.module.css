@@ -1,0 +1,43 @@
+.root {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.open {
+  pointer-events: auto;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+}
+
+.panel {
+  position: absolute;
+  background: var(--color-surface, #2c2c2c);
+  border: 1px solid var(--color-border, #4a4a4a);
+  box-shadow: var(--shadow-2);
+  transition: transform 0.25s ease;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.right { top: 0; right: 0; bottom: 0; transform: translateX(100%); width: var(--drawer-width, 20rem); padding-bottom: var(--safe-area-bottom, 0); }
+.left { top: 0; left: 0; bottom: 0; transform: translateX(-100%); width: var(--drawer-width, 20rem); padding-bottom: var(--safe-area-bottom, 0); }
+.top { top: 0; left: 0; right: 0; transform: translateY(-100%); height: var(--drawer-height, 16rem); padding-top: calc(0.5rem + var(--safe-area-top, 0)); }
+.bottom { bottom: 0; left: 0; right: 0; transform: translateY(100%); height: var(--drawer-height, 16rem); padding-bottom: calc(0.5rem + var(--safe-area-bottom, 0)); }
+
+.open .right { transform: translateX(0); }
+.open .left { transform: translateX(0); }
+.open .top { transform: translateY(0); }
+.open .bottom { transform: translateY(0); }
+
+@media (max-width: 768px) {
+  .right, .left { width: min(90vw, var(--drawer-width, 20rem)); }
+  .top, .bottom { height: min(60vh, var(--drawer-height, 18rem)); }
+}
+
+

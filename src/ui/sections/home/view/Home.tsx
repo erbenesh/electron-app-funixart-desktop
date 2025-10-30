@@ -1,6 +1,8 @@
 import { useGetComments, useGetDiscoverInteresting, useGetDiscussing, useGetLastUpdatedReleasesInfinite, useGetRandomRelease, useGetRecommendationsInfinite, useGetSchedule, useGetWatchingInfinite } from "#/api/hooks";
 import { useUserStore } from "#/auth/store/auth";
-import { HomeCarouselx2, HomeCarouselx5 } from "#/components/Home/Carousels/HomeCarousels";
+import { Carousel, Title } from "ui-kit";
+import { InterestingCard } from "#/components/InterestingCard/InterestingCard";
+import { ReleaseCard } from "#/components/ReleaseCard/ReleaseCard";
 import { PopularComments } from "#/components/PopularComments/PopularComments";
 import { RandomRelease } from "#/components/RandomRelease/RandomRelease";
 import { SchedulePreview } from "#/components/SchedulePreview/SchedulePreview";
@@ -50,25 +52,32 @@ export const Home = () => {
       ) : (
         <div className="home_page_wrap">
           <div className="home_page">
-            <HomeCarouselx2
-              array={discoverInteresting.data?.content}
-              sectionTitle={"Интересное"}
-              sectionTitleAlt={"interestingReleases"}
-            />
+            <section>
+              <Title level={2}>Интересное</Title>
+              <Carousel showArrows showDots ariaLabel="Интересное">
+                {(discoverInteresting.data?.content || []).map((el: any) => (
+                  el?.id ? <InterestingCard key={el.id} release={el} /> : null
+                ))}
+              </Carousel>
+            </section>
 
-            <HomeCarouselx5
-              array={lastUpdatedReleases.data?.pages}
-              sectionTitle={"Последнее"}
-              sectionTitleAlt={"lastReleases"}
-              link={"/last"}
-            />
+            <section>
+              <Title level={2}>Последнее</Title>
+              <Carousel showArrows ariaLabel="Последнее">
+                {(lastUpdatedReleases.data?.pages || []).map((el: any) => (
+                  el?.id ? <ReleaseCard key={el.id} release={el} /> : null
+                ))}
+              </Carousel>
+            </section>
 
-            <HomeCarouselx5
-              array={top.data?.pages}
-              sectionTitle={"Популярное"}
-              sectionTitleAlt={"topReleases"}
-              link={"/popular"}
-            />
+            <section>
+              <Title level={2}>Популярное</Title>
+              <Carousel showArrows ariaLabel="Популярное">
+                {(top.data?.pages || []).map((el: any) => (
+                  el?.id ? <ReleaseCard key={el.id} release={el} /> : null
+                ))}
+              </Carousel>
+            </section>
 
             <RandomRelease
               randomRelease={randomRelease}
@@ -84,21 +93,25 @@ export const Home = () => {
             )}
 
             {token && (
-              <HomeCarouselx5
-                array={recommendations.data?.pages}
-                sectionTitle={"Рекомендации"}
-                sectionTitleAlt={"recommendations"}
-                link={"/recommendations/all"}
-              />
+              <section>
+                <Title level={2}>Рекомендации</Title>
+                <Carousel showArrows ariaLabel="Рекомендации">
+                  {(recommendations.data?.pages || []).map((el: any) => (
+                    el?.id ? <ReleaseCard key={el.id} release={el} /> : null
+                  ))}
+                </Carousel>
+              </section>
             )}
 
             {token && (
-              <HomeCarouselx5
-                array={watching.data?.pages}
-                sectionTitle={"Сейчас смотрят"}
-                sectionTitleAlt={"watchingReleases"}
-                link={"/watching/all"}
-              />
+              <section>
+                <Title level={2}>Сейчас смотрят</Title>
+                <Carousel showArrows ariaLabel="Сейчас смотрят">
+                  {(watching.data?.pages || []).map((el: any) => (
+                    el?.id ? <ReleaseCard key={el.id} release={el} /> : null
+                  ))}
+                </Carousel>
+              </section>
             )}
 
             {token && <PopularComments popularComments={popularComments} />}

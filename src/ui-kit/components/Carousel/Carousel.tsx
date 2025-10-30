@@ -20,6 +20,7 @@ export function Carousel(props: PropsWithChildren<CarouselProps>) {
   const viewportRef = useRef<HTMLDivElement | null>(null)
   const [canPrev, setCanPrev] = useState(false)
   const [canNext, setCanNext] = useState(false)
+  const [progress, setProgress] = useState(0)
   const items = useMemo(() => (Array.isArray(children) ? children : [children]).filter(Boolean), [children])
 
   useEffect(() => {
@@ -28,6 +29,8 @@ export function Carousel(props: PropsWithChildren<CarouselProps>) {
     const update = () => {
       setCanPrev(viewport.scrollLeft > 0)
       setCanNext(viewport.scrollLeft + viewport.clientWidth < viewport.scrollWidth - 1)
+      const denom = Math.max(1, viewport.scrollWidth - viewport.clientWidth)
+      setProgress(viewport.scrollLeft / denom)
     }
     update()
     viewport.addEventListener('scroll', update)
@@ -45,8 +48,18 @@ export function Carousel(props: PropsWithChildren<CarouselProps>) {
     viewport.scrollBy({ left: delta, behavior: 'smooth' })
   }
 
+  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); scrollBy(-1) }
+    if (e.key === 'ArrowRight') { e.preventDefault(); scrollBy(1) }
+  }
+
   return (
-    <div className={[styles.root, className].filter(Boolean).join(' ')} aria-label={ariaLabel}>
+    <div
+      className={[styles.root, className].filter(Boolean).join(' ')}
+      aria-label={ariaLabel || 'Карусель'}
+      role="region"
+      onKeyDown={onKeyDown}
+    >
       {showArrows && (
         <button
           className={styles.navBtn + ' ' + styles.left}
@@ -78,8 +91,7 @@ export function Carousel(props: PropsWithChildren<CarouselProps>) {
       )}
       {showDots && (
         <div className={styles.dots} aria-hidden>
-          {/* Simple progress bar */}
-          <div className={styles.progress} />
+          <div className={styles.progress} style={{ width: `${Math.round(progress * 100)}%` }} />
         </div>
       )}
     </div>

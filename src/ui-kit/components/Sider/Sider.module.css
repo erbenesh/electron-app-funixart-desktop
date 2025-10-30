@@ -1,0 +1,22 @@
+.sider {
+  position: relative;
+  height: 100%;
+  background: var(--color-surface, #2c2c2c);
+  border-right: 1px solid var(--color-border, #4a4a4a);
+  transition: width 0.25s ease;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .sider {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    max-width: 80vw;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--safe-area-bottom, 0);
+  }
+}
+
+

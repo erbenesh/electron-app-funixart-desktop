@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
+import { ThemeProvider } from "ui-kit";
 import "#/api/httpSetup";
-import { useEffect } from "react";
 import { initTelegram } from "#/telegram/initTelegram";
 
 type Props = {
@@ -18,7 +18,9 @@ export function Provider({children} : Props) {
 
     return (
         <QueryClientProvider client={queryClient}>
-            {children}
+            <ThemeProvider>
+                {children}
+            </ThemeProvider>
         </QueryClientProvider>
     )
     

@@ -2,7 +2,7 @@
     position: fixed;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: env(safe-area-inset-bottom, 0);
     z-index: 999;
     display: none;
     grid-template-columns: repeat(5, 1fr);
@@ -10,8 +10,11 @@
     background: rgba(27,27,27,0.92);
     border-top: 1px solid rgb(68,68,68);
     /* Extra bottom padding to avoid clipping on rounded corners */
-    padding: .45rem .5rem calc(.6rem + env(safe-area-inset-bottom, 0) + 12px) .5rem;
+    padding: .45rem .5rem calc(.6rem + env(safe-area-inset-bottom, 0)) .5rem;
     backdrop-filter: saturate(140%) blur(8px);
+    width: 100%;
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 .nav_item,

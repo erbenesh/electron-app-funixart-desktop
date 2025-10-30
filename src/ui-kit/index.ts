@@ -1,4 +1,4 @@
-export { ThemeProvider } from './ThemeProvider';
+export { ThemeProvider, useTheme } from './ThemeProvider';
 
 export { Button } from './components/Button/Button';
 export type { ButtonProps } from './components/Button/Button';
@@ -10,6 +10,27 @@ export { Spacer } from './components/Spacer/Spacer';
 
 export { Container } from './components/Container/Container';
 export type { ContainerProps } from './components/Container/Container';
+
+export { Drawer } from './components/Drawer/Drawer';
+export type { DrawerProps } from './components/Drawer/Drawer';
+
+export { Sider } from './components/Sider/Sider';
+export type { SiderProps } from './components/Sider/Sider';
+
+export { Carousel } from './components/Carousel/Carousel';
+export type { CarouselProps } from './components/Carousel/Carousel';
+
+export { Player } from './components/Player/Player';
+export type { PlayerProps } from './components/Player/Player';
+
+export { Flex } from './components/Layout/Flex';
+export { Grid } from './components/Layout/Grid';
+
+export { Title } from './components/Typography/Title';
+export { Text } from './components/Typography/Text';
+
+// Brand presets
+export { default as anixartBrandTokens } from './theme/brands/anixart';
 
 export { IconButton } from './components/IconButton/IconButton';
 export type { IconButtonProps } from './components/IconButton/IconButton';
@@ -50,7 +71,6 @@ export type { SearchInputProps } from './components/SearchInput/SearchInput';
 export { MediaCard } from './components/MediaCard/MediaCard';
 export type { MediaCardProps } from './components/MediaCard/MediaCard';
 
-export { Carousel } from './components/Carousel/Carousel';
-export type { CarouselProps } from './components/Carousel/Carousel';
+// (duplicate removed)
 
 
