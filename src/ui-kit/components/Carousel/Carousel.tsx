@@ -13,10 +13,16 @@ export type CarouselProps = {
   scrollStep?: number
   /** Optional aria-label for accessibility */
   ariaLabel?: string
+  /** Mobile peek (fraction of viewport width to keep next slide peeking) */
+  mobilePeek?: number
+  /** Desktop columns count (auto item width) */
+  desktopColumns?: number
+  /** Autoplay in ms (0 to disable) */
+  autoplayMs?: number
 }
 
 export function Carousel(props: PropsWithChildren<CarouselProps>) {
-  const { className, children, showArrows = true, showDots = false, gap, scrollStep = 0.9, ariaLabel } = props
+  const { className, children, showArrows = true, showDots = false, gap, scrollStep = 0.9, ariaLabel, mobilePeek = 0.14, desktopColumns = 3, autoplayMs = 0 } = props
   const viewportRef = useRef<HTMLDivElement | null>(null)
   const [canPrev, setCanPrev] = useState(false)
   const [canNext, setCanNext] = useState(false)
@@ -40,6 +46,27 @@ export function Carousel(props: PropsWithChildren<CarouselProps>) {
       window.removeEventListener('resize', update)
     }
   }, [items.length])
+
+  // Desktop: блокируем колесо/трекпад внутри карусели (движение только по стрелкам)
+  useEffect(() => {
+    const viewport = viewportRef.current
+    if (!viewport) return
+    const handler = (e: WheelEvent) => {
+      if (window.innerWidth >= 769) {
+        // предотвращаем горизонтальную прокрутку карусели
+        if (e.deltaX !== 0) e.preventDefault()
+      }
+    }
+    viewport.addEventListener('wheel', handler, { passive: false })
+    return () => viewport.removeEventListener('wheel', handler)
+  }, [])
+
+  useEffect(() => {
+    if (!autoplayMs) return
+    const id = setInterval(() => scrollBy(1), autoplayMs)
+    return () => clearInterval(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoplayMs])
 
   const scrollBy = (dir: -1 | 1) => {
     const viewport = viewportRef.current
@@ -71,7 +98,14 @@ export function Carousel(props: PropsWithChildren<CarouselProps>) {
         </button>
       )}
       <div ref={viewportRef} className={styles.viewport}>
-        <div className={styles.track} style={gap ? { columnGap: gap } : undefined}>
+        <div
+          className={styles.track}
+          style={{
+            ['--gap' as any]: (gap ?? 12) + 'px',
+            ['--cols' as any]: String(desktopColumns),
+            ['--peek' as any]: Math.round(mobilePeek * 100) + '%',
+          }}
+        >
           {items.map((child, i) => (
             <div className={styles.item} key={i}>
               {child}

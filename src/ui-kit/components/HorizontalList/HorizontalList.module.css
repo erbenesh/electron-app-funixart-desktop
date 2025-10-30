@@ -1,3 +1,5 @@
+.wrap { position: relative; }
+.wrap { position: relative; }
 .root {
   display: grid;
   grid-auto-flow: column;
@@ -8,5 +10,14 @@
   -webkit-overflow-scrolling: touch;
 }
 .root > * { scroll-snap-align: start; }
+.arrowLeft, .arrowRight { position: absolute; top: 50%; transform: translateY(-50%); width: 2rem; height: 2rem; border-radius: 50%; background: rgba(27,27,27,.85); border: 1px solid rgb(68,68,68); color: #eee; display: none; }
+.arrowLeft { left: .25rem; }
+.arrowRight { right: .25rem; }
+@media (min-width: 992px) { .arrowLeft, .arrowRight { display: inline-flex; align-items: center; justify-content: center; } }
+
+.arrowLeft, .arrowRight { display: none; position: absolute; top: 50%; transform: translateY(-50%); background: rgba(27,27,27,.85); border: 1px solid rgb(68,68,68); color: #e6e6e6; width: 2rem; height: 2rem; border-radius: 50%; cursor: pointer; }
+.arrowLeft { left: .25rem; }
+.arrowRight { right: .25rem; }
+@media (min-width: 769px) { .arrowLeft, .arrowRight { display: inline-flex; align-items: center; justify-content: center; } }
 
 

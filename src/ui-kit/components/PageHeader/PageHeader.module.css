@@ -1,0 +1,7 @@
+.root { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .5rem 0; }
+.texts { display: grid; }
+.title { margin: 0; font-weight: 700; }
+.subtitle { color: #bdbdbd; }
+.extra { display: inline-flex; gap: .5rem; }
+
+

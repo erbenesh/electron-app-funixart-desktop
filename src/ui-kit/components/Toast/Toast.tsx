@@ -27,7 +27,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   return (
     <ToastContext.Provider value={value}>
       {children}
-      <div className={styles.stack}>
+      <div className={styles.stack} aria-live="polite" aria-atomic="true">
         {items.map((i) => (
           <div key={i.id} className={[styles.toast, styles[i.type]].join(' ')}>{i.message}</div>
         ))}

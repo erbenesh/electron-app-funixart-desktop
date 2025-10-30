@@ -1,0 +1,5 @@
+.container { display: grid; gap: .75rem; }
+.submitBar { position: sticky; bottom: 0; left: 0; right: 0; padding-bottom: calc(env(safe-area-inset-bottom, 0) + .5rem); background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(27,27,27,.85) 40%); }
+.inner { display: flex; gap: .5rem; justify-content: flex-end; padding: .5rem .75rem; }
+
+

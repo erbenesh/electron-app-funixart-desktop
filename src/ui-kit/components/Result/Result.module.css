@@ -1,3 +1,13 @@
+.root { display: grid; gap: .5rem; justify-items: center; padding: 2rem 1rem; border: 1px solid rgb(68,68,68); border-radius: .75rem; background: rgba(27,27,27,.6); }
+.icon { font-size: 2rem; }
+.title { font-weight: 700; }
+.sub { color: #bdbdbd; text-align: center; }
+.extra { margin-top: .5rem; }
+.success .icon { color: #3fa27a; }
+.info .icon { color: #7aa2ff; }
+.warning .icon { color: #e3b341; }
+.error .icon { color: #c25555; }
+
 .root { text-align: center; padding: var(--space-6) 0; color: var(--color-text); }
 .icon { font-size: 3rem; margin-bottom: var(--space-2); }
 .title { font-size: var(--text-xl); font-weight: 700; }

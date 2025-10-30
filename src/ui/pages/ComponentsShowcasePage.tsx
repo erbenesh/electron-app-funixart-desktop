@@ -59,9 +59,23 @@ import { AppBar } from 'ui-kit/components/AppBar/AppBar';
 import { SearchBar } from 'ui-kit/components/SearchBar/SearchBar';
 import { Combobox } from 'ui-kit/components/Combobox/Combobox';
 import { HorizontalList } from 'ui-kit/components/HorizontalList/HorizontalList';
-import { SafeAreaBottom, SafeAreaTop } from 'ui-kit/components/SafeArea/SafeArea';
+import { SafeAreaBottom } from 'ui-kit/components/SafeArea/SafeArea';
 import { ToastProvider, useToast } from 'ui-kit/components/Toast/Toast';
 import { FormField } from 'ui-kit/components/Form/FormField';
+import { BottomSheet } from 'ui-kit/components/BottomSheet/BottomSheet';
+import { ActionSheet } from 'ui-kit/components/ActionSheet/ActionSheet';
+import { CommentItem } from 'ui-kit/components/Comment/CommentItem';
+import { RatingCompact } from 'ui-kit/components/RatingCompact/RatingCompact';
+import { Statistic } from 'ui-kit/components/Statistic/Statistic';
+import { SmartImage } from 'ui-kit';
+import { Lightbox } from 'ui-kit/components/Lightbox/Lightbox';
+import { InfiniteScroll } from 'ui-kit/components/InfiniteScroll/InfiniteScroll';
+import { Result } from 'ui-kit/components/Result/Result';
+import { LinearProgress, TopLoadingBar } from 'ui-kit/components/Progress/LinearProgress';
+import { PullToRefresh } from 'ui-kit/components/PullToRefresh/PullToRefresh';
+import { Stack, HStack, VStack } from 'ui-kit/components/Stack/Stack';
+import { VisuallyHidden } from 'ui-kit/components/A11y/VisuallyHidden';
+import { SkipLink } from 'ui-kit/components/A11y/SkipLink';
 
 const DemoToasts: React.FC = () => {
   const { show } = useToast();
@@ -83,6 +97,12 @@ export const ComponentsShowcasePage: React.FC = () => {
   const [switchOn, setSwitchOn] = useState(false);
   const [page, setPage] = useState(1);
   const [rating, setRating] = useState(3);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [actionsOpen, setActionsOpen] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [topBar, setTopBar] = useState(false);
+  const [items, setItems] = useState(Array.from({ length: 10 }, (_, i) => `Item ${i + 1}`));
+  const addMore = () => setItems((arr) => arr.concat(Array.from({ length: 5 }, (_, i) => `Item ${arr.length + i + 1}`)));
 
   return (
     <ToastProvider>
@@ -254,11 +274,28 @@ export const ComponentsShowcasePage: React.FC = () => {
         <Spacer size={24} />
 
         <Title level={3}>Карусель</Title>
-        <Carousel showDots>
+        <Carousel showDots desktopColumns={3} mobilePeek={0.14} gap={12}>
           <img src='https://picsum.photos/seed/1/600/300' alt='1' />
           <img src='https://picsum.photos/seed/2/600/300' alt='2' />
           <img src='https://picsum.photos/seed/3/600/300' alt='3' />
         </Carousel>
+        <Spacer size={12} />
+        <Title level={4}>Новая карусель (адаптивная)</Title>
+        <Text size='sm'>Мобайл: peek следующего слайда; Десктоп: фиксированные колонки.</Text>
+        <Spacer size={8} />
+        <Carousel showArrows showDots desktopColumns={4} mobilePeek={0.1} gap={12}>
+          <Card title='Slide A' description='Описание' />
+          <Card title='Slide B' description='Описание' />
+          <Card title='Slide C' description='Описание' />
+          <Card title='Slide D' description='Описание' />
+          <Card title='Slide E' description='Описание' />
+        </Carousel>
+        <Spacer size={8} />
+        <HorizontalList arrowsDesktop>
+          <Card title='Карта 1' />
+          <Card title='Карта 2' />
+          <Card title='Карта 3' />
+        </HorizontalList>
 
         <Spacer size={24} />
 
@@ -274,10 +311,12 @@ export const ComponentsShowcasePage: React.FC = () => {
 
         <Spacer size={24} />
 
-        <Title level={3}>Модальные окна</Title>
+        <Title level={3}>Модальные окна и листы</Title>
         <Flex gap={8} wrap>
           <Button onClick={() => setModalOpen(true)} variant='primary'>Открыть модал</Button>
           <Button onClick={() => setDrawerOpen(true)}>Открыть выдвижную панель</Button>
+          <Button onClick={() => setSheetOpen(true)}>Открыть BottomSheet</Button>
+          <Button onClick={() => setActionsOpen(true)}>Открыть ActionSheet</Button>
         </Flex>
         <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={<Title level={4}>Пример модального окна</Title>} footer={<Button onClick={() => setModalOpen(false)}>Закрыть</Button>}>
           <Text>Содержимое модального окна</Text>
@@ -288,6 +327,14 @@ export const ComponentsShowcasePage: React.FC = () => {
             <Text>Любой контент</Text>
           </Container>
         </Drawer>
+        <BottomSheet open={sheetOpen} onClose={() => setSheetOpen(false)}>
+          <Text>Содержимое BottomSheet</Text>
+        </BottomSheet>
+        <ActionSheet
+          open={actionsOpen}
+          onClose={() => setActionsOpen(false)}
+          actions={[{ key: 'a', label: 'Действие A' }, { key: 'del', label: 'Удалить', danger: true }]}
+        />
 
         <Spacer size={24} />
 
@@ -343,6 +390,12 @@ export const ComponentsShowcasePage: React.FC = () => {
           <Rating defaultValue={4} size={24} />
           <Text>Выбрано: {rating}</Text>
         </Flex>
+        <Spacer size={8} />
+        <HStack gap={12} align='center'>
+          <RatingCompact value={4.7} />
+          <Statistic label='Лайки' value='1.2K' />
+          <Statistic label='Просмотры' value='98K' />
+        </HStack>
 
         <Spacer size={24} />
 
@@ -380,6 +433,55 @@ export const ComponentsShowcasePage: React.FC = () => {
           <Button onClick={() => notification.open({ message: 'Заголовок', description: 'Описание уведомления' })}>Стандарт</Button>
           <Button onClick={() => notification.open({ message: 'Закрываемое', description: 'Можно закрыть вручную', closable: true })}>Closable</Button>
         </Flex>
+
+        <Spacer size={24} />
+
+        <Title level={3}>SmartImage и Lightbox</Title>
+        <Flex gap={12} align='center'>
+          <SmartImage src='https://picsum.photos/seed/sm1/300/180' alt='img' />
+          <Button onClick={() => setLightboxOpen(true)}>Открыть Lightbox</Button>
+        </Flex>
+        <Lightbox open={lightboxOpen} onClose={() => setLightboxOpen(false)} src='https://picsum.photos/seed/sm1/1200/800' />
+
+        <Spacer size={24} />
+
+        <Title level={3}>InfiniteScroll / PullToRefresh</Title>
+        <PullToRefresh onRefresh={async () => { await new Promise(r => setTimeout(r, 600)); message.success('Обновлено'); }}>
+          <div style={{ maxHeight: 220, overflow: 'auto', border: '1px solid #444', borderRadius: 8, padding: 8 }}>
+            {items.map(it => <Text key={it}>{it}</Text>)}
+            <InfiniteScroll onReachEnd={addMore} />
+          </div>
+        </PullToRefresh>
+
+        <Spacer size={24} />
+
+        <Title level={3}>Result и прогресс</Title>
+        <Grid cols={4} gap={12} responsive>
+          <Result status='success' title='Успех' subTitle='Операция выполнена' />
+          <Result status='info' title='Инфо' subTitle='Сообщение' />
+          <Result status='warning' title='Внимание' />
+          <Result status='error' title='Ошибка' />
+        </Grid>
+        <Spacer size={8} />
+        <LinearProgress percent={55} />
+        <Spacer size={8} />
+        <Button onClick={() => setTopBar(v => !v)}>{topBar ? 'Скрыть TopBar' : 'Показать TopBar'}</Button>
+        <TopLoadingBar active={topBar} />
+
+        <Spacer size={24} />
+
+        <Title level={3}>Stack/HStack/VStack</Title>
+        <Stack gap={12}>
+          <HStack gap={8}>
+            <Button>1</Button>
+            <Button>2</Button>
+            <Button>3</Button>
+          </HStack>
+          <VStack gap={8}>
+            <Button block>Block A</Button>
+            <Button block>Block B</Button>
+          </VStack>
+        </Stack>
 
         <Spacer size={24} />
 

@@ -1,0 +1,4 @@
+.container { overflow: auto; -webkit-overflow-scrolling: touch; }
+.pull { text-align: center; color: #bdbdbd; font-size: .9rem; }
+
+

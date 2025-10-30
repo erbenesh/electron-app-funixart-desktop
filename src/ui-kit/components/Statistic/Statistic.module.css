@@ -1,0 +1,5 @@
+.stat { display: grid; justify-items: center; padding: .5rem; border: 1px solid rgb(68,68,68); border-radius: .5rem; background: rgba(27,27,27,.6); }
+.value { font-weight: 700; font-size: 1.25rem; }
+.label { color: #bdbdbd; font-size: .9rem; }
+
+

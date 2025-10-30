@@ -27,48 +27,58 @@
 .track {
   display: flex;
   flex-direction: row;
-  column-gap: .75rem;
+  column-gap: var(--gap, .75rem);
   overflow-x: auto;
   overflow-y: visible;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  padding-bottom: .25rem;
+  padding-bottom: 0;
+  /* hide scrollbars cross-browser */
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE/Edge */
 }
 
-.track::-webkit-scrollbar { height: 8px; }
-.track::-webkit-scrollbar-thumb { background: rgb(68,68,68); border-radius: 999px; }
+.track::-webkit-scrollbar { display: none; }
 
-.item {
-  scroll-snap-align: start;
-  flex: 0 0 auto;
+.item { scroll-snap-align: start; flex: 0 0 auto; }
+@media (max-width: 768px) {
+  .item { flex-basis: calc(100% - var(--peek, 14%)); }
+}
+@media (min-width: 769px) {
+  .item { flex-basis: calc((100% - var(--gap, .75rem) * (var(--cols, 3) - 1)) / var(--cols, 3)); }
+  /* desktop: движение только по стрелкам */
+  .track { overflow-x: hidden; }
 }
 
 .navBtn {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  bottom: 0;
   z-index: 5;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 50%;
-  background: rgba(27,27,27,.85);
-  border: 1px solid rgb(68,68,68);
+  width: 5rem;
+  border: none;
+  background: linear-gradient(0deg, rgba(36,36,36,0) 20%, rgba(36,36,36,0.6) 50%, rgba(0,0,0,0) 80%);
   color: rgb(230,230,230);
   cursor: pointer;
-  transition: background .15s ease, transform .15s ease, border-color .15s ease;
+  pointer-events: auto;
+  transition: background .15s ease, opacity .15s ease;
 }
 
-.navBtn:hover { background: rgba(36,36,36,.9); border-color: rgb(189, 78, 44); }
-.navBtn:active { transform: translateY(-50%) scale(.98); }
-.navBtn[disabled] { opacity: .4; cursor: default; }
+.navBtn:hover { background: linear-gradient(0deg, rgba(36,36,36,0) 20%, rgba(36,36,36,0.8) 50%, rgba(0,0,0,0) 80%); }
+.navBtn[disabled] { opacity: .25; cursor: default; }
 
-.left { left: -0.5rem; }
-.right { right: -0.5rem; }
+.left { left: 0; }
+.right { right: 0; }
 
-.dots { margin-top: .5rem; height: 4px; background: rgb(48,48,48); border-radius: 999px; overflow: hidden; }
-.progress { width: 33%; height: 100%; background: rgb(189, 78, 44); opacity: .5; }
+/* Hide arrow buttons on mobile */
+@media (max-width: 768px) {
+  .navBtn { display: none; }
+}
+
+.dots { display: none; }
+.progress { display: none; }
 
 
