@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './Drawer.module.css';
+import Portal from '../Portal/Portal';
 
 export interface DrawerProps {
   open: boolean;
@@ -26,15 +27,25 @@ export const Drawer: React.FC<DrawerProps> = ({
     ['--drawer-height' as any]: height,
   };
 
+  useEffect(() => {
+    if (open) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => { document.body.style.overflow = prev; };
+    }
+  }, [open]);
+
   return (
-    <div className={`${styles.root} ${open ? styles.open : ''}`}>
-      {backdrop && (
-        <div className={styles.backdrop} onClick={onClose} />
-      )}
-      <div className={`${styles.panel} ${styles[placement]}`} style={panelStyle}>
-        {children}
+    <Portal>
+      <div className={`${styles.root} ${open ? styles.open : ''}`}>
+        {open && backdrop && (
+          <div className={styles.backdrop} onClick={onClose} />
+        )}
+        <div className={`${styles.panel} ${styles[placement]}`} style={panelStyle}>
+          {children}
+        </div>
       </div>
-    </div>
+    </Portal>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './Dropdown.module.css';
 import { Menu, MenuProps } from '../Menu/Menu';
+import Portal from '../Portal/Portal';
 
 export interface DropdownProps {
   menu: MenuProps;
@@ -32,13 +33,39 @@ export const Dropdown: React.FC<DropdownProps> = ({ menu, trigger = 'click', chi
     onMouseLeave: (e: any) => { children.props.onMouseLeave?.(e); if (trigger === 'hover') setOpen(false); },
   });
 
+  const [placement, setPlacement] = useState<'bottom-left' | 'top-left' | 'bottom-right' | 'top-right'>('bottom-left');
+  useEffect(() => {
+    if (!open || !ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const vw = window.innerWidth; const vh = window.innerHeight;
+    const preferBottom = rect.bottom + 200 < vh;
+    const preferLeft = rect.left + 200 < vw;
+    setPlacement(`${preferBottom ? 'bottom' : 'top'}-${preferLeft ? 'left' : 'right'}` as any);
+  }, [open]);
+
+  const coords = (() => {
+    if (!ref.current) return { top: 0, left: 0 };
+    const r = ref.current.getBoundingClientRect();
+    const sx = window.scrollX || document.documentElement.scrollLeft;
+    const sy = window.scrollY || document.documentElement.scrollTop;
+    let top = r.bottom + sy + 6; let left = r.left + sx;
+    if (placement.startsWith('top')) top = r.top + sy - 6;
+    if (placement.endsWith('right')) left = r.right + sx;
+    return { top, left };
+  })();
+
   return (
     <span ref={ref} className={styles.root}>
       {child}
       {open && (
-        <div className={styles.overlay} onMouseLeave={() => trigger==='hover' && setOpen(false)}>
-          <Menu {...menu} />
-        </div>
+        <Portal>
+          <div className={styles.portalOverlay} style={{ position: 'absolute', top: coords.top, left: coords.left }}>
+            <div className={[styles.overlay, styles[placement]].join(' ')} onMouseLeave={() => trigger==='hover' && setOpen(false)}>
+              <div className={styles.arrow} />
+              <Menu {...menu} />
+            </div>
+          </div>
+        </Portal>
       )}
     </span>
   );

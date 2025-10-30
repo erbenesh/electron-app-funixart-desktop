@@ -5,6 +5,7 @@ type MessageType = 'info' | 'success' | 'warning' | 'error';
 type OpenArgs = { content: React.ReactNode; duration?: number; type?: MessageType };
 
 let holder: HTMLDivElement | null = null;
+const queue: HTMLElement[] = [];
 
 function ensureHolder() {
   if (!holder) {
@@ -27,9 +28,16 @@ export const message = {
     el.style.borderRadius = '6px';
     el.style.background = '#303030';
     el.style.color = '#fff';
+    el.style.opacity = '0';
+    el.style.transition = 'opacity 150ms ease';
     el.textContent = typeof content === 'string' ? content : '';
     holder!.appendChild(el);
-    window.setTimeout(() => holder && el.remove(), duration);
+    queue.push(el);
+    requestAnimationFrame(() => { el.style.opacity = '1'; });
+    window.setTimeout(() => {
+      el.style.opacity = '0';
+      window.setTimeout(() => { el.remove(); const i = queue.indexOf(el); if (i >= 0) queue.splice(i, 1); }, 180);
+    }, duration);
   },
   info(content: React.ReactNode, duration?: number) { this.open({ content, duration, type: 'info' }); },
   success(content: React.ReactNode, duration?: number) { this.open({ content, duration, type: 'success' }); },

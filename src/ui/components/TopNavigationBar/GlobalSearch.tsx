@@ -38,6 +38,12 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({ token }) => {
         setActiveIndex(-1);
     });
 
+    // Clear search and overlay on route change
+    useEffect(() => {
+        setInputValue('');
+        setActiveIndex(-1);
+    }, [location.pathname]);
+
     const onKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
         if (!queryEnabled || results.length === 0) return;
         if (e.key === 'ArrowDown') {

@@ -1,0 +1,7 @@
+.stack { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(1rem + env(safe-area-inset-bottom, 0)); display: grid; gap: .5rem; z-index: 1100; }
+.toast { padding: .5rem .75rem; border-radius: .5rem; background: rgba(48,48,48,.95); border: 1px solid rgb(68,68,68); color: #e6e6e6; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
+.info { border-color: #888; }
+.success { border-color: #3fa27a; }
+.error { border-color: #c25555; }
+
+

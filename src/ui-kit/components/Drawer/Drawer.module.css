@@ -13,6 +13,8 @@
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,0.5);
+  opacity: 0;
+  transition: opacity .2s ease;
 }
 
 .panel {
@@ -30,6 +32,7 @@
 .top { top: 0; left: 0; right: 0; transform: translateY(-100%); height: var(--drawer-height, 16rem); padding-top: calc(0.5rem + var(--safe-area-top, 0)); }
 .bottom { bottom: 0; left: 0; right: 0; transform: translateY(100%); height: var(--drawer-height, 16rem); padding-bottom: calc(0.5rem + var(--safe-area-bottom, 0)); }
 
+.open .backdrop { opacity: 1; }
 .open .right { transform: translateX(0); }
 .open .left { transform: translateX(0); }
 .open .top { transform: translateY(0); }

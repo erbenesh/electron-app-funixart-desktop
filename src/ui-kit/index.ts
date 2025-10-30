@@ -74,3 +74,27 @@ export type { MediaCardProps } from './components/MediaCard/MediaCard';
 // (duplicate removed)
 
 
+// New primitives
+export { BottomNavigation } from './components/BottomNavigation/BottomNavigation';
+export type { BottomNavigationProps, BottomNavItem } from './components/BottomNavigation/BottomNavigation';
+
+export { AppBar } from './components/AppBar/AppBar';
+export type { AppBarProps } from './components/AppBar/AppBar';
+
+export { SearchBar } from './components/SearchBar/SearchBar';
+export type { SearchBarProps } from './components/SearchBar/SearchBar';
+
+export { Combobox } from './components/Combobox/Combobox';
+export type { ComboboxProps, ComboboxOption } from './components/Combobox/Combobox';
+
+export { HorizontalList } from './components/HorizontalList/HorizontalList';
+export { SafeAreaTop, SafeAreaBottom } from './components/SafeArea/SafeArea';
+
+export { Empty } from './components/Empty/Empty';
+export { SectionHeader } from './components/SectionHeader/SectionHeader';
+
+export { List, ListItem } from './components/List/List';
+
+export { ToastProvider, useToast } from './components/Toast/Toast';
+
+export { FormField } from './components/Form/FormField';

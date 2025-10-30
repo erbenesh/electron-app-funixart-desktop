@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 import { Page } from 'ui-kit/components/Page/Page';
 import { Container } from 'ui-kit/components/Container/Container';
 import { Flex } from 'ui-kit/components/Layout/Flex';
@@ -49,22 +51,95 @@ import { Slider } from 'ui-kit/components/Slider/Slider';
 import { Skeleton } from 'ui-kit/components/Skeleton/Skeleton';
 import notification from 'ui-kit/components/Notification/Notification';
 import PreviewImage from 'ui-kit/components/ImagePreview/Image';
+import { Empty } from 'ui-kit/components/Empty/Empty';
+import { SectionHeader } from 'ui-kit/components/SectionHeader/SectionHeader';
+import { List, ListItem } from 'ui-kit/components/List/List';
+import { BottomNavigation } from 'ui-kit/components/BottomNavigation/BottomNavigation';
+import { AppBar } from 'ui-kit/components/AppBar/AppBar';
+import { SearchBar } from 'ui-kit/components/SearchBar/SearchBar';
+import { Combobox } from 'ui-kit/components/Combobox/Combobox';
+import { HorizontalList } from 'ui-kit/components/HorizontalList/HorizontalList';
+import { SafeAreaBottom, SafeAreaTop } from 'ui-kit/components/SafeArea/SafeArea';
+import { ToastProvider, useToast } from 'ui-kit/components/Toast/Toast';
+import { FormField } from 'ui-kit/components/Form/FormField';
+
+const DemoToasts: React.FC = () => {
+  const { show } = useToast();
+  return (
+    <Flex gap={8}>
+      <Button onClick={() => show('Инфо')}>Info</Button>
+      <Button onClick={() => show('Готово', 'success')}>Success</Button>
+      <Button onClick={() => show('Ошибка', 'error')}>Error</Button>
+    </Flex>
+  );
+};
 
 export const ComponentsShowcasePage: React.FC = () => {
   const [tabKey, setTabKey] = useState('tab1');
   const [modalOpen, setModalOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [segment, setSegment] = useState('a');
-  const [siderCollapsed, setSiderCollapsed] = useState(false);
+  const [siderCollapsed, setSiderCollapsed] = useState(true);
   const [switchOn, setSwitchOn] = useState(false);
   const [page, setPage] = useState(1);
   const [rating, setRating] = useState(3);
 
   return (
+    <ToastProvider>
     <Page topOffset='md'>
       <Container>
         <Title level={2}>Компоненты</Title>
         <Text>Живые примеры базовых элементов из UI‑кита.</Text>
+        <Spacer size={16} />
+        <SectionHeader action={<Button variant='link'>Действие</Button>}>SectionHeader</SectionHeader>
+
+        <Spacer size={16} />
+        <Title level={3}>Empty</Title>
+        <Empty description='Список пуст. Добавьте элементы.' />
+
+        <Spacer size={16} />
+        <Title level={3}>List</Title>
+        <List>
+          <ListItem leading={<Avatar alt='a' />} title='Элемент списка' description='Описание' trailing={<Button size='sm'>Действие</Button>} />
+          <ListItem title='Без иконки' description='Ещё описание' />
+        </List>
+
+        <Spacer size={16} />
+        <Title level={3}>HorizontalList</Title>
+        <HorizontalList>
+          <Card title='A' />
+          <Card title='B' />
+          <Card title='C' />
+        </HorizontalList>
+
+        <Spacer size={16} />
+        <Title level={3}>AppBar / SearchBar / Combobox</Title>
+        <AppBar title={<Text>Заголовок</Text>} right={<Button size='sm'>Action</Button>} />
+        <Spacer size={8} />
+        <SearchBar value={''} onChange={() => {}} placeholder='Поиск...' />
+        <Spacer size={8} />
+        <Combobox options={[{ label: 'Option 1', value: 1 }, { label: 'Option 2', value: 2 }]} placeholder='Выберите' />
+
+        <Spacer size={16} />
+        <Title level={3}>Toast</Title>
+        <DemoToasts />
+
+        <Spacer size={16} />
+        <Title level={3}>Formik + Yup</Title>
+        <Formik
+          initialValues={{ email: '' }}
+          validationSchema={Yup.object({ email: Yup.string().email('Неверный email').required('Обязательно') })}
+          onSubmit={() => {}}
+        >
+          <Form>
+            <Grid cols={2} gap={12} responsive>
+              <FormField name='email' label='Email'>
+                {(field) => <Input {...field} placeholder='you@example.com' />}
+              </FormField>
+            </Grid>
+          </Form>
+        </Formik>
+
 
         <Spacer size={16} />
 
@@ -218,7 +293,9 @@ export const ComponentsShowcasePage: React.FC = () => {
 
         <Title level={3}>Сайдбар</Title>
         <Flex gap={8} align='center'>
-          <Button onClick={() => setSiderCollapsed(v => !v)}>Переключить</Button>
+          <Button onClick={() => setSiderCollapsed(v => !v)}>
+            {siderCollapsed ? 'Открыть' : 'Закрыть'}
+          </Button>
           <Sider collapsed={siderCollapsed}>
             <Flex direction='column' gap={8}>
               <Button variant='ghost'>Пункт 1</Button>
@@ -319,7 +396,16 @@ export const ComponentsShowcasePage: React.FC = () => {
         </Row>
 
       </Container>
+      <SafeAreaBottom />
+      <BottomNavigation items={[
+        { key: 'home', to: '/', icon: '🏠', label: 'Главная' },
+        { key: 'b', to: '/bookmarks', icon: '🔖', label: 'Закладки' },
+        { key: 'c', to: '/collections', icon: '🗂', label: 'Коллекции' },
+        { key: 'f', to: '/feed', icon: '📰', label: 'Лента' },
+        { key: 'p', to: '/profile', icon: '👤', label: 'Профиль' },
+      ]} />
     </Page>
+    </ToastProvider>
   );
 };
 

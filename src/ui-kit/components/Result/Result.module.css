@@ -1,0 +1,9 @@
+.root { text-align: center; padding: var(--space-6) 0; color: var(--color-text); }
+.icon { font-size: 3rem; margin-bottom: var(--space-2); }
+.title { font-size: var(--text-xl); font-weight: 700; }
+.sub { color: var(--color-text-muted); margin-top: var(--space-1); }
+.extra { margin-top: var(--space-3); }
+.success .icon { color: var(--color-success); }
+.warning .icon { color: var(--color-warning); }
+.error .icon { color: var(--color-danger); }
+

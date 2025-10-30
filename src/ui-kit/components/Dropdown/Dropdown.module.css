@@ -1,3 +1,9 @@
 .root { position: relative; display: inline-block; }
 .overlay { position: absolute; top: calc(100% + 6px); left: 0; z-index: 1000; }
+.portalOverlay { position: absolute; z-index: 1000; }
+.overlay.bottom-left {}
+.overlay.bottom-right {}
+.overlay.top-left { transform: translateY(-100%); }
+.overlay.top-right { transform: translate(-100%, -100%); }
+.arrow { position: absolute; width: 10px; height: 10px; background: var(--color-surface); border: 1px solid var(--color-border); transform: rotate(45deg); top: -6px; left: 12px; }
 

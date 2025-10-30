@@ -1,0 +1,9 @@
+.root { padding: 2rem; text-align: center; color: #bdbdbd; display: grid; gap: .5rem; justify-items: center; }
+.illustration { width: 5rem; height: 5rem; border-radius: 50%; background: radial-gradient(circle, rgba(189,78,44,.25), transparent 70%); filter: blur(2px); }
+.title { font-weight: 600; color: #e6e6e6; }
+.desc { max-width: 28rem; }
+
+.root { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); padding: var(--space-4); color: var(--color-text-muted); }
+.image { font-size: 2rem; }
+.description { font-size: var(--text-sm); }
+

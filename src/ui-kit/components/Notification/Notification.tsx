@@ -1,20 +1,28 @@
 type Args = { message: string; description?: string; duration?: number; closable?: boolean };
 
 let holder: HTMLDivElement | null = null;
+type Position = 'topRight' | 'topLeft' | 'bottomRight' | 'bottomLeft';
+let pos: Position = 'topRight';
 
 function ensureHolder() {
   if (!holder) {
     holder = document.createElement('div');
     holder.style.position = 'fixed';
-    holder.style.top = '1rem';
-    holder.style.right = '1rem';
     holder.style.zIndex = '10000';
     document.body.appendChild(holder);
   }
+  holder!.style.top = pos.includes('top') ? '1rem' : '';
+  holder!.style.bottom = pos.includes('bottom') ? '1rem' : '';
+  holder!.style.right = pos.includes('Right') ? '1rem' : '';
+  holder!.style.left = pos.includes('Left') ? '1rem' : '';
 }
 
 export const notification = {
-  open({ message, description, duration = 3500, closable }: Args) {
+  config(opts: { placement?: Position }) {
+    if (opts.placement) pos = opts.placement;
+  },
+  open({ message, description, duration = 3500, closable }: Args & { key?: string; onClose?: () => void; placement?: Position }) {
+    if (arguments.length && (arguments[0] as any).placement) pos = (arguments[0] as any).placement;
     ensureHolder();
     const box = document.createElement('div');
     box.style.minWidth = '16rem';
@@ -49,12 +57,12 @@ export const notification = {
       box.style.transform = 'translateY(0)';
     });
     // auto close with fade-out
-    window.setTimeout(() => {
+    const timer = window.setTimeout(() => {
       box.style.opacity = '0';
       box.style.transform = 'translateY(-6px)';
-      window.setTimeout(() => box.remove(), 220);
+      window.setTimeout(() => { box.remove(); (arguments[0] as any)?.onClose?.(); }, 220);
     }, duration);
-    return { close: () => box.remove() };
+    return { close: () => { window.clearTimeout(timer); box.remove(); (arguments[0] as any)?.onClose?.(); } };
   }
 };
 

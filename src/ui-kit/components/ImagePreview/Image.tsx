@@ -5,6 +5,8 @@ export interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   preview?: boolean;
 }
 
+export interface PreviewGroupProps { items: string[]; startIndex?: number; onClose?: () => void }
+
 export const Image: React.FC<ImageProps> = ({ preview = true, className, ...rest }) => {
   const [open, setOpen] = useState(false);
   return (
@@ -16,6 +18,17 @@ export const Image: React.FC<ImageProps> = ({ preview = true, className, ...rest
         </div>
       )}
     </>
+  );
+};
+
+export const PreviewGroup: React.FC<PreviewGroupProps> = ({ items, startIndex = 0, onClose }) => {
+  const [idx, setIdx] = useState(startIndex);
+  return (
+    <div className={styles.backdrop} onClick={onClose}>
+      <button className={styles.nav} onClick={(e) => { e.stopPropagation(); setIdx(Math.max(0, idx - 1)); }}>‹</button>
+      <img className={styles.preview} src={items[idx]} alt="preview" />
+      <button className={styles.nav} onClick={(e) => { e.stopPropagation(); setIdx(Math.min(items.length - 1, idx + 1)); }}>›</button>
+    </div>
   );
 };
 

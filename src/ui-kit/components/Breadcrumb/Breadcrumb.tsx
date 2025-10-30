@@ -11,12 +11,18 @@ export interface BreadcrumbItem {
 export interface BreadcrumbProps {
   items: BreadcrumbItem[];
   separator?: React.ReactNode;
+  separatorIcon?: React.ReactNode;
+  maxItems?: number;
 }
 
-export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, separator = '/' }) => {
+export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, separator = '/', separatorIcon, maxItems }) => {
+  const collapsedItems = React.useMemo(() => {
+    if (!maxItems || items.length <= maxItems) return items;
+    return [items[0], { title: '...' } as BreadcrumbItem, items[items.length - 1]];
+  }, [items, maxItems]);
   return (
     <nav aria-label="Breadcrumb" className={styles.nav}>
-      {items.map((item, i) => (
+      {collapsedItems.map((item, i) => (
         <span key={i} className={styles.item}>
           {item.overlay ? (
             <span className={styles.dropdown}>
@@ -32,7 +38,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, separator = '/' }
           ) : (
             <span>{item.title}</span>
           )}
-          {i < items.length - 1 ? <span className={styles.sep}>{separator}</span> : null}
+          {i < collapsedItems.length - 1 ? <span className={styles.sep}>{separatorIcon ?? separator}</span> : null}
         </span>
       ))}
     </nav>

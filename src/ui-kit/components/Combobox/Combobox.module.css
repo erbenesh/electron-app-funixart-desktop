@@ -1,0 +1,8 @@
+.root { position: relative; width: 100%; }
+.input { width: 100%; border-radius: .5rem; padding: .5rem .75rem; border: 1px solid rgb(68,68,68); background: transparent; color: #e6e6e6; }
+.popup { position: absolute; top: calc(100% + .25rem); left: 0; right: 0; max-height: 16rem; overflow: auto; border: 1px solid rgb(68,68,68); border-radius: .5rem; background: rgba(27,27,27,.95); z-index: 1000; }
+.option { padding: .5rem .75rem; cursor: pointer; }
+.option:hover { background: rgba(189,78,44,.1); }
+.empty { padding: .75rem; color: #aaa; }
+
+

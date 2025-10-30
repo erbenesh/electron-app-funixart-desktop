@@ -1,0 +1,8 @@
+.field { display: grid; gap: .25rem; }
+.label { font-weight: 600; }
+.control { display: block; }
+.help { color: #aaa; font-size: .9rem; }
+.errorText { color: #ff7d7d; font-size: .9rem; }
+.error .control input, .error .control textarea, .error .control select { border-color: #c25555; }
+
+
