@@ -9,6 +9,8 @@
     "dev:react": "vite",
     "dev:electron": "electron .",
     "build": "tsc -b && vite build",
+    "build:pages": "vite build",
+    "build:ci": "vite build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
