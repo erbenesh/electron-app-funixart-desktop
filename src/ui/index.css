@@ -98,6 +98,22 @@ body {
   transition: transform 0.5s;
 }
 
+@media (max-width: 768px) {
+  .carousel-inner {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 86%;
+    width: auto;
+    transform: none !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .carousel-inner > * {
+    scroll-snap-align: start;
+  }
+}
+
 
 /* Release card bottom */
 

@@ -112,6 +112,21 @@
     border-radius: 0 0 1rem 1rem;
 }
 
+@media (max-width: 768px) {
+    .vert_card {
+        min-width: 80%;
+        width: 80%;
+        border-radius: 0.75rem;
+    }
+    .release_image_border {
+        width: 100%;
+        height: 22rem;
+        border-radius: 0.75rem;
+    }
+    .description_and_action_buttons { width: calc(100% - 2rem); }
+    .anime_title { font-size: 1rem; }
+}
+
 .release_lists_info {
     position: relative;
     display: flex;

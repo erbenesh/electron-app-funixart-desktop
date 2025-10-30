@@ -8,6 +8,7 @@ export * from "./useFeed";
 export * from "./useFriends";
 export * from "./useNotification";
 export * from "./usePlayer";
+export * from "./usePreferences";
 export * from "./useProfile";
 export * from "./useRelease";
 export * from "./useReleaseVideo";

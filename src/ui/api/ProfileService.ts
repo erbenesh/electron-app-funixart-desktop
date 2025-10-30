@@ -1,6 +1,6 @@
 import axios from "axios";
-import { AUTH_SIGN_IN_WITH_GOOGLE, AUTH_SIGN_IN_WITH_VK, BASE_URL, PROFILE, PROFILE_INFO, PROFILE_NICKNAMES_HISTORY, PROFILE_PROCESS, PROFILE_SOCIAL, SIGN_IN, SIGN_UP, SIGN_UP_VERIFY } from "./endpoints";
-import type { SignInRequest, SignInWithGoogleRequest, SignInWithVkRequest, SignUpRequest, VerifyRequest } from "./types/requests";
+import { AUTH_RESEND, AUTH_RESTORE, AUTH_RESTORE_RESEND, AUTH_RESTORE_VERIFY, AUTH_SIGN_IN_WITH_GOOGLE, AUTH_SIGN_IN_WITH_VK, BASE_URL, PROFILE, PROFILE_INFO, PROFILE_NICKNAMES_HISTORY, PROFILE_PROCESS, PROFILE_SOCIAL, SIGN_IN, SIGN_UP, SIGN_UP_VERIFY } from "./endpoints";
+import type { ResendRequest, RestoreRequest, RestoreResendRequest, RestoreVerifyRequest, SignInRequest, SignInWithGoogleRequest, SignInWithVkRequest, SignUpRequest, VerifyRequest } from "./types/requests";
 import type { PageableResponse, ProfileResponse, ProfileSocialResponse, SignInResponse, SignUpResponse } from "./types/responses";
 
 class ProfileService {
@@ -50,6 +50,31 @@ class ProfileService {
 
     async verify(request: VerifyRequest): Promise<SignInResponse> {
         const url = `${BASE_URL}${SIGN_UP_VERIFY}`;
+        const response = await axios.post<SignInResponse>(url, request);
+        return response.data;
+    }
+
+    async resend(request: ResendRequest): Promise<{ code: number }> {
+        const url = `${BASE_URL}${AUTH_RESEND}`;
+        const response = await axios.post<{ code: number }>(url, request);
+        return response.data;
+    }
+
+    // Password restore flow
+    async restore(request: RestoreRequest): Promise<{ hash: string }> {
+        const url = `${BASE_URL}${AUTH_RESTORE}`;
+        const response = await axios.post<{ hash: string }>(url, request);
+        return response.data;
+    }
+
+    async restoreResend(request: RestoreResendRequest): Promise<{ code: number }> {
+        const url = `${BASE_URL}${AUTH_RESTORE_RESEND}`;
+        const response = await axios.post<{ code: number }>(url, request);
+        return response.data;
+    }
+
+    async restoreVerify(request: RestoreVerifyRequest): Promise<SignInResponse> {
+        const url = `${BASE_URL}${AUTH_RESTORE_VERIFY}`;
         const response = await axios.post<SignInResponse>(url, request);
         return response.data;
     }

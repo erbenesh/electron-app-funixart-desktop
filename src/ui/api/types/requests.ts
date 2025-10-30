@@ -171,11 +171,15 @@ export interface StatusEditRequest {
 }
 
 export interface SocialPagesEditRequest {
-  // Social pages data
+  vk_page?: string | null;
+  tg_page?: string | null;
+  inst_page?: string | null;
+  tt_page?: string | null;
+  discord_page?: string | null;
 }
 
 export interface PrivacyEditRequest {
-  // Privacy settings
+  privacy: number;
 }
 
 export interface SelectPinnedSectionRequest {

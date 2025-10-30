@@ -24,9 +24,14 @@ interface preferencesState {
     //   accent: string;
     // }
   };
+  network: {
+    apiBase: 'primary' | 'alt' | 'custom';
+    customBaseUrl: string;
+  };
   setHasHydrated: (state: boolean) => void;
   setFlags: (flags: preferencesState["flags"]) => void;
   setParams: (params: preferencesState["params"]) => void;
+  setNetwork: (network: Partial<preferencesState["network"]>) => void;
 }
 
 export const usePreferencesStore = create<preferencesState>()(
@@ -48,6 +53,10 @@ export const usePreferencesStore = create<preferencesState>()(
           bookmarksCategory: "watching",
         }
       },
+      network: {
+        apiBase: 'primary',
+        customBaseUrl: ''
+      },
       setHasHydrated: (state) => {
         set({
           _hasHydrated: state,
@@ -58,6 +67,9 @@ export const usePreferencesStore = create<preferencesState>()(
       },
       setParams(params) {
         set({ params: { ...get().params, ...params } });
+      },
+      setNetwork(network) {
+        set({ network: { ...get().network, ...network } as preferencesState["network"] });
       },
     }),
     {

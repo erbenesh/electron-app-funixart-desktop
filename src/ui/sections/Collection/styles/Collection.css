@@ -61,8 +61,8 @@
 }
 
 .collection_releases {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(19.5rem, 1fr));
     gap: 0.5rem;
     max-width: 110rem;
 }
@@ -70,7 +70,7 @@
 /* Improved layout */
 .collection_hero {
     position: relative;
-    width: 110rem;
+    width: 100%;
     border-radius: 1rem;
     overflow: hidden;
 }
@@ -91,6 +91,12 @@
     gap: 1.5rem;
     padding: 1.5rem;
     background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 100%);
+}
+
+@media (max-width: 768px) {
+    .collection_releases { grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); }
+    .collection_hero_content { grid-template-columns: 1fr; }
+    .collection_poster_border { width: 100%; height: auto; aspect-ratio: 2 / 3; }
 }
 
 .collection_poster_border {

@@ -26,6 +26,19 @@
     overflow: hidden;
 }
 
+@media (max-width: 768px) {
+    .card {
+        --card-width-var: 100%;
+        --card-max-height: 9rem;
+        --card-border-radius: 0.75rem;
+    }
+    .release_image_border:before {
+        width: 100%;
+        height: var(--card-max-height);
+    }
+    .release_info { width: calc(100% - 1.5rem); padding: 0.75rem; }
+}
+
 .card:hover {
     z-index: 1;
 }

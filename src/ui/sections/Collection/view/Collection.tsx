@@ -1,4 +1,4 @@
-import { FakeHeader } from '#/components/FakeHeader/FakeHeader';
+import { } from 'react';
 import { ReleaseCard } from '#/components/ReleaseCard/ReleaseCard';
 import { useScrollPosition } from '#/hooks/useScrollPosition';
 import { useEffect } from 'react';
@@ -61,9 +61,6 @@ export const CollectionPage = () => {
         <div className="сollection_page_wrap">
 
             <div className="сollection_page">
-
-                <FakeHeader />
-
                 {collection && (
                 <div className="collection_hero">
                     <div className="collection_hero_bg" style={{ backgroundImage: `url(${collection.image})` }} />
@@ -104,7 +101,6 @@ export const CollectionPage = () => {
                         <i className="loader-circle" />
                     </div>)}
                 </div>
-
             </div>
             
         </div>

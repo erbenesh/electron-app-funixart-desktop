@@ -68,3 +68,125 @@
     font-size: 1rem;
 }
 
+.tabs {
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgb(68, 68, 68);
+    margin-bottom: 1rem;
+}
+
+.tab {
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: rgb(160, 160, 160);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tab:hover {
+    color: rgb(230, 230, 230);
+    background-color: rgb(35, 35, 35);
+}
+
+.tab_active {
+    color: rgb(230, 230, 230);
+    border-bottom-color: rgb(91, 167, 255);
+}
+
+.form_group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.inline_row { display: grid; grid-template-columns: 1fr auto; gap: .5rem; align-items: center; }
+
+.label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgb(200, 200, 200);
+}
+
+.input,
+.select {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: rgb(35, 35, 35);
+    border: 1px solid rgb(68, 68, 68);
+    border-radius: 0.5rem;
+    color: rgb(230, 230, 230);
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.input:focus,
+.select:focus {
+    outline: none;
+    border-color: rgb(91, 167, 255);
+}
+
+.checkbox_group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.checkbox {
+    width: 1.25rem;
+    height: 1.25rem;
+    cursor: pointer;
+}
+
+.checkbox_group span {
+    color: rgb(200, 200, 200);
+    font-size: 0.875rem;
+}
+
+.save_button {
+    margin-top: 1rem;
+    align-self: flex-start;
+}
+
+.theme_list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.theme_item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background-color: rgb(35, 35, 35);
+    border: 1px solid rgb(68, 68, 68);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.theme_item:hover {
+    background-color: rgb(45, 45, 45);
+    border-color: rgb(91, 167, 255);
+}
+
+.theme_item_active {
+    background-color: rgb(40, 40, 40);
+    border-color: rgb(91, 167, 255);
+}
+
+.radio {
+    width: 1.125rem;
+    height: 1.125rem;
+    cursor: pointer;
+}
+
+.theme_item span {
+    color: rgb(230, 230, 230);
+    font-size: 0.875rem;
+}
+

@@ -8,7 +8,10 @@ import styles from "./HomeCarousels.module.css";
 export const HomeCarouselx5 = (props) => {
     const [ indx, setIndxLast ] = useState(0);
 
-    const maxLen = props.array ? props.array.length % 5 === 0 ? Math.floor(props.array.length / 5) * 5 - 5 : Math.floor(props.array.length / 5) * 5 : 0;
+    const items = props.array ?? [];
+    const maxLen = items.length > 0
+        ? (items.length % 5 === 0 ? Math.floor(items.length / 5) * 5 - 5 : Math.floor(items.length / 5) * 5)
+        : 0;
 
     const goToSlide = (index: number) => {
 
@@ -22,7 +25,7 @@ export const HomeCarouselx5 = (props) => {
 
         setIndxLast(index);
 
-        console.log(Math.floor(props.array.length / 5) * 5, "/", indx);
+        console.log(Math.floor(items.length / 5) * 5, "/", indx);
 
         document.getElementById(`inner-${props.sectionTitleAlt}`)!.style.transform = `translateX(-${index * 20}rem)`;
     }
@@ -57,7 +60,7 @@ export const HomeCarouselx5 = (props) => {
                 <div className="carousel">
                     <div id={`inner-${props.sectionTitleAlt}`} className="carousel-inner">
                         {
-                            props.array?.map(
+                            items.map(
                                 el => 
                                 el.id && 
                                 props.sectionTitleAlt === "interestingReleases" ?
@@ -94,7 +97,10 @@ export const HomeCarouselx5 = (props) => {
 export const HomeCarouselx2 = (props) => {
     const [ indx, setIndxLast ] = useState(0);
 
-    const maxLen = props.array.length % 2 === 0 ? Math.floor(props.array.length / 2) * 2 - 2 : Math.floor(props.array.length / 2) * 2;
+    const items = props.array ?? [];
+    const maxLen = items.length > 0
+        ? (items.length % 2 === 0 ? Math.floor(items.length / 2) * 2 - 2 : Math.floor(items.length / 2) * 2)
+        : 0;
 
     const goToSlide = (index: number) => {
 
@@ -108,7 +114,7 @@ export const HomeCarouselx2 = (props) => {
 
         setIndxLast(index);
 
-        console.log(Math.floor(props.array.length / 2) * 2, "/", indx);
+        console.log(Math.floor(items.length / 2) * 2, "/", indx);
 
         document.getElementById(`inner-${props.sectionTitleAlt}`)!.style.transform = `translateX(-${index * 55}rem)`;
     }
@@ -138,7 +144,7 @@ export const HomeCarouselx2 = (props) => {
                 <div className="carousel">
                     <div id={`inner-${props.sectionTitleAlt}`} className="carousel-inner">
                         {
-                            props.array?.map(
+                            items.map(
                                 el => 
                                 el.id && 
                                 props.sectionTitleAlt === "interestingReleases" ?

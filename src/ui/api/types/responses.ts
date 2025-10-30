@@ -136,7 +136,33 @@ export interface ProfileSocialResponse extends BaseResponse {
 }
 
 export interface ProfilePreferenceResponse extends BaseResponse {
-  // Preference data
+  avatar?: string;
+  status?: string;
+  vkPage?: string;
+  tgPage?: string;
+  is_private?: boolean;
+  isPrivate?: boolean;
+  privacy_stats?: number;
+  privacy_counts?: number;
+  privacy_social?: number;
+  privacy_friend_requests?: number;
+  is_vk_bound?: boolean;
+  isVkBound?: boolean;
+  is_google_bound?: boolean;
+  isGoogleBound?: boolean;
+  is_login_changed?: boolean;
+  isLoginChanged?: boolean;
+  is_change_login_banned?: boolean;
+  ban_change_login_expires?: number;
+  is_change_avatar_banned?: boolean;
+  ban_change_avatar_expires?: number;
+  channel_id?: number | null;
+  available_themes?: Array<{
+    id: number;
+    name: string;
+  }>;
+  selected_theme_id?: number;
+  pinned_section_id?: number;
 }
 
 export interface ChangeLoginResponse extends BaseResponse {}

@@ -283,9 +283,14 @@ export const Profile = () => {
 
                         {/* Кнопка редактирования своего профиля */}
                         {authUser.user?.id === user.id && (
-                            <Button className="profile_edit_button" type="button" variant="ghost" onClick={() => setIsEditOpen(true)}>
-                                Редактировать профиль
-                            </Button>
+                            <div style={{display:'flex',gap:'.5rem',flexWrap:'wrap',justifyContent:'center'}}>
+                                <Button className="profile_edit_button" type="button" variant="ghost" onClick={() => setIsEditOpen(true)}>
+                                    Редактировать профиль
+                                </Button>
+                                <Button className="profile_edit_button" type="button" variant="ghost" onClick={() => { authUser.logout(); navigate('/auth'); }}>
+                                    Выйти
+                                </Button>
+                            </div>
                         )}
 
                         {/* Статус онлайн */}

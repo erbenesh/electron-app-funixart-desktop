@@ -2,6 +2,7 @@
   "name": "electron-front",
   "private": true,
   "version": "0.0.1",
+  "homepage": "https://erbenesh.github.io/electron-app-funixart-desktop/",
   "type": "module",
   "main": "src/electron/main.js",
   "scripts": {

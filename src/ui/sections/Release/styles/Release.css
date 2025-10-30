@@ -554,7 +554,7 @@
 
 
 .off_view {
-    width: 100rem;
+    width: 100%;
     align-self: center;
     font-weight: 500;
     /* padding: 0.5rem; */
@@ -566,11 +566,23 @@
 
 .info_carousel {
     /* position: absolute; */
-    width: 97rem;
+    width: 100%;
     left: 0;
     /* background-color: rgb(189, 78, 44); */
 
     animation: info_carousel 40s linear infinite;
+}
+
+@media (max-width: 768px) {
+    .release_page_body { flex-direction: column; align-items: stretch; }
+    .release_info_header { grid-template-columns: 1fr; gap: 1rem; }
+    .header_title_image_border { width: 100%; min-width: 0; height: auto; min-height: 0; aspect-ratio: 3 / 4; }
+    .video_player_wrap { max-width: 100%; padding: 0.5rem; }
+    .recommends_and_related_block { max-width: 100%; padding: 0; }
+    .recommends_and_related_column { max-width: 100%; width: 100%; }
+    .screens_card { width: 86vw; }
+    .screens_image_border { width: 100%; height: 12rem; }
+    .carousel_prev_button, .carousel_next_button { display: none; }
 }
 
 /* .info_carousel[data-direction="right"] {

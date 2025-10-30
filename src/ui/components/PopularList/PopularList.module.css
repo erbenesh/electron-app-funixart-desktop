@@ -23,10 +23,15 @@
 }
 
 .popular_list_cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
-    flex-direction: row;
-    width: 110rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(19.5rem, 1fr));
     gap: 0.5rem;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .popular_list_cards {
+        grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+        gap: 0.5rem;
+    }
 }

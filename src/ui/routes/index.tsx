@@ -1,5 +1,6 @@
 import { RouteObject } from 'react-router-dom';
 import { App } from '../App';
+import { AuthPage } from '../auth/view/AuthPage';
 
 import { ArticlePage } from '#/pages/ArticlePage';
 import { BookmarksList } from '../components/BookmarksList/BookmarksList';
@@ -246,6 +247,18 @@ export const routes: RouteObject[] = [
       ...otherRoutes,
       ...dynamicRoutes,
     ],
+  },
+  {
+    path: '/auth',
+    element: <AuthPage />,
+  },
+  {
+    path: '/auth/sign-up',
+    element: <AuthPage />,
+  },
+  {
+    path: '/auth/restore',
+    element: <AuthPage />,
   },
 ];
 

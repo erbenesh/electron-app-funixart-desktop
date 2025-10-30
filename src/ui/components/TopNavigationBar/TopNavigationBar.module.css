@@ -244,13 +244,21 @@ input[type="search"]::-webkit-search-results-decoration {
     gap: 0.3rem;
     justify-content: start;
 }
-/* 
-@media (width <= 900px) {
 
+@media (max-width: 768px) {
+    .header_wrap {
+        flex-direction: column;
+        padding: 0.5rem 0.75rem;
+    }
+    .buttons_wraper {
+        gap: 0.5rem;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+    .buttons_wraper::-webkit-scrollbar { display: none; }
     .toptools_search_input {
-        display: none;
+        width: 100%;
     }
-    .toptools_search_button {
-        display: block;
-    }
-} */
+    .toptools_search_input:focus { width: 100%; }
+}

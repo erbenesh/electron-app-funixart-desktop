@@ -3,6 +3,14 @@ export { ThemeProvider } from './ThemeProvider';
 export { Button } from './components/Button/Button';
 export type { ButtonProps } from './components/Button/Button';
 
+export { Page } from './components/Page/Page';
+export type { PageProps } from './components/Page/Page';
+
+export { Spacer } from './components/Spacer/Spacer';
+
+export { Container } from './components/Container/Container';
+export type { ContainerProps } from './components/Container/Container';
+
 export { IconButton } from './components/IconButton/IconButton';
 export type { IconButtonProps } from './components/IconButton/IconButton';
 

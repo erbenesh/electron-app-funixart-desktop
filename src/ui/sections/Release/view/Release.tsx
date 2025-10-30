@@ -21,13 +21,13 @@ import cnFlag from '#/assets/icons/cn_flag.svg';
 import jFlag from '#/assets/icons/j_flag.svg';
 import { useUserStore } from '#/auth/store/auth';
 import { Comment } from '#/components/Comment/Comment';
-import { FakeHeader } from '#/components/FakeHeader/FakeHeader';
 import { PostInput } from '#/components/PostInput/PostInput';
 import { ReleasePlayer } from '#/components/ReleasePlayer/ReleasePlayer';
 import { ReleaseVotesCounter } from '#/components/ReleaseVotesCounter/ReleaseVotesCounter';
 import { ScheduleReleaseCard } from '#/components/ScheduleReleaseCard/ScheduleReleaseCard';
 import { useClickOutside } from '#/hooks/useClickOutside';
 import { useScrollPosition } from '#/hooks/useScrollPosition';
+import { } from 'react';
 
 export const Release = () => {
 
@@ -200,10 +200,6 @@ export const Release = () => {
         <div className="release_page_wrap">
 
             <div className="release_page">
-
-                <FakeHeader />
-
-             
 
                 {
                     release.status && release.status.name != "Анонс" && !release.is_view_blocked ?
@@ -577,8 +573,8 @@ export const Release = () => {
 
                 </div>
 
-            </div>
             
+            </div> 
         </div>
     )
 }

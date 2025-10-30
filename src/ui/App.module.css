@@ -8,7 +8,11 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 120rem;
+    padding-top: var(--header-height);
+    width: 100%;
+    max-width: 120rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     gap: 1rem;
 }
 
