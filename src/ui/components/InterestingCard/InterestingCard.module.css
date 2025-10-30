@@ -84,13 +84,14 @@
 @media (max-width: 768px) {
     .card {
         --card-width-var: 100%;
-        --card-height-var: 14rem;
+        --card-height-var: 12.5rem;
         border-radius: 0.75rem;
     }
     .release_image_border,
     .release_image_border::after {
         border-radius: 0.75rem;
     }
+    .release_image_border::after { opacity: 0.25; }
     .anime_title {
         font-size: 1.25rem;
         line-height: 1.25rem;

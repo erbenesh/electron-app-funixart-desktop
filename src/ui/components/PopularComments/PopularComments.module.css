@@ -5,7 +5,8 @@
     justify-content: start;
     justify-items: center;
     align-items: center;
-    width: 110rem;
+    max-width: 110rem;
+    width: 100%;
 
     align-self: center;
 
@@ -19,4 +20,15 @@
     box-sizing: border-box;
     column-fill: balance;
     padding: 1rem;
+}
+
+@media (max-width: 768px) {
+    .schedule_preview_wrap {
+        padding: 0 0.75rem;
+    }
+    .schedule {
+        column-count: 1;
+        padding: 0.5rem 0;
+        column-gap: 0;
+    }
 }

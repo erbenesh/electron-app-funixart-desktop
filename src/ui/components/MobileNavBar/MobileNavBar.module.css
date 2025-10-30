@@ -9,7 +9,8 @@
     align-items: center;
     background: rgba(27,27,27,0.92);
     border-top: 1px solid rgb(68,68,68);
-    padding: .35rem .5rem calc(.35rem + env(safe-area-inset-bottom, 0)) .5rem;
+    /* Extra bottom padding to avoid clipping on rounded corners */
+    padding: .45rem .5rem calc(.6rem + env(safe-area-inset-bottom, 0) + 12px) .5rem;
     backdrop-filter: saturate(140%) blur(8px);
 }
 

@@ -28,6 +28,10 @@ import { ReleasePage } from '../pages/ReleasePage';
 import { SchedulePage } from '../pages/SchedulePage';
 import { SettingsPage } from '../pages/SettingsPage';
 import { WatchingPage } from '../pages/WatchingPage';
+import { WatchEpisodePage } from '../pages/mobile/WatchEpisodePage';
+import { WatchSourcePage } from '../pages/mobile/WatchSourcePage';
+import { WatchVoicePage } from '../pages/mobile/WatchVoicePage';
+import { WatchPlayPage } from '../pages/mobile/WatchPlayPage';
 
 // Главная страница
 const homeRoutes: RouteObject = {
@@ -217,6 +221,11 @@ const dynamicRoutes: RouteObject[] = [
     path: '/release/:releaseId',
     element: <ReleasePage />,
   },
+  // Mobile watching flow
+  { path: '/release/:releaseId/watch/episode', element: <WatchEpisodePage /> },
+  { path: '/release/:releaseId/watch/source', element: <WatchSourcePage /> },
+  { path: '/release/:releaseId/watch/voice', element: <WatchVoicePage /> },
+  { path: '/release/:releaseId/watch/play', element: <WatchPlayPage /> },
   {
     path: '/article/:articleId',
     element: <ArticlePage />,

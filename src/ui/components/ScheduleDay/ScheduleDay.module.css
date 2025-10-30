@@ -12,6 +12,10 @@
 
 }
 
+@media (max-width: 768px) {
+    .releases_schedule { margin-bottom: 0.5rem; }
+}
+
 .sh_day_title {
  
     /* position: sticky; */
@@ -28,4 +32,8 @@
     box-sizing: border-box;
     /* background: linear-gradient(to right, rgba(36, 36, 36, 0.8) 0%, rgba(189, 78, 44, 0.4) 100%); */
     color: rgb(230, 230, 230);
+}
+
+@media (max-width: 768px) {
+    .sh_day_title { padding: 0.5rem 0.75rem; font-size: 1.1rem; }
 }

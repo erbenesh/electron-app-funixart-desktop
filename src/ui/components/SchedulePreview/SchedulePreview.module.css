@@ -7,9 +7,11 @@
     align-items: center;
     z-index: 11;
     gap: 1rem;
-    width: 120rem;
+    max-width: 120rem;
+    width: 100%;
 
-    overflow: hidden;
+    /* allow content to flow; avoid clipping cards on small screens */
+    overflow: visible;
     /* background: linear-gradient(to right, rgba(36, 36, 36, 0.8) 0%, rgba(189, 78, 44, 0.8) 100%); */
 }
 
@@ -20,17 +22,17 @@
     justify-content: start;
     justify-items: center;
     align-items: center;
-    width: 110rem;
+    width: 100%;
 
 }
 
 .today_releases_preview {
-    column-count: 5;
-    column-gap: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(19.5rem, 1fr));
+    gap: 0.5rem;
     box-sizing: border-box;
-    column-fill: balance;
     padding: 1rem;
-    
+    width: 100%;
 }
 
 .day_filters {
@@ -124,4 +126,26 @@
 
 .section_title_link:hover .title_arrow_ico{
     opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .schedule_preview_wrap { padding: 0 0.75rem; }
+    .today_releases_preview {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 86%;
+        grid-template-columns: none;
+        gap: 0.5rem;
+        padding: 0.5rem 0;
+        max-height: 50vh;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+    .today_releases_preview > * { scroll-snap-align: start; }
+}
+
+@media (max-width: 480px) {
+    .today_releases_preview { grid-auto-columns: 92%; }
 }

@@ -35,6 +35,7 @@
 
 .comment_messege {
     white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
 .avatar {
@@ -83,6 +84,17 @@
 .timestamp {
     color: grey;
     font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+    .avatar { padding: 0.25rem; }
+    .image_border { width: 2.5rem; height: 2.5rem; }
+    .bubble { padding: 0.6rem 0.75rem; }
+    .info { padding: 0.25rem; gap: 0.4rem; }
+    .login_and_time { gap: 0.35rem; }
+    .timestamp { font-size: 0.75rem; }
+    .reply_and_like_buttons { gap: 0.6rem; flex-wrap: wrap; }
+    .reply_button, .report_button { font-size: 0.85rem; }
 }
 
 .action_buttons {

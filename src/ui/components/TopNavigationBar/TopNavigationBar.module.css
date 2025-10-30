@@ -84,9 +84,33 @@
 .serach_input_wrapper {
     display: flex;
     flex-direction: row;
-    border-bottom: 0.0625rem solid grey;
     align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+    background: rgba(48, 48, 48, 0.6);
+    border: 1px solid rgba(78, 78, 78, 0.8);
+    backdrop-filter: blur(4px);
 }
+
+.search_wrapper { border: none; }
+.search_input { width: 12.5rem; }
+.search_input:focus { width: 25rem; }
+
+.clear_btn, .search_btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: .25rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: lightgray;
+    cursor: pointer;
+}
+.clear_btn:hover, .search_btn:hover { color: rgb(189, 78, 44); background: rgba(189, 78, 44, 0.1); }
 
 .toptools_search_input {
     position: relative;
@@ -251,6 +275,10 @@ input[type="search"]::-webkit-search-results-decoration {
     .header_wrap {
         flex-direction: column;
         padding: 0.5rem 0.75rem;
+        /* Remove desktop background effects for a clean mobile search bar */
+        background: transparent;
+        backdrop-filter: none;
+        box-shadow: none;
     }
     .buttons_wraper {
         gap: 0.5rem;
@@ -262,11 +290,34 @@ input[type="search"]::-webkit-search-results-decoration {
     .buttons_wraper > * { display: none; }
     .buttons_wraper .serach_input_wrapper { display: flex; flex: 1; }
     .buttons_wraper .serach_input_wrapper .menu_ico { display: none; }
-    /* Make search input occupy full width on mobile */
-    .search_wrapper {
+    /* Mobile search: rounded container with icon and clear button */
+    .serach_input_wrapper {
+        position: relative;
         width: 100%;
+        border: 1px solid rgb(68,68,68);
+        background: rgba(27,27,27, 0.95);
+        border-radius: 999px;
+        padding: 0.5rem 2.25rem 0.5rem 2.25rem; /* space for icons */
     }
+    .menu_ico {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgb(160,160,160);
+        pointer-events: none;
+    }
+    .search_wrapper { width: 100%; }
     .search_input {
         width: 100% !important;
+        font-size: 1rem;
+    }
+    .clear_btn {
+        position: absolute;
+        right: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1.75rem;
+        height: 1.75rem;
     }
 }

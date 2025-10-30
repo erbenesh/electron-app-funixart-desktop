@@ -26,17 +26,27 @@
     overflow: hidden;
 }
 
+/* Ensure card fills the grid cell */
+.card { max-width: 100%; }
+
 @media (max-width: 768px) {
     .card {
         --card-width-var: 100%;
-        --card-max-height: 9rem;
+        --card-max-height: 12rem;
         --card-border-radius: 0.75rem;
     }
     .release_image_border:before {
         width: 100%;
         height: var(--card-max-height);
     }
-    .release_info { width: calc(100% - 1.5rem); padding: 0.75rem; }
+    .release_info { width: calc(100% - 1.5rem); padding: 0.5rem 0.75rem; height: calc(var(--card-max-height) - 1rem); }
+    .anime_title { font-size: 1.05rem; line-height: 1.3rem; }
+    .anime_subinfo { font-size: 0.8rem; }
+}
+
+/* When placed into grid (SchedulePreview), ensure card stretches to column width */
+:root .schedule_preview_wrap .today_releases_preview :global(.card) {
+    width: 100%;
 }
 
 .card:hover {
@@ -77,16 +87,13 @@
     width: var(--card-width-var);
     height: var(--card-max-height);
     background: linear-gradient(rgba(58, 58, 58, 0.8) 0%,rgb(58, 58, 58, 0.8) 100%);
+    pointer-events: none; /* allow underlying Link to receive clicks */
 }
 
 /* Управляем плавным появлением через свой класс, переданный в MediaCard */
 .media_img {
-    opacity: 0;
-    transition: .3s;
-}
-
-.card:hover .media_img {
     opacity: 1;
+    transition: opacity .3s;
 }
 
 

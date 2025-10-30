@@ -9,7 +9,7 @@ import { GrGroup } from "react-icons/gr";
 import { IoIosArrowBack, IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
 import { IoBookmark, IoBookmarkOutline, IoCalendarOutline } from "react-icons/io5";
 import { LuFlag } from "react-icons/lu";
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 import { commentService } from '#/api/CommentService';
 import { useAddToBookmarkList, useFavoriteReleaseMutations, useGetCurrentRelease } from '#/api/hooks';
@@ -289,6 +289,10 @@ export const Release = () => {
                                             <button className="info_button" type='button'>
                                                 Добавить себе в коллекцию
                                             </button>
+
+                                            <Link to={`/release/${releaseId}/watch/episode`} className="info_button">
+                                                Смотреть
+                                            </Link>
 
                                             <button className="info_button" type='button' onClick={onReportRelease}>
                                                 Пожаловаться

@@ -118,7 +118,7 @@ html, body, #root {
   display: flex;
   justify-self: center;
   width: 100%;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
  
 .carousel-inner {
@@ -154,6 +154,7 @@ html, body, #root {
   }
   .carousel-inner > * {
     scroll-snap-align: start;
+    min-width: 86%;
   }
   .carousel-inner::-webkit-scrollbar { height: 0; display: none; }
 }

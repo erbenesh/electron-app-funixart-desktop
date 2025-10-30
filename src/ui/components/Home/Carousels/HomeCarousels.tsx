@@ -27,7 +27,15 @@ export const HomeCarouselx5 = (props) => {
 
         console.log(Math.floor(items.length / 5) * 5, "/", indx);
 
-        document.getElementById(`inner-${props.sectionTitleAlt}`)!.style.transform = `translateX(-${index * 20}rem)`;
+        const inner = document.getElementById(`inner-${props.sectionTitleAlt}`);
+        if (inner) {
+            const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+            if (isDesktop) {
+                inner.style.transform = `translateX(-${index * 20}rem)`;
+            } else {
+                inner.style.transform = '';
+            }
+        }
     }
     
     const goToNextSlide = () => {
@@ -116,7 +124,15 @@ export const HomeCarouselx2 = (props) => {
 
         console.log(Math.floor(items.length / 2) * 2, "/", indx);
 
-        document.getElementById(`inner-${props.sectionTitleAlt}`)!.style.transform = `translateX(-${index * 55}rem)`;
+        const inner = document.getElementById(`inner-${props.sectionTitleAlt}`);
+        if (inner) {
+            const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+            if (isDesktop) {
+                inner.style.transform = `translateX(-${index * 55}rem)`;
+            } else {
+                inner.style.transform = '';
+            }
+        }
     }
     
     const goToNextSlide = () => {

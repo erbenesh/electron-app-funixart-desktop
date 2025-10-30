@@ -7,7 +7,12 @@ import { useClickOutside } from '../../hooks/useClickOutside';
 import { VoiceoverPicker } from '../VoiceoverPicker/VoiceoverPicker';
 import styles from './ReleasePlayer.module.css';
 
-export const ReleasePlayer = (props) => {
+interface ReleasePlayerProps {
+    id: string | number;
+    minimal?: boolean;
+}
+
+export const ReleasePlayer = (props: ReleasePlayerProps) => {
 
     const userStore = useUserStore();
     const [voiceoverInfo, setVoiceoverInfo] = useState(null);
@@ -125,6 +130,7 @@ export const ReleasePlayer = (props) => {
                         <iframe allowFullScreen={true} src={selectedEpisode.url} className={styles.player}></iframe>
                     </div>
 
+                    {!props.minimal && (
                     <div className={styles.episodes_buttons_swiper_wrap}>
 
                         <div className={styles.voices_and_sources_dropdowns}>
@@ -202,6 +208,7 @@ export const ReleasePlayer = (props) => {
                             ))}
                         </div>
                     </div>
+                    )}
                 
             </div>
             )}

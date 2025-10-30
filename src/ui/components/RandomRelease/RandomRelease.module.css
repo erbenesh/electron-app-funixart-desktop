@@ -15,9 +15,18 @@
     align-items: center;
     padding: 5rem;
     z-index: 11;
-    height: 28rem;
+    height: 32rem;
     gap: 1rem;
     overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .title_wrap {
+        padding: 1rem 0.75rem;
+        height: auto;
+        align-items: stretch;
+    }
+    .random_background { width: 100%; }
 }
 
 .title_wrap::before {

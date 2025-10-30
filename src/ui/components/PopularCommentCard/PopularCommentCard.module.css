@@ -197,3 +197,15 @@
 .show_all_replys:hover {
     background-color: #363636;
 }
+
+@media (max-width: 768px) {
+    .comment_wrap { margin: 0 0 0.5rem; border-radius: 0.75rem; width: 100%; float: none; }
+    .comment_wrap:hover { transform: none; }
+    .comment { flex-direction: column; width: 100%; }
+    .avatar { padding: 0.5rem 0.5rem 0 0.5rem; }
+    .image_border { width: 3rem; height: 3rem; }
+    .info { padding: 0.25rem 0.5rem 0.5rem 0.5rem; }
+    .comment_messege { font-size: 0.95rem; word-break: break-word; overflow-wrap: anywhere; }
+    .timestamp { font-size: 0.75rem; }
+    .login_and_time { flex-wrap: wrap; }
+}
