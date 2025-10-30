@@ -254,13 +254,19 @@ input[type="search"]::-webkit-search-results-decoration {
     }
     .buttons_wraper {
         gap: 0.5rem;
-        overflow-x: auto;
+        overflow: visible;
         flex-wrap: nowrap;
-        -webkit-overflow-scrolling: touch;
-    }
-    .buttons_wraper::-webkit-scrollbar { display: none; }
-    .toptools_search_input {
         width: 100%;
     }
-    .toptools_search_input:focus { width: 100%; }
+    /* Hide all header buttons on mobile and keep only search */
+    .buttons_wraper > * { display: none; }
+    .buttons_wraper .serach_input_wrapper { display: flex; flex: 1; }
+    .buttons_wraper .serach_input_wrapper .menu_ico { display: none; }
+    /* Make search input occupy full width on mobile */
+    .search_wrapper {
+        width: 100%;
+    }
+    .search_input {
+        width: 100% !important;
+    }
 }

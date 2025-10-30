@@ -42,6 +42,11 @@
   margin: 0;
 }
 
+/* Better sizing model for layouts */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* Ensure media never overflows container width */
 img, video, canvas, svg, iframe {
   max-width: 100%;
@@ -50,6 +55,10 @@ img, video, canvas, svg, iframe {
 
 body {
   overflow-x: hidden;
+  /* Respect safe areas on mobile browsers and Telegram */
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  padding-left: env(safe-area-inset-left, 0);
+  padding-right: env(safe-area-inset-right, 0);
 }
 
 html, body, #root {
@@ -58,6 +67,10 @@ html, body, #root {
 
 .wrapper {
   padding-bottom: 5.5rem;
+}
+
+.content_wrap {
+  overflow-x: hidden;
 }
 
 .loader-container {
@@ -118,6 +131,7 @@ html, body, #root {
 
 /* xs: < sm */
 @media (max-width: calc(var(--bp-sm) - 1px)) {
+  html { font-size: 15px; }
   :root {
     --header-height: 96px;
   }
@@ -135,10 +149,13 @@ html, body, #root {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    padding-inline: 0.5rem;
   }
   .carousel-inner > * {
     scroll-snap-align: start;
   }
+  .carousel-inner::-webkit-scrollbar { height: 0; display: none; }
 }
 
 /* sm: ≥576px */

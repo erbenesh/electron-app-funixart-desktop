@@ -75,6 +75,8 @@ export const TopNavigationBar = (props) => {
                                 placeholder='Поиск аниме'
                                 value={searchInputValue}
                                 onChange={el => setSearchInputValue(el.currentTarget.value)}
+                                wrapperClassName={styles.search_wrapper}
+                                className={styles.search_input}
                             />
                             <GoSearch className={styles.menu_ico}/>
                         </div>

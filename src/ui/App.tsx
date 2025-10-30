@@ -1,4 +1,5 @@
 import { TopNavigationBar } from './components/TopNavigationBar/TopNavigationBar';
+import { MobileNavBar } from './components/MobileNavBar/MobileNavBar';
 import styles from './App.module.css'
 import { useEffect, useState } from 'react';
 import { AuthPage } from './auth/view/AuthPage';
@@ -74,6 +75,8 @@ export const App: React.FC = ()=> {
           </div>
 
         </div>
+
+        <MobileNavBar />
 
       </div>
   )
