@@ -1,14 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useUserStore } from '#/auth/store/auth';
-import { useGetEpisodes } from '#/api/hooks/usePlayer';
+import { useGetEpisodes, useGetEpisodeSources } from '#/api/hooks/usePlayer';
 
 export const WatchVoicePage: React.FC = () => {
   const { releaseId } = useParams();
   const [params] = useSearchParams();
   const typeId = params.get('type');
-  const sourceId = params.get('source');
+  const initialSourceId = params.get('source');
   const token = useUserStore((s) => s.token);
+  // Подтягиваем список источников для выбранного типа, чтобы валидировать source
+  const { data: sourcesData, isPending: isSourcesPending } = useGetEpisodeSources(releaseId!, typeId, token);
+  const [sourceId, setSourceId] = useState<string | number | null>(initialSourceId);
+
+  useEffect(() => {
+    const list = sourcesData?.sources ?? [];
+    if (!list.length) return;
+    const exists = list.some((s: any) => String(s.id) === String(initialSourceId));
+    setSourceId(exists ? initialSourceId : list[0].id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sourcesData]);
 
   // Здесь выбираем серию
   const { data, isPending } = useGetEpisodes(releaseId!, typeId, sourceId, token);
@@ -20,8 +31,8 @@ export const WatchVoicePage: React.FC = () => {
     if (eps.length) setSelected(0);
   }, [data]);
 
-  if (!typeId || !sourceId) return null;
-  if (isPending) return <div className="loader-container"><i className="loader-circle"/></div>;
+  if (!typeId) return null;
+  if (isSourcesPending || !sourceId || isPending) return <div className="loader-container"><i className="loader-circle"/></div>;
 
   const episodes = data?.episodes ?? [];
 
