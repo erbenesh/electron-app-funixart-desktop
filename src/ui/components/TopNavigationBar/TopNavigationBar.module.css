@@ -15,12 +15,14 @@
     pointer-events: none;
 
     width: 100%;
+    top: 0;
 }
 
 .header_wrap {
     display: flex;
     justify-content: center;
     flex-direction: row;
+    width: 100%;
 
     /* border-radius: 0 0 1rem 1rem; */
     max-width: 100%;

@@ -1,5 +1,4 @@
-import { FastAverageColor } from 'fast-average-color';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MediaCard } from 'ui-kit/components/MediaCard/MediaCard';
 import { unixToDate } from '../../api/utils';
@@ -31,20 +30,7 @@ export const ReleaseCard = (props) => {
 
     const [dominantColor, setDominantColor] = useState('rgba(36, 36, 36, 1)');
 
-    useEffect(() => {
-
-        if(dominantColor === 'rgba(36, 36, 36, 1)') {
-
-            const fac = new FastAverageColor();
-            
-            fac.getColorAsync(props.release.image)
-            .then(color => {
-                setDominantColor(`rgba(${color.value[0]-80}, ${color.value[1]-80}, ${color.value[2]-80}, 1)`);
-                console.log(color);
-            })
-            .catch(console.error);
-        }
-    }, [props.release.image]);
+    // Dominant color calculation removed to avoid external dependency
 
     return (
         <div id="vert_card" className={styles.vert_card}>

@@ -4,8 +4,8 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgb(230, 230, 230);
-  background-color: #242424;
+  color: var(--tg-theme-text-color, rgb(230, 230, 230));
+  background-color: var(--tg-theme-bg-color, #242424);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -14,6 +14,14 @@
   --header-height: 48px;
   --aside-width: 48px;
   scrollbar-gutter: stable;
+
+  /* Ant Design-like breakpoints */
+  --bp-xs: 480px;   /* < 576px (fallback) */
+  --bp-sm: 576px;   /* ≥576px */
+  --bp-md: 768px;   /* ≥768px */
+  --bp-lg: 992px;   /* ≥992px */
+  --bp-xl: 1200px;  /* ≥1200px */
+  --bp-xxl: 1600px; /* ≥1600px */
 }
 
 ::-webkit-scrollbar {
@@ -34,8 +42,18 @@
   margin: 0;
 }
 
+/* Ensure media never overflows container width */
+img, video, canvas, svg, iframe {
+  max-width: 100%;
+  height: auto;
+}
+
 body {
   overflow-x: hidden;
+}
+
+html, body, #root {
+  max-width: 100%;
 }
 
 .wrapper {
@@ -98,7 +116,16 @@ body {
   transition: transform 0.5s;
 }
 
-@media (max-width: 768px) {
+/* xs: < sm */
+@media (max-width: calc(var(--bp-sm) - 1px)) {
+  :root {
+    --header-height: 96px;
+  }
+  /* Cap media height on small screens */
+  video, iframe {
+    width: 100%;
+    max-height: calc(100vh - var(--header-height) - 1.5rem);
+  }
   .carousel-inner {
     display: grid;
     grid-auto-flow: column;
@@ -112,6 +139,26 @@ body {
   .carousel-inner > * {
     scroll-snap-align: start;
   }
+}
+
+/* sm: ≥576px */
+@media (min-width: var(--bp-sm)) and (max-width: calc(var(--bp-md) - 1px)) {
+}
+
+/* md: ≥768px */
+@media (min-width: var(--bp-md)) and (max-width: calc(var(--bp-lg) - 1px)) {
+}
+
+/* lg: ≥992px */
+@media (min-width: var(--bp-lg)) and (max-width: calc(var(--bp-xl) - 1px)) {
+}
+
+/* xl: ≥1200px */
+@media (min-width: var(--bp-xl)) and (max-width: calc(var(--bp-xxl) - 1px)) {
+}
+
+/* xxl: ≥1600px */
+@media (min-width: var(--bp-xxl)) {
 }
 
 
