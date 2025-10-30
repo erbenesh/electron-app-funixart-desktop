@@ -32,6 +32,7 @@ import { WatchEpisodePage } from '../pages/mobile/WatchEpisodePage';
 import { WatchSourcePage } from '../pages/mobile/WatchSourcePage';
 import { WatchVoicePage } from '../pages/mobile/WatchVoicePage';
 import { WatchPlayPage } from '../pages/mobile/WatchPlayPage';
+import { ComponentsShowcasePage } from '../pages/ComponentsShowcasePage';
 
 // Главная страница
 const homeRoutes: RouteObject = {
@@ -200,6 +201,10 @@ const otherRoutes: RouteObject[] = [
   {
     path: '/recommendations/all',
     element: <RecommendationsPage />,
+  },
+  {
+    path: '/components',
+    element: <ComponentsShowcasePage />,
   },
   {
     path: '/discussing/all',

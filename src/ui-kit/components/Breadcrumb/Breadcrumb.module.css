@@ -1,0 +1,9 @@
+.nav { color: var(--color-text-muted); font-size: var(--text-sm); }
+.sep { margin: 0 var(--space-2); }
+.link { color: var(--color-text); text-decoration: none; }
+.link:hover { color: var(--color-accent); }
+.item { position: relative; display: inline-block; }
+.dropdown:hover .dropdownMenu { display: block; }
+.dropdownMenu { display: none; position: absolute; top: 1.5rem; left: 0; z-index: 1000; }
+.dropdown { position: relative; cursor: pointer; }
+

@@ -1,0 +1,5 @@
+.label { display: inline-flex; gap: var(--space-2); align-items: center; cursor: pointer; }
+.box { width: 16px; height: 16px; border-radius: var(--radius-1); border: 1px solid var(--color-border); background: var(--color-surface); appearance: none; }
+.box:checked { background: var(--color-accent); border-color: var(--color-accent); }
+.box:focus { outline: none; box-shadow: 0 0 0 3px rgb(189 78 44 / 20%); }
+

@@ -1,0 +1,9 @@
+.root { display: flex; gap: var(--space-4); }
+.step { display: flex; align-items: center; gap: var(--space-2); color: var(--color-text-muted); }
+.dot { width: 1.5rem; height: 1.5rem; border-radius: 999px; border: 2px solid var(--color-border); display: inline-flex; align-items: center; justify-content: center; font-size: var(--text-sm); }
+.meta { display: flex; flex-direction: column; }
+.title { color: var(--color-text); font-weight: 600; }
+.desc { font-size: var(--text-sm); }
+.active .dot { border-color: var(--color-accent); color: var(--color-accent); }
+.done .dot { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
+

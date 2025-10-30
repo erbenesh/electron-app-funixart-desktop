@@ -76,6 +76,23 @@
   }
 }
 
+/* Mobile fine-tuning */
+@media (max-width: 480px) {
+  :root {
+    /* Slightly reduce base text sizes for compact mobile UI */
+    --text-md: 0.95rem;
+    --text-lg: 1.05rem;
+    --text-xl: 1.15rem;
+
+    /* Touch targets a tad smaller but still accessible */
+    --touch-target-min: 40px;
+
+    /* Tighten default gaps */
+    --space-4: 0.875rem;
+    --space-3: 0.625rem;
+  }
+}
+
 /* Motion preferences */
 @media (prefers-reduced-motion: reduce) {
   :root { --shadow-2: 0 2px 6px rgba(0,0,0,0.25); }
