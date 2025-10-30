@@ -12,7 +12,7 @@ export default defineConfig({
       { find: '#', replacement: path.resolve(__dirname, 'src/ui') },
     ]
   },
-  base: './',
+  base: process.env.VITE_BASE || './',
   build: {
     outDir: 'dist-react',
   }
