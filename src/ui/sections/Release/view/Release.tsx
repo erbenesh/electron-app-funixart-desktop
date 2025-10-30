@@ -9,7 +9,7 @@ import { GrGroup } from "react-icons/gr";
 import { IoIosArrowBack, IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
 import { IoBookmark, IoBookmarkOutline, IoCalendarOutline } from "react-icons/io5";
 import { LuFlag } from "react-icons/lu";
-import { useParams, Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { commentService } from '#/api/CommentService';
 import { useAddToBookmarkList, useFavoriteReleaseMutations, useGetCurrentRelease } from '#/api/hooks';
@@ -27,7 +27,6 @@ import { ReleaseVotesCounter } from '#/components/ReleaseVotesCounter/ReleaseVot
 import { ScheduleReleaseCard } from '#/components/ScheduleReleaseCard/ScheduleReleaseCard';
 import { useClickOutside } from '#/hooks/useClickOutside';
 import { useScrollPosition } from '#/hooks/useScrollPosition';
-import { } from 'react';
 
 export const Release = () => {
 

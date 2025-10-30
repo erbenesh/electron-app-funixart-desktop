@@ -15,7 +15,7 @@
     pointer-events: none;
 
     width: 100%;
-    top: env(safe-area-inset-top, 0);
+    top: 0; /* start at the very top, safe-area padding applied inside */
 }
 
 .header_wrap {
