@@ -3,82 +3,95 @@ import styles from './Carousel.module.css'
 
 export type CarouselProps = {
   className?: string
-  /** Show navigation arrows */
   showArrows?: boolean
-  /** Show pagination dots */
   showDots?: boolean
-  /** Gap between items in pixels (fallback to CSS var) */
   gap?: number
-  /** Scroll by viewport width multiplier (0..1) */
-  scrollStep?: number
-  /** Optional aria-label for accessibility */
+  /** Gap on mobile (<=768px), px. Defaults to gap */
+  mobileGap?: number
   ariaLabel?: string
-  /** Mobile peek (fraction of viewport width to keep next slide peeking) */
   mobilePeek?: number
-  /** Desktop columns count (auto item width) */
   desktopColumns?: number
-  /** Autoplay in ms (0 to disable) */
   autoplayMs?: number
 }
 
 export function Carousel(props: PropsWithChildren<CarouselProps>) {
-  const { className, children, showArrows = true, showDots = false, gap, scrollStep = 0.9, ariaLabel, mobilePeek = 0.14, desktopColumns = 3, autoplayMs = 0 } = props
+  const { className, children, showArrows = true, showDots = false, gap = 12, mobileGap, ariaLabel, mobilePeek = 0.04, desktopColumns = 3, autoplayMs = 0 } = props
+
   const viewportRef = useRef<HTMLDivElement | null>(null)
-  const [canPrev, setCanPrev] = useState(false)
-  const [canNext, setCanNext] = useState(false)
-  const [progress, setProgress] = useState(0)
   const items = useMemo(() => (Array.isArray(children) ? children : [children]).filter(Boolean), [children])
 
-  useEffect(() => {
-    const viewport = viewportRef.current
-    if (!viewport) return
-    const update = () => {
-      setCanPrev(viewport.scrollLeft > 0)
-      setCanNext(viewport.scrollLeft + viewport.clientWidth < viewport.scrollWidth - 1)
-      const denom = Math.max(1, viewport.scrollWidth - viewport.clientWidth)
-      setProgress(viewport.scrollLeft / denom)
-    }
-    update()
-    viewport.addEventListener('scroll', update)
-    window.addEventListener('resize', update)
-    return () => {
-      viewport.removeEventListener('scroll', update)
-      window.removeEventListener('resize', update)
-    }
-  }, [items.length])
+  const [cols, setCols] = useState(3)
+  const [pageIndex, setPageIndex] = useState(0)
+  const [maxPage, setMaxPage] = useState(0)
 
-  // Desktop: блокируем колесо/трекпад внутри карусели (движение только по стрелкам)
+  // Recalculate columns and pages on resize or items change
   useEffect(() => {
-    const viewport = viewportRef.current
-    if (!viewport) return
-    const handler = (e: WheelEvent) => {
-      if (window.innerWidth >= 769) {
-        // предотвращаем горизонтальную прокрутку карусели
-        if (e.deltaX !== 0) e.preventDefault()
-      }
+    const compute = () => {
+      const isDesktop = window.innerWidth >= 769
+      const c = isDesktop ? desktopColumns : 1
+      setCols(c)
+      const pages = Math.max(0, Math.ceil(items.length / c) - 1)
+      setMaxPage(pages)
+      setPageIndex((prev) => Math.min(prev, pages))
+      // align to page start after layout changes
+      requestAnimationFrame(() => scrollToPage(0))
     }
-    viewport.addEventListener('wheel', handler, { passive: false })
-    return () => viewport.removeEventListener('wheel', handler)
-  }, [])
+    compute()
+    window.addEventListener('resize', compute)
+    return () => window.removeEventListener('resize', compute)
+  }, [items.length, desktopColumns])
 
+  // Autoplay by page
   useEffect(() => {
     if (!autoplayMs) return
-    const id = setInterval(() => scrollBy(1), autoplayMs)
+    const id = setInterval(() => go(1), autoplayMs)
     return () => clearInterval(id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoplayMs])
+  }, [autoplayMs, cols, maxPage])
 
-  const scrollBy = (dir: -1 | 1) => {
+  const getStep = () => {
     const viewport = viewportRef.current
     if (!viewport) return
-    const delta = Math.max(1, Math.round(viewport.clientWidth * scrollStep)) * dir
-    viewport.scrollBy({ left: delta, behavior: 'smooth' })
+    const isDesktop = window.innerWidth >= 769
+    return isDesktop ? viewport.clientWidth : Math.round(viewport.clientWidth * (1 - mobilePeek))
+  }
+
+  const scrollToPage = (index: number) => {
+    const viewport = viewportRef.current
+    if (!viewport) return
+    const step = getStep() || 0
+    const clamped = Math.min(Math.max(0, index), maxPage)
+    const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth)
+    const target = Math.min(maxScroll, Math.round(clamped * step))
+    viewport.scrollTo({ left: target, behavior: 'smooth' })
+  }
+
+  const go = (dir: -1 | 1) => {
+    const next = Math.min(Math.max(0, pageIndex + dir), maxPage)
+    setPageIndex(next)
+    scrollToPage(next)
   }
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'ArrowLeft') { e.preventDefault(); scrollBy(-1) }
-    if (e.key === 'ArrowRight') { e.preventDefault(); scrollBy(1) }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1) }
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(1) }
   }
+
+  const canPrev = pageIndex > 0
+  const canNext = pageIndex < maxPage
+
+  // Keep page index in sync when пользователь скроллит вручную колесом/тачпадом
+  useEffect(() => {
+    const viewport = viewportRef.current
+    if (!viewport) return
+    const onScroll = () => {
+      const step = getStep() || 1
+      const idx = Math.round(viewport.scrollLeft / step)
+      if (idx !== pageIndex) setPageIndex(Math.min(Math.max(0, idx), maxPage))
+    }
+    viewport.addEventListener('scroll', onScroll, { passive: true })
+    return () => viewport.removeEventListener('scroll', onScroll)
+  }, [pageIndex, maxPage, cols])
 
   return (
     <div
@@ -90,7 +103,7 @@ export function Carousel(props: PropsWithChildren<CarouselProps>) {
       {showArrows && (
         <button
           className={styles.navBtn + ' ' + styles.left}
-          onClick={() => scrollBy(-1)}
+          onClick={() => go(-1)}
           aria-label="Предыдущие"
           disabled={!canPrev}
         >
@@ -101,8 +114,9 @@ export function Carousel(props: PropsWithChildren<CarouselProps>) {
         <div
           className={styles.track}
           style={{
-            ['--gap' as any]: (gap ?? 12) + 'px',
-            ['--cols' as any]: String(desktopColumns),
+            ['--gap' as any]: gap + 'px',
+            ['--gapM' as any]: (mobileGap ?? gap) + 'px',
+            ['--cols' as any]: String(cols),
             ['--peek' as any]: Math.round(mobilePeek * 100) + '%',
           }}
         >
@@ -116,7 +130,7 @@ export function Carousel(props: PropsWithChildren<CarouselProps>) {
       {showArrows && (
         <button
           className={styles.navBtn + ' ' + styles.right}
-          onClick={() => scrollBy(1)}
+          onClick={() => go(1)}
           aria-label="Следующие"
           disabled={!canNext}
         >
@@ -125,7 +139,7 @@ export function Carousel(props: PropsWithChildren<CarouselProps>) {
       )}
       {showDots && (
         <div className={styles.dots} aria-hidden>
-          <div className={styles.progress} style={{ width: `${Math.round(progress * 100)}%` }} />
+          <div className={styles.progress} style={{ width: `${Math.round(((pageIndex) / Math.max(1, maxPage)) * 100)}%` }} />
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MediaCard } from 'ui-kit/components/MediaCard/MediaCard';
+import { MediaCard } from '../MediaCard/MediaCard';
 import { unixToDate } from '../../api/utils';
 import styles from './ReleaseCard.module.css';
 

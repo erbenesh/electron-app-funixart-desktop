@@ -7,7 +7,8 @@
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: max-content;
-  overflow-x: auto;
+  overflow-x: visible; /* ensure parent viewport is the scroll container */
+  overflow-y: visible;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
 }
@@ -21,33 +22,42 @@
 }
 
 .viewport {
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: visible;
+  /* hide scrollbars cross-browser */
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE/Edge */
+  scrollbar-color: transparent transparent;
+  overscroll-behavior-x: contain;
 }
+.viewport::-webkit-scrollbar { width: 0 !important; height: 0 !important; display: none; background: transparent; }
+.viewport::-webkit-scrollbar-thumb { background: transparent; }
+.viewport::-webkit-scrollbar-track { background: transparent; }
 
 .track {
   display: flex;
   flex-direction: row;
   column-gap: var(--gap, .75rem);
-  overflow-x: auto;
+  overflow-x: visible; /* override earlier legacy rule */
   overflow-y: visible;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   padding-bottom: 0;
-  /* hide scrollbars cross-browser */
-  scrollbar-width: none;          /* Firefox */
-  -ms-overflow-style: none;       /* IE/Edge */
 }
 
-.track::-webkit-scrollbar { display: none; }
+.viewport::-webkit-scrollbar { display: none; }
 
 .item { scroll-snap-align: start; flex: 0 0 auto; }
 @media (max-width: 768px) {
-  .item { flex-basis: calc(100% - var(--peek, 14%)); }
+  .track { column-gap: var(--gapM, var(--gap, .75rem)); }
+  .track { width: 100%; }
+  /* На мобайле учитываем gap в расчёте ширины карточки, чтобы визуальный зазор был контролируемым */
+  .item { flex-basis: calc(100% - var(--peek, 14%) - var(--gapM, var(--gap, .75rem))); }
+  /* Заставляем внутренние карточки подстраиваться под ширину item, даже если у них есть фиксированный width */
+  .item > * { width: 100% !important; min-width: 100% !important; }
 }
 @media (min-width: 769px) {
   .item { flex-basis: calc((100% - var(--gap, .75rem) * (var(--cols, 3) - 1)) / var(--cols, 3)); }
-  /* desktop: движение только по стрелкам */
-  .track { overflow-x: hidden; }
 }
 
 .navBtn {
@@ -65,6 +75,7 @@
   cursor: pointer;
   pointer-events: auto;
   transition: background .15s ease, opacity .15s ease;
+  font-size: 2.5rem; /* larger arrow symbol */
 }
 
 .navBtn:hover { background: linear-gradient(0deg, rgba(36,36,36,0) 20%, rgba(36,36,36,0.8) 50%, rgba(0,0,0,0) 80%); }

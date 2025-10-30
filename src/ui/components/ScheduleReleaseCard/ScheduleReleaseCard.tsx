@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { MediaCard } from 'ui-kit/components/MediaCard/MediaCard';
+import { MediaCard } from '#/components/MediaCard/MediaCard';
 import { unixToDate } from '../../api/utils';
 import styles from './ScheduleReleaseCard.module.css';
 

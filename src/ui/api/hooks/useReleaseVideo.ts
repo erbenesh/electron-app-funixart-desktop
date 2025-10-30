@@ -17,7 +17,8 @@ export function useGetReleaseVideosPage(params: { releaseId: number | string; pa
     const { releaseId, page, token } = params;
     return useInfiniteQuery<PageableResponse<ReleaseVideo>>({
         queryKey: ["getReleaseVideosPage", releaseId, token],
-        queryFn: ({ pageParam = 0 }) => releaseVideoService.getReleaseVideosPage(releaseId, pageParam, token),
+        queryFn: ({ pageParam = 0 }) => releaseVideoService.getReleaseVideosPage(releaseId, pageParam as number, token),
+        initialPageParam: 0,
         getNextPageParam: (lastPage) => {
             if (lastPage.currentPage < lastPage.totalPageCount - 1) {
                 return lastPage.currentPage + 1;

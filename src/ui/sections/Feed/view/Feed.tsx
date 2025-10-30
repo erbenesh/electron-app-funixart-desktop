@@ -4,6 +4,8 @@ import { PostInput } from '#/components/PostInput/PostInput';
 import { TopFilterButtons } from '#/components/TopFilterButtons/TopFilterButtons';
 import { useEffect } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Page } from 'ui-kit/components/Page/Page'
+import { Container } from 'ui-kit/components/Container/Container'
 import '../styles/Feed.css';
 
 
@@ -37,11 +39,8 @@ export const Feed = () => {
     }, []);
 
     return (
-  
-        <div className="feed_page_wrap">
-
-            <div className="feed_page">
-
+        <Page topOffset="md">
+            <Container>
                 <TopFilterButtons buttonsArray={feedArray} />
 
                 <div className="feed_channels">
@@ -76,11 +75,7 @@ export const Feed = () => {
                 <Outlet />
 
                 {/* <FeedList newsList={feedNews.data}/> */}
-
-            </div>
-
-        </div>
-
-
+            </Container>
+        </Page>
     )
 }

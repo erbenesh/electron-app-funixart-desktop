@@ -1,15 +1,13 @@
 import { DiscussingList } from '#/components/DiscussingList/DiscussingList'
-import '../styles/Discussing.css'
-
+import { Page } from 'ui-kit/components/Page/Page'
+import { Container } from 'ui-kit/components/Container/Container'
 
 export const Discussing = () => {
-
     return (
-            <div className="discussing_page_wrap">
-
-            <div className="discussing_page">   
+        <Page topOffset="md">
+            <Container>
                 <DiscussingList />
-            </div>
-        </div>
+            </Container>
+        </Page>
     )
 }

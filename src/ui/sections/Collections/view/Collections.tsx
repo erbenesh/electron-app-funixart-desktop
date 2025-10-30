@@ -2,6 +2,8 @@
 import { TopFilterButtons } from '#/components/TopFilterButtons/TopFilterButtons';
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { Page } from 'ui-kit/components/Page/Page'
+import { Container } from 'ui-kit/components/Container/Container'
 import '../styles/Collections.css';
 
 export const Collections = () => {
@@ -36,15 +38,11 @@ export const Collections = () => {
     }, []);
 
     return (
-        <div className="сollections_page_wrap">
-
-            <div className="сollections_page">   
-              
+        <Page topOffset="md">
+            <Container>
                 <TopFilterButtons buttonsArray={collectionsArray} />
-
                 <Outlet />
-
-            </div>
-        </div>
+            </Container>
+        </Page>
     )
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Tooltip.module.css';
+import { useFloating, offset, flip, shift, arrow, FloatingPortal } from '@floating-ui/react';
 
 export interface TooltipProps {
   content: React.ReactNode;
@@ -8,14 +9,15 @@ export interface TooltipProps {
 
 export const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
   const [open, setOpen] = useState(false);
+  const { refs, floatingStyles, context } = useFloating({ placement: 'top', middleware: [offset(8), flip(), shift()] });
   return (
-    <span
-      className={styles.wrapper}
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-    >
+    <span ref={refs.setReference} className={styles.wrapper} onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
       {children}
-      {open ? <span className={styles.bubble}>{content}</span> : null}
+      {open && (
+        <FloatingPortal>
+          <div ref={refs.setFloating} style={floatingStyles} className={styles.bubble} role="tooltip">{content}</div>
+        </FloatingPortal>
+      )}
     </span>
   );
 };

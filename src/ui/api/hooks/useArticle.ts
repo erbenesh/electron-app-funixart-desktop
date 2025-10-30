@@ -15,7 +15,8 @@ export function useGetArticle(params: { articleId: number | string; token?: stri
 export function useGetAllArticles(token: string | null) {
     return useInfiniteQuery<PageableResponse<Article>>({
         queryKey: ["getAllArticles", token],
-        queryFn: ({ pageParam = 0 }) => articleService.getAllArticles(pageParam, token!),
+        queryFn: ({ pageParam = 0 }) => articleService.getAllArticles(pageParam as number, token!),
+        initialPageParam: 0,
         getNextPageParam: (lastPage) => {
             if (lastPage.currentPage < lastPage.totalPageCount - 1) {
                 return lastPage.currentPage + 1;
@@ -29,7 +30,8 @@ export function useGetAllArticles(token: string | null) {
 export function useGetLatestArticles(token: string | null) {
     return useInfiniteQuery<PageableResponse<Article>>({
         queryKey: ["getLatestArticles", token],
-        queryFn: ({ pageParam = 0 }) => articleService.getLatestAll(pageParam, token!),
+        queryFn: ({ pageParam = 0 }) => articleService.getLatestAll(pageParam as number, token!),
+        initialPageParam: 0,
         getNextPageParam: (lastPage) => {
             if (lastPage.currentPage < lastPage.totalPageCount - 1) {
                 return lastPage.currentPage + 1;
@@ -44,7 +46,8 @@ export function useGetArticlesByChannelInfinite(params: { channelId: number | st
     const { channelId, token } = params;
     return useInfiniteQuery<PageableResponse<Article>>({
         queryKey: ["getArticlesByChannel", channelId, token],
-        queryFn: ({ pageParam = 0 }) => articleService.getArticlesByChannel(pageParam, channelId, token!),
+        queryFn: ({ pageParam = 0 }) => articleService.getArticlesByChannel(pageParam as number, channelId, token!),
+        initialPageParam: 0,
         getNextPageParam: (lastPage) => {
             if (lastPage.currentPage < lastPage.totalPageCount - 1) {
                 return lastPage.currentPage + 1;
@@ -104,7 +107,8 @@ export function useGetArticleReposts(params: { articleId: number | string; page:
     const { articleId, page, token } = params;
     return useInfiniteQuery<PageableResponse<any>>({
         queryKey: ["getArticleReposts", articleId, token],
-        queryFn: ({ pageParam = 0 }) => articleService.getReposts(articleId, pageParam, token),
+        queryFn: ({ pageParam = 0 }) => articleService.getReposts(articleId, pageParam as number, token),
+        initialPageParam: 0,
         getNextPageParam: (lastPage) => {
             if (lastPage.currentPage < lastPage.totalPageCount - 1) {
                 return lastPage.currentPage + 1;
@@ -119,7 +123,8 @@ export function useGetArticleVotes(params: { articleId: number | string; page: n
     const { articleId, page, token } = params;
     return useInfiniteQuery<PageableResponse<any>>({
         queryKey: ["getArticleVotes", articleId, token],
-        queryFn: ({ pageParam = 0 }) => articleService.getVotes(articleId, pageParam, token),
+        queryFn: ({ pageParam = 0 }) => articleService.getVotes(articleId, pageParam as number, token),
+        initialPageParam: 0,
         getNextPageParam: (lastPage) => {
             if (lastPage.currentPage < lastPage.totalPageCount - 1) {
                 return lastPage.currentPage + 1;

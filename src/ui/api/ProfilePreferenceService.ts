@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { Badge, Profile } from "../types/entities";
 import { BASE_URL, PROFILE_BADGE_ALL, PROFILE_BADGE_EDIT, PROFILE_BADGE_REMOVE, PROFILE_BLACKLIST, PROFILE_BLACKLIST_ADD, PROFILE_BLACKLIST_REMOVE, PROFILE_PREFERENCE_AVATAR_EDIT, PROFILE_PREFERENCE_CHANGE_EMAIL, PROFILE_PREFERENCE_CHANGE_EMAIL_CONFIRM, PROFILE_PREFERENCE_CHANGE_LOGIN, PROFILE_PREFERENCE_CHANGE_LOGIN_INFO, PROFILE_PREFERENCE_CHANGE_PASSWORD, PROFILE_PREFERENCE_GOOGLE_BIND, PROFILE_PREFERENCE_GOOGLE_UNBIND, PROFILE_PREFERENCE_MY, PROFILE_PREFERENCE_PRIVACY_COUNTS_EDIT, PROFILE_PREFERENCE_PRIVACY_FRIEND_REQUESTS_EDIT, PROFILE_PREFERENCE_PRIVACY_SOCIAL_EDIT, PROFILE_PREFERENCE_PRIVACY_STATS_EDIT, PROFILE_PREFERENCE_SECTION_EDIT, PROFILE_PREFERENCE_SOCIAL, PROFILE_PREFERENCE_SOCIAL_EDIT, PROFILE_PREFERENCE_STATUS_DELETE, PROFILE_PREFERENCE_STATUS_EDIT, PROFILE_PREFERENCE_THEMES_EDIT, PROFILE_PREFERENCE_VK_BIND, PROFILE_PREFERENCE_VK_UNBIND } from "./endpoints";
-import type { PrivacyEditRequest, ProfilePreferenceEmailChangeConfirmRequest, ProfilePreferenceEmailChangeRequest, ProfilePreferencePasswordChangeRequest, SelectPinnedSectionRequest, SelectThemeRequest, SocialPagesEditRequest, StatusEditRequest } from "./types/requests";
+import type { PrivacyEditRequest, SelectPinnedSectionRequest, SelectThemeRequest, SocialPagesEditRequest, StatusEditRequest } from "./types/requests";
 import type { ChangeEmailConfirmResponse, ChangeEmailResponse, ChangeLoginInfoResponse, ChangeLoginResponse, ChangePasswordResponse, PageableResponse, ProfilePreferenceResponse, ProfileSocialResponse } from "./types/responses";
 
 class ProfilePreferenceService {
@@ -18,19 +18,19 @@ class ProfilePreferenceService {
         return response.data;
     }
 
-    async changeEmail(request: ProfilePreferenceEmailChangeRequest, token: string): Promise<ChangeEmailResponse> {
+    async changeEmail(request: any, token: string): Promise<ChangeEmailResponse> {
         const url = `${BASE_URL}${PROFILE_PREFERENCE_CHANGE_EMAIL}?token=${token}`;
         const response = await axios.get<ChangeEmailResponse>(url);
         return response.data;
     }
 
-    async confirmEmailChange(request: ProfilePreferenceEmailChangeConfirmRequest, token: string): Promise<ChangeEmailConfirmResponse> {
+    async confirmEmailChange(request: any, token: string): Promise<ChangeEmailConfirmResponse> {
         const url = `${BASE_URL}${PROFILE_PREFERENCE_CHANGE_EMAIL_CONFIRM}?token=${token}`;
         const response = await axios.post<ChangeEmailConfirmResponse>(url, request);
         return response.data;
     }
 
-    async changePassword(request: ProfilePreferencePasswordChangeRequest, token: string): Promise<ChangePasswordResponse> {
+    async changePassword(request: any, token: string): Promise<ChangePasswordResponse> {
         const url = `${BASE_URL}${PROFILE_PREFERENCE_CHANGE_PASSWORD}?token=${token}`;
         const response = await axios.get<ChangePasswordResponse>(url);
         return response.data;

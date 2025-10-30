@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './Popover.module.css';
-import Portal from '../Portal/Portal';
+import { useFloating, offset, flip, shift, FloatingPortal } from '@floating-ui/react';
 
 export interface PopoverProps {
   content: React.ReactNode;
@@ -11,7 +11,8 @@ export interface PopoverProps {
 
 export const Popover: React.FC<PopoverProps> = ({ content, title, trigger = 'hover', children }) => {
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const { refs, floatingStyles } = useFloating({ placement: 'bottom-start', middleware: [offset(6), flip(), shift()] });
 
   const child = React.cloneElement(children, {
     onClick: (e: any) => {
@@ -28,35 +29,18 @@ export const Popover: React.FC<PopoverProps> = ({ content, title, trigger = 'hov
     }
   });
 
-  const [placement, setPlacement] = useState<'bottom' | 'top'>('bottom');
-  useEffect(() => {
-    if (!open || !ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const vh = window.innerHeight;
-    setPlacement(rect.bottom + 160 < vh ? 'bottom' : 'top');
-  }, [open]);
-
-  const coords = (() => {
-    if (!ref.current) return { top: 0, left: 0 };
-    const r = ref.current.getBoundingClientRect();
-    const sx = window.scrollX || document.documentElement.scrollLeft;
-    const sy = window.scrollY || document.documentElement.scrollTop;
-    return { top: placement === 'bottom' ? r.bottom + sy + 6 : r.top + sy - 6, left: r.left + sx };
-  })();
+  React.useEffect(() => { refs.setReference(ref.current); }, [refs]);
 
   return (
     <span ref={ref} className={styles.root}>
       {child}
       {open && (
-        <Portal>
-          <div className={styles.portal} style={{ position: 'absolute', top: coords.top, left: coords.left }}>
-            <div className={styles.pop} role="tooltip">
-              <div className={styles.arrow} />
-              {title ? <div className={styles.title}>{title}</div> : null}
-              <div className={styles.content}>{content}</div>
-            </div>
+        <FloatingPortal>
+          <div ref={refs.setFloating} style={floatingStyles} className={styles.pop} role="tooltip">
+            {title ? <div className={styles.title}>{title}</div> : null}
+            <div className={styles.content}>{content}</div>
           </div>
-        </Portal>
+        </FloatingPortal>
       )}
     </span>
   );

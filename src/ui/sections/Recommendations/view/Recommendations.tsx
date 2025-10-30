@@ -1,16 +1,13 @@
 import { RecommendationsList } from '#/components/RecommendationsList/RecommendationsList';
-import '../styles/Recommendations.css';
+import { Page } from 'ui-kit/components/Page/Page'
+import { Container } from 'ui-kit/components/Container/Container'
 
 export const Recommendations = () => {
-
     return (
-        <div className="recommendations_page_wrap">
-
-            <div className="recommendations_page">
-                   
+        <Page topOffset="md">
+            <Container>
                 <RecommendationsList />
-
-            </div>
-        </div>
+            </Container>
+        </Page>
     )
 }

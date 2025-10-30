@@ -34,7 +34,8 @@ export function useGetChannelBlocksInfinite(params: { channelId: number | string
     const { channelId, token } = params;
     return useInfiniteQuery<PageableResponse<any>>({
         queryKey: ["getChannelBlocks", channelId, token],
-        queryFn: ({ pageParam = 0 }) => channelService.getChannelBlocks(channelId, pageParam, token!),
+        queryFn: ({ pageParam = 0 }) => channelService.getChannelBlocks(channelId, pageParam as number, token!),
+        initialPageParam: 0,
         getNextPageParam: (lastPage) => {
             if (lastPage.currentPage < lastPage.totalPageCount - 1) {
                 return lastPage.currentPage + 1;
@@ -49,7 +50,8 @@ export function useGetChannelPostsInfinite(params: { channelId: number | string;
     const { channelId, token } = params;
     return useInfiniteQuery<PageableResponse<any>>({
         queryKey: ["getChannelPosts", channelId, token],
-        queryFn: ({ pageParam = 0 }) => channelService.getChannelPosts(channelId, pageParam, token!),
+        queryFn: ({ pageParam = 0 }) => channelService.getChannelPosts(channelId, pageParam as number, token!),
+        initialPageParam: 0,
         getNextPageParam: (lastPage) => {
             if (lastPage.currentPage < lastPage.totalPageCount - 1) {
                 return lastPage.currentPage + 1;
@@ -64,7 +66,8 @@ export function useGetChannelSubscribers(params: { channelId: number | string; p
     const { channelId, page, token } = params;
     return useInfiniteQuery<PageableResponse<any>>({
         queryKey: ["getChannelSubscribers", channelId, token],
-        queryFn: ({ pageParam = 0 }) => channelService.getChannelSubscribers(channelId, pageParam, token),
+        queryFn: ({ pageParam = 0 }) => channelService.getChannelSubscribers(channelId, pageParam as number, token),
+        initialPageParam: 0,
         getNextPageParam: (lastPage) => {
             if (lastPage.currentPage < lastPage.totalPageCount - 1) {
                 return lastPage.currentPage + 1;
@@ -86,7 +89,8 @@ export function useGetSubscriptionCount(token: string | null) {
 export function useGetAllChannels(token: string | null) {
     return useInfiniteQuery<PageableResponse<Channel>>({
         queryKey: ["getAllChannels", token],
-        queryFn: ({ pageParam = 0 }) => channelService.getAllChannels(pageParam, token!),
+        queryFn: ({ pageParam = 0 }) => channelService.getAllChannels(pageParam as number, token!),
+        initialPageParam: 0,
         getNextPageParam: (lastPage) => {
             if (lastPage.currentPage < lastPage.totalPageCount - 1) {
                 return lastPage.currentPage + 1;
@@ -100,7 +104,8 @@ export function useGetAllChannels(token: string | null) {
 export function useGetChannelRecommendations(token: string | null) {
     return useInfiniteQuery<PageableResponse<Channel>>({
         queryKey: ["getChannelRecommendations", token],
-        queryFn: ({ pageParam = 0 }) => channelService.getRecommendations(pageParam, token!),
+        queryFn: ({ pageParam = 0 }) => channelService.getRecommendations(pageParam as number, token!),
+        initialPageParam: 0,
         getNextPageParam: (lastPage) => {
             if (lastPage.currentPage < lastPage.totalPageCount - 1) {
                 return lastPage.currentPage + 1;

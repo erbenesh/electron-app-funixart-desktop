@@ -1,7 +1,7 @@
 
 import { Link } from 'react-router-dom'
 import styles from './InterestingCard.module.css'
-import { MediaCard } from 'ui-kit/components/MediaCard/MediaCard'
+import { MediaCard } from '#/components/MediaCard/MediaCard'
 
 export const InterestingCard = ({...props}) => {
 

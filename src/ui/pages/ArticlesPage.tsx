@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Card } from 'ui-kit/components/Card/Card'
-import { MediaCard } from 'ui-kit/components/MediaCard/MediaCard'
+import { MediaCard } from '#/components/MediaCard/MediaCard'
 import { Spinner } from 'ui-kit/components/Spinner/Spinner'
 import { useGetAllArticles, useGetLatestArticles } from '../api/hooks/useArticle'
 import { useUserStore } from '../auth/store/auth'

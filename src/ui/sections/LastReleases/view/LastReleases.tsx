@@ -2,6 +2,8 @@
 import { TopFilterButtons } from "#/components/TopFilterButtons/TopFilterButtons";
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { Page } from 'ui-kit/components/Page/Page'
+import { Container } from 'ui-kit/components/Container/Container'
 import '../styles/LastReleases.css';
 
 export const LastReleases = () => {
@@ -48,15 +50,11 @@ export const LastReleases = () => {
     }, []);
 
     return (
-        <div className="lastReleases_page_wrap">
-
-            <div className="lastReleases_page">   
-            
+        <Page topOffset="md">
+            <Container>
                 <TopFilterButtons buttonsArray={lastReleasesArray} />
-
                 <Outlet />
-
-            </div>
-        </div>
+            </Container>
+        </Page>
     )
 }

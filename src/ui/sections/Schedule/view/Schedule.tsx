@@ -3,7 +3,11 @@ import { useGetSchedule } from '#/api/hooks';
 import { useUserStore } from '#/auth/store/auth';
 import { ScheduleDay } from '#/components/ScheduleDay/ScheduleDay';
 import { useEffect, useState } from "react";
-import '../styles/Schedule.css';
+import { Page } from 'ui-kit/components/Page/Page'
+import { Container } from 'ui-kit/components/Container/Container'
+import { Title } from 'ui-kit/components/Typography/Title'
+import { Flex } from 'ui-kit/components/Layout/Flex'
+import { Spinner } from 'ui-kit/components/Spinner/Spinner'
 
 
 export const Schedule = () => {
@@ -56,16 +60,15 @@ export const Schedule = () => {
     }
 
     return (    
-        <div>        
-            { fetchSchedule.isPending || !monday || !thursday || !wednesday || !tuesday || !friday || !sunday || !saturday ?
-            (
-            <div className="loader-container_home">	
-                <i className="loader-circle"></i>
-            </div>
+        <Page topOffset="md">
+            <Container>
+            { fetchSchedule.isPending || !monday || !thursday || !wednesday || !tuesday || !friday || !sunday || !saturday ? (
+                <Flex align="center" justify="center" style={{ minHeight: 200 }}>
+                    <Spinner />
+                </Flex>
             ) : (
-            <div className="section">
-                <h2 className="section_title">Расписание</h2>
-
+                <div>
+                    <Title level={2}>Расписание</Title>
                 <ScheduleDay key={"monday"} array={monday} day_title={"Понедельник"}/>
                 <ScheduleDay key={"tuesday"} array={tuesday} day_title={"Вторник"}/>
                 <ScheduleDay key={"wednesday"} array={wednesday} day_title={"Среда"}/>
@@ -74,9 +77,8 @@ export const Schedule = () => {
                 <ScheduleDay key={"saturday"} array={saturday} day_title={"Суббота"}/>
                 <ScheduleDay key={"sunday"} array={sunday} day_title={"Воскресенье"}/>
             </div>
-            )
-            }   
-
-        </div>
+            )}
+            </Container>
+        </Page>
     )
 }

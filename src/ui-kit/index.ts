@@ -20,8 +20,6 @@ export type { SiderProps } from './components/Sider/Sider';
 export { Carousel } from './components/Carousel/Carousel';
 export type { CarouselProps } from './components/Carousel/Carousel';
 
-export { Player } from './components/Player/Player';
-export type { PlayerProps } from './components/Player/Player';
 
 export { Flex } from './components/Layout/Flex';
 export { Grid } from './components/Layout/Grid';
@@ -68,8 +66,6 @@ export type { ChipProps } from './components/Chip/Chip';
 export { SearchInput } from './components/SearchInput/SearchInput';
 export type { SearchInputProps } from './components/SearchInput/SearchInput';
 
-export { MediaCard } from './components/MediaCard/MediaCard';
-export type { MediaCardProps } from './components/MediaCard/MediaCard';
 
 // (duplicate removed)
 

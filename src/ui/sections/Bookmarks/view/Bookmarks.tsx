@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from "react-router-dom";
+import { Page } from 'ui-kit/components/Page/Page'
+import { Container } from 'ui-kit/components/Container/Container'
 import { TopFilterButtons } from "../../../components/TopFilterButtons/TopFilterButtons";
 import '../styles/Bookmarks.css';
 
@@ -53,15 +55,11 @@ export const Bookmarks = () => {
     }, []);
 
     return (
-        <div className="bookmarks_page_wrap">
-
-            <div className="bookmarks_page">          
-
+        <Page topOffset="md">
+            <Container>
                 <TopFilterButtons buttonsArray={bookmarksArray} />
-
                 <Outlet />
-
-            </div>
-        </div>
+            </Container>
+        </Page>
     )
 }

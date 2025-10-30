@@ -17,6 +17,8 @@ import { Input } from 'ui-kit/components/Input/Input';
 import { Modal } from 'ui-kit/components/Modal/Modal';
 import { Spinner } from 'ui-kit/components/Spinner/Spinner';
 import { TextArea } from 'ui-kit/components/TextArea/TextArea';
+import { Page } from 'ui-kit/components/Page/Page'
+import { Container } from 'ui-kit/components/Container/Container'
 
 export const Profile = () => {
 
@@ -180,9 +182,13 @@ export const Profile = () => {
 
     if (!user) {
         return (
+            <Page topOffset="md">
+                <Container>
             <div className="loader-container">
                 <Spinner />
             </div>
+                </Container>
+            </Page>
         );
     }
 
@@ -233,6 +239,8 @@ export const Profile = () => {
 
 
     return (
+        <Page topOffset="md">
+        <Container>
         <div className="profile_page_wrap">
             <div className="profile_page">
                 {/* Основная информация профиля */}
@@ -798,5 +806,7 @@ export const Profile = () => {
                 )}
             </div>
         </div>
+        </Container>
+        </Page>
     )
 }

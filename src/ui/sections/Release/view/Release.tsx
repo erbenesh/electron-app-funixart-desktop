@@ -27,6 +27,10 @@ import { ReleaseVotesCounter } from '#/components/ReleaseVotesCounter/ReleaseVot
 import { ScheduleReleaseCard } from '#/components/ScheduleReleaseCard/ScheduleReleaseCard';
 import { useClickOutside } from '#/hooks/useClickOutside';
 import { useScrollPosition } from '#/hooks/useScrollPosition';
+import { Page } from 'ui-kit/components/Page/Page'
+import { Container } from 'ui-kit/components/Container/Container'
+import { Flex } from 'ui-kit/components/Layout/Flex'
+import { Spinner } from 'ui-kit/components/Spinner/Spinner'
 
 export const Release = () => {
 
@@ -190,12 +194,13 @@ export const Release = () => {
     }
 
     return (
-
-        currentRelease.isPending || !release ? 
-        <div className="loader-container">	
-            <i className="loader-circle" />
-        </div>
-        :
+        <Page topOffset="md">
+        <Container>
+        { currentRelease.isPending || !release ? (
+            <Flex align="center" justify="center" style={{ minHeight: 240 }}>
+                <Spinner />
+            </Flex>
+        ) : (
         <div className="release_page_wrap">
 
             <div className="release_page">
@@ -579,5 +584,8 @@ export const Release = () => {
             
             </div> 
         </div>
+        )}
+        </Container>
+        </Page>
     )
 }

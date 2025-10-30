@@ -1,81 +1,77 @@
+// @ts-nocheck
+import { Form, Formik } from 'formik';
 import React, { useState } from 'react';
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
-import { Page } from 'ui-kit/components/Page/Page';
-import { Container } from 'ui-kit/components/Container/Container';
-import { Flex } from 'ui-kit/components/Layout/Flex';
-import { Grid, Row, Col } from 'ui-kit/components/Layout/Grid';
+import { SmartImage } from 'ui-kit';
+import { ActionSheet } from 'ui-kit/components/ActionSheet/ActionSheet';
+import { AppBar } from 'ui-kit/components/AppBar/AppBar';
+import { Avatar } from 'ui-kit/components/Avatar/Avatar';
+import { Badge } from 'ui-kit/components/Badge/Badge';
+import { BottomNavigation } from 'ui-kit/components/BottomNavigation/BottomNavigation';
+import { BottomSheet } from 'ui-kit/components/BottomSheet/BottomSheet';
+import { Breadcrumb } from 'ui-kit/components/Breadcrumb/Breadcrumb';
 import { Button } from 'ui-kit/components/Button/Button';
+import { Card } from 'ui-kit/components/Card/Card';
+import Carousel from 'ui-kit/components/Carousel/Carousel';
+import { Checkbox } from 'ui-kit/components/Checkbox/Checkbox';
+import { Chip } from 'ui-kit/components/Chip/Chip';
+import { Collapse } from 'ui-kit/components/Collapse/Collapse';
+import { Combobox } from 'ui-kit/components/Combobox/Combobox';
+import { Container } from 'ui-kit/components/Container/Container';
+import { DatePicker } from 'ui-kit/components/DatePicker/DatePicker';
+import { Drawer } from 'ui-kit/components/Drawer/Drawer';
+import { Dropdown } from 'ui-kit/components/Dropdown/Dropdown';
+import { Empty } from 'ui-kit/components/Empty/Empty';
+import { FormField } from 'ui-kit/components/Form/FormField';
+import { HorizontalList } from 'ui-kit/components/HorizontalList/HorizontalList';
+import { IconButton } from 'ui-kit/components/IconButton/IconButton';
+import { InfiniteScroll } from 'ui-kit/components/InfiniteScroll/InfiniteScroll';
 import { Input } from 'ui-kit/components/Input/Input';
+import { Flex } from 'ui-kit/components/Layout/Flex';
+import { Col, Grid, Row } from 'ui-kit/components/Layout/Grid';
+import { Lightbox } from 'ui-kit/components/Lightbox/Lightbox';
+import { List, ListItem } from 'ui-kit/components/List/List';
+import { message } from 'ui-kit/components/Message/Message';
+import { Modal } from 'ui-kit/components/Modal/Modal';
+import notification from 'ui-kit/components/Notification/Notification';
+import { Page } from 'ui-kit/components/Page/Page';
+import { Pagination } from 'ui-kit/components/Pagination/Pagination';
+import { Popconfirm } from 'ui-kit/components/Popconfirm/Popconfirm';
+import { Popover } from 'ui-kit/components/Popover/Popover';
+import { LinearProgress, TopLoadingBar } from 'ui-kit/components/Progress/LinearProgress';
+import { Progress } from 'ui-kit/components/Progress/Progress';
+import { PullToRefresh } from 'ui-kit/components/PullToRefresh/PullToRefresh';
+import { Radio } from 'ui-kit/components/Radio/Radio';
+import { Rating } from 'ui-kit/components/Rating/Rating';
+import { RatingCompact } from 'ui-kit/components/RatingCompact/RatingCompact';
+import { Result } from 'ui-kit/components/Result/Result';
+import { SafeAreaBottom } from 'ui-kit/components/SafeArea/SafeArea';
+import { SearchBar } from 'ui-kit/components/SearchBar/SearchBar';
+import { SearchInput } from 'ui-kit/components/SearchInput/SearchInput';
+import { SectionHeader } from 'ui-kit/components/SectionHeader/SectionHeader';
+import { SegmentedControl } from 'ui-kit/components/SegmentedControl/SegmentedControl';
+import { Select } from 'ui-kit/components/Select/Select';
+import { Sider } from 'ui-kit/components/Sider/Sider';
+import { Skeleton } from 'ui-kit/components/Skeleton/Skeleton';
+import { Slider } from 'ui-kit/components/Slider/Slider';
+import { Spacer } from 'ui-kit/components/Spacer/Spacer';
+import { Spinner } from 'ui-kit/components/Spinner/Spinner';
+import { HStack, Stack, VStack } from 'ui-kit/components/Stack/Stack';
+import { Statistic } from 'ui-kit/components/Statistic/Statistic';
+import { Steps } from 'ui-kit/components/Steps/Steps';
+import { Switch } from 'ui-kit/components/Switch/Switch';
+import { Table } from 'ui-kit/components/Table/Table';
+import { Tabs } from 'ui-kit/components/Tabs/Tabs';
+import { Tag } from 'ui-kit/components/Tag/Tag';
+import { TextArea } from 'ui-kit/components/TextArea/TextArea';
+import { TimePicker } from 'ui-kit/components/TimePicker/TimePicker';
+import { ToastProvider, useToast } from 'ui-kit/components/Toast/Toast';
+import { Tooltip } from 'ui-kit/components/Tooltip/Tooltip';
 import { Text } from 'ui-kit/components/Typography/Text';
 import { Title } from 'ui-kit/components/Typography/Title';
-import { Tabs } from 'ui-kit/components/Tabs/Tabs';
-import { Chip } from 'ui-kit/components/Chip/Chip';
-import { Card } from 'ui-kit/components/Card/Card';
-import { Avatar } from 'ui-kit/components/Avatar/Avatar';
-import { Spacer } from 'ui-kit/components/Spacer/Spacer';
-import { SearchInput } from 'ui-kit/components/SearchInput/SearchInput';
-import { SegmentedControl } from 'ui-kit/components/SegmentedControl/SegmentedControl';
-import { Tooltip } from 'ui-kit/components/Tooltip/Tooltip';
-import { TextArea } from 'ui-kit/components/TextArea/TextArea';
-import { Spinner } from 'ui-kit/components/Spinner/Spinner';
-import { IconButton } from 'ui-kit/components/IconButton/IconButton';
-import { Modal } from 'ui-kit/components/Modal/Modal';
-import { Drawer } from 'ui-kit/components/Drawer/Drawer';
-import { MediaCard } from 'ui-kit/components/MediaCard/MediaCard';
-import { Player } from 'ui-kit/components/Player/Player';
-import Carousel from 'ui-kit/components/Carousel/Carousel';
-import { Sider } from 'ui-kit/components/Sider/Sider';
-import { Select } from 'ui-kit/components/Select/Select';
-import { Switch } from 'ui-kit/components/Switch/Switch';
-import { Checkbox } from 'ui-kit/components/Checkbox/Checkbox';
-import { Radio } from 'ui-kit/components/Radio/Radio';
-import { Pagination } from 'ui-kit/components/Pagination/Pagination';
-import { Breadcrumb } from 'ui-kit/components/Breadcrumb/Breadcrumb';
-import { Table } from 'ui-kit/components/Table/Table';
-import { Tag } from 'ui-kit/components/Tag/Tag';
-import { Badge } from 'ui-kit/components/Badge/Badge';
-import { Collapse } from 'ui-kit/components/Collapse/Collapse';
-import { DatePicker } from 'ui-kit/components/DatePicker/DatePicker';
-import { TimePicker } from 'ui-kit/components/TimePicker/TimePicker';
 import { Upload } from 'ui-kit/components/Upload/Upload';
-import { message } from 'ui-kit/components/Message/Message';
-import { Rating } from 'ui-kit/components/Rating/Rating';
-import { Popover } from 'ui-kit/components/Popover/Popover';
-import { Dropdown } from 'ui-kit/components/Dropdown/Dropdown';
-import { Menu } from 'ui-kit/components/Menu/Menu';
-import { Popconfirm } from 'ui-kit/components/Popconfirm/Popconfirm';
-import { Steps } from 'ui-kit/components/Steps/Steps';
-import { Progress } from 'ui-kit/components/Progress/Progress';
-import { Slider } from 'ui-kit/components/Slider/Slider';
-import { Skeleton } from 'ui-kit/components/Skeleton/Skeleton';
-import notification from 'ui-kit/components/Notification/Notification';
-import PreviewImage from 'ui-kit/components/ImagePreview/Image';
-import { Empty } from 'ui-kit/components/Empty/Empty';
-import { SectionHeader } from 'ui-kit/components/SectionHeader/SectionHeader';
-import { List, ListItem } from 'ui-kit/components/List/List';
-import { BottomNavigation } from 'ui-kit/components/BottomNavigation/BottomNavigation';
-import { AppBar } from 'ui-kit/components/AppBar/AppBar';
-import { SearchBar } from 'ui-kit/components/SearchBar/SearchBar';
-import { Combobox } from 'ui-kit/components/Combobox/Combobox';
-import { HorizontalList } from 'ui-kit/components/HorizontalList/HorizontalList';
-import { SafeAreaBottom } from 'ui-kit/components/SafeArea/SafeArea';
-import { ToastProvider, useToast } from 'ui-kit/components/Toast/Toast';
-import { FormField } from 'ui-kit/components/Form/FormField';
-import { BottomSheet } from 'ui-kit/components/BottomSheet/BottomSheet';
-import { ActionSheet } from 'ui-kit/components/ActionSheet/ActionSheet';
-import { CommentItem } from 'ui-kit/components/Comment/CommentItem';
-import { RatingCompact } from 'ui-kit/components/RatingCompact/RatingCompact';
-import { Statistic } from 'ui-kit/components/Statistic/Statistic';
-import { SmartImage } from 'ui-kit';
-import { Lightbox } from 'ui-kit/components/Lightbox/Lightbox';
-import { InfiniteScroll } from 'ui-kit/components/InfiniteScroll/InfiniteScroll';
-import { Result } from 'ui-kit/components/Result/Result';
-import { LinearProgress, TopLoadingBar } from 'ui-kit/components/Progress/LinearProgress';
-import { PullToRefresh } from 'ui-kit/components/PullToRefresh/PullToRefresh';
-import { Stack, HStack, VStack } from 'ui-kit/components/Stack/Stack';
-import { VisuallyHidden } from 'ui-kit/components/A11y/VisuallyHidden';
-import { SkipLink } from 'ui-kit/components/A11y/SkipLink';
+import * as Yup from 'yup';
+import { MediaCard } from '../components/MediaCard/MediaCard';
+import { Player } from '../components/Player/Player';
 
 const DemoToasts: React.FC = () => {
   const { show } = useToast();
@@ -274,21 +270,13 @@ export const ComponentsShowcasePage: React.FC = () => {
         <Spacer size={24} />
 
         <Title level={3}>Карусель</Title>
-        <Carousel showDots desktopColumns={3} mobilePeek={0.14} gap={12}>
-          <img src='https://picsum.photos/seed/1/600/300' alt='1' />
-          <img src='https://picsum.photos/seed/2/600/300' alt='2' />
-          <img src='https://picsum.photos/seed/3/600/300' alt='3' />
-        </Carousel>
-        <Spacer size={12} />
-        <Title level={4}>Новая карусель (адаптивная)</Title>
-        <Text size='sm'>Мобайл: peek следующего слайда; Десктоп: фиксированные колонки.</Text>
+        <Text size='sm'>Мобайл: peek следующего слайда; Десктоп: фиксированные колонки; навигация стрелками.</Text>
         <Spacer size={8} />
-        <Carousel showArrows showDots desktopColumns={4} mobilePeek={0.1} gap={12}>
-          <Card title='Slide A' description='Описание' />
-          <Card title='Slide B' description='Описание' />
-          <Card title='Slide C' description='Описание' />
-          <Card title='Slide D' description='Описание' />
-          <Card title='Slide E' description='Описание' />
+        <Carousel showArrows desktopColumns={4} mobilePeek={0.12} gap={12}>
+          <img src='https://picsum.photos/seed/1/800/400' alt='1' />
+          <img src='https://picsum.photos/seed/2/800/400' alt='2' />
+          <img src='https://picsum.photos/seed/3/800/400' alt='3' />
+          <img src='https://picsum.photos/seed/4/800/400' alt='4' />
         </Carousel>
         <Spacer size={8} />
         <HorizontalList arrowsDesktop>
@@ -485,8 +473,7 @@ export const ComponentsShowcasePage: React.FC = () => {
 
         <Spacer size={24} />
 
-        <Title level={3}>Image с превью</Title>
-        <PreviewImage src='https://picsum.photos/seed/p/400/240' alt='preview' />
+        {/* Убран устаревший PreviewImage; используйте SmartImage + Lightbox */}
 
         <Spacer size={24} />
 

@@ -1,14 +1,13 @@
 import { WatchingList } from '#/components/WatchingList/WatchingList'
-import '../styles/Watching.css'
+import { Page } from 'ui-kit/components/Page/Page'
+import { Container } from 'ui-kit/components/Container/Container'
 
 export const Watching = () => {
-
     return (
-        <div className="watching_page_wrap">
-
-            <div className="watching_page">   
+        <Page topOffset="md">
+            <Container>
                 <WatchingList />
-            </div>
-        </div>
+            </Container>
+        </Page>
     )
 }

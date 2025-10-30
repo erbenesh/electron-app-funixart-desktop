@@ -21,8 +21,9 @@ export const notification = {
   config(opts: { placement?: Position }) {
     if (opts.placement) pos = opts.placement;
   },
-  open({ message, description, duration = 3500, closable }: Args & { key?: string; onClose?: () => void; placement?: Position }) {
-    if (arguments.length && (arguments[0] as any).placement) pos = (arguments[0] as any).placement;
+  open(opts: Args & { key?: string; onClose?: () => void; placement?: Position }) {
+    const { message, description, duration = 3500, closable, placement, onClose } = opts;
+    if (placement) pos = placement;
     ensureHolder();
     const box = document.createElement('div');
     box.style.minWidth = '16rem';
@@ -60,9 +61,9 @@ export const notification = {
     const timer = window.setTimeout(() => {
       box.style.opacity = '0';
       box.style.transform = 'translateY(-6px)';
-      window.setTimeout(() => { box.remove(); (arguments[0] as any)?.onClose?.(); }, 220);
+      window.setTimeout(() => { box.remove(); onClose?.(); }, 220);
     }, duration);
-    return { close: () => { window.clearTimeout(timer); box.remove(); (arguments[0] as any)?.onClose?.(); } };
+    return { close: () => { window.clearTimeout(timer); box.remove(); onClose?.(); } };
   }
 };
 

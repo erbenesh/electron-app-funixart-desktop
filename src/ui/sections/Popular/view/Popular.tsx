@@ -2,6 +2,8 @@
 import { TopFilterButtons } from "#/components/TopFilterButtons/TopFilterButtons";
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { Page } from 'ui-kit/components/Page/Page'
+import { Container } from 'ui-kit/components/Container/Container'
 import '../styles/Popular.css';
 
 export const Popular = () => {
@@ -42,15 +44,11 @@ export const Popular = () => {
     }, []);
 
     return (
-        <div className="popular_page_wrap">
-
-            <div className="popular_page">   
-              
+        <Page topOffset="md">
+            <Container>
                 <TopFilterButtons buttonsArray={popularArray} />
-
                 <Outlet />
-
-            </div>
-        </div>
+            </Container>
+        </Page>
     )
 }

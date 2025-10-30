@@ -2,6 +2,10 @@ import { } from 'react';
 import { ReleaseCard } from '#/components/ReleaseCard/ReleaseCard';
 import { useScrollPosition } from '#/hooks/useScrollPosition';
 import { useEffect } from 'react';
+import { Page } from 'ui-kit/components/Page/Page'
+import { Container } from 'ui-kit/components/Container/Container'
+import { Flex } from 'ui-kit/components/Layout/Flex'
+import { Spinner } from 'ui-kit/components/Spinner/Spinner'
 import '../styles/Collection.css';
 
 import { useGetCurrentCollection, useGetCurrentCollectionReleasesInfinite, useToggleCollectionFavorite } from '#/api/hooks';
@@ -52,12 +56,13 @@ export const CollectionPage = () => {
     }
 
     return (
-
-        currentCollection.isPending ? 
-        <div className="loader-container">	
-            <i className="loader-circle" />
-        </div>
-        :
+        <Page topOffset="md">
+        <Container>
+        { currentCollection.isPending ? (
+            <Flex align="center" justify="center" style={{ minHeight: 240 }}>
+                <Spinner />
+            </Flex>
+        ) : (
         <div className="сollection_page_wrap">
 
             <div className="сollection_page">
@@ -96,13 +101,17 @@ export const CollectionPage = () => {
                             />
                         )}
                     </div>
-                    {currentCollectionReleases.isPending && 
-                    (<div className="loader-container">	
-                        <i className="loader-circle" />
-                    </div>)}
+                    {currentCollectionReleases.isPending && (
+                        <Flex align="center" justify="center" style={{ minHeight: 160 }}>
+                            <Spinner />
+                        </Flex>
+                    )}
                 </div>
             </div>
             
         </div>
+        )}
+        </Container>
+        </Page>
     )
 }

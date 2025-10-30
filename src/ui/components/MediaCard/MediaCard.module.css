@@ -1,0 +1,6 @@
+.root { position: relative; display: block; width: 100%; height: 100%; border-radius: .75rem; overflow: hidden; background: #2c2c2c; transition: transform .2s ease, filter .2s ease; }
+.root:hover { transform: scale(1.01); filter: brightness(1.02); }
+.media { display: block; width: 100%; height: 100%; object-fit: cover; }
+.bottomGradient { position: absolute; left: 0; right: 0; bottom: 0; padding: 1rem; display: flex; flex-direction: column; justify-content: flex-end; }
+
+
