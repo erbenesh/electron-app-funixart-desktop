@@ -13,7 +13,7 @@
     z-index: 0;
     width: var(--card-width-var);
     cursor: pointer;
-    transition: .2s;
+    transition: transform .2s ease, box-shadow .2s ease;
     border-radius: var(--card-border-radius);
     background-size: cover;
     height: var(--card-max-height);
@@ -24,6 +24,7 @@
     animation-fill-mode: forwards;
     animation-delay: .3s;
     overflow: hidden;
+    will-change: transform;
 }
 
 /* Ensure card fills the grid cell */
@@ -51,6 +52,8 @@
 
 .card:hover {
     z-index: 1;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
 }
 
 @keyframes show {
@@ -86,14 +89,18 @@
     z-index: 200;
     width: var(--card-width-var);
     height: var(--card-max-height);
-    background: linear-gradient(rgba(58, 58, 58, 0.8) 0%,rgb(58, 58, 58, 0.8) 100%);
+    background: linear-gradient(rgba(58, 58, 58, 0.78) 0%, rgba(58, 58, 58, 0.78) 100%);
     pointer-events: none; /* allow underlying Link to receive clicks */
+}
+
+.card:hover .release_image_border:before {
+    background: linear-gradient(rgba(36, 36, 36, 0.68) 0%, rgba(36, 36, 36, 0.68) 100%);
 }
 
 /* Управляем плавным появлением через свой класс, переданный в MediaCard */
 .media_img {
     opacity: 1;
-    transition: opacity .3s;
+    transition: opacity .3s, transform .3s ease, filter .3s ease;
 }
 
 
@@ -109,6 +116,8 @@
 
 .card:hover .release_image {
     opacity: 1;
+    transform: scale(1.04);
+    filter: brightness(1.12) contrast(1.04) saturate(1.06);
 }
 
 .release_info {

@@ -6,8 +6,6 @@ export type CarouselProps = {
   showArrows?: boolean
   showDots?: boolean
   gap?: number
-  /** Gap on mobile (<=768px), px. Defaults to gap */
-  mobileGap?: number
   ariaLabel?: string
   mobilePeek?: number
   desktopColumns?: number
@@ -15,7 +13,7 @@ export type CarouselProps = {
 }
 
 export function Carousel(props: PropsWithChildren<CarouselProps>) {
-  const { className, children, showArrows = true, showDots = false, gap = 12, mobileGap, ariaLabel, mobilePeek = 0.04, desktopColumns = 3, autoplayMs = 0 } = props
+  const { className, children, showArrows = true, showDots = false, gap = 12, ariaLabel, mobilePeek = 0.14, desktopColumns = 3, autoplayMs = 0 } = props
 
   const viewportRef = useRef<HTMLDivElement | null>(null)
   const items = useMemo(() => (Array.isArray(children) ? children : [children]).filter(Boolean), [children])
@@ -27,14 +25,34 @@ export function Carousel(props: PropsWithChildren<CarouselProps>) {
   // Recalculate columns and pages on resize or items change
   useEffect(() => {
     const compute = () => {
+      const viewport = viewportRef.current
       const isDesktop = window.innerWidth >= 769
-      const c = isDesktop ? desktopColumns : 1
-      setCols(c)
-      const pages = Math.max(0, Math.ceil(items.length / c) - 1)
-      setMaxPage(pages)
-      setPageIndex((prev) => Math.min(prev, pages))
-      // align to page start after layout changes
-      requestAnimationFrame(() => scrollToPage(0))
+      if (!viewport) {
+        const pagesFallback = Math.max(0, items.length - 1)
+        setCols(isDesktop ? desktopColumns : 1)
+        setMaxPage(pagesFallback)
+        setPageIndex((prev) => Math.min(prev, pagesFallback))
+        return
+      }
+
+      // измеряем ширину одного слайда (карточки)
+      const firstItem = viewport.querySelector('.' + styles.item) as HTMLElement | null
+      const itemWidth = firstItem?.getBoundingClientRect().width || viewport.clientWidth
+      const step = Math.max(1, Math.round(itemWidth + (gap || 0)))
+      const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth)
+
+      if (isDesktop) {
+        // количество страниц из реального maxScroll и шага
+        const pages = Math.max(0, Math.ceil(maxScroll / step))
+        setCols(desktopColumns)
+        setMaxPage(pages)
+        setPageIndex((prev) => Math.min(prev, pages))
+      } else {
+        const pages = Math.max(0, Math.ceil(maxScroll / step))
+        setCols(1)
+        setMaxPage(pages)
+        setPageIndex((prev) => Math.min(prev, pages))
+      }
     }
     compute()
     window.addEventListener('resize', compute)
@@ -53,7 +71,12 @@ export function Carousel(props: PropsWithChildren<CarouselProps>) {
     const viewport = viewportRef.current
     if (!viewport) return
     const isDesktop = window.innerWidth >= 769
-    return isDesktop ? viewport.clientWidth : Math.round(viewport.clientWidth * (1 - mobilePeek))
+    // шаг равен ширине карточки + gap
+    const firstItem = viewport.querySelector('.' + styles.item) as HTMLElement | null
+    const itemWidth = firstItem?.getBoundingClientRect().width ?? viewport.clientWidth
+    const step = Math.round(itemWidth + (gap || 0))
+    if (isDesktop) return step
+    return step
   }
 
   const scrollToPage = (index: number) => {
@@ -62,7 +85,7 @@ export function Carousel(props: PropsWithChildren<CarouselProps>) {
     const step = getStep() || 0
     const clamped = Math.min(Math.max(0, index), maxPage)
     const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth)
-    const target = Math.min(maxScroll, Math.round(clamped * step))
+    const target = clamped === maxPage ? maxScroll : Math.min(maxScroll, Math.round(clamped * step))
     viewport.scrollTo({ left: target, behavior: 'smooth' })
   }
 
@@ -115,7 +138,6 @@ export function Carousel(props: PropsWithChildren<CarouselProps>) {
           className={styles.track}
           style={{
             ['--gap' as any]: gap + 'px',
-            ['--gapM' as any]: (mobileGap ?? gap) + 'px',
             ['--cols' as any]: String(cols),
             ['--peek' as any]: Math.round(mobilePeek * 100) + '%',
           }}

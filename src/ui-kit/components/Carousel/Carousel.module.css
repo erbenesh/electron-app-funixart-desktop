@@ -49,15 +49,12 @@
 
 .item { scroll-snap-align: start; flex: 0 0 auto; }
 @media (max-width: 768px) {
-  .track { column-gap: var(--gapM, var(--gap, .75rem)); }
-  .track { width: 100%; }
-  /* На мобайле учитываем gap в расчёте ширины карточки, чтобы визуальный зазор был контролируемым */
-  .item { flex-basis: calc(100% - var(--peek, 14%) - var(--gapM, var(--gap, .75rem))); }
-  /* Заставляем внутренние карточки подстраиваться под ширину item, даже если у них есть фиксированный width */
-  .item > * { width: 100% !important; min-width: 100% !important; }
+  /* На мобайле ширина слайда равна фактической ширине вложенной карточки */
+  .item { flex-basis: auto; }
 }
 @media (min-width: 769px) {
-  .item { flex-basis: calc((100% - var(--gap, .75rem) * (var(--cols, 3) - 1)) / var(--cols, 3)); }
+  /* На десктопе ширина слайда равна фактической ширине карточки */
+  .item { flex-basis: auto; }
 }
 
 .navBtn {

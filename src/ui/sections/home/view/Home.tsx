@@ -58,7 +58,7 @@ export const Home = () => {
         <div>
             <section>
               <Title level={2}>Интересное</Title>
-              <Carousel showArrows showDots ariaLabel="Интересное" desktopColumns={4} mobilePeek={0} gap={4} mobileGap={0}>
+              <Carousel showArrows showDots ariaLabel="Интересное" desktopColumns={4} mobilePeek={0.12} gap={12}>
                 {(discoverInteresting.data?.content || []).map((el: any) => (
                   el?.id ? <InterestingCard key={el.id} release={el} /> : null
                 ))}
@@ -67,7 +67,7 @@ export const Home = () => {
 
             <section>
               <Title level={2}>Последнее</Title>
-              <Carousel showArrows ariaLabel="Последнее" desktopColumns={5} mobilePeek={0} gap={4} mobileGap={0}>
+              <Carousel showArrows ariaLabel="Последнее" desktopColumns={5} mobilePeek={0.12} gap={12}>
                 {(lastUpdatedReleases.data?.pages || []).map((el: any) => (
                   el?.id ? <ReleaseCard key={el.id} release={el} /> : null
                 ))}
@@ -76,7 +76,7 @@ export const Home = () => {
 
             <section>
               <Title level={2}>Популярное</Title>
-              <Carousel showArrows ariaLabel="Популярное" desktopColumns={5} mobilePeek={0} gap={4} mobileGap={0}>
+              <Carousel showArrows ariaLabel="Популярное" desktopColumns={5} mobilePeek={0.12} gap={12}>
                 {(top.data?.pages || []).map((el: any) => (
                   el?.id ? <ReleaseCard key={el.id} release={el} /> : null
                 ))}
@@ -99,7 +99,7 @@ export const Home = () => {
             {token && (
               <section>
                 <Title level={2}>Рекомендации</Title>
-                <Carousel showArrows ariaLabel="Рекомендации" desktopColumns={5} mobilePeek={0} gap={4} mobileGap={0}>
+                <Carousel showArrows ariaLabel="Рекомендации" desktopColumns={5} mobilePeek={0.12} gap={12}>
                   {(recommendations.data?.pages || []).map((el: any) => (
                     el?.id ? <ReleaseCard key={el.id} release={el} /> : null
                   ))}
@@ -110,7 +110,7 @@ export const Home = () => {
             {token && (
               <section>
                 <Title level={2}>Сейчас смотрят</Title>
-                <Carousel showArrows ariaLabel="Сейчас смотрят" desktopColumns={5} mobilePeek={0} gap={4} mobileGap={0}>
+                <Carousel showArrows ariaLabel="Сейчас смотрят" desktopColumns={5} mobilePeek={0.12} gap={12}>
                   {(watching.data?.pages || []).map((el: any) => (
                     el?.id ? <ReleaseCard key={el.id} release={el} /> : null
                   ))}

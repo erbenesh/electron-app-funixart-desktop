@@ -26,6 +26,19 @@ export async function initTelegram(): Promise<void> {
   try {
     init();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const tg: any = (window as any).Telegram?.WebApp;
+    if (tg) {
+      try {
+        tg.ready?.();
+        tg.expand?.();
+        tg.setBackgroundColor?.('secondary_bg_color');
+        tg.setHeaderColor?.('secondary_bg_color');
+        // Prevent accidental collapse by swipe-down / overscroll in TG
+        tg.disableVerticalSwipes?.();
+      } catch {}
+    }
+
     if (bindViewportCssVars && bindViewportCssVars.isAvailable && bindViewportCssVars.isAvailable()) {
       bindViewportCssVars();
     }
@@ -34,26 +47,37 @@ export async function initTelegram(): Promise<void> {
     }
 
     const theme = themeParamsState ? themeParamsState() : undefined;
-    if (theme) {
+    const applyTheme = (t: typeof theme) => {
+      if (!t) return;
       const root = document.documentElement.style;
       const set = (key: string, val?: string) => {
         if (val) root.setProperty(key, val);
       };
-      set('--tg-theme-text-color', rgbToCss(theme.textColor));
-      set('--tg-theme-bg-color', rgbToCss(theme.backgroundColor));
-      set('--tg-theme-button-color', rgbToCss(theme.buttonColor));
-      set('--tg-theme-button-text-color', rgbToCss(theme.buttonTextColor));
-      set('--tg-theme-hint-color', rgbToCss(theme.hintColor));
-      set('--tg-theme-link-color', rgbToCss(theme.linkColor));
-      set('--tg-theme-secondary-bg-color', rgbToCss(theme.secondaryBackgroundColor));
-      set('--tg-theme-section-bg-color', rgbToCss(theme.sectionBackgroundColor));
-      set('--tg-theme-section-separator-color', rgbToCss(theme.sectionSeparatorColor));
-      set('--tg-theme-section-header-text-color', rgbToCss(theme.sectionHeaderTextColor));
-      set('--tg-theme-header-bg-color', rgbToCss(theme.headerBackgroundColor));
-      set('--tg-theme-subtitle-text-color', rgbToCss(theme.subtitleTextColor));
-      set('--tg-theme-accent-text-color', rgbToCss(theme.accentTextColor));
-      set('--tg-theme-destructive-text-color', rgbToCss(theme.destructiveTextColor));
-    }
+      set('--tg-theme-text-color', rgbToCss(t.textColor));
+      set('--tg-theme-bg-color', rgbToCss(t.backgroundColor));
+      set('--tg-theme-button-color', rgbToCss(t.buttonColor));
+      set('--tg-theme-button-text-color', rgbToCss(t.buttonTextColor));
+      set('--tg-theme-hint-color', rgbToCss(t.hintColor));
+      set('--tg-theme-link-color', rgbToCss(t.linkColor));
+      set('--tg-theme-secondary-bg-color', rgbToCss(t.secondaryBackgroundColor));
+      set('--tg-theme-section-bg-color', rgbToCss(t.sectionBackgroundColor));
+      set('--tg-theme-section-separator-color', rgbToCss(t.sectionSeparatorColor));
+      set('--tg-theme-section-header-text-color', rgbToCss(t.sectionHeaderTextColor));
+      set('--tg-theme-header-bg-color', rgbToCss(t.headerBackgroundColor));
+      set('--tg-theme-subtitle-text-color', rgbToCss(t.subtitleTextColor));
+      set('--tg-theme-accent-text-color', rgbToCss(t.accentTextColor));
+      set('--tg-theme-destructive-text-color', rgbToCss(t.destructiveTextColor));
+    };
+    if (theme) applyTheme(theme);
+
+    // Listen to theme change events (WebApp API)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any)?.Telegram?.WebApp?.onEvent?.('themeChanged', () => {
+      try {
+        const t = themeParamsState ? themeParamsState() : undefined;
+        applyTheme(t);
+      } catch {}
+    });
   } catch {
     // Silently fail to keep non-Telegram environments working
   }
