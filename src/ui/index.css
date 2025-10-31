@@ -322,3 +322,21 @@ html, body, #root {
     transform: translate(-50%);
   }
 } */
+
+/* iOS Safari overscroll containment to prevent pull-to-refresh/minimize on swipe */
+@supports (-webkit-touch-callout: none) {
+  html, body {
+    height: 100%;
+  }
+  body {
+    position: fixed; /* prevent viewport rubber-banding */
+    width: 100%;
+    overflow: hidden;
+  }
+  #root {
+    height: 100%;
+    overflow: auto; /* scroll inside the app container */
+    -webkit-overflow-scrolling: touch; /* momentum scrolling */
+    overscroll-behavior: contain; /* keep gestures inside */
+  }
+}
