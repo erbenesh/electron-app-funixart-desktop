@@ -19,9 +19,18 @@ export function useSearchReleasesInfinite(params: { token: string; query: string
         queryFn: ({ pageParam }) => searchService.searchReleases(token, query, pageParam as number, searchBy),
         initialPageParam: 0,
         getNextPageParam: (lastPage, _allPages, lastPageParam) => {
-            if (lastPage.releases && lastPage.releases.length === 0) {
-                return undefined;
+            const releasesLen = Array.isArray((lastPage as any).releases) ? (lastPage as any).releases.length : 0;
+            const totalPages = (lastPage as any).total_page_count ?? (lastPage as any).totalPageCount;
+            const currentPage = (lastPage as any).current_page ?? (lastPage as any).currentPage ?? (lastPageParam as number);
+
+            // Stop if explicit paging info says we're at the end
+            if (typeof totalPages === 'number') {
+                if ((currentPage + 1) >= totalPages) return undefined;
             }
+
+            // If the server returned an empty page, also stop
+            if (releasesLen === 0) return undefined;
+
             return (lastPageParam as number) + 1;
         },
         select: (data) => ({

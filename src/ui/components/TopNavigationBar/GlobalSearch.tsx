@@ -22,6 +22,9 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({ token }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const isMobile = useMemo(() => window.matchMedia('(max-width: 768px)').matches, []);
+    const isSearchMobilePage = isMobile && location.pathname.startsWith('/search');
+
     // Debounce user input
     useEffect(() => {
         const id = setTimeout(() => setDebouncedValue(inputValue.trim()), 300);
@@ -34,17 +37,34 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({ token }) => {
     const results = useMemo(() => data?.data?.content ?? [], [data]);
 
     useClickOutside(inputWrapRef, () => {
+        if (isSearchMobilePage) return; // на мобильной странице поиска оверлей не используется
         setInputValue('');
         setActiveIndex(-1);
     });
 
     // Clear search and overlay on route change
     useEffect(() => {
-        setInputValue('');
-        setActiveIndex(-1);
-    }, [location.pathname]);
+        // синхронизируем инпут с q на мобильной странице поиска
+        if (isSearchMobilePage) {
+            const params = new URLSearchParams(location.search);
+            const q = (params.get('q') || '').trim();
+            setInputValue(q);
+        } else {
+            setInputValue('');
+            setActiveIndex(-1);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location.pathname, location.search]);
 
     const onKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+        if (e.key === 'Enter') {
+            const q = inputValue.trim();
+            if (isSearchMobilePage && q) {
+                navigate(`/search?q=${encodeURIComponent(q)}`);
+                return;
+            }
+        }
+        if (isSearchMobilePage) return; // на мобильной странице списка результата навигация по оверлею не нужна
         if (!queryEnabled || results.length === 0) return;
         if (e.key === 'ArrowDown') {
             e.preventDefault();
@@ -77,7 +97,15 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({ token }) => {
             <SearchInput
                 placeholder='Поиск аниме'
                 value={inputValue}
-                onChange={el => setInputValue(el.currentTarget.value)}
+                onChange={el => {
+                    const val = el.currentTarget.value;
+                    setInputValue(val);
+                    if (isSearchMobilePage) {
+                        const q = val.trim();
+                        const url = q ? `/search?q=${encodeURIComponent(q)}` : '/search';
+                        navigate(url, { replace: true });
+                    }
+                }}
                 onKeyDown={onKeyDown}
                 wrapperClassName={styles.search_wrapper}
                 className={styles.search_input}
@@ -99,6 +127,11 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({ token }) => {
                 aria-label="Найти"
                 className={styles.search_btn}
                 onClick={() => {
+                    const q = inputValue.trim();
+                    if (isSearchMobilePage && q) {
+                        navigate(`/search?q=${encodeURIComponent(q)}`);
+                        return;
+                    }
                     if (results.length > 0) {
                         const target = results[0];
                         if (target?.id) {
@@ -112,7 +145,7 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({ token }) => {
                 <GoSearch size={16} />
             </button>
 
-            {showResults && (
+            {(!isSearchMobilePage && showResults) && (
                 <div ref={resultsRef} className={styles.search_results_wrap}>
                     <div className={styles.search_results} role="listbox" id="global-search-results">
                         <h2>Результаты поиска</h2>

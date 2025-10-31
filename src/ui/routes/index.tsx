@@ -33,6 +33,7 @@ const WatchEpisodePage = lazy(() => import('../pages/mobile/WatchEpisodePage').t
 const WatchSourcePage = lazy(() => import('../pages/mobile/WatchSourcePage').then(m => ({ default: m.WatchSourcePage })));
 const WatchVoicePage = lazy(() => import('../pages/mobile/WatchVoicePage').then(m => ({ default: m.WatchVoicePage })));
 const WatchPlayPage = lazy(() => import('../pages/mobile/WatchPlayPage').then(m => ({ default: m.WatchPlayPage })));
+const SearchPage = lazy(() => import('../pages/mobile/SearchPage').then(m => ({ default: m.default })));
 import { ComponentsShowcasePage } from '../pages/ComponentsShowcasePage';
 
 // Главная страница
@@ -214,6 +215,10 @@ const otherRoutes: RouteObject[] = [
   {
     path: '/schedule',
     element: <SchedulePage />,
+  },
+  {
+    path: '/search',
+    element: <SearchPage />,
   },
   {
     path: '/watching/all',
