@@ -2,13 +2,26 @@ import React from 'react';
 import styles from './Lightbox.module.css';
 import Portal from '../Portal/Portal';
 
-export const Lightbox: React.FC<{ src: string; open: boolean; onClose: () => void; alt?: string }>
-  = ({ src, open, onClose, alt }) => {
+export interface LightboxProps {
+  open: boolean;
+  onClose: () => void;
+  src?: string; // image source
+  alt?: string;
+  children?: React.ReactNode; // custom content (e.g., iframe video)
+}
+
+export const Lightbox: React.FC<LightboxProps> = ({ open, onClose, src, alt, children }) => {
   if (!open) return null;
   return (
     <Portal>
       <div className={styles.backdrop} onClick={onClose}>
-        <img className={styles.image} src={src} alt={alt} onClick={(e) => e.stopPropagation()} />
+        <div className={styles.center} onClick={(e) => e.stopPropagation()}>
+          {children ? (
+            children
+          ) : (
+            <img className={styles.image} src={src!} alt={alt} />
+          )}
+        </div>
       </div>
     </Portal>
   );
