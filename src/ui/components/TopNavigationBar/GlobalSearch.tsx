@@ -3,8 +3,8 @@ import { GoSearch } from 'react-icons/go';
 import { IoClose } from 'react-icons/io5';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SearchInput } from 'ui-kit/components/SearchInput/SearchInput';
-import { useClickOutside } from '../../hooks/useClickOutside';
 import { useSearchResults } from '../../api/hooks/useSearch';
+import { useClickOutside } from '../../hooks/useClickOutside';
 import { ReleaseCard } from '../ReleaseCard/ReleaseCard';
 import styles from './TopNavigationBar.module.css';
 
