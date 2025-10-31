@@ -1,4 +1,9 @@
-.container { overflow: auto; -webkit-overflow-scrolling: touch; }
+.container { overflow: auto; }
 .pull { text-align: center; color: #bdbdbd; font-size: .9rem; }
+
+/* iOS momentum scrolling */
+html[data-tg-platform="ios"] .container {
+  -webkit-overflow-scrolling: touch;
+}
 
 

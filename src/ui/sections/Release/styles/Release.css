@@ -14,6 +14,12 @@
     animation-delay: .3s;
 }
 
+.release_page_wrap, .release_page {
+    max-width: 100%;
+    width: 100%;
+    overflow-x: clip;
+}
+
 @keyframes show {
 
     0% {
@@ -30,18 +36,28 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
 }
 
 .header_image_borders {
     display: flex;
     flex-direction: column;
     justify-content:end;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
 }
 
 .header_background_image_border {
     position: absolute;
+    left: 0;
+    right: 0;
     width: 100%;
-    max-width: 120rem;
+    max-width: 100%;
     height: 53rem;
     overflow: hidden;
     z-index: -1;
@@ -52,17 +68,18 @@
     z-index: 10;
     width: 100%;
     height: 100%;
-    min-width: 100vh;
-    max-width: 120rem;
-    height: 53rem;
+    max-width: 100%;
     overflow: hidden;
     position: absolute;
+    left: 0;
+    right: 0;
     background: linear-gradient(0deg, rgba(36,36,36,1) 0%, rgba(0,0,0,0.5) 100%);
 }
 
 .header_background_title_image {
     object-fit: cover;
     width: 100%;
+    max-width: 100%;
     height: 180%;
     filter: blur(10px);
 }
@@ -73,8 +90,10 @@
     padding: 1rem;
     max-width: 100rem;
     width: 100%;
+    box-sizing: border-box;
     place-self: center;
     z-index: 100;
+    overflow-x: hidden;
     /* border-bottom: 1px solid rgb(75, 75, 75); */
 }
 
@@ -172,6 +191,12 @@
 @media (max-width: 768px) {
   .release_screen_img { max-height: 7rem; }
   .release_trailer_img { max-height: 6rem; }
+}
+
+/* Platform-specific scroll behavior for release carousels */
+html[data-tg-platform="ios"] .screens_wrap {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
 
 .releases_info_buttons {

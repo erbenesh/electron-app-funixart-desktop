@@ -22,7 +22,11 @@
         padding: 0.5rem 0.75rem 1rem 0.75rem;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
     }
     .last_releases > * { scroll-snap-align: start; }
+
+    /* iOS momentum scrolling */
+    html[data-tg-platform="ios"] .last_releases {
+        -webkit-overflow-scrolling: touch;
+    }
 }

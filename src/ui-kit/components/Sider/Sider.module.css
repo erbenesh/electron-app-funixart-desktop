@@ -14,8 +14,12 @@
     top: 0;
     bottom: 0;
     max-width: 80vw;
-    -webkit-overflow-scrolling: touch;
     padding-bottom: var(--safe-area-bottom, 0);
+  }
+
+  /* iOS momentum scrolling */
+  html[data-tg-platform="ios"] .sider {
+    -webkit-overflow-scrolling: touch;
   }
 }
 

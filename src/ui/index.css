@@ -64,11 +64,30 @@ body {
   padding-right: env(safe-area-inset-right, 0);
 }
 
+/* Platform-specific touch and scroll behavior */
+html[data-tg-platform="ios"] body,
+html[data-tg-platform="ios"] #root {
+  touch-action: pan-y; /* Allow vertical scrolling on iOS */
+}
+
+html[data-tg-platform="android"] body,
+html[data-tg-platform="android"] #root {
+  touch-action: pan-y pinch-zoom; /* Allow vertical scrolling and pinch zoom on Android */
+}
+
+html[data-tg-platform="web"] body,
+html[data-tg-platform="web"] #root {
+  touch-action: manipulation; /* Disable double-tap zoom on web */
+}
+
 html, body, #root {
   max-width: 100%;
   overscroll-behavior: none;
-  overscroll-behavior-y: none; /* или overscroll-behavior: none; */
-  touch-action: manipulation;  /* отключает лишние жесты, двойной тап и т.п. */
+  overscroll-behavior-y: none;
+}
+
+#root {
+  overflow-x: clip;
 }
 
 .wrapper {
@@ -154,9 +173,13 @@ html, body, #root {
     transform: none !important;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
     padding-inline: 0.5rem;
+  }
+
+  /* iOS momentum scrolling for carousels */
+  html[data-tg-platform="ios"] .carousel-inner {
+    -webkit-overflow-scrolling: touch;
   }
   .carousel-inner > * {
     scroll-snap-align: start;
@@ -325,15 +348,16 @@ html, body, #root {
 
 /* iOS Safari overscroll containment to prevent pull-to-refresh/minimize on swipe */
 @supports (-webkit-touch-callout: none) {
-  html, body {
+  html[data-tg-platform="ios"],
+  html[data-tg-platform="ios"] body {
     height: 100%;
   }
-  body {
+  html[data-tg-platform="ios"] body {
     position: fixed; /* prevent viewport rubber-banding */
     width: 100%;
     overflow: hidden;
   }
-  #root {
+  html[data-tg-platform="ios"] #root {
     height: 100%;
     overflow: auto; /* scroll inside the app container */
     -webkit-overflow-scrolling: touch; /* momentum scrolling */

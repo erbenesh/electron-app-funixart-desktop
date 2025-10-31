@@ -141,9 +141,13 @@
         overflow-x: auto;
         overflow-y: hidden;
         scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
     }
     .today_releases_preview > * { scroll-snap-align: start; }
+
+    /* iOS momentum scrolling */
+    html[data-tg-platform="ios"] .today_releases_preview {
+        -webkit-overflow-scrolling: touch;
+    }
 }
 
 @media (max-width: 480px) {

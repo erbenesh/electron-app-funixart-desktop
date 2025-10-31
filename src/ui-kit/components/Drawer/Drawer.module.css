@@ -24,6 +24,10 @@
   box-shadow: var(--shadow-2);
   transition: transform 0.25s ease;
   overflow: auto;
+}
+
+/* iOS momentum scrolling */
+html[data-tg-platform="ios"] .panel {
   -webkit-overflow-scrolling: touch;
 }
 

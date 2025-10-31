@@ -10,7 +10,6 @@
   overflow-x: visible; /* ensure parent viewport is the scroll container */
   overflow-y: visible;
   scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
 }
 
 .item {
@@ -33,6 +32,11 @@
 .viewport::-webkit-scrollbar { width: 0 !important; height: 0 !important; display: none; background: transparent; }
 .viewport::-webkit-scrollbar-thumb { background: transparent; }
 .viewport::-webkit-scrollbar-track { background: transparent; }
+
+/* iOS momentum scrolling */
+html[data-tg-platform="ios"] .track {
+  -webkit-overflow-scrolling: touch;
+}
 
 .track {
   display: flex;
