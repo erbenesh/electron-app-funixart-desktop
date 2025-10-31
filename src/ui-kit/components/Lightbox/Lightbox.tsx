@@ -15,12 +15,14 @@ export const Lightbox: React.FC<LightboxProps> = ({ open, onClose, src, alt, chi
   return (
     <Portal>
       <div className={styles.backdrop} onClick={onClose}>
-        <div className={styles.center} onClick={(e) => e.stopPropagation()}>
-          {children ? (
-            children
-          ) : (
-            <img className={styles.image} src={src!} alt={alt} />
-          )}
+        <div className={styles.center}>
+          <div className={styles.box} onClick={(e) => e.stopPropagation()}>
+            {children ? (
+              children
+            ) : (
+              <img className={styles.image} src={src!} alt={alt} />
+            )}
+          </div>
         </div>
       </div>
     </Portal>
