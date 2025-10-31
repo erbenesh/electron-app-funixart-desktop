@@ -1,14 +1,14 @@
-import { TopNavigationBar } from './components/TopNavigationBar/TopNavigationBar';
-import { MobileNavBar } from './components/MobileNavBar/MobileNavBar';
-import styles from './App.module.css'
 import { useEffect, useState } from 'react';
-import { AuthPage } from './auth/view/AuthPage';
-import { useUserStore } from './auth/store/auth';
-import { usePreferencesStore } from './api/preferences';
-import { useScrollPosition } from './hooks/useScrollPosition';
-import { Outlet, useLocation, useParams, useNavigate } from 'react-router-dom';
-import { Toolbar } from './components/Toolbar/Toolbar';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Spinner } from 'ui-kit/components/Spinner/Spinner';
+import { usePreferencesStore } from './api/preferences';
+import styles from './App.module.css';
+import { useUserStore } from './auth/store/auth';
+import { AuthPage } from './auth/view/AuthPage';
+import { MobileNavBar } from './components/MobileNavBar/MobileNavBar';
+import { Toolbar } from './components/Toolbar/Toolbar';
+import { TopNavigationBar } from './components/TopNavigationBar/TopNavigationBar';
+import { useScrollPosition } from './hooks/useScrollPosition';
 
 export const App: React.FC = ()=> {
 
