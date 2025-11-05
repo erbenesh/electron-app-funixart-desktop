@@ -83,6 +83,8 @@
     }
     
     .buttons_bg_wrap {
+        /* Ensure proper positioning under header on mobile */
+        top: var(--header-height);
         height: 3.5rem;
         justify-content: flex-start;
     }

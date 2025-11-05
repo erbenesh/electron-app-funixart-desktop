@@ -1,15 +1,17 @@
 .page {
   display: block;
-  padding-top: var(--header-height);
+  /* padding-top moved to App.module.css .content_wrap to avoid double padding */
   min-height: calc(100vh - var(--header-height));
 }
 
 .top_sm {
-  padding-top: calc(var(--header-height) + 2rem);
+  /* Additional 2rem on top of base header-height from .content_wrap */
+  padding-top: 2rem;
 }
 
 .top_md {
-  padding-top: calc(var(--header-height) + 4rem);
+  /* Additional 4rem on top of base header-height from .content_wrap */
+  padding-top: 4rem;
 }
 
 

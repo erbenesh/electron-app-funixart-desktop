@@ -284,7 +284,7 @@ export const Release = () => {
                                 <div className="video_player_wrap">
                                     <div className="video_player">
                                     
-                                        <ReleasePlayer id={releaseId} />
+                                        <ReleasePlayer />
                                     
                                     </div>
                                 </div>

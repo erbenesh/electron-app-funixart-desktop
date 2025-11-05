@@ -1,11 +1,11 @@
 
-import { TopFilterButtons } from '#/components/TopFilterButtons/TopFilterButtons';
-import { TabCarousel } from '#/components/TabCarousel/TabCarousel';
 import { CollectionsList } from '#/components/CollectionsList/CollectionsList';
+import { TabCarousel } from '#/components/TabCarousel/TabCarousel';
+import { TopFilterButtons } from '#/components/TopFilterButtons/TopFilterButtons';
 import { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Page } from 'ui-kit/components/Page/Page'
-import { Container } from 'ui-kit/components/Container/Container'
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Container } from 'ui-kit/components/Container/Container';
+import { Page } from 'ui-kit/components/Page/Page';
 import '../styles/Collections.css';
 
 export const Collections = () => {
@@ -69,7 +69,7 @@ export const Collections = () => {
     return (
         <Page>
             <Container>
-                <div style={{ paddingTop: 'calc(var(--header-height) + 3.5rem)' }}>
+                <div style={{ paddingTop: '3.5rem' }}>
                     <TopFilterButtons buttonsArray={collectionsArray} />
                     <TabCarousel
                         tabs={tabs}

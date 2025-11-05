@@ -1,3 +1,4 @@
+import { useParams, useSearchParams } from 'react-router-dom';
 import { QueryError } from '../QueryError/QueryError';
 import { PlayerControls } from './components/PlayerControls';
 import { PlayerFrame } from './components/PlayerFrame';
@@ -6,13 +7,24 @@ import { usePlayerData } from './hooks/usePlayerData';
 import styles from './ReleasePlayer.module.css';
 
 interface ReleasePlayerProps {
-  id: string | number;
   minimal?: boolean;
 }
 
 export const ReleasePlayer = (props: ReleasePlayerProps) => {
-  const releaseId = String(props.id);
-  const playerData = usePlayerData({ releaseId });
+  const { releaseId } = useParams();
+  const [searchParams] = useSearchParams();
+  
+  // Get initial values from URL params (for mobile watch flow)
+  const initialTypeId = searchParams.get('type');
+  const initialSourceId = searchParams.get('source');
+  const initialEpisodeIndex = searchParams.get('episode');
+  
+  const playerData = usePlayerData({ 
+    releaseId: releaseId!,
+    initialTypeId,
+    initialSourceId,
+    initialEpisodeIndex
+  });
 
   // Handle errors
   if (playerData.error) {

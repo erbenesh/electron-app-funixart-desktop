@@ -30,7 +30,7 @@
 }
 
 @media (max-width: 768px) {
-    .home_page_wrap { padding-top: var(--header-height); }
+    .home_page_wrap { padding-top: 0; } /* Header offset now in .content_wrap */
     .home_page::before { display: none; }
 }
 

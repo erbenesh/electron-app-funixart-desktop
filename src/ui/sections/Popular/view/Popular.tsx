@@ -76,7 +76,7 @@ export const Popular = () => {
     return (
         <Page>
             <Container>
-                <div style={{ paddingTop: 'calc(var(--header-height) + 3.5rem)' }}>
+                <div style={{ paddingTop: '3.5rem' }}>
                     <TopFilterButtons buttonsArray={popularArray} />
                     <TabCarousel
                         tabs={tabs}

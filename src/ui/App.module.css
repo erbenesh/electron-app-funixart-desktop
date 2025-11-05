@@ -3,13 +3,13 @@
     width: 100%;
     justify-content: center;
     overflow-x: hidden;
+    padding-top: var(--header-height);
 }
 
 .content {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-top: 0;
     width: 100%;
     max-width: 120rem;
     padding-left: 1rem;
@@ -22,6 +22,11 @@
 }
 
 @media (max-width: 768px) {
+    .content_wrap {
+        /* Ensure content doesn't go under the fixed header on mobile */
+        padding-top: var(--header-height);
+    }
+    
     .content {
         max-width: 100%;
         padding-left: 0.75rem;

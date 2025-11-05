@@ -5,6 +5,9 @@ import type { Episode, Voiceover, VideoSource, VoiceoverResponse, SourcesRespons
 
 interface UsePlayerDataProps {
   releaseId: string;
+  initialTypeId?: string | number | null;
+  initialSourceId?: string | number | null;
+  initialEpisodeIndex?: string | number | null;
 }
 
 interface UsePlayerDataReturn {
@@ -38,7 +41,12 @@ interface UsePlayerDataReturn {
   error: Error | null;
 }
 
-export function usePlayerData({ releaseId }: UsePlayerDataProps): UsePlayerDataReturn {
+export function usePlayerData({ 
+  releaseId, 
+  initialTypeId, 
+  initialSourceId, 
+  initialEpisodeIndex 
+}: UsePlayerDataProps): UsePlayerDataReturn {
   const token = useAuthStore((state) => state.token);
 
   const [voiceovers, setVoiceovers] = useState<Voiceover[]>([]);
@@ -61,10 +69,19 @@ export function usePlayerData({ releaseId }: UsePlayerDataProps): UsePlayerDataR
       
       if (voiceoverList.length > 0) {
         setVoiceovers(voiceoverList);
-        setSelectedVoiceover(voiceoverList[0]);
+        
+        // Try to select initial type if provided, otherwise select first
+        if (initialTypeId) {
+          const initialVoiceover = voiceoverList.find((v: Voiceover) => 
+            String(v.id) === String(initialTypeId)
+          );
+          setSelectedVoiceover(initialVoiceover || voiceoverList[0]);
+        } else {
+          setSelectedVoiceover(voiceoverList[0]);
+        }
       }
     }
-  }, [voiceoversQuery.isSuccess, voiceoversQuery.data]);
+  }, [voiceoversQuery.isSuccess, voiceoversQuery.data, initialTypeId]);
 
   // Fetch sources
   const sourcesQuery = useLoadPlayerSources(releaseId, selectedVoiceover?.id);
@@ -77,10 +94,19 @@ export function usePlayerData({ releaseId }: UsePlayerDataProps): UsePlayerDataR
       
       if (sourcesList.length > 0) {
         setSources(sourcesList);
-        setSelectedSource(sourcesList[0]);
+        
+        // Try to select initial source if provided, otherwise select first
+        if (initialSourceId) {
+          const initialSource = sourcesList.find((s: VideoSource) => 
+            String(s.id) === String(initialSourceId)
+          );
+          setSelectedSource(initialSource || sourcesList[0]);
+        } else {
+          setSelectedSource(sourcesList[0]);
+        }
       }
     }
-  }, [sourcesQuery.isSuccess, sourcesQuery.data]);
+  }, [sourcesQuery.isSuccess, sourcesQuery.data, initialSourceId]);
 
   // Fetch episodes
   const episodesQuery = useLoadPlayerEpisodes({
@@ -108,10 +134,17 @@ export function usePlayerData({ releaseId }: UsePlayerDataProps): UsePlayerDataR
 
       setEpisodes(episodesList);
       if (episodesList.length > 0) {
-        setSelectedEpisode(episodesList[0]);
+        // Try to select initial episode if provided, otherwise select first
+        if (initialEpisodeIndex !== null && initialEpisodeIndex !== undefined) {
+          const episodeIdx = Number(initialEpisodeIndex);
+          const initialEpisode = episodesList[episodeIdx];
+          setSelectedEpisode(initialEpisode || episodesList[0]);
+        } else {
+          setSelectedEpisode(episodesList[0]);
+        }
       }
     }
-  }, [episodesQuery.isSuccess, episodesQuery.data, sources, selectedSource?.id]);
+  }, [episodesQuery.isSuccess, episodesQuery.data, sources, selectedSource?.id, initialEpisodeIndex]);
 
   // History and watched mutations
   const addHistoryMutation = useAddHistory({

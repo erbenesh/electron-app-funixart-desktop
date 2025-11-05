@@ -87,7 +87,7 @@ export const Feed = () => {
     return (
         <Page>
             <Container>
-                <div style={{ paddingTop: 'calc(var(--header-height) + 3.5rem)' }}>
+                <div style={{ paddingTop: '3.5rem' }}>
                     <TopFilterButtons buttonsArray={feedArray} />
 
                     {/* Filter bar */}

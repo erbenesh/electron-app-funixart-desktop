@@ -1,7 +1,7 @@
 .сollections_page_wrap {
     min-height: 100vh;
     max-width: 120rem;
-    padding-top: calc(var(--header-height) + 4rem); /* Header + tabs height */
+    padding-top: 4rem; /* Tabs height - header-height already in .content_wrap */
 }
 
 @media (min-width: 769px) {

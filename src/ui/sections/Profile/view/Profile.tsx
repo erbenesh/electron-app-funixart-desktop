@@ -245,14 +245,22 @@ export const Profile = () => {
             <div className="profile_page">
                 {/* Основная информация профиля */}
                 <div className="profile_header_new">
-                    {/* Аватар */}
-                    <div className="profile_avatar_container section_card">
-                        <Avatar 
-                            className="profile_avatar" 
-                            src={user.avatar} 
-                            alt="avatar"
-                            style={{ width: '120px', height: '120px', borderRadius: '50%' }}
-                        />
+                    {/* Фоновый градиент-баннер */}
+                    <div className="profile_header_banner"></div>
+
+                    {/* Аватар с индикатором онлайн */}
+                    <div className="profile_avatar_container">
+                        <div className="avatar_wrapper">
+                            <Avatar 
+                                className="profile_avatar" 
+                                src={user.avatar} 
+                                alt="avatar"
+                                style={{ width: '120px', height: '120px', borderRadius: '50%' }}
+                            />
+                            {user.is_online && (
+                                <span className="avatar_online_indicator" title="Онлайн"></span>
+                            )}
+                        </div>
                     </div>
 
                     {/* Имя и бейджи */}
@@ -278,40 +286,26 @@ export const Profile = () => {
                                         {user.rating_score}
                                     </span>
                                 )}
-                                {/* Флаг страны - можно добавить позже */}
                             </div>
                         </div>
 
                         {/* Статус/био */}
-                        {user.status && (
+                        {(user.status || !user.status && authUser.user?.id === user.id) && (
                             <div className="profile_status">
-                                <p className="status_text">{user.status}</p>
+                                <p className="status_text">
+                                    {user.status || 'Статус не установлен'}
+                                </p>
                             </div>
                         )}
 
-                        {/* Кнопка редактирования своего профиля */}
-                        {authUser.user?.id === user.id && (
-                            <div style={{display:'flex',gap:'.5rem',flexWrap:'wrap',justifyContent:'center'}}>
-                                <Button className="profile_edit_button" type="button" variant="ghost" onClick={() => setIsEditOpen(true)}>
-                                    Редактировать профиль
-                                </Button>
-                                <Button className="profile_edit_button" type="button" variant="ghost" onClick={() => { authUser.logout(); navigate('/auth'); }}>
-                                    Выйти
-                                </Button>
+                        {/* Статус онлайн под социальными сетями */}
+                        {!user.is_online && user.last_activity_time && (
+                            <div className="profile_online_status">
+                                <span className="online_text">
+                                    был(а) в сети {sinceUnixDate(user.last_activity_time)}
+                                </span>
                             </div>
                         )}
-
-                        {/* Статус онлайн */}
-                        <div className="profile_online_status">
-                            <span className={`online_indicator ${user.is_online ? 'online' : 'offline'}`}>
-                                {user.is_online ? '●' : ''}
-                            </span>
-                            <span className="online_text">
-                                {user.is_online 
-                                    ? 'онлайн' 
-                                    : `был(а) в сети ${user.last_activity_time ? sinceUnixDate(user.last_activity_time) : 'давно'}`}
-                            </span>
-                        </div>
 
                         {/* Теги/категории */}
                         {allTags.length > 0 && (
@@ -324,6 +318,36 @@ export const Profile = () => {
                                         {tag.name}
                                     </span>
                                 ))}
+                            </div>
+                        )}
+
+                        {/* Дата регистрации/присутствия */}
+                        {user.creation_date && (
+                            <div className="profile_joined_info">
+                                <span className="joined_label">{user.rating_score || 0}</span>
+                                <span className="joined_separator">•</span>
+                                <span className="joined_text">на проекте {sinceUnixDate(user.creation_date)}</span>
+                            </div>
+                        )}
+
+                        {/* Кнопки действий профиля */}
+                        {authUser.user?.id === user.id ? (
+                            <div className="profile_action_buttons">
+                                <Button className="profile_edit_button primary_btn" type="button" variant="ghost" onClick={() => setIsEditOpen(true)}>
+                                    Редактировать
+                                </Button>
+                                <Button className="profile_edit_button logout_btn" type="button" variant="ghost" onClick={() => { authUser.logout(); navigate('/auth'); }}>
+                                    Выйти
+                                </Button>
+                            </div>
+                        ) : (
+                            <div className="profile_action_buttons">
+                                <Button className="profile_edit_button message_btn" type="button" variant="ghost">
+                                    Написать сообщение
+                                </Button>
+                                <Button className="profile_edit_button" type="button" variant="ghost">
+                                    Добавить в друзья
+                                </Button>
                             </div>
                         )}
 
