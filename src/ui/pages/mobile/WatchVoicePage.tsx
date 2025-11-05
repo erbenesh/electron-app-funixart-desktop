@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { IoEye, IoEyeOffOutline } from 'react-icons/io5';
 import { useUserStore } from '#/auth/store/auth';
 import { useGetEpisodes, useGetEpisodeSources } from '#/api/hooks/usePlayer';
+import styles from './WatchVoicePage.module.css';
 
 export const WatchVoicePage: React.FC = () => {
   const { releaseId } = useParams();
@@ -37,21 +39,25 @@ export const WatchVoicePage: React.FC = () => {
   const episodes = data?.episodes ?? [];
 
   return (
-    <div className="wrapper" style={{ paddingTop: 'var(--header-height)' }}>
-      <h2 style={{ padding: '0.75rem 1rem' }}>Выберите серию</h2>
-      <div style={{ display: 'grid', gap: '0.5rem', padding: '0 1rem' }}>
+    <div className={`wrapper ${styles.pageContainer}`}>
+      <h2 className={styles.title}>Выберите серию</h2>
+      <div className={styles.episodesList}>
         {episodes.map((e: any, idx: number) => (
           <button
             key={e.id ?? idx}
             onClick={() => navigate(`/release/${releaseId}/watch/play?type=${typeId}&source=${sourceId}&episode=${idx}`)}
-            style={{
-              padding: '0.75rem 1rem',
-              borderRadius: '0.75rem',
-              border: '1px solid #4a4a4a',
-              background: 'rgba(36,36,36,0.8)',
-              color: 'var(--color-text)'
-            }}
-          >{e.title ?? e.name ?? `${idx + 1} серия`}</button>
+            className={`${styles.episodeButton} ${e.is_watched ? styles.watched : ''}`}
+          >
+            <div className={styles.episodeInfo}>
+              <span className={styles.episodeName}>{e.title ?? e.name ?? `${idx + 1} серия`}</span>
+              {e.is_filler && (
+                <span className={styles.fillerBadge}>Филлер</span>
+              )}
+            </div>
+            <span className={`${styles.watchIcon} ${e.is_watched ? styles.watched : ''}`}>
+              {e.is_watched ? <IoEye /> : <IoEyeOffOutline />}
+            </span>
+          </button>
         ))}
       </div>
     </div>

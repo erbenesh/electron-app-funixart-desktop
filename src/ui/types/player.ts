@@ -17,6 +17,7 @@ export interface Episode {
   name?: string;
   url: string;
   is_watched: boolean;
+  is_filler?: boolean;
 }
 
 export interface VoiceoverResponse {
