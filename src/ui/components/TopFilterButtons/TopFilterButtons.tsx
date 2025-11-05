@@ -24,20 +24,40 @@ export const TopFilterButtons = ({ buttonsArray }: TopFilterButtonsProps) => {
 
     // Update sliding indicator position
     useEffect(() => {
-        if (containerRef.current && indicatorRef.current && currentIndex >= 0) {
-            const buttons = containerRef.current.querySelectorAll('a');
-            const activeButton = buttons[currentIndex];
-            
-            if (activeButton) {
-                const buttonRect = activeButton.getBoundingClientRect();
-                const containerRect = containerRef.current.getBoundingClientRect();
-                const left = buttonRect.left - containerRect.left + containerRef.current.scrollLeft;
-                const width = buttonRect.width;
+        const updateIndicator = () => {
+            if (containerRef.current && indicatorRef.current && currentIndex >= 0) {
+                const buttons = containerRef.current.querySelectorAll('a');
+                const activeButton = buttons[currentIndex];
                 
-                indicatorRef.current.style.transform = `translateX(${left + width * 0.15}px)`;
-                indicatorRef.current.style.width = `${width * 0.7}px`;
+                if (activeButton) {
+                    const buttonElement = activeButton.querySelector('button');
+                    if (buttonElement) {
+                        const buttonRect = buttonElement.getBoundingClientRect();
+                        const containerRect = containerRef.current.getBoundingClientRect();
+                        const left = buttonRect.left - containerRect.left + containerRef.current.scrollLeft;
+                        const width = buttonRect.width;
+                        
+                        // Center the indicator under the button
+                        indicatorRef.current.style.transform = `translateX(${left + width * 0.2}px)`;
+                        indicatorRef.current.style.width = `${width * 0.6}px`;
+                        indicatorRef.current.style.opacity = '1';
+                    }
+                }
             }
-        }
+        };
+
+        updateIndicator();
+        
+        // Re-calculate on window resize
+        window.addEventListener('resize', updateIndicator);
+        
+        // Re-calculate after a short delay to ensure DOM is ready
+        const timer = setTimeout(updateIndicator, 100);
+        
+        return () => {
+            window.removeEventListener('resize', updateIndicator);
+            clearTimeout(timer);
+        };
     }, [currentIndex]);
 
     // Auto-scroll active button into view
