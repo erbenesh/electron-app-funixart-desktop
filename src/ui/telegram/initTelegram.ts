@@ -36,6 +36,16 @@ export async function initTelegram(): Promise<void> {
         tg.setHeaderColor?.('secondary_bg_color');
         // Prevent accidental collapse by swipe-down / overscroll in TG
         tg.disableVerticalSwipes?.();
+        
+        // Hide Telegram MainButton if it interferes with UI
+        if (tg.MainButton) {
+          tg.MainButton.hide?.();
+        }
+        
+        // Hide Telegram BackButton - we have our own
+        if (tg.BackButton) {
+          tg.BackButton.hide?.();
+        }
       } catch {}
     }
 

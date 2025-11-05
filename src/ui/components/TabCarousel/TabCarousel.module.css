@@ -1,0 +1,27 @@
+.carousel_viewport {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel_track {
+    display: flex;
+    width: 100%;
+    will-change: transform;
+    touch-action: pan-y;
+}
+
+.carousel_slide {
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+}
+
+/* Desktop - no carousel effect */
+@media (min-width: 769px) {
+    .carousel_track {
+        touch-action: auto;
+    }
+}
+

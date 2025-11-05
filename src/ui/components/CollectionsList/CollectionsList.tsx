@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
 import { useGetCollectionsInfinite } from '../../api/hooks/useCollection';
 import styles from './CollectionsList.module.css'
@@ -7,14 +6,18 @@ import { useUserStore } from '../../auth/store/auth';
 import { CollectionCard } from '../CollectionCard/CollectionCard';
 import { Spinner } from 'ui-kit/components/Spinner/Spinner';
 
-export const CollectionsList = () => {
+interface CollectionsListProps {
+    locationType: 'all' | 'my' | 'favorite';
+}
+
+export const CollectionsList = ({ locationType }: CollectionsListProps) => {
 
     const token = useUserStore((state) => state.token);
     const profileID = useUserStore((state) => state.user.id);
 
-    const location = useLocation();
+    const locationPath = `/collections/${locationType}`;
 
-    const collections = useGetCollectionsInfinite({ token, location: String(location.pathname), profileID });
+    const collections = useGetCollectionsInfinite({ token, location: locationPath, profileID });
 
     const scrollPosition = useScrollPosition();
     useEffect(() => {

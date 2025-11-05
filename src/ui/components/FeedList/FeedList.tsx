@@ -2,7 +2,7 @@ import parse from 'html-react-parser';
 import { useEffect } from 'react';
 import { BiRepost } from 'react-icons/bi';
 import { IoHeartOutline } from 'react-icons/io5';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { articleService } from '../../api/ArticleService';
 import { commentService } from '../../api/CommentService';
 import { useGetFeedInfinite } from '../../api/hooks/useFeed';
@@ -13,15 +13,15 @@ import { PostInput } from '../PostInput/PostInput';
 import { PostMediaItem } from '../PostMediaItem/PostMediaItem';
 import styles from './FeedList.module.css';
 
-export const FeedList = () => {
+interface FeedListProps {
+    feedType: 'news' | 'latest';
+}
+
+export const FeedList = ({ feedType }: FeedListProps) => {
     const navigate = useNavigate();
     const token = useUserStore((state) => state.token);
 
-    const location = useLocation();
-
-    const feedNews = useGetFeedInfinite({ path: String(location.pathname).slice(6), token });
-
-    console.log(String(location.pathname).slice(5));
+    const feedNews = useGetFeedInfinite({ path: feedType, token });
 
     const scrollPosition = useScrollPosition();
     useEffect(() => {

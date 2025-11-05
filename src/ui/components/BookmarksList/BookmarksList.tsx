@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useGetBookmarksInfinite } from '../../api/hooks/useBookmarks';
 import { useUserStore } from '../../auth/store/auth';
 import { InfiniteList } from '../InfiniteList/InfiniteList';
@@ -7,11 +6,12 @@ import { ReleaseListCard } from '../ReleaseListCard/ReleaseListCard';
 import type { IRelease } from '../../types/IRelease';
 import styles from './BookmarksList.module.css';
 
-export const BookmarksList = () => {
-    const token = useUserStore((state) => state.token);
-    const location = useLocation();
+interface BookmarksListProps {
+    listName: string;
+}
 
-    const listName = String(location.pathname).slice(11);
+export const BookmarksList = ({ listName }: BookmarksListProps) => {
+    const token = useUserStore((state) => state.token);
     const bookmarks = useGetBookmarksInfinite({ listName, token });
 
     const renderItem = useCallback((release: IRelease) => (
@@ -19,7 +19,7 @@ export const BookmarksList = () => {
     ), []);
 
     return (
-        <div className={styles.bookmarks_full_wrap} key={listName}>
+        <div className={styles.bookmarks_full_wrap}>
             <div className={styles.bookmarks_full}>
                 <InfiniteList
                     query={bookmarks}

@@ -1,10 +1,9 @@
 .bookmarks_nav_buttons_wrap {
     position: relative;
-    display: flex;
-    justify-content: center;
+    display: block;
     width: 100%;
+    height: 0;
     z-index: var(--z-sticky);
-    height: 3.5rem;
 }
 
 .bookmarks_nav_buttons_fixed {
@@ -26,6 +25,7 @@
 }
 
 .buttons_container {
+    position: relative;
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
@@ -44,8 +44,21 @@
     display: none;
 }
 
-.buttons_container > * {
+.buttons_container > a {
     scroll-snap-align: center;
+}
+
+.sliding_indicator {
+    position: absolute;
+    bottom: -0.75rem;
+    left: 0;
+    height: 3px;
+    background: var(--color-accent);
+    border-radius: 2px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px rgba(189, 78, 44, 0.6);
+    pointer-events: none;
+    will-change: transform, width;
 }
 
 @media (min-width: 769px) {

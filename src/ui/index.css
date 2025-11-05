@@ -18,14 +18,14 @@
   /* Z-index system */
   --z-content: 1;
   --z-sticky: 50;
-  --z-header: 100;
-  --z-toolbar: 110;
-  --z-mobile-nav: 120;
-  --z-dropdown: 200;
-  --z-overlay: 500;
-  --z-modal: 1000;
-  --z-toast: 1100;
-  --z-tooltip: 1200;
+  --z-header: 9998;       /* Higher than Telegram UI elements */
+  --z-toolbar: 9999;      /* Higher than header */
+  --z-mobile-nav: 9997;   /* Bottom nav below header */
+  --z-dropdown: 10000;    /* Dropdowns above everything */
+  --z-overlay: 10001;     /* Search overlay */
+  --z-modal: 10002;       /* Modals */
+  --z-toast: 10003;       /* Toast notifications */
+  --z-tooltip: 10004;     /* Tooltips highest */
 
   /* Breakpoints */
   --bp-xs: 480px;
@@ -426,5 +426,30 @@ html, body, #root {
 @media (max-width: 768px) {
   html[data-tg-platform="android"] .wrapper {
     padding-bottom: max(5.5rem, calc(5.5rem + env(safe-area-inset-bottom, 0)));
+  }
+}
+
+/* Telegram Mini App specific adjustments */
+html[data-tg-platform] body {
+  /* Ensure our header is always on top of Telegram UI */
+  position: relative;
+  z-index: 0;
+}
+
+/* Prevent Telegram buttons from overlapping our UI */
+html[data-tg-platform] #root {
+  position: relative;
+  z-index: 1;
+}
+
+/* Telegram viewport height */
+@media (max-width: 768px) {
+  html[data-tg-platform] {
+    /* Use Telegram's viewport height variables if available */
+    --tg-viewport-height: var(--tg-viewport-stable-height, 100vh);
+  }
+  
+  html[data-tg-platform] body {
+    height: var(--tg-viewport-height, 100vh);
   }
 }
