@@ -20,12 +20,6 @@
     contain: layout style paint;
 }
 
-.vert_card:hover {
-    z-index: 1;
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-}
-
 .vert_card:active {
     transform: translateY(-2px);
 }
@@ -75,10 +69,6 @@
     transition: transform 0.65s cubic-bezier(0.18, 0.9, 0.58, 1);
 }
 
-.vert_card:hover .release_image_border::after {
-    transform: translateY(-20%) translateX(0%);
-}
-
 /* .release_image_border::after {
     display: block;
     content: '';
@@ -94,11 +84,6 @@
     transform: translateY(-20%);
     will-change: transform;
     transition: transform .65s cubic-bezier(0.18, 0.9, 0.58, 1);
-}
-
-.vert_card:hover .release_image_border::after {
-    transform: translateY(0%);
-
 } */
 
 .release_image {
@@ -268,4 +253,21 @@
     font-size: 0.9rem;
     font-weight: 600;
     
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .vert_card:hover {
+  z-index: 1;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+  .vert_card:hover .release_image_border::after {
+  transform: translateY(-20%) translateX(0%);
+}
+
+  .vert_card:hover .release_image_border::after {
+  transform: translateY(0%);
+}
 }

@@ -86,14 +86,6 @@
 
 }
 
-.bookmarks_button_title_active:hover,
-.bookmarks_button_title:hover {
-    color: rgb(189, 78, 44);
-    z-index: 999;
-    cursor: pointer;
-    border-bottom: 0.0625rem solid rgb(189, 78, 44);
-}
-
 .section_title_link {
     display: flex;
     justify-content: space-between;
@@ -111,10 +103,6 @@
     background: transparent;
 }
 
-.section_title_link:hover {
-    background: linear-gradient(to right, rgba(36, 36, 36, 0.8) 0%, rgba(189, 78, 44, 0.4) 50%);
-}
-
 .title_arrow_ico {
     place-self: center;
     opacity: 0;
@@ -122,10 +110,6 @@
     height: 1rem;
     transition: .3s;
     color:rgb(180, 180, 180);
-}
-
-.section_title_link:hover .title_arrow_ico{
-    opacity: 1;
 }
 
 @media (max-width: 768px) {
@@ -152,4 +136,23 @@
 
 @media (max-width: 480px) {
     .today_releases_preview { grid-auto-columns: 92%; }
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .bookmarks_button_title_active:hover,
+.bookmarks_button_title:hover {
+  color: rgb(189, 78, 44);
+    z-index: 999;
+    cursor: pointer;
+    border-bottom: 0.0625rem solid rgb(189, 78, 44);
+}
+
+  .section_title_link:hover {
+  background: linear-gradient(to right, rgba(36, 36, 36, 0.8) 0%, rgba(189, 78, 44, 0.4) 50%);
+}
+
+  .section_title_link:hover .title_arrow_ico {
+  opacity: 1;
+}
 }

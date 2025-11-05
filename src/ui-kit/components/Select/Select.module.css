@@ -27,6 +27,10 @@
   border-radius: var(--radius-full);
   cursor: pointer;
 }
-.clearBtn:hover { color: var(--color-accent); background: rgb(189 78 44 / 12%); }
 
-
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .clearBtn:hover {
+  color: var(--color-accent); background: rgb(189 78 44 / 12%);
+}
+}

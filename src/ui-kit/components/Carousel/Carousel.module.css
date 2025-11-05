@@ -78,8 +78,6 @@ html[data-tg-platform="ios"] .track {
   transition: background .15s ease, opacity .15s ease;
   font-size: 2.5rem; /* larger arrow symbol */
 }
-
-.navBtn:hover { background: linear-gradient(0deg, rgba(36,36,36,0) 20%, rgba(36,36,36,0.8) 50%, rgba(0,0,0,0) 80%); }
 .navBtn[disabled] { opacity: .25; cursor: default; }
 
 .left { left: 0; }
@@ -93,4 +91,9 @@ html[data-tg-platform="ios"] .track {
 .dots { display: none; }
 .progress { display: none; }
 
-
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .navBtn:hover {
+  background: linear-gradient(0deg, rgba(36,36,36,0) 20%, rgba(36,36,36,0.8) 50%, rgba(0,0,0,0) 80%);
+}
+}

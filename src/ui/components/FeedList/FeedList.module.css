@@ -39,10 +39,6 @@
     transition: .2s;
 }
 
-.channel:hover {
-    opacity: 0.8;
-}
-
 .channel_avatar {
     margin: 0.8rem;
     border-radius: 50%;
@@ -248,10 +244,6 @@
     transition: background .2s ease, border-color .2s ease, color .2s ease;
 }
 
-.post_action_button:hover {
-    background: #3a3a3a;
-}
-
 .like_button {
     border-color: #77414b;
 }
@@ -267,11 +259,6 @@
     border-color: #3f6b45;
 }
 
-.repost_button:hover {
-    background: rgba(119, 194, 109, 0.12);
-    border-color: #77c26d;
-}
-
 .action_icon {
     width: 1.05rem;
     height: 1.05rem;
@@ -279,4 +266,20 @@
 
 .post_comment_add {
     padding: 0 0.75rem 0.75rem 0.75rem;
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .channel:hover {
+  opacity: 0.8;
+}
+
+  .post_action_button:hover {
+  background: #3a3a3a;
+}
+
+  .repost_button:hover {
+  background: rgba(119, 194, 109, 0.12);
+    border-color: #77c26d;
+}
 }

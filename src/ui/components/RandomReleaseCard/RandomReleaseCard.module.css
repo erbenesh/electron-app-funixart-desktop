@@ -35,10 +35,6 @@
     transition: .3s;
 }
 
-.random_button:hover {
-    background-color: rgb(189, 78, 44);
-}
-
 .image_border {
     border-radius: 0.75rem;
          width: 12rem;
@@ -141,10 +137,6 @@
     transition: .2s;
 }
 
-.random_release_title:hover {
-    color: rgb(189, 78, 44);
-}
-
 .random_description {
     padding-right: 0.5rem;
     max-height: 7rem;
@@ -161,4 +153,15 @@
 .random_description::-webkit-scrollbar-thumb {
     background-color: rgba(189, 78, 44, 0.5);
     border-radius: 2px;
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .random_button:hover {
+  background-color: rgb(189, 78, 44);
+}
+
+  .random_release_title:hover {
+  color: rgb(189, 78, 44);
+}
 }

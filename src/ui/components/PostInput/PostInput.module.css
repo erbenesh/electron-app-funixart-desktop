@@ -61,7 +61,10 @@
     padding-right: 0.25rem;
     color: #c9c9c9;
   }
-  
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
   .submit_button:hover {
-    color: rgb(145, 69, 46);
-  }
+  color: rgb(145, 69, 46);
+}
+}

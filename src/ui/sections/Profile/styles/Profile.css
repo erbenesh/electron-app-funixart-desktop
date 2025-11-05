@@ -194,10 +194,6 @@
     transition: .3s;
 }
 
-.profile_edit_button:hover {
-    background-color: rgb(189, 78, 44, 0.5);
-}
-
 .add_link_ico {
     width: 1.5rem;
     height: 1.5rem;
@@ -661,10 +657,6 @@
     transition: background-color 0.2s;
 }
 
-.profile_tag:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
 .tag_dot {
     width: 8px;
     height: 8px;
@@ -720,11 +712,6 @@
     transition: transform 0.2s, opacity 0.2s;
     color: white;
     font-size: 1.2rem;
-}
-
-.social_link:hover {
-    transform: translateY(-2px);
-    opacity: 0.8;
 }
 
 .social_vk {
@@ -822,10 +809,6 @@
     width: 100%;
 }
 
-.voted_release_link:hover {
-    opacity: 0.8;
-}
-
 .vote_stars {
     color: #fbbf24;
     font-size: 1rem;
@@ -886,10 +869,6 @@
     text-decoration: none;
     color: inherit;
     transition: background-color 0.2s;
-}
-
-.history_release_item:hover {
-    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .history_release_image_wrap {
@@ -972,10 +951,6 @@
     transition: background-color 0.2s;
 }
 
-.friend_preview_item:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
 .friend_login {
     font-size: 0.95rem;
     text-align: left;
@@ -1025,10 +1000,6 @@
     text-decoration: none;
     color: inherit;
     transition: transform 0.2s;
-}
-
-.collection_preview_item:hover {
-    transform: translateY(-4px);
 }
 
 .collection_preview_image {
@@ -1379,4 +1350,34 @@
     }
 }
 
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .profile_edit_button:hover {
+  background-color: rgb(189, 78, 44, 0.5);
+}
 
+  .profile_tag:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+  .social_link:hover {
+  transform: translateY(-2px);
+    opacity: 0.8;
+}
+
+  .voted_release_link:hover {
+  opacity: 0.8;
+}
+
+  .history_release_item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+  .friend_preview_item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+  .collection_preview_item:hover {
+  transform: translateY(-4px);
+}
+}

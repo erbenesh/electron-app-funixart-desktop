@@ -57,12 +57,6 @@
     display: block;
 }
 
-.article_card:hover {
-    transform: scale(105%);
-    z-index: 11;
-    box-shadow: 0 0 2rem 2rem rgba(36, 36, 36, 0.8);
-}
-
 .article_card_fallback {
     display: flex;
     flex-direction: column;
@@ -109,3 +103,11 @@
     width: 100%;
 }
 
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .article_card:hover {
+  transform: scale(105%);
+    z-index: 11;
+    box-shadow: 0 0 2rem 2rem rgba(36, 36, 36, 0.8);
+}
+}

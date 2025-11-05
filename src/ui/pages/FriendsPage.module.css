@@ -58,11 +58,6 @@
     border-radius: 1rem;
 }
 
-.friend_card:hover {
-    background-color: rgb(35, 35, 35);
-    border-color: rgb(189, 78, 44);
-}
-
 .friend_link {
     display: flex;
     align-items: center;
@@ -159,4 +154,12 @@
     .friend_card {
         padding: 1.25rem;
     }
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .friend_card:hover {
+  background-color: rgb(35, 35, 35);
+    border-color: rgb(189, 78, 44);
+}
 }

@@ -275,10 +275,6 @@ html[data-tg-platform="ios"] .screens_wrap {
     cursor: pointer;
     transition: .3s;
 }
-.info_button_list:hover,
-.info_button:hover { 
-    background-color: #383838;
-}
 
 .comments_b_ico {
     width: 1rem;
@@ -366,10 +362,6 @@ html[data-tg-platform="ios"] .screens_wrap {
     border-radius: 0.5rem;
 }
 
-.description_button:hover {
-    background-color: #3b3b3b;
-}
-
 .section_title {
     place-self: start;
     font-weight: 600;
@@ -403,12 +395,6 @@ html[data-tg-platform="ios"] .screens_wrap {
     width: 24rem;
     cursor: pointer;
     transition: .3s;
-}
-
-.screens_card:hover {
-    transform: scale(110%);
-    z-index: 1;
-    box-shadow: 0 5px 5px 10px rgba(36, 36, 36, 0.5);
 }
 
 .screens_image_border {
@@ -456,11 +442,6 @@ html[data-tg-platform="ios"] .screens_wrap {
     cursor: pointer;
     pointer-events: all;
     background: linear-gradient(-90deg, rgba(36,36,36,1) 0%, rgba(0,0,0,0) 100%);
-}
-
-.carousel_prev_button:hover,
-.carousel_next_button:hover { 
-    background-color: rgba(36,36,36, 0.5);
 }
 
 .arrow_ico {
@@ -952,4 +933,27 @@ html[data-tg-platform="ios"] .screens_wrap {
     to {
         transform: translate(-50%);
     }
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .info_button_list:hover,
+.info_button:hover {
+  background-color: #383838;
+}
+
+  .description_button:hover {
+  background-color: #3b3b3b;
+}
+
+  .screens_card:hover {
+  transform: scale(110%);
+    z-index: 1;
+    box-shadow: 0 5px 5px 10px rgba(36, 36, 36, 0.5);
+}
+
+  .carousel_prev_button:hover,
+.carousel_next_button:hover {
+  background-color: rgba(36,36,36, 0.5);
+}
 }

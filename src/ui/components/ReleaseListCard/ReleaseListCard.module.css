@@ -14,11 +14,6 @@
     contain: layout style paint;
 }
 
-.list_card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transform: translateY(-2px);
-}
-
 .list_card:active {
     transform: translateY(0);
     opacity: 0.9;
@@ -104,11 +99,6 @@
     transition: all 0.2s;
 }
 
-.menu_button:hover {
-    background: #f5f5f5;
-    color: #1a1a1a;
-}
-
 .menu_button:active {
     background: #e5e5e5;
 }
@@ -168,11 +158,6 @@
         border: 1px solid rgba(78, 78, 78, 0.5);
     }
 
-    .list_card:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-        border-color: rgba(189, 78, 44, 0.3);
-    }
-
     .poster_container {
         background: #2a2a2a;
     }
@@ -183,11 +168,6 @@
 
     .menu_button {
         color: rgb(160, 160, 160);
-    }
-
-    .menu_button:hover {
-        background: rgba(255, 255, 255, 0.1);
-        color: rgb(230, 230, 230);
     }
 
     .menu_button:active {
@@ -270,3 +250,25 @@
     }
 }
 
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .list_card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+  .menu_button:hover {
+  background: #f5f5f5;
+    color: #1a1a1a;
+}
+
+  .list_card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        border-color: rgba(189, 78, 44, 0.3);
+}
+
+  .menu_button:hover {
+  background: rgba(255, 255, 255, 0.1);
+        color: rgb(230, 230, 230);
+}
+}

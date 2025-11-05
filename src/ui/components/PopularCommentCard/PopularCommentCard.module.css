@@ -32,11 +32,6 @@
     background: linear-gradient(rgba(58, 58, 58, 0.8) 0%,rgb(58, 58, 58, 0.8) 100%);
 }
 
-.comment_wrap:hover {
-    transform: scale(105%);
-    z-index: 1;
-}
-
 @keyframes show {
 
     0% {
@@ -132,10 +127,6 @@
     transition: .3s;
 }
 
-.reply_button:hover {
-    background-color: #363636;
-}
-
 .dislike_and_like_button {
     display: flex;
     flex-direction: row;
@@ -169,10 +160,6 @@
     background-color: rgba(0, 100, 0, 0.3);
 }
 
-.like_button:hover {
-    background-color: #363636;
-}
-
 .show_all_replys {
     display: flex;
     align-items: center;
@@ -194,21 +181,12 @@
     color: grey;
 }
 
-.show_all_replys:hover {
-    background-color: #363636;
-}
-
 @media (max-width: 768px) {
     .comment_wrap {
         margin: 0 0 0.5rem;
         border-radius: 0.75rem;
         width: 100%;
         float: none;
-    }
-
-    .comment_wrap:hover {
-        transform: none;
-        box-shadow: none;
     }
 
     .comment {
@@ -297,4 +275,29 @@
     .comment_messege {
         font-size: 0.95rem;
     }
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .comment_wrap:hover {
+  transform: scale(105%);
+    z-index: 1;
+}
+
+  .reply_button:hover {
+  background-color: #363636;
+}
+
+  .like_button:hover {
+  background-color: #363636;
+}
+
+  .show_all_replys:hover {
+  background-color: #363636;
+}
+
+  .comment_wrap:hover {
+  transform: none;
+        box-shadow: none;
+}
 }

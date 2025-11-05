@@ -53,11 +53,6 @@
     border-radius: 1rem;
 }
 
-.notification_item:hover {
-    background-color: rgb(35, 35, 35);
-    border-color: rgb(189, 78, 44);
-}
-
 .notification_content {
     flex: 1;
     display: flex;
@@ -87,10 +82,6 @@
     padding: 0.25rem;
     min-width: 2rem;
     height: 2rem;
-}
-
-.delete_button:hover {
-    color: rgb(230, 230, 230);
 }
 
 .empty_state {
@@ -168,4 +159,16 @@
     .notification_item {
         padding: 1.25rem;
     }
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .notification_item:hover {
+  background-color: rgb(35, 35, 35);
+    border-color: rgb(189, 78, 44);
+}
+
+  .delete_button:hover {
+  color: rgb(230, 230, 230);
+}
 }

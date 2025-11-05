@@ -10,16 +10,6 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-.section_title_wrapper:hover {
-    background: rgba(255, 255, 255, 0.05);
-    padding-left: 0.5rem;
-}
-
-.section_title_wrapper:hover .section_title_icon {
-    transform: translateX(4px);
-    color: rgb(189, 78, 44);
-}
-
 .section_title_wrapper:active {
     transform: scale(0.98);
 }
@@ -53,3 +43,15 @@
     }
 }
 
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .section_title_wrapper:hover {
+  background: rgba(255, 255, 255, 0.05);
+    padding-left: 0.5rem;
+}
+
+  .section_title_wrapper:hover .section_title_icon {
+  transform: translateX(4px);
+    color: rgb(189, 78, 44);
+}
+}

@@ -16,10 +16,6 @@
   transition: background-color .2s ease, border-color .2s ease, color .2s ease, transform .05s ease;
 }
 
-.button:hover {
-  border-color: var(--color-accent);
-}
-
 .button:active {
   transform: translateY(1px);
 }
@@ -30,10 +26,6 @@
   color: #fff;
 }
 
-.primary:hover {
-  background-color: var(--color-accent-hover);
-}
-
 .ghost {
   background-color: transparent;
 }
@@ -41,10 +33,8 @@
 .dashed { border-style: dashed; }
 
 .text { background: transparent; border-color: transparent; color: var(--color-text); }
-.text:hover { color: var(--color-accent); }
 
 .link { background: transparent; border-color: transparent; color: var(--color-accent); text-decoration: none; }
-.link:hover { text-decoration: underline; }
 
 .danger {
   background-color: var(--color-danger);
@@ -90,8 +80,26 @@
   border-color: rgb(189, 78, 44);
 }
 
-.subscribe_button_bg:hover {
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .button:hover {
+  border-color: var(--color-accent);
+}
+
+  .primary:hover {
+  background-color: var(--color-accent-hover);
+}
+
+  .text:hover {
+  color: var(--color-accent);
+}
+
+  .link:hover {
+  text-decoration: underline;
+}
+
+  .subscribe_button_bg:hover {
   background-color: rgb(199, 88, 54);
   border-color: rgb(199, 88, 54);
 }
-
+}

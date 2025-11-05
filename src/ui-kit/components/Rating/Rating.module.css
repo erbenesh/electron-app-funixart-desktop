@@ -1,6 +1,11 @@
 .root { display: inline-flex; gap: var(--space-1); }
 .disabled { opacity: .6; pointer-events: none; }
 .star { background: transparent; border: 1px solid transparent; color: var(--color-text-muted); font-size: var(--rating-size, 1.25rem); line-height: 1; width: calc(var(--rating-size, 1.25rem) * 1.6); height: calc(var(--rating-size, 1.25rem) * 1.6); display: inline-flex; align-items: center; justify-content: center; border-radius: var(--radius-full); cursor: pointer; }
-.star:hover { color: var(--color-accent); background: rgb(189 78 44 / 12%); }
 .filled { color: var(--color-accent); }
 
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .star:hover {
+  color: var(--color-accent); background: rgb(189 78 44 / 12%);
+}
+}

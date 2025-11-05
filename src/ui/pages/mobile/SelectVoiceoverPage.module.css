@@ -41,11 +41,6 @@
   transition: background-color 0.2s;
 }
 
-.backButton:hover,
-.refreshButton:hover {
-  background-color: #f5f5f5;
-}
-
 .backButton:active,
 .refreshButton:active {
   background-color: #e5e5e5;
@@ -86,19 +81,10 @@
   white-space: nowrap;
 }
 
-.filterButton:hover {
-  background-color: #f5f5f5;
-}
-
 .filterButtonActive {
   background-color: #e63946;
   color: #ffffff;
   border-color: #e63946;
-}
-
-.filterButtonActive:hover {
-  background-color: #d32f3e;
-  border-color: #d32f3e;
 }
 
 /* Sources List */
@@ -120,10 +106,6 @@
   transition: background-color 0.2s;
   width: 100%;
   text-align: left;
-}
-
-.sourceItem:hover {
-  background-color: #f9f9f9;
 }
 
 .sourceItem:active {
@@ -250,11 +232,6 @@
     color: #ffffff;
   }
 
-  .backButton:hover,
-  .refreshButton:hover {
-    background-color: #2a2a2a;
-  }
-
   .backButton:active,
   .refreshButton:active {
     background-color: #333;
@@ -270,18 +247,10 @@
     border-color: #333;
   }
 
-  .filterButton:hover {
-    background-color: #333;
-  }
-
   .sourceItem {
     background-color: #1a1a1a;
     border-color: #2a2a2a;
     color: #ffffff;
-  }
-
-  .sourceItem:hover {
-    background-color: #2a2a2a;
   }
 
   .sourceItem:active {
@@ -306,3 +275,36 @@
   }
 }
 
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .backButton:hover,
+.refreshButton:hover {
+  background-color: #f5f5f5;
+}
+
+  .filterButton:hover {
+  background-color: #f5f5f5;
+}
+
+  .filterButtonActive:hover {
+  background-color: #d32f3e;
+  border-color: #d32f3e;
+}
+
+  .sourceItem:hover {
+  background-color: #f9f9f9;
+}
+
+  .backButton:hover,
+  .refreshButton:hover {
+  background-color: #2a2a2a;
+}
+
+  .filterButton:hover {
+  background-color: #333;
+}
+
+  .sourceItem:hover {
+  background-color: #2a2a2a;
+}
+}

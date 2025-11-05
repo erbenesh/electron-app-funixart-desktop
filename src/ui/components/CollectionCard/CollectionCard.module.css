@@ -42,11 +42,6 @@
     .anime_subinfo {
         font-size: 0.85rem;
     }
-
-    .collection_card:hover {
-        transform: none;
-        box-shadow: none;
-    }
 }
 
 /* Tablet */
@@ -61,20 +56,6 @@
         width: 22rem;
         height: 13.5rem;
     }
-}
-
-.collection_card:hover .release_image_border {
-    border: 1px solid rgb(189, 78, 44);
-}
-
-/* .collection_card:hover .release_info_border {
-
-    transform: scale(110%);
-}
-
-.collection_card:hover .anime_title {
-    font-size: 1.2rem;
-    line-height: normal;
 } */
 
 @keyframes show {
@@ -86,12 +67,6 @@
         opacity: 1;
     }
 
-}
-
-.collection_card:hover {
-    transform: scale(105%);
-    z-index: 11;
-    box-shadow: 0 0 2rem 2rem rgba(36, 36, 36, 0.8);
 }
 
 /* .release_image_border_bg {
@@ -137,10 +112,6 @@
     transition: .3s;
 }
 
-.collection_card:hover .release_image_border::after {
-    opacity: 0;
-}
-
 .release_image {
     object-fit: cover;
     width: 100%;
@@ -178,4 +149,35 @@
     font-size: 1rem;
     font-weight: 400;
     color: rgb(200, 200, 200);
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .collection_card:hover {
+  transform: none;
+        box-shadow: none;
+}
+
+  .collection_card:hover .release_image_border {
+  border: 1px solid rgb(189, 78, 44);
+}
+
+  /* .collection_card:hover .release_info_border {
+  transform: scale(110%);
+}
+
+  .collection_card:hover .anime_title {
+  font-size: 1.2rem;
+    line-height: normal;
+}
+
+  .collection_card:hover {
+  transform: scale(105%);
+    z-index: 11;
+    box-shadow: 0 0 2rem 2rem rgba(36, 36, 36, 0.8);
+}
+
+  .collection_card:hover .release_image_border::after {
+  opacity: 0;
+}
 }

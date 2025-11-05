@@ -22,8 +22,12 @@
   width: 1.5rem; height: 1.5rem; border-radius: 999px;
   border: 1px solid transparent; background: transparent; color: #bbb; cursor: pointer;
 }
-.clear:hover { color: rgb(189, 78, 44); background: rgba(189, 78, 44, .1); }
 .spinner { width: 1rem; height: 1rem; border: 2px solid #777; border-bottom-color: transparent; border-radius: 50%; animation: r .6s linear infinite; }
 @keyframes r { to { transform: rotate(360deg); } }
 
-
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .clear:hover {
+  color: rgb(189, 78, 44); background: rgba(189, 78, 44, .1);
+}
+}

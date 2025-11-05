@@ -26,10 +26,6 @@
     transition: transform 0.3s ease;
 }
   
-.post_image:hover img {
-    transform: scale(1.02);
-}
-  
 /* Стиль для показа количества изображений (если их больше 5) */
 .image_count {
     position: absolute;
@@ -71,4 +67,11 @@
     100% { 
         background-position: -200% 0; 
     }
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .post_image:hover img {
+  transform: scale(1.02);
+}
 }

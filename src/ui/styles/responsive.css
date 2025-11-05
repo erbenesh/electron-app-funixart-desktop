@@ -2,6 +2,23 @@
    GLOBAL RESPONSIVE UTILITIES
    ======================================== */
 
+/* ========================================
+   HOVER EFFECTS - IMPORTANT!
+   
+   All :hover styles should be wrapped in @media (hover: hover)
+   to prevent hover effects on touch devices.
+   
+   Example:
+   @media (hover: hover) {
+     .button:hover {
+       background-color: red;
+     }
+   }
+   
+   This ensures hover effects only work on devices with 
+   hover capability (mouse/trackpad), not on touch devices.
+   ======================================== */
+
 /* Breakpoints */
 :root {
     --bp-mobile: 480px;

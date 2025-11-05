@@ -81,11 +81,6 @@
     background-color: rgb(189, 78, 44);
 }
 
-.shcedule_title:hover,
-.section_title_link:hover {
-    background: linear-gradient(to right, rgba(36, 36, 36, 0.8) 0%, rgba(189, 78, 44, 0.4) 50%);
-}
-
 .title_arrow_ico {
     place-self: center;
     opacity: 0;
@@ -93,11 +88,6 @@
     height: 1rem;
     transition: .3s;
     color:rgb(180, 180, 180);
-}
-
-.shcedule_title:hover .title_arrow_ico,
-.section_title_link:hover .title_arrow_ico{
-    opacity: 1;
 }
 
 .releases_schedule {
@@ -151,11 +141,24 @@
     background: linear-gradient(0deg, rgba(36,36,36,0) 20%, rgba(36,36,36,0.6) 50%, rgba(0,0,0,0) 80%);
 }
 
-.carousel_button:hover { 
-    background-color: rgba(36,36,36, 0.5);
-}
-
 .arrow_ico {
     width: 2rem;
     height: 2rem;
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .shcedule_title:hover,
+.section_title_link:hover {
+  background: linear-gradient(to right, rgba(36, 36, 36, 0.8) 0%, rgba(189, 78, 44, 0.4) 50%);
+}
+
+  .shcedule_title:hover .title_arrow_ico,
+.section_title_link:hover .title_arrow_ico {
+  opacity: 1;
+}
+
+  .carousel_button:hover {
+  background-color: rgba(36,36,36, 0.5);
+}
 }

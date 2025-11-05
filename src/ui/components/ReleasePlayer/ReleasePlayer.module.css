@@ -125,10 +125,6 @@
     cursor: pointer;
 }
 
-.episode_choose_button:hover {
-    background-color: rgb(189, 78, 44);
-}
-
 .eye_ico {
     font-size: 1rem;
     height: 0.8rem;
@@ -150,10 +146,6 @@
     width: 100%;
 }
 
-.dropdown_button:hover {
-    background-color: rgb(160, 65, 36);
-}
-
 .dropdown_list_button {
     display: flex;
     flex-direction: row;
@@ -170,6 +162,17 @@
     border-top: 1px solid rgb(68, 68, 68);
 }
 
-.dropdown_list_button:hover {
-    background-color: rgb(189, 78, 44);
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .episode_choose_button:hover {
+  background-color: rgb(189, 78, 44);
+}
+
+  .dropdown_button:hover {
+  background-color: rgb(160, 65, 36);
+}
+
+  .dropdown_list_button:hover {
+  background-color: rgb(189, 78, 44);
+}
 }

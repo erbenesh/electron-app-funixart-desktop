@@ -27,11 +27,6 @@
 
 }
 
-
-.view_mode_button.active:hover {
-    background: rgb(189, 78, 44);
-}
-
 @media (max-width: 768px) {
     .last_releases_header {
         flex-wrap: wrap;
@@ -47,4 +42,11 @@
         width: 2.25rem;
         height: 2.25rem;
     }
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .view_mode_button.active:hover {
+  background: rgb(189, 78, 44);
+}
 }

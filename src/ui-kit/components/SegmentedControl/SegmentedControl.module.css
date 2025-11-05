@@ -31,11 +31,6 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.item:hover { 
-  background-color: var(--color-surface-2);
-  transform: translateY(-1px);
-}
-
 .item:active {
   transform: scale(0.98);
 }
@@ -54,4 +49,10 @@
   }
 }
 
-
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .item:hover {
+  background-color: var(--color-surface-2);
+  transform: translateY(-1px);
+}
+}

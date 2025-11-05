@@ -34,11 +34,6 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-.back_button:hover {
-    background-color: rgba(85, 85, 85, 0.95);
-    transform: scale(1.05);
-}
-
 .back_button:active {
     transform: scale(0.95);
 }
@@ -72,11 +67,6 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-.share_button:hover {
-    background-color: rgba(85, 85, 85, 0.95);
-    transform: scale(1.05);
-}
-
 .share_button:active {
     transform: scale(0.95);
 }
@@ -86,4 +76,17 @@
     width: 1.5rem;
     height: 1.5rem;
     color: rgb(230, 230, 230);
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .back_button:hover {
+  background-color: rgba(85, 85, 85, 0.95);
+    transform: scale(1.05);
+}
+
+  .share_button:hover {
+  background-color: rgba(85, 85, 85, 0.95);
+    transform: scale(1.05);
+}
 }

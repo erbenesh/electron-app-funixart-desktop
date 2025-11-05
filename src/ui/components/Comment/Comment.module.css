@@ -126,10 +126,6 @@
     transition: .3s;
 }
 
-.reply_button:hover {
-    background-color: #363636;
-}
-
 .report_button {
     text-align: center;
     font-weight: 600;
@@ -145,10 +141,6 @@
     padding: 0.15rem 0.4rem;
     display: inline-flex;
     align-self: flex-start;
-}
-
-.report_button:hover {
-    background-color: #363636;
 }
 
 .dislike_and_like_button {
@@ -175,10 +167,6 @@
     color:rgb(33, 180, 33);
 }
 
-.like_button:hover {
-    background-color: #363636;
-}
-
 .show_all_replys {
     display: flex;
     align-items: center;
@@ -198,10 +186,6 @@
     width: 1.2rem;
     height: 1.2rem;
     color: grey;
-}
-
-.show_all_replys:hover {
-    background-color: #363636;
 }
 
 .replies_wrap {
@@ -260,6 +244,25 @@
     padding: 0.35rem 0.8rem;
 }
 
-.info_button:hover {
-    background-color: #363636;
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .reply_button:hover {
+  background-color: #363636;
+}
+
+  .report_button:hover {
+  background-color: #363636;
+}
+
+  .like_button:hover {
+  background-color: #363636;
+}
+
+  .show_all_replys:hover {
+  background-color: #363636;
+}
+
+  .info_button:hover {
+  background-color: #363636;
+}
 }

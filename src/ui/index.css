@@ -95,6 +95,50 @@ p, span, div[contenteditable], input, textarea {
   user-select: text;
 }
 
+/* ========================================
+   DISABLE HOVER EFFECTS ON TOUCH DEVICES
+   
+   Using both:
+   1. Media query (hover: none) - for devices without hover capability
+   2. Body class 'no-hover' - for JavaScript-based detection
+   
+   This prevents the "sticky hover" effect on mobile/touch devices.
+   
+   Usage in components:
+   Instead of: .button:hover { ... }
+   Use: body.has-hover .button:hover { ... }
+   or: @media (hover: hover) { .button:hover { ... } }
+   ======================================== */
+
+/* Disable hover effects globally on touch devices using media query */
+@media (hover: none) {
+  * {
+    /* Disable hover transitions on touch devices */
+    --hover-enabled: 0;
+  }
+  
+  /* Override all hover pseudo-classes to do nothing on touch devices */
+  *:hover {
+    /* This ensures hover states don't "stick" after tap */
+    /* Transitions will be disabled in component styles */
+  }
+}
+
+/* Disable hover effects globally on touch devices using body class */
+body.no-hover *:hover {
+  /* Reset hover effects on touch devices */
+  /* Individual components should check for body.has-hover class */
+}
+
+/* Enable hover effects only on devices with hover capability */
+body.has-hover {
+  --hover-enabled: 1;
+}
+
+body.no-hover {
+  --hover-enabled: 0;
+}
+
 /* Focus visibility for keyboard navigation */
 :focus-visible {
   outline: 2px solid rgb(189, 78, 44);

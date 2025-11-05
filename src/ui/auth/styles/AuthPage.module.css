@@ -177,10 +177,6 @@
     user-select: none;
 }
 
-.checkbox_label:hover {
-    color: rgb(230, 230, 230);
-}
-
 .checkbox {
     cursor: pointer;
     width: 1.125rem;
@@ -219,10 +215,6 @@
     cursor: pointer;
 }
 
-.password_toggle:hover {
-    color: aliceblue;
-}
-
 .field_hint {
     margin-top: 0.25rem;
     color: rgba(230,230,230,0.6);
@@ -236,15 +228,10 @@
     color: rgba(255,145,99,0.95);
     cursor: pointer;
 }
-.link_like:hover { text-decoration: underline; }
 
 .helper_link {
     color: rgba(230, 230, 230, 0.85);
     text-decoration: none;
-}
-
-.helper_link:hover {
-    text-decoration: underline;
 }
 
 .footer_hint {
@@ -258,16 +245,11 @@
     text-decoration: none;
 }
 
-.footer_hint a:hover {
-    text-decoration: underline;
-}
-
 .oauth_wrap { margin-top: 0.75rem; }
 .oauth_divider { display:flex; align-items:center; gap:0.75rem; color: rgba(230,230,230,0.6); }
 .oauth_divider:before, .oauth_divider:after { content:""; flex:1; height:1px; background: rgba(255,255,255,0.1); }
 .oauth_buttons { margin-top: 0.75rem; display:flex; gap:0.5rem; }
 .oauth_btn { flex:1; padding:0.625rem 0.75rem; border:1px solid rgba(255,255,255,0.08); border-radius:0.5rem; background: rgba(255,255,255,0.03); color: aliceblue; cursor:pointer; }
-.oauth_btn:hover { background: rgba(255,255,255,0.06); }
 .oauth_btn.google { border-color: rgba(66,133,244,0.45); }
 .oauth_btn.vk { border-color: rgba(76,117,163,0.45); }
 
@@ -279,4 +261,31 @@
     .brand_side {
         display: block;
     }
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .checkbox_label:hover {
+  color: rgb(230, 230, 230);
+}
+
+  .password_toggle:hover {
+  color: aliceblue;
+}
+
+  .link_like:hover {
+  text-decoration: underline;
+}
+
+  .helper_link:hover {
+  text-decoration: underline;
+}
+
+  .footer_hint a:hover {
+  text-decoration: underline;
+}
+
+  .oauth_btn:hover {
+  background: rgba(255,255,255,0.06);
+}
 }

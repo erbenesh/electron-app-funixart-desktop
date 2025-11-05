@@ -1,8 +1,12 @@
 .list { display: grid; gap: .5rem; }
 .item { width: 100%; text-align: center; padding: .75rem; border-radius: .75rem; background: rgba(40,40,40,.9); border: 1px solid rgb(68,68,68); color: #e6e6e6; cursor: pointer; }
-.item:hover { background: rgba(189,78,44,.12); }
 .danger { border-color: #c25555; color: #ff8a8a; }
 .footer { padding-top: .5rem; }
 .cancel { width: 100%; text-align: center; padding: .75rem; border-radius: .75rem; background: rgba(50,50,50,.9); border: 1px solid rgb(68,68,68); color: #e6e6e6; cursor: pointer; }
 
-
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .item:hover {
+  background: rgba(189,78,44,.12);
+}
+}

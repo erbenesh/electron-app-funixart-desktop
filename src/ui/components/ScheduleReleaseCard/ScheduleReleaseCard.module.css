@@ -83,12 +83,6 @@
     width: 100%;
 }
 
-.card:hover {
-    z-index: 1;
-    transform: translateY(-4px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
-}
-
 @keyframes show {
 
     0% {
@@ -124,10 +118,6 @@
     pointer-events: none;
 }
 
-.card:hover .release_image_border:before {
-    background: linear-gradient(rgba(36, 36, 36, 0.68) 0%, rgba(36, 36, 36, 0.68) 100%);
-}
-
 /* Управляем плавным появлением через свой класс, переданный в MediaCard */
 .media_img {
     opacity: 1;
@@ -143,12 +133,6 @@
     user-select: none;
     transition: .3s;
     z-index: 100;
-}
-
-.card:hover .release_image {
-    opacity: 1;
-    transform: scale(1.04);
-    filter: brightness(1.12) contrast(1.04) saturate(1.06);
 }
 
 .release_info {
@@ -198,4 +182,22 @@
     color: rgb(150, 150, 150);
     line-height: 1;
 }
-  
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .card:hover {
+  z-index: 1;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+  .card:hover .release_image_border:before {
+  background: linear-gradient(rgba(36, 36, 36, 0.68) 0%, rgba(36, 36, 36, 0.68) 100%);
+}
+
+  .card:hover .release_image {
+  opacity: 1;
+    transform: scale(1.04);
+    filter: brightness(1.12) contrast(1.04) saturate(1.06);
+}
+}

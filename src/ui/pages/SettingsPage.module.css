@@ -86,11 +86,6 @@
     transition: all 0.2s;
 }
 
-.tab:hover {
-    color: rgb(230, 230, 230);
-    background-color: rgb(35, 35, 35);
-}
-
 .tab_active {
     color: rgb(230, 230, 230);
     border-bottom-color: rgb(91, 167, 255);
@@ -169,11 +164,6 @@
     transition: all 0.2s;
 }
 
-.theme_item:hover {
-    background-color: rgb(45, 45, 45);
-    border-color: rgb(91, 167, 255);
-}
-
 .theme_item_active {
     background-color: rgb(40, 40, 40);
     border-color: rgb(91, 167, 255);
@@ -216,11 +206,6 @@
     cursor: pointer;
     transition: all 0.2s;
     -webkit-tap-highlight-color: transparent;
-}
-
-.view_mode_option:hover {
-    background-color: rgb(45, 45, 45);
-    border-color: rgb(100, 100, 100);
 }
 
 .view_mode_option:active {
@@ -400,4 +385,22 @@
     .preferences_card {
         padding: 1.25rem;
     }
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .tab:hover {
+  color: rgb(230, 230, 230);
+    background-color: rgb(35, 35, 35);
+}
+
+  .theme_item:hover {
+  background-color: rgb(45, 45, 45);
+    border-color: rgb(91, 167, 255);
+}
+
+  .view_mode_option:hover {
+  background-color: rgb(45, 45, 45);
+    border-color: rgb(100, 100, 100);
+}
 }

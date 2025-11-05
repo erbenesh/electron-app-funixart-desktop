@@ -60,11 +60,6 @@
     border-radius: 1rem;
 }
 
-.button:hover { 
-    color: #242424;
-    background-color: rgb(189, 78, 44);
-}
-
 .button_active {
     border-radius: 1rem;
     display: flex;
@@ -109,4 +104,12 @@
         padding: 0.5rem 0.75rem;
         border-radius: 0.5rem;
     }
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .button:hover {
+  color: #242424;
+    background-color: rgb(189, 78, 44);
+}
 }

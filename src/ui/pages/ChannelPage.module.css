@@ -66,11 +66,6 @@
   transition: all 0.2s;
 }
 
-.back_button:hover {
-  background-color: rgba(0, 0, 0, 0.5);
-  transform: scale(1.05);
-}
-
 .back_button:active {
   transform: scale(0.95);
 }
@@ -374,4 +369,12 @@
     .cover_container {
         height: 18rem;
     }
+}
+
+/* Hover effects - only on devices with hover capability */
+@media (hover: hover) {
+  .back_button:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: scale(1.05);
+}
 }
