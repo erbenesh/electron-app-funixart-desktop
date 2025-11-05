@@ -54,12 +54,17 @@ export const ReleasePlayer = (props: ReleasePlayerProps) => {
     playerData.markAsWatched(episode);
   };
 
+  if(props.minimal) {
+    return (
+        <PlayerFrame url={playerData.selectedEpisode.url} isMinimal={props.minimal} />
+    );
+  }
+
   return (
     <div>
       <div className={styles.player_row}>
         <PlayerFrame url={playerData.selectedEpisode.url} />
 
-        {!props.minimal && (
           <PlayerControls
             voiceovers={playerData.voiceovers}
             selectedVoiceover={playerData.selectedVoiceover}
@@ -71,7 +76,6 @@ export const ReleasePlayer = (props: ReleasePlayerProps) => {
             selectedEpisode={playerData.selectedEpisode}
             onEpisodeChange={handleEpisodeSelect}
           />
-        )}
       </div>
     </div>
   );
