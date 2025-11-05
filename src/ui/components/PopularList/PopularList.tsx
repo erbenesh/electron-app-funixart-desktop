@@ -1,6 +1,5 @@
 
 import { useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useUserStore } from '../../auth/store/auth';
 import { usePreferencesStore } from '../../api/preferences';
 import { InfiniteList } from '../InfiniteList/InfiniteList';
@@ -10,27 +9,29 @@ import { useGetLastUpdatedReleasesInfinite } from '../../api/hooks/useRelease';
 import type { Release } from '../../types/entities';
 import styles from './PopularList.module.css';
 
-export const PopularList = () => {
-    const token = useUserStore((state) => state.token);
-    const location = useLocation();
-    const viewMode = usePreferencesStore((state) => state.params.releaseListViewMode || 'grid');
+interface PopularListProps {
+    status: string;
+}
 
-    const status = location.pathname.split('/')[2];
+export const PopularList = ({ status }: PopularListProps) => {
+    const token = useUserStore((state) => state.token);
+    const viewMode = usePreferencesStore((state) => state.params.releaseListViewMode) || 'list';
+
     const list = useGetLastUpdatedReleasesInfinite({ status, token, sort: 1 });
 
     const renderItem = useCallback((release: Release) => {
-        if (viewMode === 'list') {
-            return <ReleaseListCard key={release.id} release={release} />;
+        if (viewMode === 'grid') {
+            return <ReleaseCard key={release.id} release={release} />;
         }
-        return <ReleaseCard key={release.id} release={release} />;
+        return <ReleaseListCard key={release.id} release={release} />;
     }, [viewMode]);
 
-    const itemClassName = viewMode === 'list' 
-        ? styles.popular_list_mode
-        : styles.popular_list_cards;
+    const itemClassName = viewMode === 'grid' 
+        ? styles.popular_list_cards
+        : styles.popular_list_mode;
 
     return (
-        <div className={styles.popular_list_page} key={status}>
+        <div className={styles.popular_list_page}>
             <InfiniteList
                 query={list}
                 renderItem={renderItem}

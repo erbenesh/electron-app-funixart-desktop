@@ -3,7 +3,7 @@
     flex-direction: row;
     justify-content: center;
     width: 100%;
-    height: 24rem;
+    height: 16rem;
     color: rgb(230, 230, 230);
     text-decoration: none;
 }
@@ -40,12 +40,13 @@
 }
 
 .image_border {
-    border-radius: 1rem;
-    width: 16rem;
-    height: 24rem;
+    border-radius: 0.75rem;
+         width: 12rem;
+        height: 16rem;
     overflow: hidden;
     background-color: grey;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
 .title_image {
@@ -89,7 +90,7 @@
     }
 
     .image_border {
-        width: 100%;
+        width: 12rem;
         height: 16rem;
         border-radius: 0.75rem;
     }
@@ -116,19 +117,19 @@
 /* Tablet */
 @media (min-width: 769px) and (max-width: 1024px) {
     .title {
-        height: 20rem;
+        height: 12rem;
     }
 
     .image_border {
-        width: 14rem;
-        height: 20rem;
+        width: 8rem;
+        height: 12rem;
     }
 }
 
 .random_release_title {
     place-self: end;
     width: 90%;
-    font-size: x-large;
+    font-size: 1.25rem;
     font-weight: 600;
     color: rgb(230, 230, 230);
     text-decoration: none;
@@ -146,6 +147,18 @@
 
 .random_description {
     padding-right: 0.5rem;
-    max-height: 26rem;
+    max-height: 7rem;
     overflow-x: hidden;
+    overflow-y: auto;
+    line-height: 1.4;
+    font-size: 0.875rem;
+}
+
+.random_description::-webkit-scrollbar {
+    width: 4px;
+}
+
+.random_description::-webkit-scrollbar-thumb {
+    background-color: rgba(189, 78, 44, 0.5);
+    border-radius: 2px;
 }

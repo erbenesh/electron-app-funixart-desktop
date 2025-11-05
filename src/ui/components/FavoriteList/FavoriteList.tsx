@@ -10,7 +10,7 @@ import styles from './FavoriteList.module.css';
 
 export const FavoriteList = () => {
     const token = useUserStore((state) => state.token);
-    const viewMode = usePreferencesStore((state) => state.params.releaseListViewMode || 'list');
+    const viewMode = usePreferencesStore((state) => state.params.releaseListViewMode) || 'list';
     const favorites = useGetFavoritesInfinite(token);
 
     const renderItem = useCallback((release: IRelease) => {

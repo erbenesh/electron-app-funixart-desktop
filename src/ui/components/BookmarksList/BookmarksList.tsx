@@ -14,7 +14,7 @@ interface BookmarksListProps {
 
 export const BookmarksList = ({ listName }: BookmarksListProps) => {
     const token = useUserStore((state) => state.token);
-    const viewMode = usePreferencesStore((state) => state.params.releaseListViewMode || 'list');
+    const viewMode = usePreferencesStore((state) => state.params.releaseListViewMode) || 'list';
     const bookmarks = useGetBookmarksInfinite({ listName, token });
 
     const renderItem = useCallback((release: IRelease) => {

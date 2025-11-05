@@ -1,7 +1,6 @@
 .popular_page_wrap {
     min-height: 100vh;
-    max-width: 120rem;
-
+    width: 100%;
     padding-top: 6.5rem;
 }
 
@@ -14,8 +13,7 @@
     animation: show .3s;
     animation-fill-mode: forwards;
     animation-delay: .3s;
-    justify-self: center;
-    max-width: 100rem;
+    width: 100%;
 }
 
 @keyframes show {

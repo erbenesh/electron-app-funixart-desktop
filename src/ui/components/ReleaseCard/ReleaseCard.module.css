@@ -4,8 +4,8 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    min-width: 11.5rem;
-    max-width: 19.5rem;
+    min-width: 7.5rem;
+    max-width: 13rem;
     width: 100%;
     z-index: 0;
     transition: all 0.2s ease;
@@ -46,8 +46,8 @@
     position: relative;
     width: 100%;
     aspect-ratio: 2/3;
-    min-height: 17rem;
-    max-height: 28rem;
+    min-height: 11rem;
+    max-height: 19.5rem;
     overflow: hidden;
     border-radius: 1rem;
     transition: all 0.2s ease;

@@ -59,7 +59,7 @@ export const Home = () => {
       ) : (
         <div>
             <section>
-              <SectionTitle link="/last/last">Интересное</SectionTitle>
+              <SectionTitle>Интересное</SectionTitle>
               <Carousel showArrows showDots ariaLabel="Интересное" desktopColumns={4} mobilePeek={0.12} gap={12}>
                 {(discoverInteresting.data?.content || []).map((el: any) => (
                   el?.id ? <InterestingCard key={el.id} release={el} /> : null
@@ -100,7 +100,7 @@ export const Home = () => {
 
             {token && (
               <section>
-                <SectionTitle link="/last/last">Рекомендации</SectionTitle>
+                <SectionTitle link="/recommendations/all">Рекомендации</SectionTitle>
                 <Carousel showArrows ariaLabel="Рекомендации" desktopColumns={5} mobilePeek={0.12} gap={12}>
                   {(recommendations.data?.pages || []).map((el: any) => (
                     el?.id ? <ReleaseCard key={el.id} release={el} /> : null
@@ -111,7 +111,7 @@ export const Home = () => {
 
             {token && (
               <section>
-                <SectionTitle link="/bookmarks/watching">Сейчас смотрят</SectionTitle>
+                <SectionTitle link="/watching/all">Сейчас смотрят</SectionTitle>
                 <Carousel showArrows ariaLabel="Сейчас смотрят" desktopColumns={5} mobilePeek={0.12} gap={12}>
                   {(watching.data?.pages || []).map((el: any) => (
                     el?.id ? <ReleaseCard key={el.id} release={el} /> : null

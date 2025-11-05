@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useUserStore } from '../../auth/store/auth';
 import { usePreferencesStore } from '../../api/preferences';
 import { InfiniteList } from '../InfiniteList/InfiniteList';
@@ -9,27 +8,29 @@ import { useGetLastUpdatedReleasesInfinite } from '../../api/hooks/useRelease';
 import type { Release } from '../../types/entities';
 import styles from './LastReleasesList.module.css';
 
-export const LastReleasesList = () => {
-    const token = useUserStore((state) => state.token);
-    const location = useLocation();
-    const viewMode = usePreferencesStore((state) => state.params.releaseListViewMode || 'grid');
+interface LastReleasesListProps {
+    status: string;
+}
 
-    const status = location.pathname.split('/')[2];
+export const LastReleasesList = ({ status }: LastReleasesListProps) => {
+    const token = useUserStore((state) => state.token);
+    const viewMode = usePreferencesStore((state) => state.params.releaseListViewMode) || 'list';
+
     const last = useGetLastUpdatedReleasesInfinite({ status, token });
 
     const renderItem = useCallback((release: Release) => {
-        if (viewMode === 'list') {
-            return <ReleaseListCard key={release.id} release={release} />;
+        if (viewMode === 'grid') {
+            return <ReleaseCard key={release.id} release={release} />;
         }
-        return <ReleaseCard key={release.id} release={release} />;
+        return <ReleaseListCard key={release.id} release={release} />;
     }, [viewMode]);
 
-    const itemClassName = viewMode === 'list' 
-        ? styles.last_releases_list_mode
-        : styles.last_releases_list_cards;
+    const itemClassName = viewMode === 'grid' 
+        ? styles.last_releases_list_cards
+        : styles.last_releases_list_mode;
 
     return (
-        <div className={styles.last_releases_list_page} key={status}>
+        <div className={styles.last_releases_list_page}>
             <InfiniteList
                 query={last}
                 renderItem={renderItem}

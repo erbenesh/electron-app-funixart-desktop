@@ -1,6 +1,6 @@
 .bookmarks_page_wrap {
     min-height: 100vh;
-    max-width: 120rem;
+    width: 100%;
     padding-top: 5.5rem;
 }
 
@@ -13,8 +13,7 @@
     animation: show .3s;
     animation-fill-mode: forwards;
     animation-delay: .3s;
-    justify-self: center;
-    max-width: 110rem;
+    width: 100%;
 }
 
 @keyframes show {
