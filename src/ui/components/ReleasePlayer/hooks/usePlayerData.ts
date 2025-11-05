@@ -56,7 +56,8 @@ export function usePlayerData({ releaseId }: UsePlayerDataProps): UsePlayerDataR
   useEffect(() => {
     if (voiceoversQuery.isSuccess && voiceoversQuery.data) {
       const data = voiceoversQuery.data as any;
-      const voiceoverList = data.data?.types || [];
+      // Fixed: getReleasePlayer now returns response.data directly, not full response
+      const voiceoverList = data.types || [];
       
       if (voiceoverList.length > 0) {
         setVoiceovers(voiceoverList);
@@ -71,7 +72,8 @@ export function usePlayerData({ releaseId }: UsePlayerDataProps): UsePlayerDataR
   useEffect(() => {
     if (sourcesQuery.isSuccess && sourcesQuery.data) {
       const data = sourcesQuery.data as any;
-      const sourcesList = data.data?.sources || [];
+      // Fixed: getReleasePlayer now returns response.data directly, not full response
+      const sourcesList = data.sources || [];
       
       if (sourcesList.length > 0) {
         setSources(sourcesList);
@@ -91,7 +93,8 @@ export function usePlayerData({ releaseId }: UsePlayerDataProps): UsePlayerDataR
   useEffect(() => {
     if (episodesQuery.isSuccess && episodesQuery.data) {
       const data = episodesQuery.data as any;
-      const episodesList = data.data?.episodes || [];
+      // Fixed: getReleasePlayer now returns response.data directly, not full response
+      const episodesList = data.episodes || [];
 
       // If no episodes, try next source
       if (episodesList.length === 0 && sources.length > 1) {

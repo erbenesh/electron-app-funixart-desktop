@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { IoCheckmark, IoChevronBack, IoEyeOutline, IoRefresh } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUserStore } from '#/auth/store/auth';
-import { useGetEpisodeSources, useGetEpisodeTypes } from '#/api/hooks/usePlayer';
+import { useGetEpisodeTypes } from '#/api/hooks/usePlayer';
 import { Spinner } from 'ui-kit/components/Spinner/Spinner';
 import styles from './SelectVoiceoverPage.module.css';
+import type { Type } from '#/types/entities';
 
 type FilterType = 'all' | 'voiceover' | 'subtitle';
 
@@ -19,56 +20,25 @@ export const SelectVoiceoverPage: React.FC = () => {
   
   const types = useMemo(() => typesData?.types ?? [], [typesData]);
   
-  // Собираем все источники из всех типов
-  const allSources = useMemo(() => {
-    if (!types.length) return [];
-    
-    const sourcesWithType: Array<{
-      id: number | string;
-      title: string;
-      name: string;
-      logo?: string;
-      episodes_count?: number;
-      views_count?: number;
-      is_new?: boolean;
-      typeId: number | string;
-      typeName: string;
-      isVoiceover: boolean;
-    }> = [];
-    
-    types.forEach((type: any) => {
-      const isVoiceover = type.name?.toLowerCase().includes('озвучка') || type.type === 'voiceover';
-      
-      if (type.sources && Array.isArray(type.sources)) {
-        type.sources.forEach((source: any) => {
-          sourcesWithType.push({
-            ...source,
-            typeId: type.id,
-            typeName: type.name || type.title || 'Озвучка',
-            isVoiceover
-          });
-        });
-      }
-    });
-    
-    return sourcesWithType;
-  }, [types]);
-  
-  // Фильтруем источники по выбранному фильтру
-  const filteredSources = useMemo(() => {
-    if (filter === 'all') return allSources;
-    if (filter === 'voiceover') return allSources.filter(s => s.isVoiceover);
-    if (filter === 'subtitle') return allSources.filter(s => !s.isVoiceover);
-    return allSources;
-  }, [allSources, filter]);
+  // Фильтруем озвучки по выбранному фильтру
+  const filteredTypes = useMemo(() => {
+    if (filter === 'all') return types;
+    // is_sub: true = субтитры, false = озвучка
+    if (filter === 'voiceover') return types.filter((t: Type) => !t.is_sub);
+    if (filter === 'subtitle') return types.filter((t: Type) => t.is_sub);
+    return types;
+  }, [types, filter]);
 
-  const handleSourceSelect = (source: typeof filteredSources[0]) => {
-    navigate(`/release/${releaseId}/watch/source?type=${source.typeId}&source=${source.id}`);
+  // При выборе озвучки переходим на страницу выбора плеера
+  const handleTypeSelect = (type: Type) => {
+    // Переходим на страницу выбора плеера для этой озвучки
+    navigate(`/release/${releaseId}/select-source/${type.id}`);
   };
 
   const formatViews = (count?: number) => {
     if (!count) return '0';
-    if (count >= 1000) return `${Math.floor(count / 1000)}K`;
+    if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
+    if (count >= 1000) return `${Math.round(count / 1000)}K`;
     return String(count);
   };
 
@@ -132,27 +102,27 @@ export const SelectVoiceoverPage: React.FC = () => {
         </button>
       </div>
 
-      {/* Список источников */}
+      {/* Список озвучек */}
       <div className={styles.sourcesList}>
-        {filteredSources.length === 0 ? (
+        {filteredTypes.length === 0 ? (
           <div className={styles.emptyState}>
             <p>Нет доступных вариантов</p>
           </div>
         ) : (
-          filteredSources.map((source) => (
+          filteredTypes.map((type: Type) => (
             <button
-              key={`${source.typeId}-${source.id}`}
+              key={type.id}
               className={styles.sourceItem}
-              onClick={() => handleSourceSelect(source)}
+              onClick={() => handleTypeSelect(type)}
             >
               <div className={styles.sourceInfo}>
-                {/* Логотип/аватар */}
+                {/* Логотип/аватар озвучки */}
                 <div className={styles.sourceLogo}>
-                  {source.logo ? (
-                    <img src={source.logo} alt={source.title || source.name} />
+                  {type.icon ? (
+                    <img src={type.icon} alt={type.name} />
                   ) : (
                     <div className={styles.sourceLogoPlaceholder}>
-                      {(source.title || source.name || '?').charAt(0).toUpperCase()}
+                      {(type.name || '?').charAt(0).toUpperCase()}
                     </div>
                   )}
                 </div>
@@ -160,23 +130,25 @@ export const SelectVoiceoverPage: React.FC = () => {
                 {/* Информация */}
                 <div className={styles.sourceDetails}>
                   <div className={styles.sourceName}>
-                    {source.title || source.name || 'Без названия'}
+                    {type.name || 'Без названия'}
                   </div>
                   <div className={styles.sourceEpisodes}>
-                    {source.episodes_count || 0} {source.episodes_count === 1 ? 'эпизод' : 'эпизодов'}
+                    {type.episodes_count || 0} {type.episodes_count === 1 ? 'эпизод' : 'эпизодов'}
                   </div>
                 </div>
               </div>
               
               {/* Счетчики и бейджи */}
               <div className={styles.sourceStats}>
-                {source.is_new && (
-                  <span className={styles.newBadge}>НОВИНКА</span>
+                {type.pinned && (
+                  <span className={styles.newBadge}>ЗАКРЕПЛЕНО</span>
                 )}
-                <div className={styles.viewsCount}>
-                  <span>{formatViews(source.views_count)}</span>
-                  <IoEyeOutline size={16} />
-                </div>
+                {type.view_count !== undefined && type.view_count > 0 && (
+                  <div className={styles.viewsCount}>
+                    <span>{formatViews(type.view_count)}</span>
+                    <IoEyeOutline size={16} />
+                  </div>
+                )}
               </div>
             </button>
           ))

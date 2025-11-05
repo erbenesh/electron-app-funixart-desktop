@@ -30,6 +30,7 @@ const SchedulePage = lazy(() => import('../pages/SchedulePage').then(m => ({ def
 const SettingsPage = lazy(() => import('../pages/SettingsPage').then(m => ({ default: m.SettingsPage })));
 const WatchingPage = lazy(() => import('../pages/WatchingPage').then(m => ({ default: m.WatchingPage })));
 const SelectVoiceoverPage = lazy(() => import('../pages/mobile/SelectVoiceoverPage').then(m => ({ default: m.SelectVoiceoverPage })));
+const SelectSourcePage = lazy(() => import('../pages/mobile/SelectSourcePage').then(m => ({ default: m.SelectSourcePage })));
 const WatchEpisodePage = lazy(() => import('../pages/mobile/WatchEpisodePage').then(m => ({ default: m.WatchEpisodePage })));
 const WatchSourcePage = lazy(() => import('../pages/mobile/WatchSourcePage').then(m => ({ default: m.WatchSourcePage })));
 const WatchVoicePage = lazy(() => import('../pages/mobile/WatchVoicePage').then(m => ({ default: m.WatchVoicePage })));
@@ -233,10 +234,13 @@ const dynamicRoutes: RouteObject[] = [
     path: '/release/:releaseId',
     element: <ReleasePage />,
   },
-  // Mobile watching flow
-  { path: '/release/:releaseId/watch/episode', element: <SelectVoiceoverPage /> },
-  { path: '/release/:releaseId/watch/source', element: <WatchVoicePage /> },
-  { path: '/release/:releaseId/watch/play', element: <WatchPlayPage /> },
+  // Mobile watching flow: Озвучка -> Плеер -> Серия -> Плеер
+  { path: '/release/:releaseId/watch/episode', element: <SelectVoiceoverPage /> }, // Выбор озвучки
+  { path: '/release/:releaseId/select-source/:typeId', element: <SelectSourcePage /> }, // Выбор плеера
+  { path: '/release/:releaseId/watch', element: <WatchVoicePage /> }, // Выбор серии (с параметрами type и source)
+  { path: '/release/:releaseId/watch/play', element: <WatchPlayPage /> }, // Плеер
+  // Legacy routes
+  { path: '/release/:releaseId/watch/source', element: <WatchSourcePage /> },
   {
     path: '/article/:articleId',
     element: <ArticlePage />,

@@ -138,20 +138,20 @@ class PlayerService {
         const fullUrl = `${BASE_URL}${HISTORY_ADD}${url}`;
         const response = await axios.get(fullUrl);
         console.log("HISTORY");
-        return response;
+        return response.data;
     }
 
     async getMarkWatched(url: string) {
         const fullUrl = `${BASE_URL}${EPISODE_WATCH_SOURCE}${url}`;
         const response = await axios.post(fullUrl);
         console.log("MARK");
-        return response;
+        return response.data;
     }
 
     async getReleasePlayer(url: string) {
         const fullUrl = `${BASE_URL}${EPISODE_TYPES}${url}`;
         const response = await axios.get(fullUrl);
-        return response;
+        return response.data; // Return data instead of full response
     }
 
 }
