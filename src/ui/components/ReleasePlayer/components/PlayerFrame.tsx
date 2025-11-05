@@ -2,10 +2,9 @@ import styles from '../ReleasePlayer.module.css';
 
 interface PlayerFrameProps {
   url?: string;
-  isMinimal?: boolean;
 }
 
-export function PlayerFrame({ url, isMinimal }: PlayerFrameProps) {
+export function PlayerFrame({ url }: PlayerFrameProps) {
   if (!url) {
     return (
       <div className={styles.player_wrap}>
@@ -24,16 +23,6 @@ export function PlayerFrame({ url, isMinimal }: PlayerFrameProps) {
     );
   }
 
-  if(isMinimal) {
-    return (
-        <iframe 
-          allowFullScreen={true} 
-          src={url} 
-          className={styles.player}
-        />
-    );
-  }
-
   return (
     <div className={styles.player_wrap}>
       <iframe 
@@ -41,7 +30,6 @@ export function PlayerFrame({ url, isMinimal }: PlayerFrameProps) {
         src={url} 
         className={styles.player}
         title="Video player"
-     
       />
     </div>
   );

@@ -7,16 +7,19 @@ export const WatchPlayPage: React.FC = () => {
   return (
     <div
       className="wrapper"
-      style={{
-        height: '100vh',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        boxSizing: 'border-box',
-      }}
-    >
-      <ReleasePlayer minimal />
+    >    
+        <div
+        style={{
+          height: 'calc(100vh - var(--header-height))',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          boxSizing: 'border-box',
+          overflow: 'hidden',
+        }}
+      >
+      <ReleasePlayer minimal />    
+      </div>
     </div>
   );
 };
