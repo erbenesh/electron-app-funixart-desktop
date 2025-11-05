@@ -7,9 +7,9 @@ import { BsCollectionPlay } from "react-icons/bs";
 import { GoHash } from "react-icons/go";
 import { GrGroup } from "react-icons/gr";
 import { IoIosArrowDown } from 'react-icons/io';
-import { IoBookmark, IoBookmarkOutline, IoCalendarOutline } from "react-icons/io5";
+import { IoBookmark, IoBookmarkOutline, IoCalendarOutline, IoChatbubbleOutline, IoEllipsisVertical, IoPlayCircle } from "react-icons/io5";
 import { LuFlag } from "react-icons/lu";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { commentService } from '#/api/CommentService';
 import { useAddToBookmarkList, useFavoriteReleaseMutations, useGetCurrentRelease } from '#/api/hooks';
@@ -38,6 +38,7 @@ import { Spinner } from 'ui-kit/components/Spinner/Spinner';
 export const Release = () => {
 
     const { releaseId } = useParams();
+    const navigate = useNavigate();
 
     const token = useUserStore((state) => state.token);
 
@@ -49,12 +50,14 @@ export const Release = () => {
     const [ videosIndex, setVideosIndex ] = useState(0);
 
     const [ isDropdownListsHidden, setIsDropdownListsHidden ] = useState(false);
+    const [ isMenuOpen, setIsMenuOpen ] = useState(false);
     const [ newComment, setNewComment ] = useState('');
     const [ isSpoiler, setIsSpoiler ] = useState(false);
     const [ trailerUrl, setTrailerUrl ] = useState<string | null>(null);
     const [ lightboxSrc, setLightboxSrc ] = useState<string | null>(null);
 
     const textInput = useRef(null);
+    const menuRef = useRef<HTMLDivElement | null>(null);
 
     
 
@@ -148,6 +151,9 @@ export const Release = () => {
     // Close profile-lists dropdown on outside click
     const listsRef = useRef<HTMLDivElement | null>(null);
     useClickOutside(listsRef, () => setIsDropdownListsHidden(false));
+    
+    // Close menu dropdown on outside click
+    useClickOutside(menuRef, () => setIsMenuOpen(false));
 
     const scrollPosition = useScrollPosition();
     useEffect(() => {
@@ -313,98 +319,158 @@ export const Release = () => {
                                 </div>
 
                                 <div className="release_base_info">
-                                    <div>
-                                        <p className="release_title">{release.title_ru}</p>
+                                    {/* Titles */}
+                                    <div className="release_titles">
+                                        <h1 className="release_title">{release.title_ru}</h1>
                                         <p className="release_title_alt">{release.title_original}</p>
+                                        {release.age_rating && (
+                                            <span className="age_rating">{release.age_rating}+</span>
+                                        )}
                                     </div>
 
-                                    <div className="releases_info_buttons">
-                                        <div className="info_buttons_wrap">
-                                            <div ref={listsRef}>
-                                                <button className="info_button" 
-                                                onClick={() => setIsDropdownListsHidden(!isDropdownListsHidden)} 
-                                                style={release.profile_list_status ? {borderColor: `${profile_lists[release.profile_list_status].bg_color}`, color: `${profile_lists[release.profile_list_status].bg_color}`, width: 9+"rem", justifyContent: "center"} : {}} type='button'>
-                                                    <IoIosArrowDown className="comments_b_ico"/>
-                                                    <p>{release.profile_list_status ? profile_lists[release.profile_list_status].name : "Не смотрю"}</p>
-                                                </button>
-                                                <div className="dropdown_lists" style={isDropdownListsHidden ? {display: "flex"} : {}}>
-                                                    {lists.map(li => li.name !== profile_lists[release.profile_list_status]?.name && (
-                                                        <button key={li.list} className="info_button_list" onClick={() => addToList(li.list)} type='button'>
-                                                            {li.name}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                            
-                                            <button className={release.is_favorite? "info_button_favorite" : "info_button"} onClick={() => addToFavorite()} type='button'>
-                                                {release.is_favorite? <IoBookmark className="comments_b_ico"/> : <IoBookmarkOutline className="comments_b_ico"/>}
-                                                {release.favorites_count > 9999 ? 
-                                                `${String(release.favorites_count).slice(0, 2)} ${String(release.favorites_count).slice(2)}` 
-                                                : release.favorites_count > 999 ? 
-                                                `${String(release.favorites_count).slice(0, 1)} ${String(release.favorites_count).slice(1)}` 
-                                                : release.favorites_count}
-                                            </button>
-                                                                             
-                                            <button className="info_button" type='button'>
-                                                Показать в коллекциях
-                                            </button>
-
-                                            <button className="info_button" type='button'>
-                                                Добавить себе в коллекцию
-                                            </button>
-
+                                    {/* Compact action row */}
+                                    <div className="release_action_row">
+                                        <div ref={listsRef} className="status_button_wrap">
                                             <button 
-                                                className="info_button" 
-                                                type="button"
-                                                onClick={() => window.location.href = `/release/${releaseId}/watch/episode`}
+                                                className="status_button" 
+                                                onClick={() => setIsDropdownListsHidden(!isDropdownListsHidden)} 
+                                                style={release.profile_list_status ? {
+                                                    borderColor: `${profile_lists[release.profile_list_status].bg_color}`, 
+                                                    color: `${profile_lists[release.profile_list_status].bg_color}`
+                                                } : {}}
+                                                type='button'
                                             >
-                                                Смотреть
+                                                <IoIosArrowDown />
+                                                <span>{release.profile_list_status ? profile_lists[release.profile_list_status].name : "Не смотрю"}</span>
                                             </button>
-
-                                            <button className="info_button" type='button' onClick={onReportRelease}>
-                                                Пожаловаться
-                                            </button>
-
+                                            <div className="dropdown_lists" style={isDropdownListsHidden ? {display: "flex"} : {}}>
+                                                {lists.map(li => li.name !== profile_lists[release.profile_list_status]?.name && (
+                                                    <button key={li.list} className="info_button_list" onClick={() => addToList(li.list)} type='button'>
+                                                        {li.name}
+                                                    </button>
+                                                ))}
+                                            </div>
                                         </div>
+                                        
+                                        <button className="icon_button" onClick={() => addToFavorite()} type='button' title="В закладки">
+                                            {release.is_favorite ? <IoBookmark /> : <IoBookmarkOutline />}
+                                            <span className="icon_button_text">
+                                                {release.favorites_count > 999 
+                                                    ? `${(release.favorites_count / 1000).toFixed(0)}K` 
+                                                    : release.favorites_count}
+                                            </span>
+                                        </button>
+                                        
+                                        <button className="icon_button" type='button' title="Комментарии">
+                                            <IoChatbubbleOutline />
+                                        </button>
+                                    </div>
+
+                                    {/* Big action button - Watch or Year announcement */}
+                                    <div className="watch_button_row">
+                                        {release.status?.name === "Анонс" ? (
+                                            /* Для анонсов - кнопка с годом */
+                                            <button 
+                                                className="year_button" 
+                                                type="button"
+                                                disabled
+                                            >
+                                                <span>{release.year || new Date().getFullYear()} ГОД</span>
+                                            </button>
+                                        ) : (
+                                            /* Для остальных - кнопка "Смотреть" */
+                                            <button 
+                                                className="watch_button" 
+                                                type="button"
+                                                onClick={() => navigate(`/release/${releaseId}/watch/episode`)}
+                                            >
+                                                <IoPlayCircle className="play_icon" />
+                                                <span>Смотреть</span>
+                                            </button>
+                                        )}
+                                        
+                                        <div ref={menuRef} className="menu_button_wrap">
+                                            <button 
+                                                className="menu_button" 
+                                                type='button' 
+                                                title="Еще"
+                                                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                            >
+                                                <IoEllipsisVertical />
+                                            </button>
+                                            {isMenuOpen && (
+                                                <div className="menu_dropdown">
+                                                    <button className="menu_item" type='button'>
+                                                        Показать в коллекциях
+                                                    </button>
+                                                    <button className="menu_item" type='button'>
+                                                        Добавить в коллекцию
+                                                    </button>
+                                                    <button className="menu_item" type='button' onClick={onReportRelease}>
+                                                        Пожаловаться
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Info banner for announcements */}
+                                    {release.status?.name === "Анонс" && (
+                                        <div className="info_banner">
+                                            <p>Премьера в {release.year} году.</p>
+                                            <p>Больше подробностей сообщат позже.</p>
+                                        </div>
+                                    )}
 
                                     </div>
                                     <div className="release_info_table">
-
-                                        <ul className="parameters_icons">
-                                            <li className="icon">
+                                        {/* Страна и год */}
+                                        <div className="info_row">
+                                            <div className="info_icon">
                                                 <img src={release.country === "Япония" ? jFlag : release.country === "Китай" ? cnFlag : ""} alt="" />
                                                 {release.country !== "Япония" && release.country !== "Китай" && <LuFlag className="mini_ico"/>}
-                                            </li>
-                                            <li className="icon"><BsCollectionPlay className="mini_ico"/></li>
-                                            <li className="icon"><IoCalendarOutline className="mini_ico"/></li>
-                                            <li className="icon"><GrGroup className="mini_ico"/></li>
-                                        </ul>
-
-                                        <ul className="parameters">
-
-                                            <li className="param">
+                                            </div>
+                                            <div className="info_text">
                                                 {release.country && release.country}
                                                 {(release.aired_on_date != 0 || release.year) && ", "}
                                                 {release.aired_on_date != 0 &&
                                                     `${getSeasonFromUnix(release.aired_on_date)} `}
                                                 {release.year && `${release.year} г.`}
-                                            </li>
+                                            </div>
+                                        </div>
 
-                                            <li className="param">
+                                        {/* Эпизоды */}
+                                        <div className="info_row">
+                                            <div className="info_icon">
+                                                <BsCollectionPlay className="mini_ico"/>
+                                            </div>
+                                            <div className="info_text">
                                                 {release.episodes_released ? release.episodes_released : "?"}
                                                 {"/"}
                                                 {release.episodes_total ? release.episodes_total + " эп. " : "? эп. "}
                                                 {release.duration != 0 && `по ${minutesToTime(release.duration, "daysHours")}`}
-                                            </li>
+                                            </div>
+                                        </div>
 
-                                            <li className="param">
-                                            { release.category?.name + ", " }
+                                        {/* Категория и расписание */}
+                                        <div className="info_row">
+                                            <div className="info_icon">
+                                                <IoCalendarOutline className="mini_ico"/>
+                                            </div>
+                                            <div className="info_text">
+                                                { release.category?.name + ", " }
                                                 { release.broadcast === 0
                                                     ? release.status.name
                                                     : `выходит ${weekDay[release.broadcast]}` }
-                                            </li>
+                                            </div>
+                                        </div>
 
-                                            <li className="param">
+                                        {/* Студия, автор, режиссёр */}
+                                        <div className="info_row">
+                                            <div className="info_icon">
+                                                <GrGroup className="mini_ico"/>
+                                            </div>
+                                            <div className="info_text">
                                                 {release.studio && (
                                                 <>
                                                 {"Студия "}
@@ -412,10 +478,10 @@ export const Release = () => {
                                                     .split(", ")
                                                     .map((studio: string, index: number) => {
                                                         return (
-                                                            <div key={index} style={{display: 'inline'}}>
+                                                            <span key={index}>
                                                             {index > 0 && ", "}
                                                             <a>{studio}</a>
-                                                            </div>
+                                                            </span>
                                                         );
                                                     })
                                                 }
@@ -435,40 +501,57 @@ export const Release = () => {
                                                     <a>{release.director}</a>
                                                     </>
                                                 )}
-                                            </li>
-
-                                        </ul>
-
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    {
-                                        release.vote_count > 0 && 
-                                        <ReleaseVotesCounter release={release}/>
-                                    }
+                                </div>
+                            
+                                <div className="genres_wrap">
+                                    <p className="genres"><GoHash className="hash_ico" style={{width: 1.2+"rem"}}/> {release.genres}</p>
+                                </div>
 
+                                <div className="description_wrap">
+                                    <p ref={textInput} className={isDescriptionHidden? "description_hidden" : "description"}>{release.description}</p>
+                                    
+                                    { textLineCount > 4 && <button className="description_button" onClick={() => setDescriptionHidden(!isDescriptionHidden)}>
+                                        {isDescriptionHidden ? 'Подробнее...' : 'Скрыть'}
+                                    </button>}
+                                </div>
+
+                            </div>
+
+                        {/* User lists section */}
+                        {release.watching_count > 0 && (
+                            <div className="user_lists_section">
+                                <h2 className="section_title">В списках у людей</h2>
+                                <div className="user_stat_row">
+                                    <IoCalendarOutline className="stat_icon" />
+                                    <p className="stat_text">
+                                        {release.watching_count.toLocaleString('ru-RU')} {
+                                            release.status?.name === "Анонс" 
+                                                ? "пользователей планируют смотреть этот релиз" 
+                                                : "пользователей смотрят этот релиз"
+                                        }
+                                    </p>
                                 </div>
                             </div>
-          
-                            <div className="genres_wrap">
-                                <p className="genres"><GoHash className="hash_ico" style={{width: 1.2+"rem"}}/> {release.genres}</p>
-                            </div>
+                        )}
 
-                            <div className="description_wrap">
-                                <p ref={textInput} className={isDescriptionHidden? "description_hidden" : "description"}>{release.description}</p>
-                                
-                                { textLineCount > 4 && <button className="description_button" onClick={() => setDescriptionHidden(!isDescriptionHidden)}>
-                                    {isDescriptionHidden ? 'Подробнее...' : 'Скрыть'}
-                                </button>}
+                        {/* Rating section */}
+                        {release.vote_count > 0 && (
+                            <div className="rating_section">
+                                <h2 className="section_title">Оценки</h2>
+                                <ReleaseVotesCounter release={release}/>
                             </div>
-
-                        </div>
+                        )}
 
                         { release?.screenshot_images?.length > 0 && (
                         <div className="screens_wrap">
                             <h2 className="section_title">Кадры</h2>
                             <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
                                 {release.screenshot_images.map((screen: string) => (
-                                    <img key={screen} className={interestCardStyles.release_image} src={screen} alt="screenshot" onClick={() => setLightboxSrc(screen)} />
+                                    <img key={screen} className="release_screen_img" src={screen} alt="screenshot" onClick={() => setLightboxSrc(screen)} />
                                 ))}
                             </Carousel>
                         </div>)}
@@ -568,10 +651,9 @@ export const Release = () => {
 
                         </div>
 
-
                     </div>
 
-                <div className="recommends_and_related_block">
+                    <div className="recommends_and_related_block">
                         {(() => {
                             const relatedList = Array.isArray(release.related_releases)
                                 ? release.related_releases
@@ -613,10 +695,10 @@ export const Release = () => {
 
                 </div>
 
-            
-            </div> 
+            </div>
         </div>
-        )}
+        )
+        }
         </Container>
         </Page>
     )

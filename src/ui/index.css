@@ -20,12 +20,13 @@
   --z-sticky: 50;
   --z-mobile-nav: 9997;   /* Bottom nav below header */
   --z-header: 9998;       /* Header */
-  --z-toolbar: 9999;      /* Toolbar above header */
-  --z-dropdown: 10000;    /* Dropdowns above everything */
-  --z-overlay: 10001;     /* Search overlay */
-  --z-modal: 10002;       /* Modals */
-  --z-toast: 10003;       /* Toast notifications */
-  --z-tooltip: 10004;     /* Tooltips highest */
+  --z-tabs: 9999;         /* Tabs/filters above header */
+  --z-toolbar: 10000;     /* Toolbar above tabs */
+  --z-dropdown: 10001;    /* Dropdowns above everything */
+  --z-overlay: 10002;     /* Search overlay */
+  --z-modal: 10003;       /* Modals */
+  --z-toast: 10004;       /* Toast notifications */
+  --z-tooltip: 10005;     /* Tooltips highest */
 
   /* Breakpoints */
   --bp-xs: 480px;

@@ -144,10 +144,10 @@ export const SelectVoiceoverPage: React.FC = () => {
                   <span className={styles.newBadge}>ЗАКРЕПЛЕНО</span>
                 )}
                 {type.view_count !== undefined && type.view_count > 0 && (
-                  <div className={styles.viewsCount}>
+                <div className={styles.viewsCount}>
                     <span>{formatViews(type.view_count)}</span>
-                    <IoEyeOutline size={16} />
-                  </div>
+                  <IoEyeOutline size={16} />
+                </div>
                 )}
               </div>
             </button>

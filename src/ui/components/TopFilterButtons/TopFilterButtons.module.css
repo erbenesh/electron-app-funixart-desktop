@@ -13,12 +13,12 @@
     align-items: center;
     justify-content: center;
     transition: transform 0.3s;
-    z-index: var(--z-sticky);
+    z-index: var(--z-tabs); /* Above header, below toolbar */
     width: 100%;
     padding: 0.75rem 0 0 0;
     top: var(--header-height);
     backdrop-filter: blur(8px);
-    /* background-color: rgba(36, 36, 36, 0.95); */
+    background-color: rgba(36, 36, 36, 0.95); /* Solid background for visibility */
     border-bottom: 1px solid rgba(78, 78, 78, 0.3);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
