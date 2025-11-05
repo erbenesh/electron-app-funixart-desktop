@@ -1,14 +1,13 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useEffect } from "react";
 import { ThemeProvider } from "ui-kit";
-import "#/api/httpSetup";
+import "#/api/client"; // Initialize API client
 import { initTelegram } from "#/telegram/initTelegram";
+import { QueryProvider } from "./QueryProvider";
+import { ErrorBoundary } from "#/components/ErrorBoundary/ErrorBoundary";
 
 type Props = {
     children: ReactNode;
 };
-
-const queryClient = new QueryClient();
 
 export function Provider({children} : Props) {
 
@@ -17,11 +16,13 @@ export function Provider({children} : Props) {
     }, []);
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <ThemeProvider>
-                {children}
-            </ThemeProvider>
-        </QueryClientProvider>
+        <ErrorBoundary>
+            <QueryProvider>
+                <ThemeProvider>
+                    {children}
+                </ThemeProvider>
+            </QueryProvider>
+        </ErrorBoundary>
     )
     
 }

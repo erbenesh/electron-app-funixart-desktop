@@ -6,7 +6,8 @@ import Chart from 'chart.js/auto'
 export const ReleaseVotesCounter = (props) => {
     const { release } = props
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
-    const chartRef = useRef<Chart | null>(null)
+    // @ts-ignore - Chart type from chart.js
+    const chartRef = useRef<typeof Chart | null>(null)
 
     useEffect(() => {
         if (!canvasRef.current || !release) return

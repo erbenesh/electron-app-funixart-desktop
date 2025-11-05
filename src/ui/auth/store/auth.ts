@@ -1,66 +1,74 @@
-import { create } from "zustand";
+// DEPRECATED: This file is kept for backward compatibility
+// Please migrate to use @/stores/authStore instead
+
+import { useAuthStore } from '#/stores/authStore';
 import { fetchDataViaGet, getJWT, removeJWT } from "../../api/utils";
 import { BASE_URL, PROFILE } from '../../api/endpoints';
+import type { User } from '#/types/user';
 
 interface userState {
   _hasHydrated: boolean;
   isAuth: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user: any | null;
+  user: User | null;
   token: string | null;
   state: string;
-  login: (user: object, token: string) => void;
+  login: (user: User, token: string) => void;
   logout: () => void;
   checkAuth: () => void;
 }
 
-export const useUserStore = create<userState>((set, get) => ({
-  _hasHydrated: false,
-  isAuth: false,
-  user: null,
-  token: null,
-  state: "loading",
+// Re-export new auth store with compatibility wrapper
+export const useUserStore = (() => {
+  const newStore = useAuthStore;
+  
+  return Object.assign(
+    (selector?: (state: userState) => any) => {
+      const state = newStore((s) => s);
+      
+      // Map new store to old interface
+      const mappedState: userState = {
+        _hasHydrated: true, // New store always hydrated
+        isAuth: state.isAuthenticated,
+        user: state.user,
+        token: state.token,
+        state: "finished",
+        login: state.login,
+        logout: state.logout,
+        checkAuth: async () => {
+          const jwt = getJWT();
+          
+          if (jwt) {
+            const url = `${BASE_URL}${PROFILE}${jwt.user_id}?token=${jwt.jwt}`;
+            const data = await fetchDataViaGet(url);
 
-  login: (user: object, token: string) => {
-    set({
-      isAuth: true,
-      user: user,
-      token: token,
-      state: "finished",
-      _hasHydrated: true,
-    });
-  },
-  logout: () => {
-    set({
-      isAuth: false,
-      user: null,
-      token: null,
-      state: "finished",
-      _hasHydrated: true,
-    });
-    removeJWT();
-  },
-  checkAuth: () => {
-
-    const jwt = getJWT();
-    
-    if (jwt) {
-        const _checkAuth = async () => {
-
-          const url = `${BASE_URL}${PROFILE}${jwt.user_id}?token=${jwt.jwt}`;
-
-          const data = await fetchDataViaGet(url);
-
-          if (data && data.is_my_profile) {
-            get().login(data.profile, jwt.jwt);
+            if (data && data.is_my_profile) {
+              state.login(data.profile, jwt.jwt);
+            } else {
+              state.logout();
+            }
           } else {
-            get().logout();
+            // Try new store
+            await state.checkAuth();
           }
-
+        },
+      };
+      
+      return selector ? selector(mappedState) : mappedState;
+    },
+    {
+      getState: () => {
+        const state = newStore.getState();
+        return {
+          _hasHydrated: true,
+          isAuth: state.isAuthenticated,
+          user: state.user,
+          token: state.token,
+          state: "finished",
+          login: state.login,
+          logout: state.logout,
+          checkAuth: state.checkAuth,
         };
-        _checkAuth();
-    } else {
-      get().logout();
+      }
     }
-  },
-}));
+  );
+})();

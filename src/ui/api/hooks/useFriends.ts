@@ -16,7 +16,8 @@ export function useGetFriendRequestsIn(params: { page: number | string; token: s
     const { page, token } = params;
     return useInfiniteQuery<PageableResponse<Profile>>({
         queryKey: ["getFriendRequestsIn", token],
-        queryFn: ({ pageParam = 0 }) => friendsService.getFriendRequestsIn(pageParam, token),
+        queryFn: ({ pageParam }) => friendsService.getFriendRequestsIn(pageParam as number, token),
+        initialPageParam: 0,
         getNextPageParam: (lastPage) => {
             if (lastPage.currentPage < lastPage.totalPageCount - 1) {
                 return lastPage.currentPage + 1;
@@ -31,7 +32,8 @@ export function useGetFriendRequestsOut(params: { page: number | string; token: 
     const { page, token } = params;
     return useInfiniteQuery<PageableResponse<Profile>>({
         queryKey: ["getFriendRequestsOut", token],
-        queryFn: ({ pageParam = 0 }) => friendsService.getFriendRequestsOut(pageParam, token),
+        queryFn: ({ pageParam }) => friendsService.getFriendRequestsOut(pageParam as number, token),
+        initialPageParam: 0,
         getNextPageParam: (lastPage) => {
             if (lastPage.currentPage < lastPage.totalPageCount - 1) {
                 return lastPage.currentPage + 1;

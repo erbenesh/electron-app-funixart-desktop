@@ -21,7 +21,8 @@ export const DiscussingList = () => {
             <div className={styles.discussing_list_cards}>
                 
                 {
-                discussing.data?.data.content.map(release => release.id && (
+                /* @ts-ignore - API response structure varies */
+                discussing.data?.data?.content?.map(release => release.id && (
                     <ReleaseCard key={release.id} release={release}/>
                 ))
                 }

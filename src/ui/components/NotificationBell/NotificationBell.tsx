@@ -1,6 +1,6 @@
 import { useDeleteNotification, useGetAllNotifications, useGetNotificationCount, useMarkNotificationsAsRead } from '#/api/hooks/useNotification';
 import { useUserStore } from '#/auth/store/auth';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { IoMdNotifications, IoMdNotificationsOutline } from 'react-icons/io';
 import { IoClose } from 'react-icons/io5';
 import { Button } from 'ui-kit/components/Button/Button';
@@ -16,7 +16,8 @@ export const NotificationBell = () => {
     const deleteNotification = useDeleteNotification();
     const markAsRead = useMarkNotificationsAsRead();
 
-    const panelRef = useClickOutside(() => setIsOpen(false));
+    const panelRef = useRef<HTMLDivElement>(null);
+    useClickOutside(panelRef, () => setIsOpen(false));
 
     const handleMarkAsRead = () => {
         if (userStore.token) {

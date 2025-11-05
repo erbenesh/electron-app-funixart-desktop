@@ -16,7 +16,7 @@ export const Player: React.FC<PlayerProps> = ({ src, poster, className, controls
         poster={poster}
         controls={controls}
         playsInline
-        // @ts-expect-error iOS inline playback attribute
+        // @ts-ignore - iOS inline playback attribute
         webkit-playsinline="true"
         {...rest}
       />
