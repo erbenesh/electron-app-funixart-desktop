@@ -1,7 +1,13 @@
 .lastReleases_page_wrap {
     min-height: 100vh;
     width: 100%;
-    padding-top: 7rem;
+    padding-top: calc(var(--header-height) + 4rem); /* Header + tabs height */
+}
+
+@media (min-width: 769px) {
+    .lastReleases_page_wrap {
+        padding-top: 7rem;
+    }
 }
 
 .lastReleases_page {

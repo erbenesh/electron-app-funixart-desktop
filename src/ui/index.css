@@ -18,9 +18,9 @@
   /* Z-index system */
   --z-content: 1;
   --z-sticky: 50;
-  --z-header: 9998;       /* Higher than Telegram UI elements */
-  --z-toolbar: 9999;      /* Higher than header */
   --z-mobile-nav: 9997;   /* Bottom nav below header */
+  --z-header: 9998;       /* Header */
+  --z-toolbar: 9999;      /* Toolbar above header */
   --z-dropdown: 10000;    /* Dropdowns above everything */
   --z-overlay: 10001;     /* Search overlay */
   --z-modal: 10002;       /* Modals */

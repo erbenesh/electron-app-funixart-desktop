@@ -1,7 +1,13 @@
 .сollections_page_wrap {
     min-height: 100vh;
     max-width: 120rem;
-    padding-top: 6.5rem;
+    padding-top: calc(var(--header-height) + 4rem); /* Header + tabs height */
+}
+
+@media (min-width: 769px) {
+    .сollections_page_wrap {
+        padding-top: 6.5rem;
+    }
 }
 
 .сollections_page {

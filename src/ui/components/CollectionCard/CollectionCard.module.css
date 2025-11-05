@@ -56,7 +56,7 @@
         width: 22rem;
         height: 13.5rem;
     }
-} */
+}
 
 @keyframes show {
 
@@ -179,5 +179,5 @@
 
   .collection_card:hover .release_image_border::after {
   opacity: 0;
-}
+}*/
 }
