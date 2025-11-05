@@ -50,7 +50,7 @@ export const usePreferencesStore = create<preferencesState>()(
       params: {
         isFirstLaunch: true,
         version: "3.0.0",
-        releaseListViewMode: 'grid',
+        releaseListViewMode: 'list',
         skipToCategory: {
           enabled: false,
           homeCategory: "last",

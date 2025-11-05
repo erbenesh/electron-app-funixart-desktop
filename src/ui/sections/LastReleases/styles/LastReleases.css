@@ -28,46 +28,6 @@
 
 }
 
-.last_releases_header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.view_mode_toggle {
-    display: flex;
-    gap: 0.25rem;
-    background: rgba(36, 36, 36, 0.8);
-    padding: 0.25rem;
-    border-radius: 0.5rem;
-    border: 1px solid rgba(78, 78, 78, 0.8);
-}
-
-.view_mode_button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    border: none;
-    background: transparent;
-    color: rgb(160, 160, 160);
-    border-radius: 0.375rem;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.view_mode_button:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: rgb(230, 230, 230);
-}
-
-.view_mode_button.active {
-    background: rgb(189, 78, 44);
-    color: #ffffff;
-}
 
 .view_mode_button.active:hover {
     background: rgb(189, 78, 44);

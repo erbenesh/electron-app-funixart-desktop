@@ -9,6 +9,7 @@ import { useUserStore } from '../auth/store/auth';
 import styles from './SettingsPage.module.css';
 import { usePreferencesStore } from '../api/preferences';
 import { ALT_URL, BASE_URL } from '../api/endpoints';
+import { IoGrid, IoList } from 'react-icons/io5';
 
 export const SettingsPage = () => {
     const userStore = useUserStore();
@@ -271,6 +272,7 @@ export const SettingsPage = () => {
                                     ))}
                                 </div>
                             </div>
+                            <LocalAppearanceSettings />
                             <Button 
                                 className={styles.save_button}
                                 onClick={handleSaveAppearance}
@@ -290,6 +292,42 @@ export const SettingsPage = () => {
                     Не удалось загрузить настройки
                 </div>
             )}
+        </div>
+    );
+};
+
+const LocalAppearanceSettings: React.FC = () => {
+    const preferences = usePreferencesStore();
+    const viewMode = preferences.params.releaseListViewMode || 'list';
+
+    const handleChangeViewMode = (mode: 'grid' | 'list') => {
+        preferences.setParams({ releaseListViewMode: mode });
+    };
+
+    return (
+        <div className={styles.form_group}>
+            <label className={styles.label}>Отображение списков</label>
+            <p className={styles.help_text}>Выберите как отображать списки релизов в закладках</p>
+            <div className={styles.view_mode_options}>
+                <button
+                    type="button"
+                    className={`${styles.view_mode_option} ${viewMode === 'list' ? styles.view_mode_option_active : ''}`}
+                    onClick={() => handleChangeViewMode('list')}
+                >
+                    <IoList size={24} />
+                    <span>Список</span>
+                    <span className={styles.view_mode_description}>Горизонтальные карточки с описанием</span>
+                </button>
+                <button
+                    type="button"
+                    className={`${styles.view_mode_option} ${viewMode === 'grid' ? styles.view_mode_option_active : ''}`}
+                    onClick={() => handleChangeViewMode('grid')}
+                >
+                    <IoGrid size={24} />
+                    <span>Галерея</span>
+                    <span className={styles.view_mode_description}>Вертикальные карточки сеткой</span>
+                </button>
+            </div>
         </div>
     );
 };
