@@ -1,14 +1,13 @@
 .collection_card {
     position: relative;
     z-index: 10;
-    min-width: 27rem;
-    width: 27rem;
+    min-width: 16rem;
+    max-width: 27rem;
+    width: 100%;
     cursor: pointer;
     transition: .2s;
     border-radius: 1rem;
-
     opacity: 0;
-    transition: .3s;
     animation: show .3s;
     animation-fill-mode: forwards;
     animation-delay: .3s;
@@ -21,14 +20,47 @@
         width: 100%;
         border-radius: 0.75rem;
     }
+    
     .release_image_border,
     .release_image_border::after {
         width: 100%;
-        height: 12.5rem;
+        height: 14rem;
         border-radius: 0.75rem;
     }
-    .release_info_border { max-width: calc(100% - 2rem); }
-    .anime_title { font-size: 0.95rem; }
+    
+    .release_info_border {
+        max-width: calc(100% - 1.5rem);
+        padding: 0.75rem;
+        gap: 0.4rem;
+    }
+    
+    .anime_title {
+        font-size: 0.95rem;
+        line-height: 1.15rem;
+    }
+    
+    .anime_subinfo {
+        font-size: 0.85rem;
+    }
+
+    .collection_card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .collection_card {
+        min-width: 22rem;
+        width: 22rem;
+    }
+
+    .release_image_border,
+    .release_image_border::after {
+        width: 22rem;
+        height: 13.5rem;
+    }
 }
 
 .collection_card:hover .release_image_border {
@@ -82,8 +114,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 27rem;
-    height: 16.5rem;
+    width: 100%;
+    aspect-ratio: 16/10;
+    min-height: 10rem;
+    max-height: 16.5rem;
     overflow: hidden;
     border-radius: 1rem;
     border: 1px solid rgb(68, 68, 68);
@@ -96,8 +130,8 @@
     position: absolute;
     content: "";
     opacity: 1;
-    width: 27rem;
-    height: 16.5rem;
+    width: 100%;
+    height: 100%;
     border-radius: 1rem;
     box-shadow: 0 0 5rem rgba(0,0,0,0.9) inset;
     transition: .3s;

@@ -93,10 +93,121 @@
     background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 100%);
 }
 
+/* Mobile responsive */
 @media (max-width: 768px) {
-    .collection_releases { grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); }
-    .collection_hero_content { grid-template-columns: 1fr; }
-    .collection_poster_border { width: 100%; height: auto; aspect-ratio: 2 / 3; }
+    .сollection_page_wrap,
+    .сollection_page {
+        max-width: 100%;
+        width: 100%;
+        padding: 0;
+    }
+
+    .сollection_page {
+        gap: 0.75rem;
+    }
+
+    .collection_full_wrap {
+        width: 100%;
+        height: auto;
+    }
+
+    .collection_hero {
+        border-radius: 0;
+        margin: 0 -0.75rem;
+        width: calc(100% + 1.5rem);
+    }
+
+    .collection_hero_content {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem 0.75rem;
+    }
+
+    .collection_poster_border {
+        width: 60%;
+        height: auto;
+        aspect-ratio: 2 / 3;
+        margin: 0 auto;
+    }
+
+    .collection_body {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .collection_title {
+        font-size: 1.5rem;
+        line-height: 1.7rem;
+    }
+
+    .collection_meta {
+        font-size: 0.9rem;
+    }
+
+    .collection_desc {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .favorite_btn {
+        width: 100%;
+        height: auto;
+        min-height: 44px;
+        padding: 0.65rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .collection_releases_wrap {
+        padding: 0 0.75rem;
+        margin-top: 0.75rem;
+    }
+
+    .collection_releases {
+        grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+        gap: 0.5rem;
+    }
+
+    .section_title {
+        font-size: 1.25rem;
+        margin: 0.5rem 0;
+    }
+}
+
+/* Very narrow screens (old Android devices) */
+@media (max-width: 360px) {
+    .collection_poster_border {
+        width: 50%; /* Reduce from 60% */
+    }
+    
+    .collection_title {
+        font-size: 1.3rem;
+        line-height: 1.5rem;
+    }
+    
+    .collection_releases {
+        grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); /* Smaller cards */
+    }
+    
+    .favorite_btn {
+        padding: 0.6rem 0.85rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .collection_hero_content {
+        grid-template-columns: 20rem 1fr;
+        gap: 1.25rem;
+    }
+
+    .collection_poster_border {
+        width: 20rem;
+        height: 30rem;
+    }
+
+    .collection_releases {
+        grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    }
 }
 
 .collection_poster_border {

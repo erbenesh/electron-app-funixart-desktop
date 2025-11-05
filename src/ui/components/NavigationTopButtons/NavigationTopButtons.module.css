@@ -2,32 +2,50 @@
     position: relative;
     display: flex;
     justify-content: center;
-    height: 3rem;
-    margin-top: 5rem;
-    max-width: 120rem;
+    width: 100%;
+    height: 4rem;
+    z-index: var(--z-sticky);
 }
 
 .buttons_bg_wrap {
     position: fixed;
     display: flex;
     justify-content: center;
+    align-items: center;
     height: 4rem;
-    width: 120rem;
-    z-index: 994;
-    background-color: rgb(36, 36, 36, 0.8);
-    transition: 0.3s;
+    width: 100%;
+    max-width: 100%;
+    z-index: var(--z-sticky);
+    top: var(--header-height);
+    background-color: rgba(36, 36, 36, 0.95);
+    backdrop-filter: blur(0.75rem) brightness(1.05);
+    transition: transform 0.3s;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    border-bottom: 1px solid rgba(78, 78, 78, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.buttons_bg_wrap::-webkit-scrollbar {
+    display: none;
 }
 
 .buttons_list {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
     list-style: none;
-    width: 31%;
     height: 3rem;
-    max-width: 60rem;
-    padding: 0;
+    max-width: 1400px;
+    padding: 0 1rem;
     gap: 1rem;
+    flex-shrink: 0;
+    margin: 0 auto;
 }
 
 .button {
@@ -64,21 +82,31 @@
 }
 
 
-@media (width < 720px) {
+@media (max-width: 768px) {
+    .buttons_empty_wrap {
+        height: 3.5rem;
+    }
+    
     .buttons_bg_wrap {
-        height: 2.5rem;
+        height: 3.5rem;
+        justify-content: flex-start;
     }
+    
     .buttons_list {
-        width: 21%;
-        height: 2rem;
-        gap: .5rem;
+        height: 2.5rem;
+        gap: 0.5rem;
+        padding: 0 0.75rem;
+        justify-content: flex-start;
+        width: auto;
     }
+    
     .button_active,
     .button {
-        min-width: 4rem;
-        font-weight: 400;
-        font-size: .8rem;
-        padding: 0.2rem;
+        min-width: auto;
+        white-space: nowrap;
+        font-weight: 500;
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
         border-radius: 0.5rem;
     }
 }

@@ -1,52 +1,27 @@
-import { useEffect } from 'react';
-import { useScrollPosition } from '../../hooks/useScrollPosition';
+import { useCallback } from 'react';
 import { useUserStore } from '../../auth/store/auth';
-import styles from './RecommendationsList.module.css';
+import { InfiniteList } from '../InfiniteList/InfiniteList';
 import { ReleaseCard } from '../ReleaseCard/ReleaseCard';
 import { useGetRecommendationsInfinite } from '../../api/hooks/useDiscover';
+import type { Release } from '../../types/entities';
+import styles from './RecommendationsList.module.css';
 
 export const RecommendationsList = () => {
-
     const token = useUserStore((state) => state.token);
-
     const recom = useGetRecommendationsInfinite(token);
 
-    const scrollPosition = useScrollPosition();
-    useEffect(() => {
-        
-        if (recom.isSuccess && !recom.isFetchingNextPage && scrollPosition >= 90) {
-            recom.fetchNextPage();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [scrollPosition])
+    const renderItem = useCallback((release: Release) => (
+        <ReleaseCard key={release.id} release={release} />
+    ), []);
 
     return (
-        recom.isPending ?
-        (
-        <div className="loader-container_home">	
-            <i className="loader-circle"></i>
-        </div>
-        ) :
         <div className={styles.recom_list_page}>
-            <div className={styles.recom_list_cards}>
-                
-                {
-                recom.data?.pages.map(release => release.id && (
-                    <ReleaseCard key={release.id} release={release}/>
-                ))
-                }
-                
-            </div>
-
-            {
-                recom.isFetchingNextPage &&
-                (
-                <div className="loader-container_home">	
-                    <i className="loader-circle"></i>
-                </div>
-                )
-            }
-
+            <InfiniteList
+                query={recom}
+                renderItem={renderItem}
+                emptyMessage="Нет рекомендаций"
+                itemClassName={styles.recom_list_cards}
+            />
         </div>
-    )
+    );
 }

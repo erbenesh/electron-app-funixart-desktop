@@ -3,7 +3,7 @@ import { useUserStore } from '#/auth/store/auth';
 import { PostInput } from '#/components/PostInput/PostInput';
 import { TopFilterButtons } from '#/components/TopFilterButtons/TopFilterButtons';
 import { useEffect } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { Page } from 'ui-kit/components/Page/Page'
 import { Container } from 'ui-kit/components/Container/Container'
 import '../styles/Feed.css';
@@ -45,7 +45,12 @@ export const Feed = () => {
 
                 <div className="feed_channels">
                     {channelSubs.data?.content.map((channel) => 
-                        <Link key={channel.id} to={`/channel/${channel.id}`} className="channel_subed">
+                        <div 
+                            key={channel.id} 
+                            className="channel_subed"
+                            onClick={() => navigate(`/channel/${channel.id}`)}
+                            style={{ cursor: 'pointer' }}
+                        >
                             <div className="channel_avatar_border">
                                 <img className="channel_avatar" src={channel.avatar} alt={channel.title || ''} />
                             </div>
@@ -53,7 +58,7 @@ export const Feed = () => {
                             <p className="channel_title">
                                 {channel.title}
                             </p>
-                        </Link>
+                        </div>
                     )}
                 </div>
 

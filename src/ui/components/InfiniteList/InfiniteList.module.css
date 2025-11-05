@@ -1,0 +1,53 @@
+.container {
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+  /* Adaptive grid: auto-fit cards based on min width */
+  grid-template-columns: repeat(auto-fill, minmax(19.5rem, 1fr));
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.loadingMore {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+    gap: 0.5rem;
+  }
+  
+  .empty {
+    min-height: 200px;
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .loadingMore {
+    padding: 1rem;
+  }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 0.75rem;
+  }
+}
+

@@ -4,9 +4,10 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    min-width: 19.5rem;
+    min-width: 11.5rem;
+    max-width: 19.5rem;
+    width: 100%;
     z-index: 0;
-    width: 19.5rem;
     transition: all 0.2s ease;
     background-color: rgba(36, 36, 36);
     border-radius: 1rem;
@@ -15,12 +16,18 @@
     animation-fill-mode: forwards;
     animation-delay: .3s;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    contain: layout style paint;
 }
 
 .vert_card:hover {
     z-index: 1;
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.vert_card:active {
+    transform: translateY(-2px);
 }
 
 
@@ -37,8 +44,10 @@
 
 .release_image_border {
     position: relative;
-    width: 19.5rem;
-    height: 28rem;
+    width: 100%;
+    aspect-ratio: 2/3;
+    min-height: 17rem;
+    max-height: 28rem;
     overflow: hidden;
     border-radius: 1rem;
     transition: all 0.2s ease;
@@ -101,12 +110,10 @@
 }
 
 .description_and_action_buttons {
-
     position: absolute;
     bottom: 0;
     padding: 1rem;
-    width: calc((19.5rem) - 2rem);
-
+    width: calc(100% - 2rem);
     z-index: 3;
     pointer-events: none;
     border-radius: 0 0 1rem 1rem;
@@ -114,20 +121,58 @@
 
 @media (max-width: 768px) {
     .vert_card {
-        min-width: 11.5rem;
-        width: 11.5rem;
+        min-width: 10rem;
         border-radius: 0.75rem;
     }
     .release_image_border {
-        width: 11.5rem;
-        height: 17rem;
+        min-height: 15rem;
         border-radius: 0.75rem;
     }
-    .description_and_action_buttons { width: calc(100% - 1rem); padding: 0.5rem; }
-    .release_info { width: 94%; padding-bottom: 0.25rem; }
-    .bottom_info { gap: 0.25rem; }
-    .anime_title { font-size: 0.95rem; }
-    .anime_subinfo { font-size: 0.65rem; }
+    .description_and_action_buttons { 
+        width: calc(100% - 1rem); 
+        padding: 0.5rem; 
+    }
+    .release_info { 
+        width: 94%; 
+        padding-bottom: 0.25rem; 
+    }
+    .bottom_info { 
+        gap: 0.25rem; 
+    }
+    .anime_title { 
+        font-size: 0.95rem;
+        line-height: 1.2rem;
+    }
+    .anime_subinfo { 
+        font-size: 0.65rem; 
+    }
+    .anime_subinfo_noborder {
+        font-size: 0.8rem;
+    }
+}
+
+/* Very narrow screens (old Android devices) */
+@media (max-width: 360px) {
+    .vert_card {
+        min-width: 9rem;
+    }
+    
+    .release_image_border {
+        min-height: 13.5rem;
+    }
+    
+    .anime_title {
+        font-size: 0.85rem;
+        line-height: 1.1rem;
+    }
+    
+    .anime_subinfo {
+        font-size: 0.6rem;
+    }
+    
+    .anime_subinfo_noborder {
+        font-size: 0.75rem;
+    }
 }
 
 .release_lists_info {
@@ -172,8 +217,7 @@
     color: white;
     font-size: 1.25rem;
     font-weight: 700;
-    /* margin-top: 0.5rem;
-    margin-bottom: 0.4rem; */
+    margin: 0 0 0.4rem 0;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -188,7 +232,7 @@
     gap: 0.3rem;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .anime_subinfo {

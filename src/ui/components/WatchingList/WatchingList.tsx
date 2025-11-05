@@ -1,53 +1,27 @@
-
-import { useEffect } from 'react';
-import { useScrollPosition } from '../../hooks/useScrollPosition';
+import { useCallback } from 'react';
 import { useUserStore } from '../../auth/store/auth';
-import styles from './WatchingList.module.css';
+import { InfiniteList } from '../InfiniteList/InfiniteList';
 import { ReleaseCard } from '../ReleaseCard/ReleaseCard';
 import { useGetWatchingInfinite } from '../../api/hooks/useDiscover';
+import type { Release } from '../../types/entities';
+import styles from './WatchingList.module.css';
 
 export const WatchingList = () => {
-
     const token = useUserStore((state) => state.token);
-
     const list = useGetWatchingInfinite(token);
 
-    const scrollPosition = useScrollPosition();
-    useEffect(() => {
-        
-        if (list.isSuccess && !list.isFetchingNextPage && scrollPosition >= 90) {
-            list.fetchNextPage();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [scrollPosition])
+    const renderItem = useCallback((release: Release) => (
+        <ReleaseCard key={release.id} release={release} />
+    ), []);
 
     return (
-        list.isPending ?
-        (
-        <div className="loader-container_home">	
-            <i className="loader-circle"></i>
-        </div>
-        ) :
         <div className={styles.watching_list_page}>
-            <div className={styles.watching_list_cards}>
-                
-                {
-                list.data?.pages.map(release => release.id && (
-                    <ReleaseCard key={release.id} release={release}/>
-                ))
-                }
-                
-            </div>
-
-            {
-                list.isFetchingNextPage &&
-                (
-                <div className="loader-container_home">	
-                    <i className="loader-circle"></i>
-                </div>
-                )
-            }
-
+            <InfiniteList
+                query={list}
+                renderItem={renderItem}
+                emptyMessage="Список просмотров пуст"
+                itemClassName={styles.watching_list_cards}
+            />
         </div>
-    )
+    );
 }

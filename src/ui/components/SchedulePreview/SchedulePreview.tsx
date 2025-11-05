@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ScheduleReleaseCard } from "../ScheduleReleaseCard/ScheduleReleaseCard";
 import styles from "./SchedulePreview.module.css";
 
@@ -17,6 +17,7 @@ const dayNames = [
 const today = new Date().getDay();
 
 export const SchedulePreview = (props) => {
+  const navigate = useNavigate();
   const [schedulePreview, setSchedulePreview] = useState<any[] | null>(null);
 
   const [currentDay, setCurrentDay] = useState(today);
@@ -42,10 +43,21 @@ export const SchedulePreview = (props) => {
 
   return (
     <div className={styles.schedule_preview_wrap}>
-      <Link to={`${props.link}`} className={styles.section_title_link}>
+      <div 
+        className={styles.section_title_link}
+        onClick={() => navigate(props.link)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            navigate(props.link);
+          }
+        }}
+      >
         {props.sectionTitle}{" "}
         <IoIosArrowForward className={styles.title_arrow_ico} />
-      </Link>
+      </div>
 
       <div className={styles.day_filters}>
         <button

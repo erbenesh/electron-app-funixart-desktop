@@ -1,21 +1,70 @@
 .chip {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 var(--space-3);
-  height: 2rem;
-  border-radius: 1rem;
+  padding: 0 var(--space-4);
+  height: 2.5rem;
+  border-radius: 1.25rem;
   background-color: transparent;
   color: var(--color-text);
-  border: 1px solid var(--color-border);
+  border: 1px solid transparent;
   cursor: pointer;
   font-weight: 600;
   font-size: var(--text-sm);
-  transition: transform .15s ease, background-color .2s ease, border-color .2s ease, color .2s ease;
+  transition: all .2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.chip:hover { transform: scale(1.05); }
+.chip:hover { 
+  transform: translateY(-1px); 
+  background-color: rgba(255, 255, 255, 0.05);
+}
 
-.active { border-color: var(--color-accent); color: var(--color-accent); }
+.chip:active {
+  transform: scale(0.98);
+}
+
+.active { 
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* Underline indicator for active tab */
+.active::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 15%;
+  right: 15%;
+  height: 3px;
+  background: var(--color-accent);
+  border-radius: 2px;
+  animation: slideUnderline 0.3s ease-out;
+  box-shadow: 0 0 8px rgba(189, 78, 44, 0.4);
+}
+
+@keyframes slideUnderline {
+  from {
+    left: 50%;
+    right: 50%;
+    opacity: 0;
+  }
+  to {
+    left: 15%;
+    right: 15%;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .chip {
+    height: 2.25rem;
+    padding: 0 var(--space-3);
+    font-size: 0.875rem;
+  }
+}
 
 

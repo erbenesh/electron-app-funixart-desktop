@@ -1,25 +1,59 @@
+import { memo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styles from './InterestingCard.module.css';
+import { MediaCard } from '#/components/MediaCard/MediaCard';
 
-import { Link } from 'react-router-dom'
-import styles from './InterestingCard.module.css'
-import { MediaCard } from '#/components/MediaCard/MediaCard'
+interface InterestingRelease {
+    id: number;
+    type: number;
+    action: string | number;
+    image: string;
+    title?: string;
+    description?: string;
+}
 
-export const InterestingCard = ({...props}) => {
+interface InterestingCardProps {
+    release: InterestingRelease;
+}
 
+const InterestingCardComponent = ({ release }: InterestingCardProps) => {
+    const navigate = useNavigate();
+    
+    const handleClick = () => {
+        const path = release.type !== 3 ? `/release/${release.action}` : `/collection/${release.action}`;
+        navigate(path);
+    };
+    
     return (
-        <Link to={props.release.type !== 3 ? `/release/${props.release.action}` : `/collection/${props.release.action}`} id="inter_card" className={styles.card}>
+        <div 
+            id="inter_card" 
+            className={styles.card}
+            onClick={handleClick}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleClick();
+                }
+            }}
+        >
             <div className={styles.release_image_border}>
                 <MediaCard
-                    imageUrl={props.release.image}
+                    imageUrl={release.image}
                     bottomOverlay={
-                        props.release.title ? (
+                        release.title ? (
                             <div className={styles.release_info_border}>
-                                <p className={styles.anime_title}>{props.release.title}</p>
-                                <p className={styles.anime_subinfo}>{props.release.description}</p>
+                                <p className={styles.anime_title}>{release.title}</p>
+                                <p className={styles.anime_subinfo}>{release.description}</p>
                             </div>
                         ) : null
                     }
                 />
             </div>
-        </Link>
-    )
-}
+        </div>
+    );
+};
+
+export const InterestingCard = memo(InterestingCardComponent);
+InterestingCard.displayName = 'InterestingCard';

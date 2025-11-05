@@ -3,7 +3,7 @@ import { FaInstagram, FaTelegramPlane, FaTiktok, FaVk } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
 import { MdAddLink } from "react-icons/md";
 import { SiDiscord } from "react-icons/si";
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import '../styles/Profile.css';
 
 import { useGetProfile, useGetVotedReleases } from "#/api/hooks";
@@ -13,12 +13,12 @@ import { useUserStore } from "#/auth/store/auth";
 import type { Profile as ProfileType } from "#/types/entities";
 import { Avatar } from 'ui-kit/components/Avatar/Avatar';
 import { Button } from 'ui-kit/components/Button/Button';
+import { Container } from 'ui-kit/components/Container/Container';
 import { Input } from 'ui-kit/components/Input/Input';
 import { Modal } from 'ui-kit/components/Modal/Modal';
+import { Page } from 'ui-kit/components/Page/Page';
 import { Spinner } from 'ui-kit/components/Spinner/Spinner';
 import { TextArea } from 'ui-kit/components/TextArea/TextArea';
-import { Page } from 'ui-kit/components/Page/Page'
-import { Container } from 'ui-kit/components/Container/Container'
 
 export const Profile = () => {
 
@@ -640,9 +640,10 @@ export const Profile = () => {
                                 <ul className="voted_releases_list">
                                     {((votedReleasesData.data?.content ?? (votedReleasesData.data as any)?.data?.content ?? user.votes) as any[]).map((voted_release: any) => (
                                         <li className="voted_release" key={voted_release.id}>
-                                            <Link 
-                                                to={`/release/${voted_release.id}`}
+                                            <div 
                                                 className="voted_release_link"
+                                                onClick={() => navigate(`/release/${voted_release.id}`)}
+                                                style={{ cursor: 'pointer' }}
                                             >
                                                 <div className="voted_release_image_wrap">
                                                     <img 
@@ -679,7 +680,7 @@ export const Profile = () => {
                                                         </p>
                                                     )}
                                                 </div>
-                                            </Link>
+                                            </div>
                                         </li>
                                     ))}
                                 </ul>
@@ -695,21 +696,25 @@ export const Profile = () => {
                 {/* История просмотров */}
                 {user.history && user.history.length > 0 && (
                     <div className="profile_history">
-                    <div className="history_wrap section_card">
+                        <div className="history_wrap section_card">
                             <div className="history_wrap_top">
                                 <h2 className="analytics_title">История просмотров</h2>
-                                <Link to="/bookmarks/watching">
-                                    <Button className="profile_edit_button" type="button" variant="ghost">
-                                        Показать все
-                                    </Button>
-                                </Link>
+                                <Button 
+                                    className="profile_edit_button" 
+                                    type="button" 
+                                    variant="ghost"
+                                    onClick={() => navigate('/bookmarks/watching')}
+                                >
+                                    Показать все
+                                </Button>
                             </div>
                             <div className="history_releases_list">
                                 {user.history.slice(0, 5).map(release => (
-                                    <Link 
+                                    <div 
                                         key={release.id}
-                                        to={`/release/${release.id}`}
                                         className="history_release_item"
+                                        onClick={() => navigate(`/release/${release.id}`)}
+                                        style={{ cursor: 'pointer' }}
                                     >
                                         <div className="history_release_image_wrap">
                                             <img 
@@ -730,7 +735,7 @@ export const Profile = () => {
                                                 </p>
                                             )}
                                         </div>
-                                    </Link>
+                                    </div>
                                 ))}
                             </div>
                         </div>
@@ -743,18 +748,22 @@ export const Profile = () => {
                     <div className="friends_wrap section_card">
                             <div className="friends_wrap_top">
                                 <h2 className="analytics_title">Друзья</h2>
-                                <Link to="/friends">
-                                    <Button className="profile_edit_button" type="button" variant="ghost">
-                                        Показать всех
-                                    </Button>
-                                </Link>
+                                <Button 
+                                    className="profile_edit_button" 
+                                    type="button" 
+                                    variant="ghost"
+                                    onClick={() => navigate('/friends')}
+                                >
+                                    Показать всех
+                                </Button>
                             </div>
                             <div className="friends_preview_list">
                                 {user.friends_preview.slice(0, 6).map(friend => (
-                                    <Link 
+                                    <div 
                                         key={friend.id}
-                                        to={`/profile/${friend.id}`}
                                         className="friend_preview_item"
+                                        onClick={() => navigate(`/profile/${friend.id}`)}
+                                        style={{ cursor: 'pointer' }}
                                     >
                                         <Avatar 
                                             src={friend.avatar} 
@@ -762,7 +771,7 @@ export const Profile = () => {
                                             size="sm"
                                         />
                                         <span className="friend_login">{friend.login}</span>
-                                    </Link>
+                                    </div>
                                 ))}
                             </div>
                         </div>
@@ -775,18 +784,22 @@ export const Profile = () => {
                     <div className="collections_wrap section_card">
                             <div className="collections_wrap_top">
                                 <h2 className="analytics_title">Коллекции</h2>
-                                <Link to="/collections">
-                                    <Button className="profile_edit_button" type="button" variant="ghost">
-                                        Показать все
-                                    </Button>
-                                </Link>
+                                <Button 
+                                    className="profile_edit_button" 
+                                    type="button" 
+                                    variant="ghost"
+                                    onClick={() => navigate('/collections')}
+                                >
+                                    Показать все
+                                </Button>
                             </div>
                             <div className="collections_preview_list">
                                 {user.collections_preview.slice(0, 4).map(collection => (
-                                    <Link 
+                                    <div 
                                         key={collection.id}
-                                        to={`/collection/${collection.id}`}
                                         className="collection_preview_item"
+                                        onClick={() => navigate(`/collection/${collection.id}`)}
+                                        style={{ cursor: 'pointer' }}
                                     >
                                         <div className="collection_preview_image">
                                             <img 
@@ -798,7 +811,7 @@ export const Profile = () => {
                                             />
                                         </div>
                                         <p className="collection_preview_title">{collection.title}</p>
-                                    </Link>
+                                    </div>
                                 ))}
                             </div>
                         </div>

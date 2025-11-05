@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Card } from 'ui-kit/components/Card/Card'
 import { MediaCard } from '#/components/MediaCard/MediaCard'
 import { Spinner } from 'ui-kit/components/Spinner/Spinner'
@@ -9,6 +9,7 @@ import { useScrollPosition } from '../hooks/useScrollPosition'
 import styles from './ArticlesPage.module.css'
 
 export const ArticlesPage = () => {
+    const navigate = useNavigate()
     const userStore = useUserStore()
     const latest = useGetLatestArticles(userStore.token)
     const all = useGetAllArticles(userStore.token)
@@ -44,7 +45,19 @@ export const ArticlesPage = () => {
                 ) : (
                     <div className={styles.articles_list}>
                         {latestItems.map((a: any) => (
-                            <Link key={a.id} to={`/article/${a.id}`} className={styles.article_card}>
+                            <div 
+                                key={a.id} 
+                                className={styles.article_card}
+                                onClick={() => navigate(`/article/${a.id}`)}
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        navigate(`/article/${a.id}`);
+                                    }
+                                }}
+                            >
                                 {a.image ? (
                                     <MediaCard
                                         imageUrl={a.image}
@@ -59,7 +72,7 @@ export const ArticlesPage = () => {
                                         <p className={styles.article_title}>{a.title || 'Без названия'}</p>
                                     </Card>
                                 )}
-                            </Link>
+                            </div>
                         ))}
                         {latestItems.length === 0 && (
                             <div className={styles.empty_state}>Нет статей</div>
@@ -82,7 +95,12 @@ export const ArticlesPage = () => {
                 ) : (
                     <div className={styles.articles_list}>
                         {allItems.map((a: any) => (
-                            <Link key={a.id} to={`/article/${a.id}`} className={styles.article_card}>
+                            <div 
+                                key={a.id} 
+                                className={styles.article_card}
+                                onClick={() => navigate(`/article/${a.id}`)}
+                                style={{ cursor: 'pointer' }}
+                            >
                                 {a.image ? (
                                     <MediaCard
                                         imageUrl={a.image}
@@ -97,7 +115,7 @@ export const ArticlesPage = () => {
                                         <p className={styles.article_title}>{a.title || 'Без названия'}</p>
                                     </Card>
                                 )}
-                            </Link>
+                            </div>
                         ))}
                         {allItems.length === 0 && (
                             <div className={styles.empty_state}>Нет статей</div>

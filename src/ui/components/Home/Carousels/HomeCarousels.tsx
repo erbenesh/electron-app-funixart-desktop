@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { InterestingCard } from "../../InterestingCard/InterestingCard";
 import { ReleaseCard } from "../../ReleaseCard/ReleaseCard";
 import styles from "./HomeCarousels.module.css";
 
 export const HomeCarouselx5 = (props) => {
+    const navigate = useNavigate();
     const [ indx, setIndxLast ] = useState(0);
 
     const items = props.array ?? [];
@@ -54,14 +55,39 @@ export const HomeCarouselx5 = (props) => {
         <div className={styles.section}>
 
             { props.sectionTitleAlt !== "monday" && props.sectionTitleAlt !== "discussingReleases" && props.sectionTitleAlt !== "watchingReleases" ?
-            <Link to={`${props.link}`} className={styles.section_title_link}>{props.sectionTitle} <IoIosArrowForward className={styles.title_arrow_ico}/></Link>
+            <div 
+                className={styles.section_title_link}
+                onClick={() => navigate(props.link)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        navigate(props.link);
+                    }
+                }}
+            >
+                {props.sectionTitle} <IoIosArrowForward className={styles.title_arrow_ico}/>
+            </div>
             :
-            <Link to={`${props.link}`} className={styles.shcedule_title}>
+            <div 
+                className={styles.shcedule_title}
+                onClick={() => navigate(props.link)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        navigate(props.link);
+                    }
+                }}
+            >
                 <div className={styles.title_row_wrap}>
                     <h2 className={styles.section_title_link_sh}>{props.sectionTitle}</h2>
                     <p className={styles.sh_day_title}>{props.sectionTitleAlt !== "watchingReleases" ? "Сегодня" : "Cейчас"}</p>
                 </div>
-                <IoIosArrowForward className={styles.title_arrow_ico}/></Link>
+                <IoIosArrowForward className={styles.title_arrow_ico}/>
+            </div>
             }
 
             <div className={styles.last_releases}>

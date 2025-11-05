@@ -11,17 +11,37 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --header-height: 48px;
+  --header-height: 70px;
   --aside-width: 48px;
   scrollbar-gutter: stable both-edges;
 
-  /* Ant Design-like breakpoints */
-  --bp-xs: 480px;   /* < 576px (fallback) */
-  --bp-sm: 576px;   /* ≥576px */
-  --bp-md: 768px;   /* ≥768px */
-  --bp-lg: 992px;   /* ≥992px */
-  --bp-xl: 1200px;  /* ≥1200px */
-  --bp-xxl: 1600px; /* ≥1600px */
+  /* Z-index system */
+  --z-content: 1;
+  --z-sticky: 50;
+  --z-header: 100;
+  --z-toolbar: 110;
+  --z-mobile-nav: 120;
+  --z-dropdown: 200;
+  --z-overlay: 500;
+  --z-modal: 1000;
+  --z-toast: 1100;
+  --z-tooltip: 1200;
+
+  /* Breakpoints */
+  --bp-xs: 480px;
+  --bp-sm: 576px;
+  --bp-md: 768px;
+  --bp-lg: 992px;
+  --bp-xl: 1200px;
+  --bp-xxl: 1600px;
+}
+
+/* Mobile font size adjustment */
+@media (max-width: 768px) {
+  :root {
+    font-size: 14px; /* Base font smaller on mobile */
+    --header-height: calc(64px + env(safe-area-inset-top, 0));
+  }
 }
 
 ::-webkit-scrollbar {
@@ -62,6 +82,34 @@ body {
   padding-bottom: env(safe-area-inset-bottom, 0);
   padding-left: env(safe-area-inset-left, 0);
   padding-right: env(safe-area-inset-right, 0);
+  /* Remove default tap highlight on mobile */
+  -webkit-tap-highlight-color: transparent;
+  /* Prevent text selection on UI elements */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection in content areas */
+p, span, div[contenteditable], input, textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Focus visibility for keyboard navigation */
+:focus-visible {
+  outline: 2px solid rgb(189, 78, 44);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid rgb(189, 78, 44);
+  outline-offset: 2px;
+}
+
+/* Remove outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* Platform-specific touch and scroll behavior */
@@ -362,5 +410,21 @@ html, body, #root {
     overflow: auto; /* scroll inside the app container */
     -webkit-overflow-scrolling: touch; /* momentum scrolling */
     overscroll-behavior: contain; /* keep gestures inside */
+  }
+}
+
+/* iOS Dynamic Island / Notch support */
+@supports (padding: max(0px)) {
+  @media (max-width: 768px) {
+    :root {
+      --header-height: max(64px, calc(64px + env(safe-area-inset-top, 0)));
+    }
+  }
+}
+
+/* Android gesture navigation bar */
+@media (max-width: 768px) {
+  html[data-tg-platform="android"] .wrapper {
+    padding-bottom: max(5.5rem, calc(5.5rem + env(safe-area-inset-bottom, 0)));
   }
 }

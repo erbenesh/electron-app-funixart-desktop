@@ -7,7 +7,6 @@
   animation: show .3s;
   animation-fill-mode: forwards;
   animation-delay: .3s;
-  padding: 1rem;
   max-width: 110rem;
   margin: 0 auto;
 }
@@ -17,34 +16,88 @@
   100% { opacity: 1; }
 }
 
-.header_card {
+/* New gradient header design */
+.channel_header {
+  position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem;
-  width: 100%;
-}
-
-.header_left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex: 1 1 auto;
-  min-width: 0; /* allow text to shrink inside */
-}
-
-.avatar_square {
-  width: 6rem;
-  aspect-ratio: 1 / 1;
-  border-radius: 0.75rem;
+  padding: 2rem 1rem;
   overflow: hidden;
-  background: rgb(27,27,27);
-  border: 1px solid rgb(68,68,68);
+  min-height: 400px;
+}
+
+.gradient_background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background: linear-gradient(
+    135deg,
+    #7b2cbf 0%,
+    #9d4edd 20%,
+    #c77dff 40%,
+    #e0aaff 60%,
+    #c9f31d 80%,
+    #ff6b35 100%
+  );
+  opacity: 0.9;
+  z-index: 0;
+}
+
+.back_button {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.back_button:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: scale(1.05);
+}
+
+.back_button:active {
+  transform: scale(0.95);
+}
+
+.header_content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+}
+
+.avatar_circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .avatar_image {
@@ -53,31 +106,49 @@
   object-fit: cover;
 }
 
-.header_info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  min-width: 0; /* enable ellipsis */
-}
-
 .title {
   margin: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: rgb(230,230,230);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.title_row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.subscribers {
+  margin: 0;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
 }
 
 .description { 
-  color: rgb(200,200,200); 
+  color: rgba(255, 255, 255, 0.95); 
   margin: 0; 
-  overflow: hidden; 
-  display: -webkit-box; 
-  -webkit-line-clamp: 3; 
-  -webkit-box-orient: vertical; 
-  word-break: break-word;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  max-width: 500px;
+}
+
+.subscribe_action {
+  margin-top: 0.5rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+.subscribe_button_large {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  border-radius: 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .meta { 
@@ -108,26 +179,6 @@
   font-size: .85rem;
 }
 
-.cover_container {
-  width: 100%;
-  height: 20rem;
-  overflow: hidden;
-  border-radius: 1rem;
-  margin-bottom: 1rem;
-}
-
-.cover_image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.title_row {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
 .verified_badge {
   display: inline-flex;
   align-items: center;
@@ -135,10 +186,11 @@
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 50%;
-  background-color: rgb(189, 78, 44);
+  background-color: #e63946;
   color: white;
   font-size: 0.875rem;
   font-weight: 600;
+  box-shadow: 0 2px 8px rgba(230, 57, 70, 0.4);
 }
 
 .empty_state {
@@ -152,7 +204,8 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-top: 2rem;
+  padding: 0 1rem;
+  margin-top: 1rem;
 }
 
 .posts_title {
@@ -160,6 +213,7 @@
   font-weight: 600;
   color: rgb(230, 230, 230);
   margin: 0;
+  padding: 0;
 }
 
 .post_actions {
@@ -198,3 +252,126 @@
   font-size: 0.875rem;
 }
 
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .channel_page {
+        gap: 0;
+    }
+
+    .channel_header {
+        padding: 1.5rem 1rem;
+        min-height: 350px;
+    }
+
+    .gradient_background {
+        height: 250px;
+    }
+
+    .back_button {
+        width: 36px;
+        height: 36px;
+        font-size: 1.25rem;
+    }
+
+    .avatar_circle {
+        width: 100px;
+        height: 100px;
+        border-width: 3px;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .title_row {
+        gap: 0.4rem;
+    }
+
+    .subscribers {
+        font-size: 0.9rem;
+    }
+
+    .description {
+        font-size: 0.875rem;
+        padding: 0 0.5rem;
+    }
+
+    .subscribe_action {
+        max-width: 280px;
+    }
+
+    .subscribe_button_large {
+        padding: 0.65rem 1.25rem;
+        font-size: 0.95rem;
+    }
+
+    .verified_badge {
+        width: 1.25rem;
+        height: 1.25rem;
+        font-size: 0.75rem;
+    }
+
+    .empty_state {
+        padding: 2rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .posts_section {
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+    }
+
+    .posts_title {
+        font-size: 1.1rem;
+    }
+
+    .post_actions {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .post_meta {
+        padding: 0.5rem 0.75rem 0 0.75rem;
+        font-size: 0.85rem;
+        flex-wrap: wrap;
+    }
+
+    .author_avatar {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .meta_chips {
+        gap: 0.4rem;
+        flex-wrap: wrap;
+    }
+
+    .meta_chip {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.4rem;
+    }
+
+    .comments_section {
+        padding: 0.75rem;
+        gap: 0.5rem;
+    }
+
+    .no_comments {
+        font-size: 0.8rem;
+    }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .avatar_square {
+        width: 5.5rem;
+        height: 5.5rem;
+    }
+
+    .title {
+        font-size: 1.35rem;
+    }
+
+    .cover_container {
+        height: 18rem;
+    }
+}

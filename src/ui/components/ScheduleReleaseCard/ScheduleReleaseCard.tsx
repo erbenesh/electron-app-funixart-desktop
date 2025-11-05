@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { MediaCard } from '#/components/MediaCard/MediaCard';
 import { unixToDate } from '../../api/utils';
 import styles from './ScheduleReleaseCard.module.css';
@@ -6,19 +6,32 @@ import styles from './ScheduleReleaseCard.module.css';
 const yearSeason = ["_", "Зима", "Весна", "Лето", "Осень"];
 
 export const ScheduleReleaseCard = (props) => {
+    const navigate = useNavigate();
     const grade = props.release.grade ? props.release.grade.toFixed(1) : null;
-    // console.log(props.release);
+    
+    const handleClick = () => {
+        navigate(`/release/${props.release.id}`);
+    };
 
     return (
-        <div id="vert_card" className={styles.card}>
+        <div 
+            id="vert_card" 
+            className={styles.card}
+            onClick={handleClick}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleClick();
+                }
+            }}
+        >
             <div className={styles.release_image_border}>
                 <MediaCard
                     className={styles.media_card}
                     mediaClassName={styles.media_img}
                     imageUrl={props.release.image}
-                    link={
-                        <Link to={`/release/${props.release.id}`} />
-                    }
                     bottomOverlay={
                         <div className={styles.release_info}>
 

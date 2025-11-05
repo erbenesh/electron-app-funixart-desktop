@@ -609,47 +609,327 @@ html[data-tg-platform="ios"] .screens_wrap {
 
 @media (max-width: 768px) {
     /* Prevent horizontal scroll */
-    .release_page_wrap, .release_page { max-width: 100%; width: 100%; overflow-x: hidden; }
-    .release_block { max-width: 100%; width: 100%; padding: 0 0.75rem; box-sizing: border-box; }
-    .screens_wrap { max-width: 100%; padding: 0.75rem 0; }
+    .release_page_wrap, .release_page { 
+        max-width: 100%; 
+        width: 100%; 
+        overflow-x: hidden; 
+    }
+    
+    .release_block { 
+        max-width: 100%; 
+        width: 100%; 
+        padding: 0 0.75rem; 
+        box-sizing: border-box; 
+    }
+    
+    .screens_wrap { 
+        max-width: 100%; 
+        padding: 0.75rem 0; 
+    }
 
-    .release_page_body { flex-direction: column; align-items: stretch; }
-    .release_info_header { grid-template-columns: 1fr; gap: 1rem; }
-    .header_title_image_border { width: 80%; min-width: 0; height: auto; min-height: 0; aspect-ratio: 3 / 4; }
-    .header_title_image { width: 100%; height: 100%; object-fit: cover; }
-    .header_background_title_image { width: 100%; height: 100%; object-fit: cover; }
-    .video_player_wrap { display: none; }
-    .recommends_and_related_block { max-width: 100%; padding: 0; }
-    .recommends_and_related_column { max-width: 100%; width: 100%; }
-    .screens_card { width: 86vw; }
-    .screens_image_border { width: 100%; height: 9rem; }
-    .carousel_prev_button, .carousel_next_button { display: none; }
+    /* Layout */
+    .release_page_body { 
+        flex-direction: column; 
+        align-items: stretch; 
+    }
 
-    .release_info { padding: 0.75rem; gap: 0.75rem; }
-    .release_title { font-size: 1.2rem; line-height: 1.6rem; overflow-wrap: anywhere; word-break: break-word; }
-    .release_title_alt { font-size: 0.85rem; }
+    /* Header */
+    .release_header {
+        overflow-x: hidden;
+    }
 
-    .releases_info_buttons { gap: 0.5rem; }
-    .info_buttons_wrap { gap: 0.4rem; flex-wrap: wrap; width: 100%; }
-    .info_button, .info_button_favorite { height: 1.8rem; padding: 0 0.65rem; font-size: 0.8rem; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .info_button_list { font-size: 0.9rem; padding: 0.35rem 0.6rem; }
-    .info_button_favorite { padding: 0.35rem 0.6rem; font-size: 0.9rem; }
+    .header_background_image_border {
+        height: 35rem;
+    }
 
-    .parameters_icons { gap: 0.3rem; }
-    .icon { width: 0.9rem; }
-    .mini_ico { width: 100%; height: 100%; }
-    .hash_ico { width: 0.9rem; height: 0.9rem; }
+    .release_info_header { 
+        grid-template-columns: 1fr; 
+        gap: 1rem; 
+        justify-items: center;
+    }
+    
+    .header_title_image_border { 
+        width: 60%; 
+        min-width: 0; 
+        height: auto; 
+        min-height: 0; 
+        aspect-ratio: 3 / 4; 
+    }
+    
+    .header_title_image { 
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; 
+    }
+    
+    .header_background_title_image { 
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; 
+    }
+    
+    .video_player_wrap { 
+        display: none; 
+    }
 
-    .section_title { margin: 0.25rem 0 0.75rem 0; padding-inline-start: 0.4rem; }
-    .genres_wrap { margin-top: 0.25rem; }
-    .genres { font-size: 0.95rem; overflow-wrap: anywhere; }
-    .description_button { font-size: 0.95rem; }
+    /* Sidebar - hide or make carousel */
+    .recommends_and_related_block { 
+        max-width: 100%; 
+        padding: 0; 
+        display: none; /* Hide on mobile, or convert to horizontal scroll */
+    }
+    
+    .recommends_and_related_column { 
+        max-width: 100%; 
+        width: 100%; 
+    }
 
-    /* Table stacks vertically on mobile */
-    .release_info_table { flex-direction: row; gap: 0.5rem; width: 100%; box-sizing: border-box; }
+    /* Screens/Videos */
+    .screens_card { 
+        width: 86vw; 
+    }
+    
+    .screens_image_border { 
+        width: 100%; 
+        height: 9rem; 
+    }
+    
+    .carousel_prev_button, 
+    .carousel_next_button { 
+        display: none; 
+    }
 
-    /* Comments block spacing */
-    .comments_section_wrap, .comments_section { width: 100%; box-sizing: border-box; }
+    /* Release Info */
+    .release_info { 
+        padding: 0.75rem; 
+        gap: 0.75rem; 
+        max-width: 100%;
+    }
+    
+    .release_title { 
+        font-size: 1.25rem; 
+        line-height: 1.5rem; 
+        overflow-wrap: anywhere; 
+        word-break: break-word; 
+    }
+    
+    .release_title_alt { 
+        font-size: 0.9rem; 
+    }
+
+    .release_base_info {
+        gap: 0.5rem;
+    }
+
+    /* Buttons - responsive grid */
+    .releases_info_buttons { 
+        gap: 0.5rem; 
+    }
+    
+    .info_buttons_wrap { 
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem; 
+        width: 100%; 
+    }
+    
+    .info_button, 
+    .info_button_favorite { 
+        height: auto;
+        min-height: 44px; /* Touch target */
+        padding: 0.5rem 0.75rem; 
+        font-size: 0.85rem; 
+        max-width: 100%; 
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        white-space: nowrap;
+        justify-content: center;
+    }
+    
+    .info_button_list { 
+        font-size: 0.9rem; 
+        padding: 0.5rem 0.75rem;
+        min-height: 44px;
+    }
+    
+    .info_button_favorite { 
+        padding: 0.5rem 0.75rem; 
+        font-size: 0.85rem; 
+    }
+
+    .collection_buttons_wrap {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .comments_b_ico {
+        width: 0.9rem;
+        height: 0.9rem;
+    }
+
+    /* Info Table */
+    .release_info_table { 
+        flex-direction: column; 
+        gap: 0.75rem; 
+        width: 100%; 
+        box-sizing: border-box; 
+    }
+
+    .parameters_icons { 
+        gap: 0.3rem; 
+    }
+    
+    .icon { 
+        width: 1rem; 
+    }
+    
+    .mini_ico { 
+        width: 100%; 
+        height: 100%; 
+    }
+    
+    .hash_ico { 
+        width: 0.9rem; 
+        height: 0.9rem; 
+    }
+
+    .parameters {
+        gap: 0.5rem;
+    }
+
+    .param {
+        font-size: 0.9rem;
+    }
+
+    /* Sections */
+    .section_title { 
+        margin: 0.5rem 0 0.75rem 0; 
+        padding-inline-start: 0.4rem; 
+        font-size: 1.1rem;
+    }
+    
+    .genres_wrap { 
+        margin-top: 0.25rem; 
+    }
+    
+    .genres { 
+        font-size: 0.9rem; 
+        overflow-wrap: anywhere; 
+    }
+
+    /* Description */
+    .description_wrap {
+        margin-top: 0.5rem;
+    }
+
+    .description_hidden {
+        -webkit-line-clamp: 3;
+    }
+    
+    .description_button { 
+        font-size: 0.9rem; 
+        padding: 0.65rem;
+        margin-top: 0.5rem;
+        min-height: 44px;
+    }
+
+    /* Comments */
+    .comments_section_wrap, 
+    .comments_section { 
+        width: 100%; 
+        box-sizing: border-box; 
+    }
+
+    .comment_add_wrap {
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .comment_textarea {
+        min-height: 4rem;
+        font-size: 0.9rem;
+    }
+
+    .comment_actions {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .comment_spoiler,
+    .comment_spoiler_under {
+        font-size: 0.85rem;
+    }
+
+    /* Video Modal */
+    .video_modal_inner {
+        width: 95vw;
+        border-radius: 0.5rem;
+    }
+
+    .video_modal_close {
+        top: 0.5rem;
+        right: 0.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1.25rem;
+    }
+}
+
+/* Very narrow screens (old Android devices) */
+@media (max-width: 360px) {
+    .release_info_header {
+        gap: 0.75rem;
+    }
+    
+    .header_title_image_border {
+        width: 55%; /* Reduce from 60% */
+        min-width: 0;
+    }
+    
+    .info_buttons_wrap {
+        grid-template-columns: 1fr; /* Single column instead of 2 */
+    }
+    
+    .info_button,
+    .info_button_favorite {
+        width: 100%;
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+    
+    .release_title {
+        font-size: 1.1rem;
+        line-height: 1.35rem;
+    }
+    
+    .section_title {
+        font-size: 1rem;
+    }
+}
+
+/* Tablet styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .release_info_header {
+        gap: 1.5rem;
+    }
+
+    .header_title_image_border {
+        width: 16rem;
+        height: 22rem;
+    }
+
+    .info_buttons_wrap {
+        gap: 0.75rem;
+    }
+
+    .info_button {
+        padding: 0.5rem 0.85rem;
+        font-size: 0.95rem;
+    }
+
+    .recommends_and_related_block {
+        max-width: 20rem;
+    }
 }
 
 /* .info_carousel[data-direction="right"] {

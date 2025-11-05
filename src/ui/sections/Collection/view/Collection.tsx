@@ -94,10 +94,10 @@ export const CollectionPage = () => {
                 <div className="collection_releases_wrap">
                     <h2 className="section_title">Релизы в коллекции</h2>
                     <div className="collection_releases">
-                        {currentCollectionReleases.data?.pages.map(release => release.id &&
+                        {currentCollectionReleases.data?.pages.map((release: any) => release.id &&
                             <ReleaseCard 
                                 key={`coll_${collection?.id}_release_${release.id}_pos_${release["@id"]}`}
-                                release={release}
+                                release={release as any}
                             />
                         )}
                     </div>

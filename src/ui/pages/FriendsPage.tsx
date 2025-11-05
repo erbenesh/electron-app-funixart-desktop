@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Avatar } from 'ui-kit/components/Avatar/Avatar'
 import { Button } from 'ui-kit/components/Button/Button'
 import { Card } from 'ui-kit/components/Card/Card'
@@ -10,6 +10,7 @@ import { useScrollPosition } from '../hooks/useScrollPosition'
 import styles from './FriendsPage.module.css'
 
 export const FriendsPage = () => {
+    const navigate = useNavigate()
     const userStore = useUserStore()
 
     const friends = useGetFriends({ profileId: userStore.user?.id || 0, page: 0, token: userStore.token })
@@ -56,12 +57,16 @@ export const FriendsPage = () => {
                         <div className={styles.list}>
                             {friendsItems.map((p: any) => (
                                 <Card key={p.id} className={styles.friend_card}>
-                                    <Link to={`/profile/${p.id}`} className={styles.friend_link}>
+                                    <div 
+                                        className={styles.friend_link}
+                                        onClick={() => navigate(`/profile/${p.id}`)}
+                                        style={{ cursor: 'pointer' }}
+                                    >
                                         <Avatar src={p.avatar} alt={p.login || 'Пользователь'} size="md" />
                                         <div className={styles.friend_info}>
                                             <span className={styles.friend_login}>{p.login || 'Без имени'}</span>
                                         </div>
-                                    </Link>
+                                    </div>
                                     <Button 
                                         variant="ghost" 
                                         size="sm"
@@ -88,12 +93,16 @@ export const FriendsPage = () => {
                         <div className={styles.list}>
                             {requestsInItems.map((p: any) => (
                                 <Card key={p.id} className={styles.friend_card}>
-                                    <Link to={`/profile/${p.id}`} className={styles.friend_link}>
+                                    <div 
+                                        className={styles.friend_link}
+                                        onClick={() => navigate(`/profile/${p.id}`)}
+                                        style={{ cursor: 'pointer' }}
+                                    >
                                         <Avatar src={p.avatar} alt={p.login || 'Пользователь'} size="md" />
                                         <div className={styles.friend_info}>
                                             <span className={styles.friend_login}>{p.login || 'Без имени'}</span>
                                         </div>
-                                    </Link>
+                                    </div>
                                 </Card>
                             ))}
                             {requestsInItems.length === 0 && (
@@ -118,12 +127,16 @@ export const FriendsPage = () => {
                         <div className={styles.list}>
                             {requestsOutItems.map((p: any) => (
                                 <Card key={p.id} className={styles.friend_card}>
-                                    <Link to={`/profile/${p.id}`} className={styles.friend_link}>
+                                    <div 
+                                        className={styles.friend_link}
+                                        onClick={() => navigate(`/profile/${p.id}`)}
+                                        style={{ cursor: 'pointer' }}
+                                    >
                                         <Avatar src={p.avatar} alt={p.login || 'Пользователь'} size="md" />
                                         <div className={styles.friend_info}>
                                             <span className={styles.friend_login}>{p.login || 'Без имени'}</span>
                                         </div>
-                                    </Link>
+                                    </div>
                                 </Card>
                             ))}
                             {requestsOutItems.length === 0 && (
@@ -148,12 +161,16 @@ export const FriendsPage = () => {
                         <div className={styles.list}>
                             {recommendationsItems.map((p: any) => (
                                 <Card key={p.id} className={styles.friend_card}>
-                                    <Link to={`/profile/${p.id}`} className={styles.friend_link}>
+                                    <div 
+                                        className={styles.friend_link}
+                                        onClick={() => navigate(`/profile/${p.id}`)}
+                                        style={{ cursor: 'pointer' }}
+                                    >
                                         <Avatar src={p.avatar} alt={p.login || 'Пользователь'} size="md" />
                                         <div className={styles.friend_info}>
                                             <span className={styles.friend_login}>{p.login || 'Без имени'}</span>
                                         </div>
-                                    </Link>
+                                    </div>
                                     <Button 
                                         variant="primary" 
                                         size="sm"

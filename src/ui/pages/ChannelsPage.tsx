@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Avatar } from 'ui-kit/components/Avatar/Avatar'
 import { Card } from 'ui-kit/components/Card/Card'
 import { Carousel } from 'ui-kit/components/Carousel/Carousel'
@@ -11,6 +11,7 @@ import { useScrollPosition } from '../hooks/useScrollPosition'
 import styles from './ChannelsPage.module.css'
 
 export const ChannelsPage = () => {
+    const navigate = useNavigate()
     const userStore = useUserStore()
     const channels = useGetAllChannels(userStore.token)
     const recommendations = useGetChannelRecommendations(userStore.token)
@@ -51,7 +52,18 @@ export const ChannelsPage = () => {
                     <Carousel ariaLabel="Рекомендованные каналы" showDots={false}>
                         {recommendationsItems.map((ch: any) => (
                             <div key={ch.id} className={styles.channel_item}>
-                            <Link to={`/channel/${ch.id}`} className={styles.channel_card}>
+                            <div 
+                                className={styles.channel_card}
+                                onClick={() => navigate(`/channel/${ch.id}`)}
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        navigate(`/channel/${ch.id}`);
+                                    }
+                                }}
+                            >
                                 {ch.avatar ? (
                                     <MediaCard
                                         imageUrl={ch.avatar}
@@ -67,7 +79,7 @@ export const ChannelsPage = () => {
                                         <p className={styles.channel_title}>{ch.title || 'Без названия'}</p>
                                     </Card>
                                 )}
-                            </Link>
+                            </div>
                             <div className={styles.hover_info}>
                                 <p className={styles.hover_title}>{ch.title || 'Без названия'} {ch.is_verified && <span className={styles.verified}>✓</span>}</p>
                                 <p className={styles.hover_desc}>{ch.description || 'Описание отсутствует'}</p>
@@ -109,7 +121,18 @@ export const ChannelsPage = () => {
                     <div className={styles.channels_list}>
                         {channelsItems.map((ch: any) => (
                             <div key={ch.id} className={styles.channel_item}>
-                            <Link to={`/channel/${ch.id}`} className={styles.channel_card}>
+                            <div 
+                                className={styles.channel_card}
+                                onClick={() => navigate(`/channel/${ch.id}`)}
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        navigate(`/channel/${ch.id}`);
+                                    }
+                                }}
+                            >
                                 {ch.avatar ? (
                                     <MediaCard
                                         imageUrl={ch.avatar}
@@ -125,7 +148,7 @@ export const ChannelsPage = () => {
                                         <p className={styles.channel_title}>{ch.title || 'Без названия'}</p>
                                     </Card>
                                 )}
-                            </Link>
+                            </div>
                             <div className={styles.hover_info}>
                                 <p className={styles.hover_title}>{ch.title || 'Без названия'} {ch.is_verified && <span className={styles.verified}>✓</span>}</p>
                                 <p className={styles.hover_desc}>{ch.description || 'Описание отсутствует'}</p>

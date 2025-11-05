@@ -1,13 +1,15 @@
 .page {
   display: block;
+  padding-top: var(--header-height);
+  min-height: calc(100vh - var(--header-height));
 }
 
 .top_sm {
-  padding-top: 2rem;
+  padding-top: calc(var(--header-height) + 2rem);
 }
 
 .top_md {
-  padding-top: 4rem;
+  padding-top: calc(var(--header-height) + 4rem);
 }
 
 

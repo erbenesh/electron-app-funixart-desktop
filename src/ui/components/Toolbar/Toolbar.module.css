@@ -5,36 +5,85 @@
     place-self: center;
     justify-content: space-between;
     width: 100%;
-    z-index: 997;
+    z-index: var(--z-toolbar);
     padding: 0.5rem;
     pointer-events: none;
+    top: 0;
+    padding-top: max(0.5rem, calc(env(safe-area-inset-top, 0) + 0.5rem));
 }
 
 .back_button {
     display: flex;
     justify-content: center;
+    align-items: center;
     z-index: 16;
     width: 2.5rem;
     height: 2.5rem;
+    min-width: 44px; /* Touch target */
+    min-height: 44px;
     border: none;
     outline: none;
     border-radius: 0.5rem;
-    background-color: rgb(36, 36, 36, 0.8);
+    background-color: rgba(36, 36, 36, 0.9);
     border: 1px solid rgb(78, 78, 78);
     overflow: hidden;
-    transition: .3s;
+    transition: all 0.3s;
     cursor: pointer;
-    /* box-shadow: 0 5px 5px rgba(0,0,0,0.5); */
+    backdrop-filter: blur(8px);
     pointer-events: all;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .back_button:hover {
-    background-color: #555555;
+    background-color: rgba(85, 85, 85, 0.95);
+    transform: scale(1.05);
+}
+
+.back_button:active {
+    transform: scale(0.95);
 }
 
 .back_ico {
     user-select: none;
     width: 2.5rem;
     height: 2.5rem;
+    color: rgb(230, 230, 230);
+}
+
+.share_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 16;
+    width: 2.5rem;
+    height: 2.5rem;
+    min-width: 44px; /* Touch target */
+    min-height: 44px;
+    border: none;
+    outline: none;
+    border-radius: 0.5rem;
+    background-color: rgba(36, 36, 36, 0.9);
+    border: 1px solid rgb(78, 78, 78);
+    overflow: hidden;
+    transition: all 0.3s;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    pointer-events: all;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.share_button:hover {
+    background-color: rgba(85, 85, 85, 0.95);
+    transform: scale(1.05);
+}
+
+.share_button:active {
+    transform: scale(0.95);
+}
+
+.share_ico {
+    user-select: none;
+    width: 1.5rem;
+    height: 1.5rem;
     color: rgb(230, 230, 230);
 }

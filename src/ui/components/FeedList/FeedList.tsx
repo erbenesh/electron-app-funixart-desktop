@@ -2,7 +2,7 @@ import parse from 'html-react-parser';
 import { useEffect } from 'react';
 import { BiRepost } from 'react-icons/bi';
 import { IoHeartOutline } from 'react-icons/io5';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { articleService } from '../../api/ArticleService';
 import { commentService } from '../../api/CommentService';
 import { useGetFeedInfinite } from '../../api/hooks/useFeed';
@@ -14,7 +14,7 @@ import { PostMediaItem } from '../PostMediaItem/PostMediaItem';
 import styles from './FeedList.module.css';
 
 export const FeedList = () => {
-
+    const navigate = useNavigate();
     const token = useUserStore((state) => state.token);
 
     const location = useLocation();
@@ -45,7 +45,18 @@ export const FeedList = () => {
 
                         <div className={styles.post_channel}>
 
-                            <Link to={`/channel/${post.channel?.id}`} className={styles.channel}>
+                            <div 
+                                className={styles.channel}
+                                onClick={() => navigate(`/channel/${post.channel?.id}`)}
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        navigate(`/channel/${post.channel?.id}`);
+                                    }
+                                }}
+                            >
                                 <div className={styles.channel_avatar}>
                                     <img className={styles.channel_avatar_image} src={post.channel.avatar} alt={post.channel.title || 'Канал'} />
                                 </div>
@@ -53,7 +64,7 @@ export const FeedList = () => {
                                     {post.channel.title}
                                 </p>   
 
-                            </Link>                    
+                            </div>                    
 
                             <span className={styles.post_timing}>
                                 {formatPostTimestamp(post.last_update_date)}

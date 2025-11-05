@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { memo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MediaCard } from '../MediaCard/MediaCard';
 import { unixToDate } from '../../api/utils';
 import styles from './ReleaseCard.module.css';
-
+import type { Release } from '../../types/entities';
 
 const profile_lists = {
     // 0: "Не смотрю",
@@ -16,11 +16,17 @@ const profile_lists = {
 
 const yearSeason = ["_", "Зима", "Весна", "Лето", "Осень"];
 
-export const ReleaseCard = (props) => {
+interface ReleaseCardProps {
+    release: Release;
+    clickCallBack?: (value: string) => void;
+}
 
-    const grade = props.release.grade ? props.release.grade.toFixed(1) : null;
+const ReleaseCardComponent = ({ release, clickCallBack }: ReleaseCardProps) => {
+    const navigate = useNavigate();
 
-    const profile_list_status = props.release.profile_list_status;
+    const grade = release.grade ? release.grade.toFixed(1) : null;
+
+    const profile_list_status = release.profile_list_status;
     
     let user_list = null;
   
@@ -31,46 +37,59 @@ export const ReleaseCard = (props) => {
     const [dominantColor, setDominantColor] = useState('rgba(36, 36, 36, 1)');
 
     // Dominant color calculation removed to avoid external dependency
+    
+    const handleClick = () => {
+        if (clickCallBack) {
+            clickCallBack("");
+        }
+        navigate(`/release/${release.id}`);
+    };
 
     return (
-        <div id="vert_card" className={styles.vert_card}>
+        <div 
+            id="vert_card" 
+            className={styles.vert_card}
+            onClick={handleClick}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleClick();
+                }
+            }}
+        >
 
             <div className={styles.release_image_border}>
             <MediaCard
-                imageUrl={props.release.image}
-                link={
-                    <Link 
-                        to={`/release/${props.release.id}`} 
-                        onClick={() => props.clickCallBack && props.clickCallBack("")}
-                    />
-                }
+                imageUrl={release.image}
                 bottomOverlay={
                     <div className={styles.release_info}>
 
-                        <div className={styles.anime_title}>{props.release.title_ru}</div>
+                        <div className={styles.anime_title}>{release.title_ru}</div>
 
                         <div className={styles.anime_subinfo_noborder}>
                             {/*Жанры*/}
-                            # { props.release.genres }
+                            # { release.genres }
                         </div>
 
                         <div className={styles.bottom_info}>
                         
-                            { props.release.category &&
+                            { release.category &&
                             <>
                                 <span className={styles.anime_subinfo}>
                                     {/*Категория*/}
-                                    { props.release.category.name }
+                                    { release.category.name }
                                 </span>
                                 •
                             </>
                             }
                     
-                            { props.release.status &&
+                            { release.status &&
                             <>
                                 <span className={styles.anime_subinfo}>
                                     {/*Статус*/}
-                                    { props.release.status.name }
+                                    { release.status.name }
                                 </span>
                                 •
                             </>
@@ -78,27 +97,27 @@ export const ReleaseCard = (props) => {
                 
                             <span className={styles.anime_subinfo}>
                                 {/*Сколько эпизодов*/}
-                                { props.release.episodes_released && props.release.episodes_released + " из "}
+                                { release.episodes_released && release.episodes_released + " из "}
                                 {/*Из скольки эпизодов*/}
                                 { 
-                                    // props.release.status && props.release.status.id !== 3 && 
-                                    props.release.episodes_total ? props.release.episodes_total + " эп" : "? эп" 
+                                    // release.status && release.status.id !== 3 && 
+                                    release.episodes_total ? release.episodes_total + " эп" : "? эп" 
                                 }
                             </span>
                         •        
                             <span className={styles.anime_subinfo}>
                                 {/*Оценка или это анонс?*/}
                                 { grade ? <>&#9733; {grade}</> 
-                                : props.release.status 
-                                && props.release.status.id === 0
-                                && props.release.aired_on_date !== 0 ? (
-                                    unixToDate(props.release.aired_on_date, "dayMonthYear")
-                                ) : props.release.year ? (
+                                : release.status 
+                                && release.status.id === 0
+                                && release.aired_on_date !== 0 ? (
+                                    unixToDate(release.aired_on_date, "dayMonthYear")
+                                ) : release.year ? (
                                     <>
-                                        {props.release.season && props.release.season != 0
-                                        ? `${yearSeason[props.release.season]} `
+                                        {release.season && release.season != 0
+                                        ? `${yearSeason[release.season]} `
                                         : ""}
-                                        {props.release.year && `${props.release.year} г.`}
+                                        {release.year && `${release.year} г.`}
                                     </>
                                 ) : (
                                     "Скоро"
@@ -107,7 +126,7 @@ export const ReleaseCard = (props) => {
 
                             {/* <div className={styles.bookmark}>
                                 {
-                                props.release.is_favorite? 
+                                release.is_favorite? 
                                 <IoBookmark style={{color:"rgb(189, 78, 44)", width: '1.2rem', height: '1.2rem'}}/> 
                                 : <IoBookmarkOutline style={{color:"rgb(160, 160, 160)", width: '1.2rem', height: '1.2rem'}}/>
                                 }
@@ -135,8 +154,16 @@ export const ReleaseCard = (props) => {
             </div>
                 
         </div>
-    )
-}
+    );
+};
+
+// Memoized export for performance
+export const ReleaseCard = memo(ReleaseCardComponent, (prevProps, nextProps) => {
+    // Only re-render if release id changes
+    return prevProps.release.id === nextProps.release.id;
+});
+
+ReleaseCard.displayName = 'ReleaseCard';
 
 {/* <div className="glowing-elements">
 <div className="glow-1"></div>

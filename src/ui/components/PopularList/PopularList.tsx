@@ -1,56 +1,42 @@
 
-import { useEffect } from 'react';
+import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useScrollPosition } from '../../hooks/useScrollPosition';
 import { useUserStore } from '../../auth/store/auth';
-import styles from './PopularList.module.css';
+import { usePreferencesStore } from '../../api/preferences';
+import { InfiniteList } from '../InfiniteList/InfiniteList';
 import { ReleaseCard } from '../ReleaseCard/ReleaseCard';
+import { ReleaseListCard } from '../ReleaseListCard/ReleaseListCard';
 import { useGetLastUpdatedReleasesInfinite } from '../../api/hooks/useRelease';
+import type { Release } from '../../types/entities';
+import styles from './PopularList.module.css';
 
 export const PopularList = () => {
-
     const token = useUserStore((state) => state.token);
-
     const location = useLocation();
+    const viewMode = usePreferencesStore((state) => state.params.releaseListViewMode || 'grid');
 
-    const list = useGetLastUpdatedReleasesInfinite({ status: location.pathname.split('/')[2], token, sort: 1 });
+    const status = location.pathname.split('/')[2];
+    const list = useGetLastUpdatedReleasesInfinite({ status, token, sort: 1 });
 
-    const scrollPosition = useScrollPosition();
-    useEffect(() => {
-        
-        if (list.isSuccess && !list.isFetchingNextPage && scrollPosition >= 90) {
-            list.fetchNextPage();
+    const renderItem = useCallback((release: Release) => {
+        if (viewMode === 'list') {
+            return <ReleaseListCard key={release.id} release={release} />;
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [scrollPosition])
+        return <ReleaseCard key={release.id} release={release} />;
+    }, [viewMode]);
+
+    const itemClassName = viewMode === 'list' 
+        ? styles.popular_list_mode
+        : styles.popular_list_cards;
 
     return (
-        list.isPending ?
-        (
-        <div className="loader-container_home">	
-            <i className="loader-circle"></i>
+        <div className={styles.popular_list_page} key={status}>
+            <InfiniteList
+                query={list}
+                renderItem={renderItem}
+                emptyMessage="Нет популярных релизов"
+                itemClassName={itemClassName}
+            />
         </div>
-        ) :
-        <div className={styles.popular_list_page}>
-            <div className={styles.popular_list_cards}>
-                
-                {
-                list.data?.pages.map(release => release.id && (
-                    <ReleaseCard key={release.id} release={release}/>
-                ))
-                }
-                
-            </div>
-
-            {
-                list.isFetchingNextPage &&
-                (
-                <div className="loader-container_home">	
-                    <i className="loader-circle"></i>
-                </div>
-                )
-            }
-
-        </div>
-    )
+    );
 }

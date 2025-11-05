@@ -2,6 +2,8 @@ import { deepmerge } from "deepmerge-ts";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+export type ReleaseListViewMode = 'grid' | 'list';
+
 interface preferencesState {
   _hasHydrated: boolean;
   flags: {
@@ -13,6 +15,7 @@ interface preferencesState {
   params: {
     isFirstLaunch?: boolean;
     version?: string;
+    releaseListViewMode?: ReleaseListViewMode;
     skipToCategory?: {
       enabled: boolean;
       homeCategory: string;
@@ -47,6 +50,7 @@ export const usePreferencesStore = create<preferencesState>()(
       params: {
         isFirstLaunch: true,
         version: "3.0.0",
+        releaseListViewMode: 'grid',
         skipToCategory: {
           enabled: false,
           homeCategory: "last",

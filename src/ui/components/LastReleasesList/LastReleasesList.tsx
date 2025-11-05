@@ -1,57 +1,41 @@
-
-import { useEffect } from 'react';
+import { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useScrollPosition } from '../../hooks/useScrollPosition';
 import { useUserStore } from '../../auth/store/auth';
-import styles from './LastReleasesList.module.css';
+import { usePreferencesStore } from '../../api/preferences';
+import { InfiniteList } from '../InfiniteList/InfiniteList';
 import { ReleaseCard } from '../ReleaseCard/ReleaseCard';
+import { ReleaseListCard } from '../ReleaseListCard/ReleaseListCard';
 import { useGetLastUpdatedReleasesInfinite } from '../../api/hooks/useRelease';
+import type { Release } from '../../types/entities';
+import styles from './LastReleasesList.module.css';
 
 export const LastReleasesList = () => {
-
     const token = useUserStore((state) => state.token);
-
     const location = useLocation();
+    const viewMode = usePreferencesStore((state) => state.params.releaseListViewMode || 'grid');
 
-    const last = useGetLastUpdatedReleasesInfinite({ status: location.pathname.split('/')[2], token });
+    const status = location.pathname.split('/')[2];
+    const last = useGetLastUpdatedReleasesInfinite({ status, token });
 
-    const scrollPosition = useScrollPosition();
-    useEffect(() => {
-        
-        if (last.isSuccess && !last.isFetchingNextPage && scrollPosition >= 90) {
-            last.fetchNextPage();
+    const renderItem = useCallback((release: Release) => {
+        if (viewMode === 'list') {
+            return <ReleaseListCard key={release.id} release={release} />;
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [scrollPosition])
+        return <ReleaseCard key={release.id} release={release} />;
+    }, [viewMode]);
+
+    const itemClassName = viewMode === 'list' 
+        ? styles.last_releases_list_mode
+        : styles.last_releases_list_cards;
 
     return (
-        last.isPending ?
-        (
-        <div className="loader-container_home">	
-            <i className="loader-circle"></i>
+        <div className={styles.last_releases_list_page} key={status}>
+            <InfiniteList
+                query={last}
+                renderItem={renderItem}
+                emptyMessage="Нет последних обновлений"
+                itemClassName={itemClassName}
+            />
         </div>
-        ) :
-        <div className={styles.last_releases_list_page}>
-
-            <div className={styles.last_releases_list_cards}>
-                
-                {
-                last.data?.pages.map(release => release.id && (
-                    <ReleaseCard key={release.id} release={release}/>
-                ))
-                }
-                
-            </div>
-
-            {
-                last.isFetchingNextPage &&
-                (
-                <div className="loader-container_home">	
-                    <i className="loader-circle"></i>
-                </div>
-                )
-            }
-
-        </div>
-    )
+    );
 }

@@ -1,21 +1,26 @@
+import { memo } from 'react';
 import styles from './PostMediaItem.module.css';
 
-export const PostMediaItem = (props) => {
+interface PostMediaItemProps {
+    item: {
+        id: number | string;
+        url: string;
+    };
+    index: number;
+    dataCount: number;
+}
 
-    console.log();
-
+const PostMediaItemComponent = ({ item, index, dataCount }: PostMediaItemProps) => {
     return (
         <div className={styles.post_image}>
-            <img src={props.item.url} loading="lazy" alt=""/>
+            <img src={item.url} loading="lazy" alt={`Media ${index + 1}`} />
 
-            {props.index === props.dataCount &&
-            <>
-                { 
-                props.dataCount > 5
-                && <div className={styles.image_count}>+{props.dataCount - 5}</div> 
-                }
-            </>
-            }
+            {index === dataCount && dataCount > 5 && (
+                <div className={styles.image_count}>+{dataCount - 5}</div>
+            )}
         </div>
-    )
-}
+    );
+};
+
+export const PostMediaItem = memo(PostMediaItemComponent);
+PostMediaItem.displayName = 'PostMediaItem';

@@ -16,7 +16,9 @@ export interface Category extends Identifiable {
 
 export interface Related {
   id?: number;
-  [key: string]: any;
+  title?: string;
+  code?: string;
+  type?: string;
 }
 
 export interface EpisodeUpdate {

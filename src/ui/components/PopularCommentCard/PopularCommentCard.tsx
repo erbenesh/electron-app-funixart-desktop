@@ -1,16 +1,34 @@
 import parse from 'html-react-parser';
 import { IoIosArrowForward } from 'react-icons/io';
 import { LuReplyAll } from 'react-icons/lu';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { unixToDate } from '../../api/utils';
 import styles from './PopularCommentCard.module.css';
 
 export const PopularCommentCard = (props) => {
-
-    console.log(props.comment.release, props.comment.release.id ? props.comment.release.id : props.array.find(comment => props.comment.release === comment.release["@id"]).release.id);
+    const navigate = useNavigate();
+    
+    const releaseId = props.comment.release.id ? props.comment.release.id : props.array.find(comment => props.comment.release === comment.release["@id"]).release.id;
+    
+    console.log(props.comment.release, releaseId);
+    
+    const handleClick = () => {
+        navigate(`/release/${releaseId}`);
+    };
 
     return (
-        <Link to={`/release/${props.comment.release.id ? props.comment.release.id : props.array.find(comment => props.comment.release === comment.release["@id"]).release.id}`} className={styles.comment_wrap}>
+        <div 
+            className={styles.comment_wrap}
+            onClick={handleClick}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleClick();
+                }
+            }}
+        >
             <div className={styles.comment}>
                 <div className={styles.avatar}>
                     <div className={styles.image_border}>
@@ -56,6 +74,6 @@ export const PopularCommentCard = (props) => {
                     </div>
                 </div>
             </div>
-        </Link>
+        </div>
     )
 }

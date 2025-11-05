@@ -7,15 +7,16 @@
 .input {
   position: relative;
   box-sizing: border-box;
-  width: 12.5rem;
+  width: 100%;
   border: none;
   outline: none;
   background-color: transparent;
-  transition: width .3s;
+  transition: all .3s;
   font-family: var(--font-family);
-  font-weight: 600;
-  font-size: 1.125rem;
+  font-weight: 500;
+  font-size: 1rem;
   color: var(--color-text);
+  line-height: 1.5;
 }
 
 /* Hide native clear and decorations for type=search to avoid double "X" */
@@ -29,14 +30,14 @@ input[type="search"]::-ms-clear { display: none; width: 0; height: 0; }
 
 .input::placeholder {
   font-family: var(--font-family);
-  font-weight: 600;
-  font-size: 1.125rem;
-  color: var(--color-text);
-  opacity: 0.9;
+  font-weight: 500;
+  font-size: 1rem;
+  color: rgb(180, 180, 180);
   transition: color .3s;
 }
 
-.input:focus { width: 25rem; }
-.input:focus::placeholder { color: var(--color-accent); }
+.input:focus::placeholder { 
+  color: rgb(189, 78, 44);
+}
 
 

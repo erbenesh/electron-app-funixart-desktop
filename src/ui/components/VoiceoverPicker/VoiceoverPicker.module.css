@@ -13,6 +13,14 @@
 .tabs {
     display: flex;
     gap: 0.5rem;
+    /* Scroll-snap for mobile overflow */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tabs::-webkit-scrollbar {
+    height: 0;
 }
 
 .tab {
@@ -22,6 +30,9 @@
     padding: 0.35rem 0.75rem;
     border-radius: 1rem;
     cursor: pointer;
+    /* Snap point */
+    scroll-snap-align: start;
+    flex-shrink: 0;
 }
 
 .tab_active {

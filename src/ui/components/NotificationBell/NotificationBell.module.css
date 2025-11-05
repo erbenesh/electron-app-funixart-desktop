@@ -1,28 +1,45 @@
 .notificationBell {
     position: relative;
+    flex-shrink: 0;
+    z-index: 10;
 }
 
 .bellButton {
     position: relative;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    transition: all 0.2s ease;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    min-height: 44px; /* Touch target minimum */
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgb(230, 230, 230);
+    cursor: pointer;
+    transition: all 0.3s;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .bellButton:hover {
-    background: rgba(255, 255, 255, 0.1);
+    color: rgb(255, 255, 255);
+    background: rgba(189, 78, 44, 0.3);
+    transform: scale(1.05);
+}
+
+.bellButton:active {
+    transform: scale(0.95);
+}
+
+.bellButton:focus-visible {
+    outline: 2px solid rgb(189, 78, 44);
+    outline-offset: 2px;
 }
 
 .bellIcon {
-    width: 1.5rem;
-    height: 1.5rem;
-    color: aliceblue;
+    width: 1.75rem;
+    height: 1.75rem;
+    color: inherit !important;
 }
 
 .badge {
@@ -55,7 +72,7 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 1rem;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    z-index: var(--z-dropdown);
     overflow: hidden;
     animation: slideDown 0.2s ease-out;
 }

@@ -1,6 +1,4 @@
 .card {
-
-    --card-width-var: 19.5rem;
     --card-max-height: 10rem;
     --card-border-radius: 1rem;
     text-decoration: none;
@@ -11,15 +9,15 @@
     justify-items: center;
     margin: 0 0 0.5em;
     z-index: 0;
-    width: var(--card-width-var);
+    width: 100%;
+    min-width: 280px;
+    max-width: 19.5rem;
     cursor: pointer;
     transition: transform .2s ease, box-shadow .2s ease;
     border-radius: var(--card-border-radius);
     background-size: cover;
     height: var(--card-max-height);
-
     opacity: 0;
-    transition: .3s;
     animation: show .3s;
     animation-fill-mode: forwards;
     animation-delay: .3s;
@@ -27,22 +25,57 @@
     will-change: transform;
 }
 
-/* Ensure card fills the grid cell */
-.card { max-width: 100%; }
-
 @media (max-width: 768px) {
     .card {
         --card-width-var: 100%;
-        --card-max-height: 12rem;
+        --card-max-height: 10rem;
         --card-border-radius: 0.75rem;
+        margin: 0 0 0.5rem;
     }
+    
+    .release_image_border {
+        width: 100%;
+    }
+
     .release_image_border:before {
         width: 100%;
         height: var(--card-max-height);
     }
-    .release_info { width: calc(100% - 1.5rem); padding: 0.5rem 0.75rem; height: calc(var(--card-max-height) - 1rem); }
-    .anime_title { font-size: 1.05rem; line-height: 1.3rem; }
-    .anime_subinfo { font-size: 0.8rem; }
+    
+    .release_info {
+        width: calc(100% - 1.5rem);
+        padding: 0.6rem 0.75rem;
+        height: calc(var(--card-max-height) - 1.2rem);
+        gap: 0.4rem;
+    }
+    
+    .anime_title {
+        font-size: 1rem;
+        line-height: 1.25rem;
+        -webkit-line-clamp: 2;
+    }
+    
+    .anime_subinfo {
+        font-size: 0.8rem;
+        gap: 0.2rem;
+    }
+
+    .anime_subinfo_noborder {
+        font-size: 0.75rem;
+    }
+
+    .bottom_info {
+        gap: 0.2rem;
+        flex-wrap: wrap;
+    }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .card {
+        --card-width-var: 100%;
+        --card-max-height: 11rem;
+    }
 }
 
 /* When placed into grid (SchedulePreview), ensure card stretches to column width */
@@ -69,11 +102,9 @@
 
 .release_image_border {
     position: absolute;
-
-    width: var(--card-width-var);
+    width: 100%;
     height: 100%;
     max-height: var(--card-max-height);
-    
     place-content: center;
     align-items: center;
     cursor: pointer;
@@ -87,10 +118,10 @@
     left: 0;
     top: 0;
     z-index: 200;
-    width: var(--card-width-var);
-    height: var(--card-max-height);
+    width: 100%;
+    height: 100%;
     background: linear-gradient(rgba(58, 58, 58, 0.78) 0%, rgba(58, 58, 58, 0.78) 100%);
-    pointer-events: none; /* allow underlying Link to receive clicks */
+    pointer-events: none;
 }
 
 .card:hover .release_image_border:before {
@@ -126,7 +157,7 @@
     flex-direction: column;
     padding: 1rem;
     height: calc(var(--card-max-height) - 2rem);
-    width: calc(var(--card-width-var) - 2rem);
+    width: calc(100% - 2rem);
     gap: 0.5rem;
     z-index: 201;
 }

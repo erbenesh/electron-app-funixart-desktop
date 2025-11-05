@@ -14,13 +14,14 @@ import parse from 'html-react-parser'
 import { useEffect, useState } from 'react'
 import { BiRepost } from 'react-icons/bi'
 import { IoHeartOutline } from 'react-icons/io5'
-import { Link, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from 'ui-kit/components/Button/Button'
 import { Card } from 'ui-kit/components/Card/Card'
 import { Spinner } from 'ui-kit/components/Spinner/Spinner'
 import styles from './ChannelPage.module.css'
 
 export const ChannelPage = () => {
+  const navigate = useNavigate()
   const { channelId } = useParams()
   const userStore = useUserStore()
   const scrollPosition = useScrollPosition()
@@ -57,62 +58,70 @@ export const ChannelPage = () => {
 
   return (
     <div className={styles.channel_page}>
-      {channelData.cover && (
-        <div className={styles.cover_container}>
-          <img src={channelData.cover} alt={channelData.title || 'Канал'} className={styles.cover_image} />
-        </div>
-      )}
-      
-      <Card className={styles.header_card}>
-        <div className={styles.header_left}>
-          <div className={styles.avatar_square}>
+      {/* Header with gradient background */}
+      <div className={styles.channel_header}>
+        <div className={styles.gradient_background} />
+        
+        {/* Back button */}
+        <button 
+          className={styles.back_button}
+          onClick={() => window.history.back()}
+          aria-label="Назад"
+        >
+          <span>←</span>
+        </button>
+
+        {/* Centered content */}
+        <div className={styles.header_content}>
+          {/* Avatar */}
+          <div className={styles.avatar_circle}>
             {channelData.avatar && (
               <img src={channelData.avatar} alt={channelData.title || 'Канал'} className={styles.avatar_image} />
             )}
           </div>
-          <div className={styles.header_info}>
-            <div className={styles.title_row}>
-              <h2 className={styles.title}>{channelData.title || 'Канал'}</h2>
-              {channelData.is_verified && (
-                <span className={styles.verified_badge}>✓</span>
-              )}
-            </div>
-            {channelData.description && (
-              <p className={styles.description}>{channelData.description}</p>
+
+          {/* Title with verification badge */}
+          <div className={styles.title_row}>
+            <h2 className={styles.title}>{channelData.title || 'Канал'}</h2>
+            {channelData.is_verified && (
+              <span className={styles.verified_badge}>✓</span>
             )}
-            <div className={styles.meta}>
-              {typeof channelData.subscriber_count === 'number' && (
-                <span className={styles.meta_item}>Подписчиков: {channelData.subscriber_count.toLocaleString()}</span>
-              )}
-              {typeof channelData.article_count === 'number' && (
-                <span className={styles.meta_item}>Статей: {channelData.article_count}</span>
-              )}
-              {channelData.is_blog && (
-                <span className={styles.meta_item}>Блог</span>
-              )}
-            </div>
+          </div>
+
+          {/* Subscriber count */}
+          {typeof channelData.subscriber_count === 'number' && (
+            <p className={styles.subscribers}>
+              {channelData.subscriber_count.toLocaleString()} подписчиков
+            </p>
+          )}
+
+          {/* Description */}
+          {channelData.description && (
+            <p className={styles.description}>{channelData.description}</p>
+          )}
+
+          {/* Subscribe/Unsubscribe button */}
+          <div className={styles.subscribe_action}>
+            {channelData.is_subscribed ? (
+              <Button
+                variant="ghost"
+                className={styles.subscribe_button_large}
+                onClick={() => userStore.token && unsubscribe.mutate({ channelId: channelData.id, token: userStore.token })}
+              >
+                Отписаться
+              </Button>
+            ) : (
+              <Button
+                variant="primary"
+                className={styles.subscribe_button_large}
+                onClick={() => userStore.token && subscribe.mutate({ channelId: channelData.id, token: userStore.token })}
+              >
+                Подписаться
+              </Button>
+            )}
           </div>
         </div>
-        <div className={styles.header_actions}>
-          {channelData.is_subscribed ? (
-            <Button
-              variant="ghost"
-              className={`${styles.subscribe_button} ${styles.subscribe_pill}`}
-              onClick={() => userStore.token && unsubscribe.mutate({ channelId: channelData.id, token: userStore.token })}
-            >
-              ✓ Вы подписаны <span className={styles.subscribe_count}>{channelData.subscriber_count?.toLocaleString?.() || 0}</span>
-            </Button>
-          ) : (
-            <Button
-              variant="primary"
-              className={`${styles.subscribe_button} ${styles.subscribe_pill}`}
-              onClick={() => userStore.token && subscribe.mutate({ channelId: channelData.id, token: userStore.token })}
-            >
-              + Подписаться <span className={styles.subscribe_count}>{channelData.subscriber_count?.toLocaleString?.() || 0}</span>
-            </Button>
-          )}
-        </div>
-      </Card>
+      </div>
 
       <div className={styles.posts_section}>
         <h3 className={styles.posts_title}>Посты</h3>
@@ -208,9 +217,13 @@ export const ChannelPage = () => {
                         if (b.type === 'media' && !inserted) {
                           elements.push(
                             <div key={`showmore-${post.id}`} style={{ marginTop: 8 }}>
-                              <Link to={`/article/${post.id}`}>
-                                <Button variant="primary" size="sm">Показать ещё</Button>
-                              </Link>
+                              <Button 
+                                variant="primary" 
+                                size="sm"
+                                onClick={() => navigate(`/article/${post.id}`)}
+                              >
+                                Показать ещё
+                              </Button>
                             </div>
                           )
                           inserted = true
@@ -249,9 +262,13 @@ export const ChannelPage = () => {
                       if (!inserted) {
                         elements.push(
                           <div key={`showmore-${post.id}`} style={{ marginTop: 8 }}>
-                            <Link to={`/article/${post.id}`}>
-                              <Button variant="primary" size="sm">Показать ещё</Button>
-                            </Link>
+                            <Button 
+                              variant="primary" 
+                              size="sm"
+                              onClick={() => navigate(`/article/${post.id}`)}
+                            >
+                              Показать ещё
+                            </Button>
                           </div>
                         )
                       }

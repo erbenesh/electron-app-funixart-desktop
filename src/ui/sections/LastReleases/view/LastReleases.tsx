@@ -1,12 +1,16 @@
 
 import { TopFilterButtons } from "#/components/TopFilterButtons/TopFilterButtons";
 import { useEffect } from "react";
+import { IoGrid, IoList } from "react-icons/io5";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Page } from 'ui-kit/components/Page/Page'
 import { Container } from 'ui-kit/components/Container/Container'
+import { usePreferencesStore } from '#/api/preferences';
 import '../styles/LastReleases.css';
 
 export const LastReleases = () => {
+    const viewMode = usePreferencesStore((state) => state.params.releaseListViewMode || 'grid');
+    const setParams = usePreferencesStore((state) => state.setParams);
 
     const lastReleasesArray = [
         {
@@ -49,10 +53,32 @@ export const LastReleases = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const toggleViewMode = () => {
+        setParams({ releaseListViewMode: viewMode === 'grid' ? 'list' : 'grid' });
+    };
+
     return (
         <Page topOffset="md">
             <Container>
-                <TopFilterButtons buttonsArray={lastReleasesArray} />
+                <div className="last_releases_header">
+                    <TopFilterButtons buttonsArray={lastReleasesArray} />
+                    <div className="view_mode_toggle">
+                        <button 
+                            className={`view_mode_button ${viewMode === 'grid' ? 'active' : ''}`}
+                            onClick={toggleViewMode}
+                            aria-label="Вид галереи"
+                        >
+                            <IoGrid size={20} />
+                        </button>
+                        <button 
+                            className={`view_mode_button ${viewMode === 'list' ? 'active' : ''}`}
+                            onClick={toggleViewMode}
+                            aria-label="Вид списка"
+                        >
+                            <IoList size={20} />
+                        </button>
+                    </div>
+                </div>
                 <Outlet />
             </Container>
         </Page>

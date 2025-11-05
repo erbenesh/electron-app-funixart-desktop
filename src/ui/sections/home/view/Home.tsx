@@ -2,6 +2,7 @@ import { useGetComments, useGetDiscoverInteresting, useGetDiscussing, useGetLast
 import { useUserStore } from "#/auth/store/auth";
 import { InterestingCard } from "#/components/InterestingCard/InterestingCard";
 import { PopularComments } from "#/components/PopularComments/PopularComments";
+import { QueryError } from "#/components/QueryError/QueryError";
 import { RandomRelease } from "#/components/RandomRelease/RandomRelease";
 import { ReleaseCard } from "#/components/ReleaseCard/ReleaseCard";
 import { SchedulePreview } from "#/components/SchedulePreview/SchedulePreview";
@@ -35,8 +36,8 @@ export const Home = () => {
 
   const popularComments = useGetComments(token);
 
-  if (discoverInteresting.status === "error") {
-    return "An error has occurred: " + discoverInteresting.error.message;
+  if (discoverInteresting.error) {
+    return <QueryError error={discoverInteresting.error} />;
   }
 
   return (

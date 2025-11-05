@@ -24,6 +24,7 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({ token }) => {
 
     const isMobile = useMemo(() => window.matchMedia('(max-width: 768px)').matches, []);
     const isSearchMobilePage = isMobile && location.pathname.startsWith('/search');
+    const isProfilePage = location.pathname.startsWith('/profile');
 
     // Debounce user input
     useEffect(() => {
@@ -87,6 +88,7 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({ token }) => {
     };
 
     const showResults = queryEnabled && inputValue !== '' && results.length > 0;
+    const placeholder = isProfilePage ? 'Поиск пользователей' : 'Поиск аниме';
 
     return (
         <div className={styles.serach_input_wrapper} ref={inputWrapRef}
@@ -95,7 +97,7 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({ token }) => {
              aria-expanded={showResults}
              aria-owns="global-search-results">
             <SearchInput
-                placeholder='Поиск аниме'
+                placeholder={placeholder}
                 value={inputValue}
                 onChange={el => {
                     const val = el.currentTarget.value;

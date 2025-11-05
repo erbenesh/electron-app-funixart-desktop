@@ -3,14 +3,14 @@
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 999;
+    z-index: var(--z-mobile-nav);
     display: none;
     grid-template-columns: repeat(5, 1fr);
     align-items: center;
     background: rgba(27,27,27,0.92);
     border-top: 1px solid rgb(68,68,68);
     /* Extra bottom padding to avoid clipping on rounded corners */
-    padding: .45rem .5rem calc(.6rem + env(safe-area-inset-bottom, 0)) .5rem;
+    padding: .45rem .5rem max(.6rem, calc(.6rem + env(safe-area-inset-bottom, 0))) .5rem;
     backdrop-filter: saturate(140%) blur(8px);
     width: 100%;
     transform: translateZ(0);
@@ -24,19 +24,34 @@
     align-items: center;
     justify-content: center;
     gap: .15rem;
-    padding: .25rem .25rem;
+    padding: .5rem .25rem;
+    min-height: 44px; /* iOS touch target minimum */
     text-decoration: none;
     color: rgb(210,210,210);
+    transition: color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.nav_item_active { color: rgb(189, 78, 44); }
+.nav_item:active {
+    opacity: 0.7;
+}
+
+.nav_item_active { 
+    color: rgb(189, 78, 44); 
+}
 
 .icon {
     width: 1.5rem;
     height: 1.5rem;
+    flex-shrink: 0;
 }
 
-.label { font-size: .7rem; font-weight: 600; }
+.label { 
+    font-size: .7rem; 
+    font-weight: 600; 
+    line-height: 1;
+    text-align: center;
+}
 
 @media (max-width: 768px) {
     .mobile_nav { display: grid; }

@@ -29,6 +29,7 @@ const ReleasePage = lazy(() => import('../pages/ReleasePage').then(m => ({ defau
 const SchedulePage = lazy(() => import('../pages/SchedulePage').then(m => ({ default: m.SchedulePage })));
 const SettingsPage = lazy(() => import('../pages/SettingsPage').then(m => ({ default: m.SettingsPage })));
 const WatchingPage = lazy(() => import('../pages/WatchingPage').then(m => ({ default: m.WatchingPage })));
+const SelectVoiceoverPage = lazy(() => import('../pages/mobile/SelectVoiceoverPage').then(m => ({ default: m.SelectVoiceoverPage })));
 const WatchEpisodePage = lazy(() => import('../pages/mobile/WatchEpisodePage').then(m => ({ default: m.WatchEpisodePage })));
 const WatchSourcePage = lazy(() => import('../pages/mobile/WatchSourcePage').then(m => ({ default: m.WatchSourcePage })));
 const WatchVoicePage = lazy(() => import('../pages/mobile/WatchVoicePage').then(m => ({ default: m.WatchVoicePage })));
@@ -233,9 +234,8 @@ const dynamicRoutes: RouteObject[] = [
     element: <ReleasePage />,
   },
   // Mobile watching flow
-  { path: '/release/:releaseId/watch/episode', element: <WatchEpisodePage /> },
-  { path: '/release/:releaseId/watch/source', element: <WatchSourcePage /> },
-  { path: '/release/:releaseId/watch/voice', element: <WatchVoicePage /> },
+  { path: '/release/:releaseId/watch/episode', element: <SelectVoiceoverPage /> },
+  { path: '/release/:releaseId/watch/source', element: <WatchVoicePage /> },
   { path: '/release/:releaseId/watch/play', element: <WatchPlayPage /> },
   {
     path: '/article/:articleId',
