@@ -141,7 +141,8 @@
         width: 100%;
     }
 
-    .image_container {
+    .image_container {  
+        max-width: 100%;
         height: 140px;
         border-radius: 0.65rem;
     }
@@ -171,6 +172,7 @@
     }
     
     .image_container {
+        max-width: 100%;
         height: 180px;
         border-radius: 0.6rem;
     }
