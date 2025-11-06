@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import { releaseVideoService } from '#/api/ReleaseVideoService';
@@ -19,9 +19,23 @@ import '../styles/ReleaseVideos.css';
 export const ReleaseVideos = () => {
     const { releaseId } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
     const token = useUserStore((state) => state.token);
     
     const [trailerUrl, setTrailerUrl] = useState<string | null>(null);
+
+    // Scroll to category based on hash
+    useEffect(() => {
+        if (location.hash) {
+            const categoryId = location.hash.replace('#', '');
+            const element = document.getElementById(`category-${categoryId}`);
+            if (element) {
+                setTimeout(() => {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
+        }
+    }, [location.hash]);
 
     const currentRelease = useGetCurrentRelease({ id: releaseId, token });
     const release = currentRelease.data?.release;
@@ -98,7 +112,7 @@ export const ReleaseVideos = () => {
 
                     {/* Video sections */}
                     {trailersList.length > 0 && (
-                        <div className="video_section">
+                        <div id="category-trailers" className="video_section">
                             <div className="section_header">
                                 <h2 className="section_title">Трейлеры</h2>
                                 <button className="show_all_button" type="button">
@@ -111,6 +125,8 @@ export const ReleaseVideos = () => {
                                     <VideoCard
                                         key={video.id}
                                         video={video}
+                                        categoryName="Трейлеры"
+                                        releaseName={release?.title_ru}
                                         onClick={() => handleVideoClick(video)}
                                     />
                                 ))}
@@ -119,7 +135,7 @@ export const ReleaseVideos = () => {
                     )}
 
                     {previewsList.length > 0 && (
-                        <div className="video_section">
+                        <div id="category-previews" className="video_section">
                             <div className="section_header">
                                 <h2 className="section_title">Превью</h2>
                                 <button className="show_all_button" type="button">
@@ -132,6 +148,8 @@ export const ReleaseVideos = () => {
                                     <VideoCard
                                         key={video.id}
                                         video={video}
+                                        categoryName="Превью"
+                                        releaseName={release?.title_ru}
                                         onClick={() => handleVideoClick(video)}
                                     />
                                 ))}
@@ -140,7 +158,7 @@ export const ReleaseVideos = () => {
                     )}
 
                     {openingsList.length > 0 && (
-                        <div className="video_section">
+                        <div id="category-openings" className="video_section">
                             <div className="section_header">
                                 <h2 className="section_title">Опенинги</h2>
                                 <button className="show_all_button" type="button">
@@ -153,6 +171,8 @@ export const ReleaseVideos = () => {
                                     <VideoCard
                                         key={video.id}
                                         video={video}
+                                        categoryName="Опенинги"
+                                        releaseName={release?.title_ru}
                                         onClick={() => handleVideoClick(video)}
                                     />
                                 ))}
@@ -161,7 +181,7 @@ export const ReleaseVideos = () => {
                     )}
 
                     {endingsList.length > 0 && (
-                        <div className="video_section">
+                        <div id="category-endings" className="video_section">
                             <div className="section_header">
                                 <h2 className="section_title">Эндинги</h2>
                                 <button className="show_all_button" type="button">
@@ -174,6 +194,8 @@ export const ReleaseVideos = () => {
                                     <VideoCard
                                         key={video.id}
                                         video={video}
+                                        categoryName="Эндинги"
+                                        releaseName={release?.title_ru}
                                         onClick={() => handleVideoClick(video)}
                                     />
                                 ))}
@@ -182,7 +204,7 @@ export const ReleaseVideos = () => {
                     )}
 
                     {clipsList.length > 0 && (
-                        <div className="video_section">
+                        <div id="category-clips" className="video_section">
                             <div className="section_header">
                                 <h2 className="section_title">Клипы</h2>
                                 <button className="show_all_button" type="button">
@@ -195,6 +217,8 @@ export const ReleaseVideos = () => {
                                     <VideoCard
                                         key={video.id}
                                         video={video}
+                                        categoryName="Клипы"
+                                        releaseName={release?.title_ru}
                                         onClick={() => handleVideoClick(video)}
                                     />
                                 ))}
@@ -203,7 +227,7 @@ export const ReleaseVideos = () => {
                     )}
 
                     {otherList.length > 0 && (
-                        <div className="video_section">
+                        <div id="category-other" className="video_section">
                             <div className="section_header">
                                 <h2 className="section_title">Другое</h2>
                                 <button className="show_all_button" type="button">
@@ -216,6 +240,8 @@ export const ReleaseVideos = () => {
                                     <VideoCard
                                         key={video.id}
                                         video={video}
+                                        categoryName="Другое"
+                                        releaseName={release?.title_ru}
                                         onClick={() => handleVideoClick(video)}
                                     />
                                 ))}

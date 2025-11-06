@@ -523,16 +523,16 @@ export const Release = () => {
                             </div>
                         )}
 
-                        {/* Videos section with category tabs */}
+                        {/* Videos section with category cards */}
                         <ReleaseVideosSection
                             categories={[
-                                { id: 'trailers', name: 'Трейлеры', videos: trailersListResolved || [], isNew: true },
+                                { id: 'trailers', name: 'Трейлеры', videos: trailersListResolved || [] },
                                 { id: 'previews', name: 'Превью', videos: previewsListResolved || [] },
                                 { id: 'openings', name: 'Опенинги', videos: openingsListResolved || [] },
                                 { id: 'endings', name: 'Эндинги', videos: endingsListResolved || [] },
                                 { id: 'clips', name: 'Клипы', videos: clipsListResolved || [] },
                             ]}
-                            onVideoClick={(video) => setTrailerUrl(video.player_url || video.url)}
+                            lastVideos={lastVideosResolved}
                         />
 
                         {/* Screenshots section */}

@@ -1,0 +1,2 @@
+export { VideoCategoryCard } from './VideoCategoryCard';
+

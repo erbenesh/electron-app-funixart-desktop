@@ -1,8 +1,5 @@
-import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { IoChevronForward } from 'react-icons/io5';
+import { VideoCategoryCard } from '#/components/VideoCategoryCard/VideoCategoryCard';
 import Carousel from 'ui-kit/components/Carousel/Carousel';
-import { VideoCard } from '#/components/VideoCard/VideoCard';
 import styles from './ReleaseVideosSection.module.css';
 
 interface VideoCategory {
@@ -14,22 +11,29 @@ interface VideoCategory {
 
 interface ReleaseVideosSectionProps {
     categories: VideoCategory[];
-    onVideoClick?: (video: any) => void;
+    lastVideos?: any[];
 }
 
 export const ReleaseVideosSection = ({ 
-    categories, 
-    onVideoClick 
+    categories,
+    lastVideos = []
 }: ReleaseVideosSectionProps) => {
-    const navigate = useNavigate();
-    const { releaseId } = useParams();
-    const [activeCategory, setActiveCategory] = useState<string>(
-        categories.find(cat => cat.videos.length > 0)?.id || categories[0]?.id || ''
-    );
+    // Filter categories with videos
+    let categoriesWithVideos = categories.filter(cat => cat.videos.length > 0);
 
-    const activeVideos = categories.find(cat => cat.id === activeCategory)?.videos || [];
+    // Add "more videos" as a special category if lastVideos exist
+    if (lastVideos.length > 0) {
+        categoriesWithVideos = [
+            ...categoriesWithVideos,
+            {
+                id: 'more-videos',
+                name: 'Еще видео',
+                videos: lastVideos,
+            }
+        ];
+    }
 
-    if (categories.length === 0 || categories.every(cat => cat.videos.length === 0)) {
+    if (categoriesWithVideos.length === 0) {
         return null;
     }
 
@@ -38,51 +42,20 @@ export const ReleaseVideosSection = ({
             {/* Header */}
             <div className={styles.header}>
                 <h2 className={styles.title}>Видео</h2>
-                <button 
-                    className={styles.showAllButton}
-                    onClick={() => navigate(`/release/${releaseId}/videos`)}
-                    type="button"
-                >
-                    <span>Показать все</span>
-                    <IoChevronForward className={styles.chevronIcon} />
-                </button>
             </div>
 
-            {/* Category buttons */}
-            <div className={styles.categoryButtons}>
-                {categories.map((category) => (
-                    category.videos.length > 0 && (
-                        <button
-                            key={category.id}
-                            className={`${styles.categoryButton} ${
-                                activeCategory === category.id ? styles.categoryButtonActive : ''
-                            }`}
-                            onClick={() => setActiveCategory(category.id)}
-                            type="button"
-                        >
-                            {category.name}
-                            {category.isNew && (
-                                <span className={styles.newBadge}>new</span>
-                            )}
-                        </button>
-                    )
+            {/* Category cards carousel */}
+            <Carousel showArrows desktopColumns={1} mobilePeek={0.12} gap={12}>
+                {categoriesWithVideos.map((category) => (
+                    <VideoCategoryCard
+                        key={category.id}
+                        categoryName={category.name}
+                        categoryId={category.id}
+                        previewImage={category.videos[0]?.image}
+                        videoCount={category.videos.length}
+                    />
                 ))}
-            </div>
-
-            {/* Videos carousel */}
-            {activeVideos.length > 0 && (
-                <div className={styles.videosCarousel}>
-                    <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
-                        {activeVideos.map((video: any) => (
-                            <VideoCard
-                                key={video.id}
-                                video={video}
-                                onClick={() => onVideoClick?.(video)}
-                            />
-                        ))}
-                    </Carousel>
-                </div>
-            )}
+            </Carousel>
         </div>
     );
 };
