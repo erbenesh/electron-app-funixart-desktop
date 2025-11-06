@@ -5,13 +5,25 @@ import { useUserStore } from "../../auth/store/auth";
 import { NotificationBell } from "../NotificationBell/NotificationBell";
 import styles from './TopNavigationBar.module.css';
 import { GlobalSearch } from './GlobalSearch';
+import { useTelegramHaptic } from "../../hooks/useTelegramHaptic";
 
 export const TopNavigationBar = (props) => {
 
     const location = useLocation();
     const navigate = useNavigate();
+    const { impact } = useTelegramHaptic();
 
     const token = useUserStore((state) => state.token);
+    
+    const handleNavClick = () => {
+        // Medium haptic on navigation
+        impact('medium');
+    };
+    
+    const handleActionClick = () => {
+        // Light haptic on action buttons
+        impact('light');
+    };
 
     return (
         <div className={styles.top_tools_wrap}>
@@ -23,7 +35,7 @@ export const TopNavigationBar = (props) => {
                         
                         {/* Navigation buttons - Desktop only */}
                         <div className={styles.nav_buttons}>
-                            <NavLink to="/" onClick={() => {}}>
+                            <NavLink to="/" onClick={handleNavClick}>
                                 {({ isActive }) => (
                                     <Button variant={isActive ? 'primary' : 'ghost'}>
                                         Главная
@@ -31,7 +43,7 @@ export const TopNavigationBar = (props) => {
                                 )}
                             </NavLink>
 
-                            <NavLink to="/bookmarks" onClick={() => {}}>
+                            <NavLink to="/bookmarks" onClick={handleNavClick}>
                                 {({ isActive }) => (
                                     <Button variant={isActive ? 'primary' : 'ghost'}>
                                         Закладки
@@ -39,7 +51,7 @@ export const TopNavigationBar = (props) => {
                                 )}
                             </NavLink>
 
-                            <NavLink to="/collections" onClick={() => {}}>
+                            <NavLink to="/collections" onClick={handleNavClick}>
                                 {({ isActive }) => (
                                     <Button variant={isActive ? 'primary' : 'ghost'}>
                                         Коллекции
@@ -47,7 +59,7 @@ export const TopNavigationBar = (props) => {
                                 )}
                             </NavLink>
 
-                            <NavLink to="/feed" onClick={() => {}}>
+                            <NavLink to="/feed" onClick={handleNavClick}>
                                 {({ isActive }) => (
                                     <Button variant={isActive ? 'primary' : 'ghost'}>
                                         Лента
@@ -61,13 +73,16 @@ export const TopNavigationBar = (props) => {
 
                         <button 
                             className={styles.iconButton}
-                            onClick={() => navigate('/settings')}
+                            onClick={() => {
+                                handleActionClick();
+                                navigate('/settings');
+                            }}
                             aria-label="Настройки"
                         >
                             <IoSettingsOutline className={styles.menu_ico} />
                         </button>
 
-                        <NotificationBell />
+                        <NotificationBell onNotificationClick={handleActionClick} />
 
                     </div>
                     

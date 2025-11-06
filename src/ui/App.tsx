@@ -6,10 +6,10 @@ import styles from './App.module.css';
 import { useUserStore } from './auth/store/auth';
 import { AuthPage } from './auth/view/AuthPage';
 import { MobileNavBar } from './components/MobileNavBar/MobileNavBar';
-import { Toolbar } from './components/Toolbar/Toolbar';
 import { TopNavigationBar } from './components/TopNavigationBar/TopNavigationBar';
 import { useHeaderVisibility } from './hooks/useHeaderVisibility';
 import { useSwipeNavigation } from './hooks/useSwipeNavigation';
+import { useTelegramBackButton } from './hooks/useTelegramBackButton';
 
 export const App: React.FC = ()=> {
 
@@ -22,6 +22,12 @@ export const App: React.FC = ()=> {
   // Use custom hooks for complex logic
   const { isHeaderHidden } = useHeaderVisibility();
   useSwipeNavigation();
+  
+  // Integrate Telegram's native back button
+  // Hide on main navigation routes, show on detail pages
+  useTelegramBackButton({
+    hideOnRoutes: ['/', '/bookmarks', '/collections', '/feed', '/profile'],
+  });
 
   useEffect(() => {
     if (preferencesStore._hasHydrated) {
@@ -50,11 +56,6 @@ export const App: React.FC = ()=> {
       <div className='wrapper'>
 
         <TopNavigationBar isHeaderHidden={isHeaderHidden} avatar={userStore.user.avatar}/>
-
-        { location.pathname === `/release/${params.releaseId}` && <Toolbar /> }
-        { location.pathname === `/release/${params.releaseId}/videos` && <Toolbar /> }
-        { location.pathname === `/collection/${params.collectionId}` && <Toolbar /> }
-
 
         <div className={styles.content_wrap}>
 

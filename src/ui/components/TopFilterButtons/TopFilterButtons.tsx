@@ -2,6 +2,7 @@ import { useOutletContext, useLocation } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 import styles from './TopFilterButtons.module.css';
 import { FilterButton } from '../FilterButton/FilterButton';
+import { useTelegramHaptic } from '../../hooks/useTelegramHaptic';
 
 interface FilterButtonData {
     id: string | number;
@@ -18,6 +19,7 @@ export const TopFilterButtons = ({ buttonsArray }: TopFilterButtonsProps) => {
     const location = useLocation();
     const containerRef = useRef<HTMLDivElement>(null);
     const indicatorRef = useRef<HTMLDivElement>(null);
+    const { selectionChanged } = useTelegramHaptic();
 
     // Find current tab index
     const currentIndex = buttonsArray.findIndex(btn => btn.link === location.pathname);
@@ -60,15 +62,17 @@ export const TopFilterButtons = ({ buttonsArray }: TopFilterButtonsProps) => {
         };
     }, [currentIndex]);
 
-    // Auto-scroll active button into view
+    // Auto-scroll active button into view and trigger haptic feedback
     useEffect(() => {
         if (containerRef.current && currentIndex >= 0) {
             const activeButton = containerRef.current.children[currentIndex] as HTMLElement;
             if (activeButton) {
                 activeButton.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                // Haptic feedback on tab change
+                selectionChanged();
             }
         }
-    }, [currentIndex]);
+    }, [currentIndex, selectionChanged]);
 
     return (
         <div className={styles.bookmarks_nav_buttons_wrap}>

@@ -1,5 +1,6 @@
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import styles from './TabCarousel.module.css';
+import { useTelegramHaptic } from '../../hooks/useTelegramHaptic';
 
 interface TabCarouselProps {
     tabs: Array<{
@@ -15,6 +16,7 @@ export const TabCarousel: React.FC<TabCarouselProps> = ({ tabs, activeIndex, onC
     const [dragOffset, setDragOffset] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
     const [transitioning, setTransitioning] = useState(false);
+    const { impact } = useTelegramHaptic();
     
     // Use refs to avoid stale closures
     const touchStartRef = useRef({ x: 0, y: 0 });
@@ -125,6 +127,8 @@ export const TabCarousel: React.FC<TabCarouselProps> = ({ tabs, activeIndex, onC
             resetDrag();
             
             if (newIndex !== activeIndex) {
+                // Haptic feedback on successful swipe
+                impact('light');
                 onChange(newIndex);
             }
             
