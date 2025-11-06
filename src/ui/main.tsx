@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { routes } from './routes'
 import { Spinner } from 'ui-kit/components/Spinner/Spinner'
 import { initHoverDetection } from './utils/detectHoverCapability'
+import { initializeTelegramOffset } from './utils/platform'
 
 // Telegram platform detection → add attribute/class to <html>
 (function assignTelegramPlatformClass() {
@@ -32,6 +33,10 @@ import { initHoverDetection } from './utils/detectHoverCapability'
 // Initialize hover capability detection
 // This adds 'has-hover' or 'no-hover' class to body for disabling hover effects on touch devices
 initHoverDetection();
+
+// Initialize Telegram Mini App offset
+// This sets proper CSS variable for Telegram header buttons
+initializeTelegramOffset();
 
 const router = createBrowserRouter(routes, { basename: import.meta.env.BASE_URL })
 

@@ -18,6 +18,9 @@
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   --safe-area-left: env(safe-area-inset-left, 0px);
   --safe-area-right: env(safe-area-inset-right, 0px);
+  
+  /* Telegram Mini App safe zones (дополнительные отступы для Telegram кнопок) */
+  --tg-header-offset: 60px; /* Отступ для кнопки "Закрыть" и меню Telegram */
 
   /* Layout dimensions */
   --header-height: 70px;
@@ -26,21 +29,21 @@
   --content-max-width: 680px;
   
   /* Calculated heights с safe zones */
-  --header-height-safe: calc(var(--header-height) + var(--safe-area-top));
-  --tabs-offset: calc(var(--header-height) + var(--tabs-height) + var(--safe-area-top));
+  --header-height-safe: calc(var(--header-height) + var(--safe-area-top) + var(--tg-header-offset));
+  --tabs-offset: calc(var(--header-height) + var(--tabs-height) + var(--safe-area-top) + var(--tg-header-offset));
 
-  /* Z-index system */
+  /* Z-index system - НИЖЕ Telegram UI (который на z-index: 10000+) */
   --z-content: 1;
   --z-sticky: 50;
-  --z-mobile-nav: 9997;   /* Bottom nav below header */
-  --z-header: 9998;       /* Header */
-  --z-tabs: 9999;         /* Tabs/filters above header */
-  --z-toolbar: 10000;     /* Toolbar above tabs */
-  --z-dropdown: 10001;    /* Dropdowns above everything */
-  --z-overlay: 10002;     /* Search overlay */
-  --z-modal: 10003;       /* Modals */
-  --z-toast: 10004;       /* Toast notifications */
-  --z-tooltip: 10005;     /* Tooltips highest */
+  --z-mobile-nav: 997;    /* Bottom nav */
+  --z-header: 998;        /* Header */
+  --z-tabs: 999;          /* Tabs/filters */
+  --z-toolbar: 1000;      /* Toolbar */
+  --z-dropdown: 1001;     /* Dropdowns */
+  --z-overlay: 1002;      /* Search overlay */
+  --z-modal: 1003;        /* Modals */
+  --z-toast: 1004;        /* Toast notifications */
+  --z-tooltip: 1005;      /* Tooltips */
 
   /* Breakpoints */
   --bp-xs: 480px;
@@ -51,12 +54,35 @@
   --bp-xxl: 1600px;
 }
 
+/* Desktop - убираем Telegram offset */
+@media (min-width: 769px) {
+  :root {
+    --tg-header-offset: 0px; /* На десктопе нет Telegram кнопок */
+  }
+}
+
 /* Mobile adjustments */
 @media (max-width: 768px) {
   :root {
     font-size: 14px;
-    --header-height: 64px;
-    --tabs-height: 56px;
+    --header-height: 56px; /* Уменьшили header */
+    --tabs-height: 52px; /* Уменьшили tabs */
+  }
+  
+  /* Отступ для Telegram кнопок только в Telegram Mini App */
+  html[data-tg-platform="ios"],
+  html[data-tg-platform="android"],
+  html[data-tg-platform="android_x"],
+  html[data-tg-platform="tdesktop"],
+  html[data-tg-platform="macos"],
+  html[data-tg-platform="weba"],
+  html[data-tg-platform="webk"] {
+    --tg-header-offset: 60px;
+  }
+  
+  /* В обычном браузере offset = 0 */
+  html[data-tg-platform="web"] {
+    --tg-header-offset: 0px;
   }
 }
 

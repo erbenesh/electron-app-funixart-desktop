@@ -19,10 +19,7 @@
     top: var(--header-height-safe);
     left: 0;
     right: 0;
-    backdrop-filter: blur(12px);
-    background-color: rgba(36, 36, 36, 0.98);
-    border-bottom: 1px solid rgba(78, 78, 78, 0.4);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: transparent;
 }
 
 .buttons_container {
@@ -90,7 +87,7 @@
     
     .bookmarks_nav_buttons_fixed {
         top: var(--header-height-safe);
-        padding: 0.65rem 0 0.75rem 0;
+        padding: 0.5rem 0 0.65rem 0;
         width: 100%;
         left: 0;
         right: 0;

@@ -1,17 +1,18 @@
 .page {
   display: block;
-  /* padding-top moved to App.module.css .content_wrap to avoid double padding */
-  min-height: calc(100vh - var(--header-height));
+  padding-top: var(--header-height-safe);
+  padding-bottom: var(--safe-area-bottom);
+  min-height: calc(100vh - var(--header-height-safe) - var(--safe-area-bottom));
 }
 
 .top_sm {
-  /* Additional 2rem on top of base header-height from .content_wrap */
-  padding-top: 2rem;
+  /* Additional 2rem on top of header */
+  padding-top: calc(var(--header-height-safe) + 2rem);
 }
 
 .top_md {
-  /* Additional 4rem on top of base header-height from .content_wrap */
-  padding-top: 4rem;
+  /* Additional 4rem on top of header */
+  padding-top: calc(var(--header-height-safe) + 4rem);
 }
 
 

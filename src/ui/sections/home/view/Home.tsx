@@ -60,7 +60,7 @@ export const Home = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <section>
               <SectionTitle>Интересное</SectionTitle>
-              <Carousel showArrows showDots ariaLabel="Интересное" desktopColumns={4} mobilePeek={0.12} gap={12}>
+              <Carousel showArrows showDots ariaLabel="Интересное" desktopColumns={3} mobilePeek={0.08} gap={16}>
                 {(discoverInteresting.data?.content || []).map((el: any) => (
                   el?.id ? <InterestingCard key={el.id} release={el} /> : null
                 ))}

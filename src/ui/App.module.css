@@ -3,7 +3,7 @@
     width: 100%;
     justify-content: center;
     overflow-x: hidden;
-    padding-top: var(--header-height);
+    /* No padding-top here - handled by Page component */
 }
 
 .content {
@@ -14,6 +14,7 @@
     max-width: 120rem;
     padding-left: 1rem;
     padding-right: 1rem;
+    padding-bottom: var(--safe-area-bottom);
     gap: 1rem;
 }
 
@@ -22,11 +23,6 @@
 }
 
 @media (max-width: 768px) {
-    .content_wrap {
-        /* Ensure content doesn't go under the fixed header on mobile */
-        padding-top: var(--header-height);
-    }
-    
     .content {
         max-width: 100%;
         padding-left: 0.75rem;
