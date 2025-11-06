@@ -1050,7 +1050,6 @@ html[data-tg-platform="ios"] .screens_wrap {
 /* New compact layout styles */
 .release_titles_wrapper {
     display: flex;
-    justify-content: center;
     width: 100%;
 }
 
