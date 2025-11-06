@@ -79,7 +79,10 @@
 
 @media (max-width: 768px) {
     .card {
-        height: 12rem;
+        width: 280px;
+        min-width: 280px;
+        max-width: 280px;
+        height: 160px;
     }
 
     .overlay {
@@ -92,6 +95,23 @@
 
     .videoCount {
         font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        width: 260px;
+        min-width: 260px;
+        max-width: 260px;
+        height: 150px;
+    }
+
+    .categoryTitle {
+        font-size: 1.1rem;
+    }
+
+    .videoCount {
+        font-size: 0.8rem;
     }
 }
 
