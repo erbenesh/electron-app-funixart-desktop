@@ -87,7 +87,7 @@ export const Feed = () => {
     return (
         <Page>
             <Container>
-                <div style={{ paddingTop: '3.5rem' }}>
+                <div>
                     <TopFilterButtons buttonsArray={feedArray} />
 
                     {/* Filter bar */}

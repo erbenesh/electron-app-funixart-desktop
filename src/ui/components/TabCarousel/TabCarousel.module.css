@@ -2,13 +2,21 @@
     width: 100%;
     overflow: hidden;
     position: relative;
+    /* Prevent interference with Telegram gestures */
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
 }
 
 .carousel_track {
     display: flex;
     width: 100%;
     will-change: transform;
-    touch-action: pan-y;
+    /* Allow only vertical scrolling by default */
+    touch-action: pan-y pinch-zoom;
+    /* Prevent text selection during swipe */
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
 }
 
 .carousel_slide {
@@ -16,12 +24,21 @@
     width: 100%;
     min-width: 100%;
     max-width: 100%;
+    /* Allow vertical scrolling inside slides */
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
 }
 
 /* Desktop - no carousel effect */
 @media (min-width: 769px) {
     .carousel_track {
         touch-action: auto;
+    }
+    
+    .carousel_slide {
+        overflow: visible;
     }
 }
 

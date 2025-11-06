@@ -7,8 +7,8 @@
 .feed_page {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    padding-top: 4rem; /* Tabs height - header-height already in .content_wrap */
+    gap: 0;
+    padding-top: 5.5rem; /* Tabs height + header height */
     opacity: 0;
     transition: .3s;
     animation: show .3s;
@@ -18,7 +18,7 @@
 
 @media (min-width: 769px) {
     .feed_page {
-        padding-top: 7rem;
+        padding-top: 8.5rem;
     }
 }
 
@@ -143,6 +143,12 @@
     scrollbar-width: none;
     -ms-overflow-style: none;
     max-width: 100%;
+    /* Allow horizontal scrolling */
+    touch-action: pan-x pan-y;
+    overscroll-behavior-x: contain;
+    /* Prevent conflicts with carousel gestures */
+    position: relative;
+    z-index: 1;
 }
 
 .feed_channels::-webkit-scrollbar {
@@ -156,6 +162,9 @@
     gap: 0.5rem;
     cursor: pointer;
     flex-shrink: 0;
+    /* Prevent touch events from bubbling to carousel */
+    touch-action: auto;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .channel_avatar_border {

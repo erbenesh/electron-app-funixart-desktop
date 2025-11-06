@@ -127,10 +127,11 @@
     .card {
         border-radius: 0.65rem;
         min-width: 100%;
+        max-width: 100%;
     }
 
     .image_container {
-        height: 220px;
+        height: 140px;
         border-radius: 0.65rem;
     }
 
@@ -140,12 +141,12 @@
     }
 
     .card_title {
-        font-size: 0.9rem;
-        line-height: 1.25;
+        font-size: 0.85rem;
+        line-height: 1.3;
     }
 
     .card_description {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         line-height: 1.3;
         -webkit-line-clamp: 1;
     }

@@ -39,6 +39,16 @@ export const TabCarousel: React.FC<TabCarouselProps> = ({ tabs, activeIndex, onC
             if (transitioning) return;
             
             const touch = e.touches[0];
+            const target = e.target as HTMLElement;
+            
+            // Check if touch started inside a horizontally scrollable element (like channels)
+            const isInsideScrollable = target.closest('.feed_channels');
+            
+            // Don't handle if inside scrollable element
+            if (isInsideScrollable) {
+                return;
+            }
+            
             touchStartRef.current = { x: touch.clientX, y: touch.clientY };
             isHorizontalRef.current = false;
             setDragOffset(0);
@@ -53,16 +63,26 @@ export const TabCarousel: React.FC<TabCarouselProps> = ({ tabs, activeIndex, onC
             const absDeltaX = Math.abs(deltaX);
             const absDeltaY = Math.abs(deltaY);
 
-            // Determine horizontal swipe
-            if (!isHorizontalRef.current && absDeltaX > 15) {
-                if (absDeltaX > absDeltaY * 1.2 && touchStartRef.current.x > 50) {
+            // Determine horizontal swipe with stricter conditions
+            if (!isHorizontalRef.current && (absDeltaX > 15 || absDeltaY > 15)) {
+                // Only allow horizontal swipe if:
+                // 1. Horizontal movement is significantly more than vertical
+                // 2. Not starting from very edge (for Telegram gestures)
+                if (absDeltaX > absDeltaY * 1.5 && 
+                    touchStartRef.current.x > 60 && 
+                    touchStartRef.current.x < window.innerWidth - 60) {
                     isHorizontalRef.current = true;
                     setIsDragging(true);
+                } else if (absDeltaY > absDeltaX * 1.2) {
+                    // Vertical scroll detected - do not interfere
+                    return;
                 }
             }
 
             if (isHorizontalRef.current) {
+                // Prevent default only after confirming horizontal swipe
                 e.preventDefault();
+                e.stopPropagation();
                 
                 // Apply edge resistance
                 let limitedDeltaX = deltaX;

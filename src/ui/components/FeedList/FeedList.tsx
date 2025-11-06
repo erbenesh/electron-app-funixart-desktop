@@ -1,5 +1,5 @@
 import parse from 'html-react-parser';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BiRepost } from 'react-icons/bi';
 import { IoHeartOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,7 @@ import { useUserStore } from '../../auth/store/auth';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
 import { PostInput } from '../PostInput/PostInput';
 import { PostMediaItem } from '../PostMediaItem/PostMediaItem';
+import { Lightbox } from 'ui-kit/components/Lightbox/Lightbox';
 import styles from './FeedList.module.css';
 
 interface FeedListProps {
@@ -20,6 +21,9 @@ interface FeedListProps {
 export const FeedList = ({ feedType }: FeedListProps) => {
     const navigate = useNavigate();
     const token = useUserStore((state) => state.token);
+    const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+    const [lightboxImages, setLightboxImages] = useState<string[]>([]);
+    const [lightboxIndex, setLightboxIndex] = useState(0);
 
     const feedNews = useGetFeedInfinite({ path: feedType, token });
 
@@ -88,7 +92,23 @@ export const FeedList = ({ feedType }: FeedListProps) => {
                             && <div key={block.id} className={styles.post_images_flex} data-count={block.data.item_count >= 5 ? "5+" : block.data.item_count}>
                                 { 
                                     block.data.items?.map((item, index) => item.id && 
-                                    <PostMediaItem key={item.id} item={item} index={index} dataCount={block.data.item_count}/>)
+                                    <PostMediaItem 
+                                        key={item.id} 
+                                        item={item} 
+                                        index={index} 
+                                        dataCount={block.data.item_count}
+                                        onImageClick={(url) => {
+                                            // Collect all image URLs from this block
+                                            const allImages = block.data.items
+                                                ?.filter((i: any) => i?.id)
+                                                .map((i: any) => i.url) || [];
+                                            const clickedIndex = allImages.indexOf(url);
+                                            
+                                            setLightboxImages(allImages);
+                                            setLightboxIndex(clickedIndex >= 0 ? clickedIndex : 0);
+                                            setLightboxSrc(url);
+                                        }}
+                                    />)
                                 }
                                 </div>
                             )}
@@ -128,6 +148,20 @@ export const FeedList = ({ feedType }: FeedListProps) => {
                 ))
 
             }
+            
+            {/* Lightbox for images */}
+            {lightboxSrc && (
+                <Lightbox 
+                    open={true} 
+                    images={lightboxImages}
+                    initialIndex={lightboxIndex}
+                    onClose={() => {
+                        setLightboxSrc(null);
+                        setLightboxImages([]);
+                        setLightboxIndex(0);
+                    }} 
+                />
+            )}
         </div>
     )
 }
