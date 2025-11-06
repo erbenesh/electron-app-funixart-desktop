@@ -14,12 +14,12 @@ class CommentService {
     ): Promise<PageableResponse<ReleaseComment | CollectionComment | ArticleComment>> {
         let url: string;
         if (type === "release") {
-            url = `${BASE_URL}${RELEASE_COMMENTS_PAGE}${entityId}/${page}?sort=1&token=${token}`;
+            url = `${BASE_URL}${RELEASE_COMMENTS_PAGE}${entityId}/${page}?sort=2&token=${token}`;
         } else if (type === "collection") {
-            url = `${BASE_URL}${COLLECTION_COMMENTS}${entityId}/${page}?sort=1&token=${token}`;
+            url = `${BASE_URL}${COLLECTION_COMMENTS}${entityId}/${page}?sort=2&token=${token}`;
         } else {
             // Article comments
-            url = `${BASE_URL}${ARTICLE_COMMENT_ALL}${entityId}/${page}?sort=1&token=${token}`;
+            url = `${BASE_URL}${ARTICLE_COMMENT_ALL}${entityId}/${page}?sort=2&token=${token}`;
         }
 
         const response = await axios.get<PageableResponse<ReleaseComment | CollectionComment | ArticleComment>>(url);

@@ -1,22 +1,16 @@
-import { articleService } from '#/api/ArticleService'
 import { commentService } from '#/api/CommentService'
 import { useGetArticlesByChannelInfinite } from '#/api/hooks/useArticle'
 import { useGetChannel, useSubscribeChannel, useUnsubscribeChannel } from '#/api/hooks/useChannel'
-import { formatPostTimestamp } from '#/api/utils'
 import { useUserStore } from '#/auth/store/auth'
 import { Comment } from '#/components/Comment/Comment'
+import { FeedPost } from '#/components/FeedPost/FeedPost'
 import postStyles from '#/components/FeedList/FeedList.module.css'
 import { PostInput } from '#/components/PostInput/PostInput'
-import { PostMediaItem } from '#/components/PostMediaItem/PostMediaItem'
 import { useScrollPosition } from '#/hooks/useScrollPosition'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import parse from 'html-react-parser'
 import { useEffect, useState } from 'react'
-import { BiRepost } from 'react-icons/bi'
-import { IoHeartOutline } from 'react-icons/io5'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from 'ui-kit/components/Button/Button'
-import { Card } from 'ui-kit/components/Card/Card'
 import { Spinner } from 'ui-kit/components/Spinner/Spinner'
 import styles from './ChannelPage.module.css'
 
@@ -167,149 +161,17 @@ export const ChannelPage = () => {
               }
 
               return (
-                <div key={post.id} className={postStyles.news_post}>
-                  <div className={postStyles.post_channel}>
-                    <div className={postStyles.channel}>
-                      <div className={postStyles.channel_avatar}>
-                        {channelData.avatar && (
-                          <img 
-                            className={postStyles.channel_avatar_image} 
-                            src={channelData.avatar} 
-                            alt={channelData.title || 'Канал'} 
-                          />
-                        )}
-                      </div>
-                      <p className={postStyles.channel_title}>
-                        {channelData.title || 'Канал'}
-                      </p>
-                    </div>
-                    <span className={postStyles.post_timing}>
-                      {formatPostTimestamp(post.last_update_date || post.creation_date)}
-                    </span>
-                  </div>
-
-                  <div className={styles.post_meta}>
-                    <div className={styles.author_row}>
-                      <span className={styles.author_avatar}>
-                        {(post.author?.avatar || channelData.avatar) && (
-                          <img src={post.author?.avatar || channelData.avatar} alt={post.author?.login || channelData.title || 'Автор'} />
-                        )}
-                      </span>
-                      <span>{post.author?.login || 'Аноним'}</span>
-                      <span>• {formatPostTimestamp(post.creation_date)}</span>
-                    </div>
-                    <div className={styles.meta_chips}>
-                      <span className={styles.meta_chip}>❤ {post.vote_count ?? 0}</span>
-                      <span className={styles.meta_chip}>💬 {post.comment_count ?? 0}</span>
-                      <span className={styles.meta_chip}>↻ {post.repost_count ?? 0}</span>
-                      {post.is_under_moderation && (
-                        <span className={`${styles.meta_chip} ${styles.flag}`}>На модерации</span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className={postStyles.post_blocks}>
-                    {(() => {
-                      const elements: any[] = []
-                      let inserted = false
-                      const blocks = post.payload?.blocks || []
-                      blocks.forEach((b: any) => {
-                        if (b.type === 'media' && !inserted) {
-                          elements.push(
-                            <div key={`showmore-${post.id}`} style={{ marginTop: 8 }}>
-                              <Button 
-                                variant="primary" 
-                                size="sm"
-                                onClick={() => navigate(`/article/${post.id}`)}
-                              >
-                                Показать ещё
-                              </Button>
-                            </div>
-                          )
-                          inserted = true
-                        }
-                        if (b.type === 'header') {
-                          elements.push(
-                            <h2 key={b.id} className={postStyles.post_text_blocks}>
-                              {parse(b.data.text)}
-                            </h2>
-                          )
-                        } else if (b.type === 'paragraph') {
-                          elements.push(
-                            <p key={b.id} className={postStyles.post_text_blocks}>
-                              {parse(b.data.text)}
-                            </p>
-                          )
-                        } else if (b.type === 'media') {
-                          elements.push(
-                            <div 
-                              key={b.id}
-                              className={postStyles.post_images_flex}
-                              data-count={b.data.item_count >= 5 ? '5+' : b.data.item_count}
-                            >
-                              {b.data.items?.map((item: any, index: number) => item.id && (
-                                <PostMediaItem 
-                                  key={item.id}
-                                  item={item}
-                                  index={index}
-                                  dataCount={b.data.item_count}
-                                />
-                              ))}
-                            </div>
-                          )
-                        }
-                      })
-                      if (!inserted) {
-                        elements.push(
-                          <div key={`showmore-${post.id}`} style={{ marginTop: 8 }}>
-                            <Button 
-                              variant="primary" 
-                              size="sm"
-                              onClick={() => navigate(`/article/${post.id}`)}
-                            >
-                              Показать ещё
-                            </Button>
-                          </div>
-                        )
-                      }
-                      return elements
-                    })()}
-                  </div>
-
-                  <div className={styles.post_actions}>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className={`${postStyles.post_action_button} ${postStyles.like_button}`}
-                      onClick={() => setExpandedComments(prev => ({
-                        ...prev,
-                        [post.id]: !prev[post.id]
-                      }))}
-                    >
-                      {expandedComments[post.id] ? 'Скрыть' : 'Показать'} комментарии ({post.comment_count ?? 0})
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className={`${postStyles.post_action_button} ${postStyles.like_button}`}
-                      onClick={async () => {
-                        if (!userStore.token) return
-                        try { await articleService.voteArticle(post.id, 1, userStore.token) } catch {}
-                      }}
-                    >
-                      <IoHeartOutline className={postStyles.action_icon}/>
-                      Нравится
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className={`${postStyles.post_action_button} ${postStyles.repost_button}`}
-                      onClick={() => { /* TODO: implement repost */ }}
-                    >
-                      <BiRepost className={postStyles.action_icon}/>
-                      Репост
-                    </Button>
-                  </div>
+                <div key={post.id}>
+                  <FeedPost
+                    post={post}
+                    token={userStore.token}
+                    userAvatar={userStore.user?.avatar}
+                    onVote={() => articlesByChannel.refetch()}
+                    onCommentClick={() => setExpandedComments(prev => ({
+                      ...prev,
+                      [post.id]: !prev[post.id]
+                    }))}
+                  />
 
                   {expandedComments[post.id] && (
                     <BlockComments blockId={post.id} />

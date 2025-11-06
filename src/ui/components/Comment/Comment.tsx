@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
-import { LuReplyAll } from 'react-icons/lu'
 import { commentService } from '../../api/CommentService'
-import { useReportArticleComment, useReportCollectionComment, useReportReleaseComment } from '../../api/hooks/useReport'
 import { sinceUnixDate, unixToDate } from '../../api/utils'
 import { useUserStore } from '../../auth/store/auth'
 import { PostInput } from '../PostInput/PostInput'
@@ -11,9 +9,6 @@ import styles from './Comment.module.css'
 export const Comment = (props) => {
 
     const userStore = useUserStore();
-    const reportReleaseComment = useReportReleaseComment();
-    const reportCollectionComment = useReportCollectionComment();
-    const reportArticleComment = useReportArticleComment();
 
     const [isRepliesOpen, setIsRepliesOpen] = useState(false);
     const [replies, setReplies] = useState<any[]>([]);
@@ -22,19 +17,6 @@ export const Comment = (props) => {
     const [isReplyFormOpen, setIsReplyFormOpen] = useState(false);
     const [replyText, setReplyText] = useState('');
     const [replySpoiler, setReplySpoiler] = useState(false);
-
-    const onReport = () => {
-        if (!userStore.token) return;
-        const reasonId = 1;
-        const payload = { commentId: props.comment.id, request: { reasonId }, token: userStore.token };
-        if (props.type === 'release') {
-            reportReleaseComment.mutate(payload);
-        } else if (props.type === 'collection') {
-            reportCollectionComment.mutate(payload);
-        } else if (props.type === 'article') {
-            reportArticleComment.mutate(payload);
-        }
-    }
 
     async function onToggleReplies() {
         if (!isRepliesOpen && replies.length === 0 && userStore.token) {
@@ -66,18 +48,14 @@ export const Comment = (props) => {
                     </div>
                 </div>
                 <div className={styles.info}>
-                    <div className={styles.bubble}>
-                        <div className={styles.header_row}>
-                            <div className={styles.login_and_time}>
-                                <p className={styles.commenter_login}>{props.comment.profile.login}</p>
-                            </div>
-                            <time className={styles.timestamp} dateTime={props.comment.timestamp.toString()} title={unixToDate(props.comment.timestamp, "full")}>
-                                {sinceUnixDate(props.comment.timestamp)}
-                            </time>
-                        </div>
-                        <div className={styles.text_block}>
-                            <p className={styles.comment_messege}>{props.comment.message}</p>
-                        </div>
+                    <div className={styles.header_row}>
+                        <p className={styles.commenter_login}>{props.comment.profile.login}</p>
+                        <time className={styles.timestamp} dateTime={props.comment.timestamp.toString()} title={unixToDate(props.comment.timestamp, "full")}>
+                            {sinceUnixDate(props.comment.timestamp)}
+                        </time>
+                    </div>
+                    <div className={styles.text_block}>
+                        <p className={styles.comment_messege}>{props.comment.message}</p>
                     </div>
                     <div className={styles.action_buttons}>
                         <div className={styles.reply_and_like_buttons}>
@@ -87,7 +65,6 @@ export const Comment = (props) => {
                                 <p className={styles.likes_count}>{props.comment.likes_count}</p>
                                 <button className={styles.like_button} type="button"><IoIosArrowUp/></button>
                             </div>
-                            <button className={`${styles.report_button} ${styles.push_end}`} type="button" onClick={onReport}>Пожаловаться</button>
                         </div>
                         {isReplyFormOpen && (
                             <div className={styles.comment_add_wrap}>
@@ -163,7 +140,7 @@ export const Comment = (props) => {
                         )}
                         { props.comment.reply_count > 0 && (
                             <button className={styles.show_all_replys} type="button" onClick={onToggleReplies}>
-                                <LuReplyAll className={styles.show_all_replys_ico}/>
+                                {/* <LuReplyAll className={styles.show_all_replys_ico}/> */}
                                 <p>
                                     {isRepliesOpen ? 'Скрыть ответы' : `Показать ${props.comment.reply_count} ответов`}
                                 </p>
