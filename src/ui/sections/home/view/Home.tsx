@@ -60,7 +60,7 @@ export const Home = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <section>
               <SectionTitle>Интересное</SectionTitle>
-              <Carousel showArrows showDots ariaLabel="Интересное" desktopColumns={3} mobilePeek={0.08} gap={16}>
+              <Carousel showArrows showDots ariaLabel="Интересное" desktopColumns={3} mobilePeek={0.08} gap={1}>
                 {(discoverInteresting.data?.content || []).map((el: any) => (
                   el?.id ? <InterestingCard key={el.id} release={el} /> : null
                 ))}
@@ -69,7 +69,7 @@ export const Home = () => {
 
             <section>
               <SectionTitle link="/last/last">Последнее</SectionTitle>
-              <Carousel showArrows ariaLabel="Последнее" desktopColumns={5} mobilePeek={0.12} gap={12}>
+              <Carousel showArrows ariaLabel="Последнее" desktopColumns={5} mobilePeek={0.12} gap={1}>
                 {(lastUpdatedReleases.data?.pages || []).map((el: any) => (
                   el?.id ? <ReleaseCard key={el.id} release={el} /> : null
                 ))}
@@ -78,7 +78,7 @@ export const Home = () => {
 
             <section>
               <SectionTitle link="/popular/ongoing">Популярное</SectionTitle>
-              <Carousel showArrows ariaLabel="Популярное" desktopColumns={5} mobilePeek={0.12} gap={12}>
+              <Carousel showArrows ariaLabel="Популярное" desktopColumns={5} mobilePeek={0.12} gap={1}>
                 {(top.data?.pages || []).map((el: any) => (
                   el?.id ? <ReleaseCard key={el.id} release={el} /> : null
                 ))}
@@ -101,7 +101,7 @@ export const Home = () => {
             {token && (
               <section>
                 <SectionTitle link="/recommendations/all">Рекомендации</SectionTitle>
-                <Carousel showArrows ariaLabel="Рекомендации" desktopColumns={5} mobilePeek={0.12} gap={12}>
+                <Carousel showArrows ariaLabel="Рекомендации" desktopColumns={5} mobilePeek={0.12} gap={1}>
                   {(recommendations.data?.pages || []).map((el: any) => (
                     el?.id ? <ReleaseCard key={el.id} release={el} /> : null
                   ))}
@@ -112,7 +112,7 @@ export const Home = () => {
             {token && (
               <section>
                 <SectionTitle link="/watching/all">Сейчас смотрят</SectionTitle>
-                <Carousel showArrows ariaLabel="Сейчас смотрят" desktopColumns={5} mobilePeek={0.12} gap={12}>
+                <Carousel showArrows ariaLabel="Сейчас смотрят" desktopColumns={5} mobilePeek={0.12} gap={1}>
                   {(watching.data?.pages || []).map((el: any) => (
                     el?.id ? <ReleaseCard key={el.id} release={el} /> : null
                   ))}

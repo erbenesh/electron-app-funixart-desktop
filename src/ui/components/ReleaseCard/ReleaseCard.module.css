@@ -190,14 +190,14 @@
 
 @media (max-width: 768px) {
     .vert_card {
-        width: 150px;
+        width: 180px;
         min-width: 150px;
-        max-width: 150px;
+        max-width: 180px;
         border-radius: 0.75rem;
     }
     
     .card_image_wrapper {
-        width: 150px;
+        width: 160px;
         height: 225px;
         aspect-ratio: 2/3;
         min-height: auto;
@@ -249,13 +249,13 @@
 /* Very narrow screens (old Android devices) */
 @media (max-width: 360px) {
     .vert_card {
-        width: 140px;
+        width: 170px;
         min-width: 140px;
-        max-width: 140px;
+        max-width: 170px;
     }
     
     .card_image_wrapper {
-        width: 140px;
+        width: 150px;
         height: 210px;
         aspect-ratio: 2/3;
         min-height: auto;
