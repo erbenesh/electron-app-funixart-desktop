@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { ArticleComment, CollectionComment, ReleaseComment } from "../types/entities";
-import { ARTICLE_COMMENT_ADD, ARTICLE_COMMENT_ALL, ARTICLE_COMMENT_ALL_POPULAR, ARTICLE_COMMENT_ALL_PROFILE, ARTICLE_COMMENT_DELETE, ARTICLE_COMMENT_EDIT, ARTICLE_COMMENT_PROCESS, ARTICLE_COMMENT_REPLIES, ARTICLE_COMMENT_REPORT, ARTICLE_COMMENT_VOTE, ARTICLE_COMMENT_VOTES, BASE_URL, COLLECTION_COMMENTS, COLLECTION_COMMENTS_ADD, COLLECTION_COMMENTS_DELETE, COLLECTION_COMMENTS_EDIT, COLLECTION_COMMENTS_PROCESS, COLLECTION_COMMENTS_REPLIES, COLLECTION_COMMENTS_REPORT, COLLECTION_COMMENTS_VOTE, RELEASE_COMMENT_ADD, RELEASE_COMMENT_DELETE, RELEASE_COMMENT_EDIT, RELEASE_COMMENT_PROCESS, RELEASE_COMMENT_PROFILE, RELEASE_COMMENT_REPLIES, RELEASE_COMMENT_REPORT, RELEASE_COMMENT_VOTE, RELEASE_COMMENT_VOTES, RELEASE_COMMENTS_PAGE } from "./endpoints";
+import { ARTICLE_COMMENT_ADD, ARTICLE_COMMENT_ALL, ARTICLE_COMMENT_ALL_POPULAR, ARTICLE_COMMENT_ALL_PROFILE, ARTICLE_COMMENT_DELETE, ARTICLE_COMMENT_EDIT, ARTICLE_COMMENT_PROCESS, ARTICLE_COMMENT_REPLIES, ARTICLE_COMMENT_REPORT, ARTICLE_COMMENT_VOTE, ARTICLE_COMMENT_VOTES, BASE_URL, COLLECTION_COMMENTS, COLLECTION_COMMENTS_ADD, COLLECTION_COMMENTS_DELETE, COLLECTION_COMMENTS_EDIT, COLLECTION_COMMENTS_PROCESS, COLLECTION_COMMENTS_PROFILE, COLLECTION_COMMENTS_REPLIES, COLLECTION_COMMENTS_REPORT, COLLECTION_COMMENTS_VOTE, COLLECTION_COMMENTS_VOTES, RELEASE_COMMENT_ADD, RELEASE_COMMENT_DELETE, RELEASE_COMMENT_EDIT, RELEASE_COMMENT_PROCESS, RELEASE_COMMENT_PROFILE, RELEASE_COMMENT_REPLIES, RELEASE_COMMENT_REPORT, RELEASE_COMMENT_VOTE, RELEASE_COMMENT_VOTES, RELEASE_COMMENTS_PAGE } from "./endpoints";
 import type { CommentAddRequest, CommentEditRequest, CommentReportRequest } from "./types/requests";
 import type { CommentAddResponse, PageableResponse, ReportResponse } from "./types/responses";
 
@@ -279,6 +279,26 @@ class CommentService {
     ): Promise<ReportResponse> {
         const url = `${BASE_URL}${ARTICLE_COMMENT_REPORT}${commentId}?token=${token}`;
         const response = await axios.post<ReportResponse>(url, request);
+        return response.data;
+    }
+
+    async getCollectionCommentVotes(
+        commentId: number | string,
+        page: number | string,
+        token: string
+    ): Promise<PageableResponse<any>> {
+        const url = `${BASE_URL}${COLLECTION_COMMENTS_VOTES}${commentId}/${page}?token=${token}`;
+        const response = await axios.post<PageableResponse<any>>(url);
+        return response.data;
+    }
+
+    async getProfileCollectionComments(
+        profileId: number | string,
+        page: number | string,
+        token: string
+    ): Promise<PageableResponse<CollectionComment>> {
+        const url = `${BASE_URL}${COLLECTION_COMMENTS_PROFILE}${profileId}/${page}?token=${token}`;
+        const response = await axios.get<PageableResponse<CollectionComment>>(url);
         return response.data;
     }
 

@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { BsCollectionPlay } from "react-icons/bs";
 import { GoHash } from "react-icons/go";
 import { GrGroup } from "react-icons/gr";
-import { IoIosArrowDown } from 'react-icons/io';
+import { IoIosArrowDown, IoMdInformationCircleOutline } from 'react-icons/io';
 import { IoBookmark, IoBookmarkOutline, IoCalendarOutline, IoChatbubbleOutline, IoEllipsisVertical, IoPlayCircle } from "react-icons/io5";
 import { LuFlag } from "react-icons/lu";
 import { useNavigate, useParams } from 'react-router-dom';
@@ -22,14 +22,12 @@ import jFlag from '#/assets/icons/j_flag.svg';
 import { useUserStore } from '#/auth/store/auth';
 import { Comment } from '#/components/Comment/Comment';
 import { PostInput } from '#/components/PostInput/PostInput';
-import { ReleasePlayer } from '#/components/ReleasePlayer/ReleasePlayer';
 import { ReleaseVotesCounter } from '#/components/ReleaseVotesCounter/ReleaseVotesCounter';
 import { ScheduleReleaseCard } from '#/components/ScheduleReleaseCard/ScheduleReleaseCard';
 import { useClickOutside } from '#/hooks/useClickOutside';
 import { useScrollPosition } from '#/hooks/useScrollPosition';
 import Carousel from 'ui-kit/components/Carousel/Carousel';
 import { Container } from 'ui-kit/components/Container/Container';
-import { HorizontalList } from 'ui-kit/components/HorizontalList/HorizontalList';
 import { Flex } from 'ui-kit/components/Layout/Flex';
 import { Lightbox } from 'ui-kit/components/Lightbox/Lightbox';
 import { Page } from 'ui-kit/components/Page/Page';
@@ -55,6 +53,7 @@ export const Release = () => {
     const [ isSpoiler, setIsSpoiler ] = useState(false);
     const [ trailerUrl, setTrailerUrl ] = useState<string | null>(null);
     const [ lightboxSrc, setLightboxSrc ] = useState<string | null>(null);
+    const [ isTitleModalOpen, setIsTitleModalOpen ] = useState(false);
 
     const textInput = useRef(null);
     const menuRef = useRef<HTMLDivElement | null>(null);
@@ -185,6 +184,7 @@ export const Release = () => {
         const onKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
                 setTrailerUrl(null);
+                setIsTitleModalOpen(false);
             }
         };
         window.addEventListener('keydown', onKeyDown);
@@ -270,30 +270,9 @@ export const Release = () => {
 
             <div className="release_page">
 
-                {
-                    release.status && release.status.name != "Анонс" && !release.is_view_blocked ?
-                    (
-                        <div className="release_header">
-
-                            <div className="header_image_borders">
-
-                                <div className="header_background_image_border">
-                                    <img className="header_background_title_image" src={release.image} alt={release.title_ru} />
-                                </div>
-                    
-                                <div className="video_player_wrap">
-                                    <div className="video_player">
-                                    
-                                        <ReleasePlayer />
-                                    
-                                    </div>
-                                </div>
-                                
-                            </div>
-
-                        </div>
-                    ) : 
-                    <div className="off_view">
+              
+            {
+            release.is_view_blocked && <div className="off_view">
                         <div data-position="top" className="info_carousel">
                   
                             <span className="info_carousel__text">
@@ -305,10 +284,7 @@ export const Release = () => {
                   
                         </div>
                     </div>
-                    // <div className={styles.off_view}>Просмотр только на официальном ресурсе</div>
-                    
-                }
-
+                    }
                 <div className="release_page_body">
                     <div className="release_block">
                         <div className="release_info release_details_card">
@@ -320,14 +296,25 @@ export const Release = () => {
 
                                 <div className="release_base_info">
                                     {/* Titles */}
-                                    <div className="release_titles">
-                                        <h1 className="release_title">{release.title_ru}</h1>
-                                        <p className="release_title_alt">{release.title_original}</p>
-                                        {release.age_rating && (
-                                            <span className="age_rating">{release.age_rating}+</span>
-                                        )}
+                                    <div className="release_titles_wrapper">
+                                        <div className="release_titles">
+                                            <IoMdInformationCircleOutline 
+                                                className="release_title_info_icon" 
+                                                onClick={() => setIsTitleModalOpen(true)}
+                                                title="Показать полные названия"
+                                            />
+                                            <div className="release_titles_content">
+                                                <h1 className="release_title">{release.title_ru}</h1>
+                                                <div className="release_title_secondary">
+                                                    <p className="release_title_alt">{release.title_original}</p>  
+                                                    {release.age_rating && (
+                                                        <span className="age_rating">{release.age_rating}+</span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-
+                                   
                                     {/* Compact action row */}
                                     <div className="release_action_row">
                                         <div ref={listsRef} className="status_button_wrap">
@@ -422,7 +409,6 @@ export const Release = () => {
                                         </div>
                                     )}
 
-                                    </div>
                                     <div className="release_info_table">
                                         {/* Страна и год */}
                                         <div className="info_row">
@@ -505,6 +491,7 @@ export const Release = () => {
                                         </div>
                                     </div>
 
+                                    </div>
                                 </div>
                             
                                 <div className="genres_wrap">
@@ -559,6 +546,7 @@ export const Release = () => {
 
                         {/* Trailers section rendered below with data guard */}
 
+                        {trailersListResolved?.length > 0 && (
                         <div className="screens_wrap">
                             <h2 className="section_title">Трейлеры</h2>
                             <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
@@ -567,7 +555,9 @@ export const Release = () => {
                                 ))}
                             </Carousel>
                         </div>
+                        )}
 
+                        {clipsListResolved?.length > 0 && (
                         <div className="screens_wrap">
                             <h2 className="section_title">Клипы</h2>
                             <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
@@ -576,7 +566,9 @@ export const Release = () => {
                                 ))}
                             </Carousel>
                         </div>
+                        )}
 
+                        {previewsListResolved?.length > 0 && (
                         <div className="screens_wrap">
                             <h2 className="section_title">Превью</h2>
                             <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
@@ -585,7 +577,9 @@ export const Release = () => {
                                 ))}
                             </Carousel>
                         </div>
+                        )}
 
+                        {openingsListResolved?.length > 0 && (
                         <div className="screens_wrap">
                             <h2 className="section_title">Опенинги</h2>
                             <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
@@ -594,7 +588,9 @@ export const Release = () => {
                                 ))}
                             </Carousel>
                         </div>
+                        )}
 
+                        {endingsListResolved?.length > 0 && (
                         <div className="screens_wrap">
                             <h2 className="section_title">Эндинги</h2>
                             <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
@@ -603,7 +599,9 @@ export const Release = () => {
                                 ))}
                             </Carousel>
                         </div>
+                        )}
 
+                        {lastVideosResolved?.length > 0 && (
                         <div className="screens_wrap">
                             <h2 className="section_title">Последние видео</h2>
                             <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
@@ -612,6 +610,7 @@ export const Release = () => {
                                 ))}
                             </Carousel>
                         </div>
+                        )}
 
                         {lightboxSrc && <Lightbox open={true} src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
                         {trailerUrl && (
@@ -619,6 +618,68 @@ export const Release = () => {
                             <iframe className="video_iframe" src={trailerUrl} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen />
                           </Lightbox>
                         )}
+                        {isTitleModalOpen && (
+                          <Lightbox open={true} onClose={() => setIsTitleModalOpen(false)}>
+                            <div className="title_modal_content">
+                              <h2 className="title_modal_heading">Полное название</h2>
+                              <div className="title_modal_divider"></div>
+                              <div className="title_modal_section">
+                                <p className="title_modal_label">Русское название:</p>
+                                <h3 className="title_modal_title">{release.title_ru}</h3>
+                              </div>
+                              <div className="title_modal_section">
+                                <p className="title_modal_label">Оригинальное название:</p>
+                                <h3 className="title_modal_title">{release.title_original}</h3>
+                              </div>
+                              {release.age_rating && (
+                                <div className="title_modal_rating">
+                                  <span className="age_rating">{release.age_rating}+</span>
+                                </div>
+                              )}
+                            </div>
+                          </Lightbox>
+                        )}
+
+                        {/* Mobile version of related and recommended releases */}
+                        <div className="mobile_recommends_and_related">
+                            {(() => {
+                                const relatedList = Array.isArray(release.related_releases)
+                                    ? release.related_releases
+                                    : Array.isArray((release as any)?.related?.releases)
+                                    ? (release as any).related.releases
+                                    : Array.isArray((release as any)?.related)
+                                    ? (release as any).related
+                                    : [];
+                                return relatedList.length > 0 ? (
+                                <>
+                                    <h2 className="section_title">Связанные релизы</h2>
+                                    <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
+                                        {relatedList.filter((el) => el && el.id && el.id !== release.id).map((el) => (
+                                            <ScheduleReleaseCard key={el.id} release={el} />
+                                        ))}
+                                    </Carousel>
+                                </>
+                                ) : null;
+                            })()}
+
+                            <h2 className="section_title">Рекомендуем также</h2>
+                            {(() => {
+                                const recommendedList = Array.isArray(release.recommended_releases)
+                                    ? release.recommended_releases
+                                    : Array.isArray((release as any)?.recommended)
+                                    ? (release as any).recommended
+                                    : [];
+                                return recommendedList.length > 0 ? (
+                                <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
+                                    {recommendedList.filter((el) => el && el.id).map((el) => (
+                                        <ScheduleReleaseCard key={el.id} release={el} />
+                                    ))}
+                                </Carousel>
+                                ) : (
+                                    'Упс, таких нет'
+                                );
+                            })()}
+                        </div>
 
                         <div className="screens_wrap">
 
@@ -665,11 +726,11 @@ export const Release = () => {
                             return relatedList.length > 0 ? (
                             <>
                                 <h2 className="section_title">Связанные релизы</h2>
-                                <HorizontalList>
+                                <div className="related_releases_list">
                                     {relatedList.filter((el) => el && el.id && el.id !== release.id).map((el) => (
                                         <ScheduleReleaseCard key={el.id} release={el} />
                                     ))}
-                                </HorizontalList>
+                                </div>
                             </>
                             ) : null;
                         })()}
@@ -682,11 +743,11 @@ export const Release = () => {
                                 ? (release as any).recommended
                                 : [];
                             return recommendedList.length > 0 ? (
-                            <HorizontalList>
+                            <div className="recommended_releases_list">
                                 {recommendedList.filter((el) => el && el.id).map((el) => (
                                     <ScheduleReleaseCard key={el.id} release={el} />
                                 ))}
-                            </HorizontalList>
+                            </div>
                             ) : (
                                 'Упс, таких нет'
                             );

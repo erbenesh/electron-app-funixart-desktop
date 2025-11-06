@@ -1,7 +1,6 @@
 import axios from "axios";
-import { AUTH_RESEND, AUTH_RESTORE, AUTH_RESTORE_RESEND, AUTH_RESTORE_VERIFY, AUTH_SIGN_IN_WITH_GOOGLE, AUTH_SIGN_IN_WITH_VK, BASE_URL, PROFILE, PROFILE_INFO, PROFILE_NICKNAMES_HISTORY, PROFILE_PROCESS, PROFILE_SOCIAL, SIGN_IN, SIGN_UP, SIGN_UP_VERIFY } from "./endpoints";
-import type { ResendRequest, RestoreRequest, RestoreResendRequest, RestoreVerifyRequest, SignInRequest, SignInWithGoogleRequest, SignInWithVkRequest, SignUpRequest, VerifyRequest } from "./types/requests";
-import type { PageableResponse, ProfileResponse, ProfileSocialResponse, SignInResponse, SignUpResponse } from "./types/responses";
+import { BASE_URL, PROFILE, PROFILE_INFO, PROFILE_NICKNAMES_HISTORY, PROFILE_PROCESS, PROFILE_ROLE_LIST_ALL, PROFILE_SOCIAL } from "./endpoints";
+import type { PageableResponse, ProfileResponse, ProfileSocialResponse } from "./types/responses";
 
 class ProfileService {
 
@@ -21,61 +20,6 @@ class ProfileService {
     async getMyProfile(token: string): Promise<ProfileResponse> {
         const url = `${BASE_URL}${PROFILE_INFO}?token=${token}`;
         const response = await axios.get<ProfileResponse>(url);
-        return response.data;
-    }
-
-    async signIn(request: SignInRequest): Promise<SignInResponse> {
-        const url = `${BASE_URL}${SIGN_IN}?login=${encodeURIComponent(request.login)}&password=${encodeURIComponent(request.password)}`;
-        const response = await axios.post<SignInResponse>(url);
-        return response.data;
-    }
-
-    async signUp(request: SignUpRequest): Promise<SignUpResponse> {
-        const url = `${BASE_URL}${SIGN_UP}`;
-        const response = await axios.post<SignUpResponse>(url, request);
-        return response.data;
-    }
-
-    async signInWithGoogle(request: SignInWithGoogleRequest): Promise<SignInResponse> {
-        const url = `${BASE_URL}${AUTH_SIGN_IN_WITH_GOOGLE}`;
-        const response = await axios.post<SignInResponse>(url, request);
-        return response.data;
-    }
-
-    async signInWithVk(request: SignInWithVkRequest): Promise<SignInResponse> {
-        const url = `${BASE_URL}${AUTH_SIGN_IN_WITH_VK}`;
-        const response = await axios.post<SignInResponse>(url, request);
-        return response.data;
-    }
-
-    async verify(request: VerifyRequest): Promise<SignInResponse> {
-        const url = `${BASE_URL}${SIGN_UP_VERIFY}`;
-        const response = await axios.post<SignInResponse>(url, request);
-        return response.data;
-    }
-
-    async resend(request: ResendRequest): Promise<{ code: number }> {
-        const url = `${BASE_URL}${AUTH_RESEND}`;
-        const response = await axios.post<{ code: number }>(url, request);
-        return response.data;
-    }
-
-    // Password restore flow
-    async restore(request: RestoreRequest): Promise<{ hash: string }> {
-        const url = `${BASE_URL}${AUTH_RESTORE}`;
-        const response = await axios.post<{ hash: string }>(url, request);
-        return response.data;
-    }
-
-    async restoreResend(request: RestoreResendRequest): Promise<{ code: number }> {
-        const url = `${BASE_URL}${AUTH_RESTORE_RESEND}`;
-        const response = await axios.post<{ code: number }>(url, request);
-        return response.data;
-    }
-
-    async restoreVerify(request: RestoreVerifyRequest): Promise<SignInResponse> {
-        const url = `${BASE_URL}${AUTH_RESTORE_VERIFY}`;
-        const response = await axios.post<SignInResponse>(url, request);
         return response.data;
     }
 
@@ -111,12 +55,13 @@ class ProfileService {
         return response.data;
     }
 
-    // Legacy method for backward compatibility
-    async postSubmitLogin(
-        login: string,
-        password: string,
-    ): Promise<SignInResponse> {
-        return this.signIn({ login, password });
+    async getProfileRoleList(
+        page: number | string,
+        token: string
+    ): Promise<PageableResponse<any>> {
+        const url = `${BASE_URL}${PROFILE_ROLE_LIST_ALL}${page}?token=${token}`;
+        const response = await axios.get<PageableResponse<any>>(url);
+        return response.data;
     }
 
 }

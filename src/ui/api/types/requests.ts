@@ -233,3 +233,13 @@ export interface ChannelsFilterRequest {
   // Filter parameters
 }
 
+// Notification Preference Requests
+export interface NotificationPreferenceEditRequest {
+  enabled: boolean;
+}
+
+export interface NotificationReleaseTypeEditRequest {
+  releaseId: number;
+  typeId: number;
+}
+

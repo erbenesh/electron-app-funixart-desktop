@@ -76,11 +76,18 @@ export interface VerifyResponse extends BaseResponse {
   profileToken?: ProfileToken;
 }
 
-export interface ResendResponse extends BaseResponse {}
+export interface ResendResponse extends BaseResponse {
+  codeTimestampExpires?: number;
+}
 
-export interface RestoreResponse extends BaseResponse {}
+export interface RestoreResponse extends BaseResponse {
+  hash?: string;
+  codeTimestampExpires?: number;
+}
 
-export interface RestoreResendResponse extends BaseResponse {}
+export interface RestoreResendResponse extends BaseResponse {
+  codeTimestampExpires?: number;
+}
 
 export interface RestoreVerifyResponse extends BaseResponse {
   profile?: Profile;

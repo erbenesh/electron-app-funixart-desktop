@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { Collection } from "../types/entities";
-import { BASE_URL, COLLECTION, COLLECTION_FAVORITE, COLLECTION_FAVORITE_ADD, COLLECTION_FAVORITE_DELETE, COLLECTION_LIST, COLLECTION_MY_ADD_RELEASE, COLLECTION_MY_CREATE, COLLECTION_MY_DELETE, COLLECTION_MY_EDIT, COLLECTION_MY_EDIT_IMAGE, COLLECTION_PROFILE, COLLECTION_RELEASE, COLLECTION_REPORT } from "./endpoints";
+import { BASE_URL, COLLECTION, COLLECTION_FAVORITE, COLLECTION_FAVORITE_ADD, COLLECTION_FAVORITE_DELETE, COLLECTION_LIST, COLLECTION_MY, COLLECTION_MY_ADD_RELEASE, COLLECTION_MY_CREATE, COLLECTION_MY_DELETE, COLLECTION_MY_EDIT, COLLECTION_MY_EDIT_IMAGE, COLLECTION_PROFILE, COLLECTION_RELEASE, COLLECTION_REPORT } from "./endpoints";
 import type { CollectionCreateEditRequest, CollectionReportRequest } from "./types/requests";
 import type { CollectionCreateEditResponse, CollectionResponse, PageableResponse, ReportResponse } from "./types/responses";
 
@@ -127,6 +127,15 @@ class CollectionService {
     ): Promise<ReportResponse> {
         const url = `${BASE_URL}${COLLECTION_REPORT}${collectionId}?token=${token}`;
         const response = await axios.post<ReportResponse>(url, request);
+        return response.data;
+    }
+
+    async getMyCollectionReleases(
+        collectionId: number | string,
+        token: string
+    ): Promise<PageableResponse<any>> {
+        const url = `${BASE_URL}${COLLECTION_MY}${collectionId}/releases?token=${token}`;
+        const response = await axios.get<PageableResponse<any>>(url);
         return response.data;
     }
 

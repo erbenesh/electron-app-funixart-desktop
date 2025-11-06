@@ -8,9 +8,9 @@
     max-width: 13rem;
     width: 100%;
     z-index: 0;
-    transition: all 0.2s ease;
-    background-color: rgba(36, 36, 36);
-    border-radius: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: transparent;
+    border-radius: 0.75rem;
     opacity: 0;
     animation: show .3s;
     animation-fill-mode: forwards;
@@ -21,87 +21,156 @@
 }
 
 .vert_card:active {
-    transform: translateY(-2px);
+    transform: scale(0.98);
 }
 
-
 @keyframes show {
-
     0% {
         opacity: 0;
+        transform: translateY(10px);
     }
     100% {
         opacity: 1;
+        transform: translateY(0);
     }
-
 }
 
-.release_image_border {
+.card_image_wrapper {
     position: relative;
     width: 100%;
     aspect-ratio: 2/3;
     min-height: 11rem;
     max-height: 19.5rem;
     overflow: hidden;
-    border-radius: 1rem;
-    transition: all 0.2s ease;
+    border-radius: 0.75rem;
     background-color: rgb(48, 48, 48);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.release_image_border::after {
+.card_image_wrapper::after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 200%;
-    height: 120%;
-    background: linear-gradient(226deg, 
-        rgba(230, 230, 230, 0) 0%, 
-        rgba(230, 230, 230, 0) 35%, 
-        rgba(230, 230, 230, 0.25) 42%, 
-        rgba(255, 160, 100, 0.15) 48%, 
-        rgba(255, 160, 100, 0.1) 52%, 
-        rgba(230, 230, 230, 0.25) 58%, 
-        rgba(230, 230, 230, 0) 65%);
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, 
+        rgba(0, 0, 0, 0.2) 0%,
+        rgba(0, 0, 0, 0) 30%,
+        rgba(0, 0, 0, 0) 70%,
+        rgba(0, 0, 0, 0.3) 100%
+    );
     pointer-events: none;
-    z-index: 10;
-    transform: translateY(120%) translateX(-100%);
-    transition: transform 0.65s cubic-bezier(0.18, 0.9, 0.58, 1);
+    z-index: 1;
 }
-
-/* .release_image_border::after {
-    display: block;
-    content: '';
-    position: absolute;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    width: 100%;
-    height: 120%;
-    z-index: 2;
-    background: linear-gradient(226deg, rgba(230, 230, 230, 0.4) 0%, rgba(230, 230, 230,0.4) 35%, rgba(230, 230, 230,0.2) 42%, rgba(230, 230, 230,0) 60%);
-    transform: translateY(-20%);
-    will-change: transform;
-    transition: transform .65s cubic-bezier(0.18, 0.9, 0.58, 1);
-} */
 
 .release_image {
-    object-fit:cover;
+    object-fit: cover;
     width: 100%;
     height: 100%;
     user-select: none;
-    /* filter: brightness(0.8); */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.description_and_action_buttons {
+/* Grade badge - top right corner */
+.grade_badge {
     position: absolute;
-    bottom: 0;
-    padding: 1rem;
-    width: calc(100% - 2rem);
-    z-index: 3;
-    pointer-events: none;
-    border-radius: 0 0 1rem 1rem;
+    top: 0.4rem;
+    right: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.25rem 0.45rem;
+    background: rgba(255, 193, 7, 1);
+    border-radius: 0.4rem;
+    z-index: 2;
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.star_icon {
+    font-size: 0.85rem;
+    line-height: 1;
+}
+
+.grade_value {
+    line-height: 1;
+}
+
+/* Status badge - bottom of image */
+.status_badge {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    right: 0.5rem;
+    padding: 0.45rem 0.7rem;
+    border-radius: 0.5rem;
+    z-index: 2;
+    font-weight: 800;
+    font-size: 0.75rem;
+    color: white;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.02em;
+}
+
+/* Card content section */
+.card_content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.6rem 0.15rem 0;
+}
+
+.card_title {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: white;
+    margin: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.genres_row {
+    display: flex;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.2;
+    overflow: hidden;
+    flex-wrap: wrap;
+}
+
+.genres_row span {
+    white-space: nowrap;
+}
+
+.info_row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.2;
+}
+
+.info_text {
+    white-space: nowrap;
+}
+
+.separator {
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 400;
 }
 
 @media (max-width: 768px) {
@@ -109,30 +178,50 @@
         min-width: 10rem;
         border-radius: 0.75rem;
     }
-    .release_image_border {
+    
+    .card_image_wrapper {
         min-height: 15rem;
         border-radius: 0.75rem;
     }
-    .description_and_action_buttons { 
-        width: calc(100% - 1rem); 
-        padding: 0.5rem; 
+    
+    .card_content {
+        padding: 0.55rem 0.1rem 0;
+        gap: 0.35rem;
     }
-    .release_info { 
-        width: 94%; 
-        padding-bottom: 0.25rem; 
+    
+    .card_title {
+        font-size: 0.9rem;
+        line-height: 1.2;
     }
-    .bottom_info { 
-        gap: 0.25rem; 
+    
+    .genres_row {
+        font-size: 0.7rem;
+        gap: 0.3rem;
     }
-    .anime_title { 
-        font-size: 0.95rem;
-        line-height: 1.2rem;
+    
+    .info_row {
+        font-size: 0.65rem;
+        gap: 0.25rem;
     }
-    .anime_subinfo { 
-        font-size: 0.65rem; 
+    
+    .grade_badge {
+        top: 0.35rem;
+        right: 0.35rem;
+        padding: 0.22rem 0.4rem;
+        font-size: 0.7rem;
+        gap: 0.15rem;
     }
-    .anime_subinfo_noborder {
+    
+    .star_icon {
         font-size: 0.8rem;
+    }
+    
+    .status_badge {
+        bottom: 0.4rem;
+        left: 0.4rem;
+        right: 0.4rem;
+        padding: 0.4rem 0.6rem;
+        font-size: 0.7rem;
     }
 }
 
@@ -142,132 +231,66 @@
         min-width: 9rem;
     }
     
-    .release_image_border {
+    .card_image_wrapper {
         min-height: 13.5rem;
     }
     
-    .anime_title {
+    .card_content {
+        padding: 0.5rem 0.1rem 0;
+        gap: 0.3rem;
+    }
+    
+    .card_title {
         font-size: 0.85rem;
-        line-height: 1.1rem;
+        line-height: 1.15;
     }
     
-    .anime_subinfo {
+    .genres_row {
+        font-size: 0.65rem;
+        gap: 0.25rem;
+    }
+    
+    .info_row {
         font-size: 0.6rem;
+        gap: 0.2rem;
     }
     
-    .anime_subinfo_noborder {
-        font-size: 0.75rem;
+    .grade_badge {
+        padding: 0.2rem 0.35rem;
+        font-size: 0.65rem;
+        top: 0.3rem;
+        right: 0.3rem;
     }
-}
-
-.release_lists_info {
-    position: relative;
-    display: flex;
-    /* flex-direction: column; */
-    align-items: center;
-    width: 100%;
-    margin-top: 0.5rem;
-}
-
-.user_list_name {
-    width: 100%;
-    text-align: center;
-    font-weight: 700;
-    font-size: 0.8rem;
-    padding: 0.4rem 0.6rem;
-    color: white;
-    border-radius: 0.5rem;
-    backdrop-filter: blur(8px);
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
-}
-
-.bookmark {
-    position: relative;
-    z-index: 3;
-}
-
-.release_info {
-    position: relative;
-    width: 90%;
-    z-index: 2;
-    padding-bottom: 0.5rem;
-    display: flex;
-    align-self: center;
-    flex-direction: column;
     
-}
-
-.anime_title {
-    text-decoration: none;
-    color: white;
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin: 0 0 0.4rem 0;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.6);
-    line-height: 1.5;
-}
-
-.bottom_info {
-    display: flex;
-    flex-direction: row;
-    gap: 0.3rem;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.anime_subinfo {
-    font-size: 0.7rem;
-    font-weight: 600;
-    line-height: 1rem;
-    padding: 0.15rem 0.4rem;
-    color: white;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0, 0, 0, 0.7);
-    border-radius: 0.4rem;
-    background: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(4px);
-}
-
-.anime_subinfo_noborder {
-    font-size: 0.9rem;
-    font-weight: 600;
-    line-height: 1.4rem;
-    margin-top: 0.4rem;
-    margin-bottom: 0.6rem;
-    color: white;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.6);
-}
-
-.description{
-    position: relative;
-    height: min-content;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    line-height: 1.2rem;
-    font-size: 0.9rem;
-    font-weight: 600;
+    .star_icon {
+        font-size: 0.7rem;
+    }
     
+    .status_badge {
+        bottom: 0.35rem;
+        left: 0.35rem;
+        right: 0.35rem;
+        padding: 0.35rem 0.55rem;
+        font-size: 0.65rem;
+    }
 }
 
 /* Hover effects - only on devices with hover capability */
 @media (hover: hover) {
-  .vert_card:hover {
-  z-index: 1;
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-}
-
-  .vert_card:hover .release_image_border::after {
-  transform: translateY(-20%) translateX(0%);
-}
-
-  .vert_card:hover .release_image_border::after {
-  transform: translateY(0%);
-}
+    .vert_card:hover {
+        z-index: 1;
+        transform: translateY(-6px);
+    }
+    
+    .vert_card:hover .card_image_wrapper {
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+    
+    .vert_card:hover .release_image {
+        transform: scale(1.05);
+    }
+    
+    .vert_card:hover .card_title {
+        color: rgba(255, 193, 7, 1);
+    }
 }

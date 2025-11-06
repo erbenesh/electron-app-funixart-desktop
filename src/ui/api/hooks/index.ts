@@ -7,6 +7,7 @@ export * from "./useDiscover";
 export * from "./useFeed";
 export * from "./useFriends";
 export * from "./useNotification";
+export * from "./useNotificationPreferences";
 export * from "./usePlayer";
 export * from "./usePreferences";
 export * from "./useProfile";

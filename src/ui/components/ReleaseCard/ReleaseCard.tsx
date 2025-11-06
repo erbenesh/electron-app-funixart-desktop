@@ -7,11 +7,11 @@ import type { Release } from '../../types/entities';
 
 const profile_lists = {
     // 0: "Не смотрю",
-    1: { name: "Смотрю", bg_color: "rgba(26, 212, 85, 0.5)" },
-    2: { name: "В планах", bg_color: "rgba(140, 119, 197, 0.5)" },
-    3: { name: "Просмотрено", bg_color: "rgba(91, 93, 207, 0.5)" },
-    4: { name: "Отложено", bg_color: "rgba(233, 196, 47, 0.5)" },
-    5: { name: "Брошено", bg_color: "rgba(231, 115, 80, 0.5)" },
+    1: { name: "Смотрю", bg_color: "rgba(26, 212, 85, 0.95)" },
+    2: { name: "В планах", bg_color: "rgba(140, 119, 197, 0.95)" },
+    3: { name: "Просмотрено", bg_color: "rgba(91, 93, 207, 0.95)" },
+    4: { name: "Отложено", bg_color: "rgba(233, 196, 47, 0.95)" },
+    5: { name: "Брошено", bg_color: "rgba(231, 115, 80, 0.95)" },
 };
 
 const yearSeason = ["_", "Зима", "Весна", "Лето", "Осень"];
@@ -59,100 +59,77 @@ const ReleaseCardComponent = ({ release, clickCallBack }: ReleaseCardProps) => {
                 }
             }}
         >
-
-            <div className={styles.release_image_border}>
-            <MediaCard
-                imageUrl={release.image}
-                bottomOverlay={
-                    <div className={styles.release_info}>
-
-                        <div className={styles.anime_title}>{release.title_ru}</div>
-
-                        <div className={styles.anime_subinfo_noborder}>
-                            {/*Жанры*/}
-                            # { release.genres }
-                        </div>
-
-                        <div className={styles.bottom_info}>
-                        
-                            { release.category &&
-                            <>
-                                <span className={styles.anime_subinfo}>
-                                    {/*Категория*/}
-                                    { release.category.name }
-                                </span>
-                                •
-                            </>
-                            }
-                    
-                            { release.status &&
-                            <>
-                                <span className={styles.anime_subinfo}>
-                                    {/*Статус*/}
-                                    { release.status.name }
-                                </span>
-                                •
-                            </>
-                            }
-                
-                            <span className={styles.anime_subinfo}>
-                                {/*Сколько эпизодов*/}
-                                { release.episodes_released && release.episodes_released + " из "}
-                                {/*Из скольки эпизодов*/}
-                                { 
-                                    // release.status && release.status.id !== 3 && 
-                                    release.episodes_total ? release.episodes_total + " эп" : "? эп" 
-                                }
-                            </span>
-                        •        
-                            <span className={styles.anime_subinfo}>
-                                {/*Оценка или это анонс?*/}
-                                { grade ? <>&#9733; {grade}</> 
-                                : release.status 
-                                && release.status.id === 0
-                                && release.aired_on_date !== 0 ? (
-                                    unixToDate(release.aired_on_date, "dayMonthYear")
-                                ) : release.year ? (
-                                    <>
-                                        {release.season && release.season != 0
-                                        ? `${yearSeason[release.season]} `
-                                        : ""}
-                                        {release.year && `${release.year} г.`}
-                                    </>
-                                ) : (
-                                    "Скоро"
-                                )}
-                            </span>
-
-                            {/* <div className={styles.bookmark}>
-                                {
-                                release.is_favorite? 
-                                <IoBookmark style={{color:"rgb(189, 78, 44)", width: '1.2rem', height: '1.2rem'}}/> 
-                                : <IoBookmarkOutline style={{color:"rgb(160, 160, 160)", width: '1.2rem', height: '1.2rem'}}/>
-                                }
-                            </div> */}
-
-                            
-                        </div>
-                                    
-                        <div className={styles.release_lists_info}>
-
-                            {user_list && 
-                            <span className={styles.user_list_name} style={{background: user_list.bg_color}}>
-                                {user_list.name}
-                            </span>
-                            }
-
-                        </div>
-
+            <div className={styles.card_image_wrapper}>
+                <MediaCard
+                    imageUrl={release.image}
+                    topOverlay={
+                        grade ? (
+                            <div className={styles.grade_badge}>
+                                <span className={styles.star_icon}>★</span>
+                                <span className={styles.grade_value}>{grade}</span>
+                            </div>
+                        ) : null
+                    }
+                />
+                {user_list && (
+                    <div 
+                        className={styles.status_badge} 
+                        style={{background: user_list.bg_color}}
+                    >
+                        {user_list.name}
                     </div>
-                }
-                overlayStyle={{
-                    background: `linear-gradient(to top, ${dominantColor.replace('1)', '0.95)')} 0%, ${dominantColor.replace('1)', '0.75)')} 40%, ${dominantColor.replace('1)', '0.3)')} 70%, ${dominantColor.replace('1)', '0)')} 100%)`
-                }}
-            />
+                )}
             </div>
+
+            <div className={styles.card_content}>
+                <h3 className={styles.card_title}>{release.title_ru}</h3>
                 
+                {release.genres && (
+                    <div className={styles.genres_row}>
+                        {release.genres.split(', ').slice(0, 2).map((genre, idx) => (
+                            <span key={idx}>#{genre}</span>
+                        ))}
+                    </div>
+                )}
+
+                <div className={styles.info_row}>
+                    {release.category && (
+                        <>
+                            <span className={styles.info_text}>{release.category.name}</span>
+                            <span className={styles.separator}>•</span>
+                        </>
+                    )}
+                    
+                    {release.status && (
+                        <>
+                            <span className={styles.info_text}>{release.status.name}</span>
+                            <span className={styles.separator}>•</span>
+                        </>
+                    )}
+
+                    <span className={styles.info_text}>
+                        {release.episodes_released && release.episodes_released + " из "}
+                        {release.episodes_total ? release.episodes_total + " эп" : "? эп"}
+                    </span>
+                    
+                    <span className={styles.separator}>•</span>
+                    
+                    <span className={styles.info_text}>
+                        {release.status && release.status.id === 0 && release.aired_on_date !== 0 ? (
+                            unixToDate(release.aired_on_date, "dayMonthYear")
+                        ) : release.year ? (
+                            <>
+                                {release.season && release.season != 0
+                                    ? `${yearSeason[release.season]} `
+                                    : ""}
+                                {release.year && `${release.year} г.`}
+                            </>
+                        ) : (
+                            "Скоро"
+                        )}
+                    </span>
+                </div>
+            </div>
         </div>
     );
 };

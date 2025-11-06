@@ -1,6 +1,6 @@
 import axios from "axios";
 import { AUTH_RESEND, AUTH_RESTORE, AUTH_RESTORE_RESEND, AUTH_RESTORE_VERIFY, AUTH_SIGN_IN_WITH_GOOGLE, AUTH_SIGN_IN_WITH_VK, BASE_URL, FIREBASE, SIGN_IN, SIGN_UP, SIGN_UP_VERIFY, SIGN_UP_WITH_GOOGLE, SIGN_UP_WITH_VK } from "./endpoints";
-import type { ResendRequest, RestoreRequest, RestoreResendRequest, RestoreVerifyRequest, SignInRequest, SignInWithGoogleRequest, SignInWithVkRequest, SignUpRequest, VerifyRequest } from "./types/requests";
+import type { ResendRequest, RestoreRequest, RestoreResendRequest, RestoreVerifyRequest, SignInRequest, SignInWithGoogleRequest, SignInWithVkRequest, SignUpRequest, SignUpWithGoogleRequest, SignUpWithVkRequest, VerifyRequest } from "./types/requests";
 import type { FirebaseResponse, ResendResponse, RestoreResendResponse, RestoreResponse, RestoreVerifyResponse, SignInResponse, SignUpResponse, VerifyResponse } from "./types/responses";
 
 class AuthService {
@@ -11,13 +11,13 @@ class AuthService {
         return response.data;
     }
 
-    async signUpWithGoogle(request: SignUpRequest & { googleIdToken: string }): Promise<SignUpResponse> {
+    async signUpWithGoogle(request: SignUpWithGoogleRequest): Promise<SignUpResponse> {
         const url = `${BASE_URL}${SIGN_UP_WITH_GOOGLE}`;
         const response = await axios.post<SignUpResponse>(url, request);
         return response.data;
     }
 
-    async signUpWithVk(request: SignUpRequest & { vkAccessToken: string }): Promise<SignUpResponse> {
+    async signUpWithVk(request: SignUpWithVkRequest): Promise<SignUpResponse> {
         const url = `${BASE_URL}${SIGN_UP_WITH_VK}`;
         const response = await axios.post<SignUpResponse>(url, request);
         return response.data;

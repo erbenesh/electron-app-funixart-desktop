@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { authService } from "../AuthService";
-import type { ResendRequest, RestoreRequest, RestoreResendRequest, RestoreVerifyRequest, SignInRequest, SignInWithGoogleRequest, SignInWithVkRequest, SignUpRequest, VerifyRequest } from "../types/requests";
+import type { ResendRequest, RestoreRequest, RestoreResendRequest, RestoreVerifyRequest, SignInRequest, SignInWithGoogleRequest, SignInWithVkRequest, SignUpRequest, SignUpWithGoogleRequest, SignUpWithVkRequest, VerifyRequest } from "../types/requests";
 import type { FirebaseResponse, ResendResponse, RestoreResendResponse, RestoreResponse, RestoreVerifyResponse, SignInResponse, SignUpResponse, VerifyResponse } from "../types/responses";
 
 export function useSignUp() {
@@ -11,14 +11,14 @@ export function useSignUp() {
 }
 
 export function useSignUpWithGoogle() {
-    return useMutation<SignUpResponse, Error, SignUpRequest & { googleIdToken: string }>({
+    return useMutation<SignUpResponse, Error, SignUpWithGoogleRequest>({
         mutationKey: ["auth", "signUpWithGoogle"],
         mutationFn: (request) => authService.signUpWithGoogle(request),
     });
 }
 
 export function useSignUpWithVk() {
-    return useMutation<SignUpResponse, Error, SignUpRequest & { vkAccessToken: string }>({
+    return useMutation<SignUpResponse, Error, SignUpWithVkRequest>({
         mutationKey: ["auth", "signUpWithVk"],
         mutationFn: (request) => authService.signUpWithVk(request),
     });
