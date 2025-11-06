@@ -1,14 +1,14 @@
 .channels_page {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
     opacity: 0;
     transition: .3s;
     animation: show .3s;
     animation-fill-mode: forwards;
     animation-delay: .3s;
     padding: 1rem;
-    max-width: 110rem;
+    max-width: 50rem;
     margin: 0 auto;
 }
 
@@ -24,290 +24,236 @@
 .section {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-}
-
-/* Carousel for recommendations */
-.carousel {
-    position: relative;
-}
-
-.carousel_track {
-    display: flex;
-    flex-direction: row;
     gap: 0.75rem;
-    overflow-x: auto;
-    overflow-y: visible;
-    scroll-behavior: smooth;
-    padding-bottom: .25rem;
-    /* Scroll-snap for better mobile UX */
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
 }
 
-.carousel_track::-webkit-scrollbar { height: 8px; }
-.carousel_track::-webkit-scrollbar-thumb { background: rgb(68,68,68); border-radius: 999px; }
-
-.carousel_nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
+.section_header {
     display: flex;
     justify-content: space-between;
-    pointer-events: none;
-}
-
-.nav_btn {
-    pointer-events: auto;
-    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 50%;
-    background: rgba(27,27,27,.85);
-    border: 1px solid rgb(68,68,68);
-    color: rgb(230,230,230);
-    cursor: pointer;
-    transition: background .15s ease, transform .15s ease, border-color .15s ease;
-}
-.nav_btn:active { transform: scale(.98); }
-.nav_btn[disabled] { opacity: .4; cursor: default; }
-
-/* Touch compliance on mobile */
-@media (max-width: 768px) {
-    .nav_btn {
-        min-width: 44px;
-        min-height: 44px;
-    }
 }
 
 .section_title {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 600;
     color: rgb(230, 230, 230);
     margin: 0;
 }
 
+.show_all_button {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    transition: color .2s;
+}
+
+.show_all_button:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Trending tags */
+.trending_tags {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.trending_tag {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    padding: 0.25rem 0;
+}
+
+/* Channels list */
 .channels_list {
     display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    gap: 0.5rem;
-    overflow: visible;
-}
-
-.channel_card {
-    position: relative;
-    z-index: 0;
-    width: 16rem;
-    aspect-ratio: 1 / 1;
-    cursor: pointer;
-    transition: .2s;
-    border-radius: 1rem;
-    opacity: 0;
-    animation: show .3s;
-    animation-fill-mode: forwards;
-    animation-delay: .3s;
-    text-decoration: none;
-    display: block;
-}
-
-.channel_card_fallback {
-    display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    gap: 1rem;
-    width: 16rem;
-    aspect-ratio: 1 / 1;
-    border-radius: 1rem;
-    border: 1px solid rgb(68, 68, 68);
-    background-color: rgb(27, 27, 27);
+    gap: 0.5rem;
 }
 
-/* Hover info popup next to card */
-.channel_item { position: relative; z-index: 1; }
-.hover_info {
-    position: absolute;
-    top: 0;
-    left: calc(100% + 0.5rem);
-    width: 18rem;
-    max-height: 16rem;
-    padding: .75rem 1rem;
-    border-radius: .75rem;
-    background: rgba(27,27,27,.95);
-    border: 1px solid rgb(68,68,68);
-    color: rgb(230,230,230);
-    box-shadow: 0 0 .75rem rgba(0,0,0,.35);
-    opacity: 0;
-    transform: translateY(6px);
-    transition: opacity .15s ease, transform .15s ease;
-    pointer-events: none;
-    z-index: 250;
-    backdrop-filter: blur(4px);
+.channel_item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(36, 36, 36, 0.5);
+    border-radius: 0.75rem;
+    transition: background .2s;
 }
-.hover_title { font-weight: 600; margin: 0 0 .25rem 0; }
-.hover_desc { font-size: .9rem; color: rgb(200,200,200); margin: 0 0 .5rem 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; }
-.hover_stats { display: flex; gap: .5rem; margin-bottom: .5rem; }
-.hover_chip { padding: .15rem .5rem; border-radius: .5rem; background: rgb(40,40,40); border: 1px solid rgb(68,68,68); font-size: .8rem; color: rgb(210,210,210); }
-.hover_footer { display: flex; align-items: center; gap: .5rem; font-size: .8rem; color: rgb(180,180,180); }
-.verified { color: rgb(189, 78, 44); font-weight: 700; }
+
+.channel_item:hover {
+    background: rgba(42, 42, 42, 0.6);
+}
 
 .channel_info {
-    position: absolute;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0 .75rem;
-    border-radius: 1rem;
-    width: 100%;
-    max-width: 100%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 3rem;
-    text-align: center;
-    background: rgb(48, 48, 48, 0.8);
+    gap: 0.75rem;
+    flex: 1;
+    cursor: pointer;
+    min-width: 0;
 }
 
-.channel_title {
-    position: relative;
-    text-decoration: none;
-    color: rgb(230, 230, 230);
-    font-weight: 600;
-    line-height: 1.2rem;
-    font-size: 1rem;
+.channel_avatar {
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgb(48, 48, 48);
+}
+
+.channel_avatar img {
     width: 100%;
-    transition: .3s;
-    margin: 0;
+    height: 100%;
+    object-fit: cover;
+}
+
+.channel_details {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.channel_name_row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.channel_name {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.95);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.verified_badge {
+    color: #4a9eff;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.channel_meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.subscribers_count {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.subscribe_button {
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.subscribe_button .button_icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.subscribe_button.subscribed {
+    background: rgba(119, 194, 109, 0.15);
+    border-color: #77c26d;
+}
+
+.subscribe_button.subscribed .button_icon {
+    color: #77c26d;
+}
+
+.subscribe_button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.subscribe_button.subscribed:hover {
+    background: rgba(119, 194, 109, 0.2);
+}
+
+.subscribe_button:active {
+    transform: scale(0.95);
 }
 
 .empty_state {
-    padding: 3rem;
+    padding: 2rem;
     text-align: center;
-    color: rgb(160, 160, 160);
-    font-size: 1rem;
-    width: 100%;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.95rem;
 }
 
 /* Mobile responsive */
 @media (max-width: 768px) {
     .channels_page {
-        padding: 0.75rem;
-        gap: 1.5rem;
+        padding: 0.5rem;
+        gap: 1.25rem;
     }
 
     .section {
-        gap: 0.75rem;
+        gap: 0.6rem;
     }
 
     .section_title {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
     }
 
-    .carousel_track {
-        gap: 0.5rem;
-        scroll-snap-type: x mandatory;
-    }
-    
-    .carousel_track > * {
-        scroll-snap-align: start;
-        flex-shrink: 0;
-    }
-
-    .nav_btn {
-        display: none;
-    }
-
-    .channels_list {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 0.5rem;
-    }
-
-    .channel_card {
-        width: 100%;
-        border-radius: 0.75rem;
-    }
-
-    .channel_card_fallback {
-        width: 100%;
-        padding: 1.5rem;
-        gap: 0.75rem;
-    }
-
-    /* Disable hover info on mobile */
-    .hover_info {
-        display: none;
-    }
-
-    .channel_info {
-        height: 2.5rem;
-        padding: 0 0.5rem;
-        background: rgba(48, 48, 48, 0.9);
-    }
-
-    .channel_title {
+    .show_all_button {
         font-size: 0.85rem;
-        line-height: 1.1rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    }
+
+    .trending_tag {
+        font-size: 0.9rem;
+    }
+
+    .channel_item {
+        padding: 0.6rem;
+        gap: 0.6rem;
+    }
+
+    .channel_avatar {
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+
+    .channel_name {
+        font-size: 0.9rem;
+    }
+
+    .subscribers_count {
+        font-size: 0.8rem;
+    }
+
+    .subscribe_button {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .subscribe_button .button_icon {
+        width: 1.1rem;
+        height: 1.1rem;
     }
 
     .empty_state {
-        padding: 2rem 1rem;
+        padding: 1.5rem;
         font-size: 0.9rem;
     }
-}
-
-/* Tablet */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .channels_list {
-        grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
-    }
-
-    .channel_card {
-        width: 100%;
-    }
-
-    .channel_card_fallback {
-        width: 100%;
-    }
-}
-
-/* Hover effects - only on devices with hover capability */
-@media (hover: hover) {
-  .nav_btn:hover {
-  background: rgba(36,36,36,.9); border-color: rgb(189, 78, 44);
-}
-
-  .channel_card:hover {
-  transform: scale(105%);
-    z-index: 100;
-    box-shadow: 0 0 2rem 2rem rgba(36, 36, 36, 0.8);
-}
-
-  .channel_item:hover {
-  z-index: 200;
-}
-
-  .channel_item:hover .hover_info {
-  opacity: 1; transform: translateY(0);
-}
-
-  .channel_card:hover {
-  transform: none;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
 }

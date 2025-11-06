@@ -121,7 +121,11 @@ export const Feed = () => {
                             )}
                         </div>
                         
-                        <button className="filter_all_button" type="button">
+                        <button 
+                            className="filter_all_button" 
+                            type="button"
+                            onClick={() => navigate('/channels')}
+                        >
                             Все
                         </button>
                     </div>
