@@ -11,8 +11,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTelegramBackButton } from '../hooks/useTelegramBackButton';
-import { useTelegramMainButton } from '../hooks/useTelegramMainButton';
 import { useTelegramHaptic } from '../hooks/useTelegramHaptic';
+import { useTelegramMainButton } from '../hooks/useTelegramMainButton';
 
 // ============================================
 // Пример 1: Форма с MainButton
