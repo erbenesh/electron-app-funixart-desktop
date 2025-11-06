@@ -24,13 +24,15 @@
     flex-direction: row;
     width: 100%;
     padding: 0.75rem 1.5rem;
-    padding-top: max(0.75rem, calc(env(safe-area-inset-top, 0) + 0.5rem));
+    padding-top: max(0.75rem, calc(var(--safe-area-top) + 0.5rem));
+    padding-left: max(1.5rem, var(--safe-area-left));
+    padding-right: max(1.5rem, var(--safe-area-right));
     max-width: 100%;
     z-index: var(--z-header);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
     pointer-events: all;
     backdrop-filter: blur(0.75rem) brightness(1.05);
-    /* background: linear-gradient(to right, rgba(36, 36, 36, 0.95) 0%, rgba(189, 78, 44, 0.5) 100%); */
+    background-color: rgba(36, 36, 36, 0.95);
 }
 
 .buttons_wraper {
@@ -372,9 +374,11 @@ input[type="search"]::-webkit-search-results-decoration {
 @media (max-width: 768px) {
     .header_wrap {
         padding: 0.75rem;
-        padding-top: max(0.75rem, calc(env(safe-area-inset-top, 0) + 0.75rem));
-        /* background: rgba(36, 36, 36, 0.95); */
+        padding-top: max(0.75rem, calc(var(--safe-area-top) + 0.5rem));
+        padding-left: max(0.75rem, var(--safe-area-left));
+        padding-right: max(0.75rem, var(--safe-area-right));
         backdrop-filter: blur(8px);
+        background-color: rgba(36, 36, 36, 0.95);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
     

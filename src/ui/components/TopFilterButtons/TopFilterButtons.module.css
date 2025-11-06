@@ -13,9 +13,9 @@
     align-items: center;
     justify-content: center;
     transition: transform 0.3s;
-    z-index: var(--z-tabs);
+    z-index: calc(var(--z-header) - 1);
     width: 100%;
-    padding: calc(0.75rem + var(--safe-area-top)) 0 0.5rem 0;
+    padding: 0.75rem 0 0.5rem 0;
     top: var(--header-height-safe);
     left: 0;
     right: 0;
@@ -74,9 +74,12 @@
     
     .buttons_container {
         justify-content: center;
-        max-width: 1400px;
+        max-width: var(--content-max-width);
         padding: 0 1.5rem 0.75rem 1.5rem;
+        padding-left: max(1.5rem, var(--safe-area-left));
+        padding-right: max(1.5rem, var(--safe-area-right));
         overflow-x: visible;
+        margin: 0 auto;
     }
 }
 
@@ -86,7 +89,7 @@
     }
     
     .bookmarks_nav_buttons_fixed {
-        top: var(--header-height);
+        top: var(--header-height-safe);
         padding: 0.65rem 0 0.75rem 0;
         width: 100%;
         left: 0;
@@ -95,6 +98,8 @@
     
     .buttons_container {
         padding: 0 1rem 0.5rem 1rem;
+        padding-left: max(1rem, var(--safe-area-left));
+        padding-right: max(1rem, var(--safe-area-right));
         gap: 0.5rem;
         justify-content: flex-start;
     }

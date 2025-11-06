@@ -27,7 +27,7 @@
   
   /* Calculated heights с safe zones */
   --header-height-safe: calc(var(--header-height) + var(--safe-area-top));
-  --tabs-offset: calc(var(--header-height-safe) + var(--tabs-height));
+  --tabs-offset: calc(var(--header-height) + var(--tabs-height) + var(--safe-area-top));
 
   /* Z-index system */
   --z-content: 1;
