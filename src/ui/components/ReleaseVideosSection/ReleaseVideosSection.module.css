@@ -1,0 +1,138 @@
+.container {
+    background: rgba(36, 36, 36, 0.6);
+    border: 1px solid #3a3a3a;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.title {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.25rem;
+    padding-left: 0.25rem;
+    border-left: 3px solid rgb(189, 78, 44);
+    padding-inline-start: 0.5rem;
+}
+
+.showAllButton {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: none;
+    border: none;
+    color: rgba(189, 78, 44, 1);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    padding: 0.25rem 0.5rem;
+}
+
+.showAllButton:hover {
+    opacity: 0.8;
+}
+
+.chevronIcon {
+    font-size: 1rem;
+}
+
+.categoryButtons {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.categoryButton {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.25rem;
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: 2rem;
+    background: transparent;
+    color: #ccc;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.categoryButton:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+.categoryButtonActive {
+    background: rgba(189, 78, 44, 0.2);
+    border-color: rgb(189, 78, 44);
+    color: rgb(189, 78, 44);
+}
+
+.categoryButtonActive:hover {
+    background: rgba(189, 78, 44, 0.3);
+}
+
+.newBadge {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    background: rgb(255, 87, 34);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+}
+
+.videosCarousel {
+    width: 100%;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+        margin-top: 0.75rem;
+    }
+
+    .header {
+        margin-bottom: 1rem;
+    }
+
+    .title {
+        font-size: 1.1rem;
+    }
+
+    .showAllButton {
+        font-size: 0.85rem;
+    }
+
+    .categoryButtons {
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .categoryButton {
+        padding: 0.55rem 1rem;
+        font-size: 0.875rem;
+        border-radius: 1.5rem;
+    }
+
+    .newBadge {
+        font-size: 0.6rem;
+        padding: 0.12rem 0.35rem;
+    }
+}
+

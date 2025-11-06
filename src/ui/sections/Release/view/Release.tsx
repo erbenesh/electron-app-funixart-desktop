@@ -1,6 +1,5 @@
 import '../styles/Release.css';
 
-import interestCardStyles from "#/components/InterestingCard/InterestingCard.module.css";
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { BsCollectionPlay } from "react-icons/bs";
@@ -22,8 +21,10 @@ import jFlag from '#/assets/icons/j_flag.svg';
 import { useUserStore } from '#/auth/store/auth';
 import { Comment } from '#/components/Comment/Comment';
 import { PostInput } from '#/components/PostInput/PostInput';
+import { ReleaseVideosSection } from '#/components/ReleaseVideosSection/ReleaseVideosSection';
 import { ReleaseVotesCounter } from '#/components/ReleaseVotesCounter/ReleaseVotesCounter';
 import { ScheduleReleaseCard } from '#/components/ScheduleReleaseCard/ScheduleReleaseCard';
+import { UserListsStats } from '#/components/UserListsStats/UserListsStats';
 import { useClickOutside } from '#/hooks/useClickOutside';
 import { useScrollPosition } from '#/hooks/useScrollPosition';
 import Carousel from 'ui-kit/components/Carousel/Carousel';
@@ -509,32 +510,34 @@ export const Release = () => {
                             </div>
 
                         {/* User lists section */}
-                        {release.watching_count > 0 && (
-                            <div className="user_lists_section">
-                                <h2 className="section_title">В списках у людей</h2>
-                                <div className="user_stat_row">
-                                    <IoCalendarOutline className="stat_icon" />
-                                    <p className="stat_text">
-                                        {release.watching_count.toLocaleString('ru-RU')} {
-                                            release.status?.name === "Анонс" 
-                                                ? "пользователей планируют смотреть этот релиз" 
-                                                : "пользователей смотрят этот релиз"
-                                        }
-                                    </p>
-                                </div>
-                            </div>
-                        )}
+                        <UserListsStats release={release} />
 
                         {/* Rating section */}
                         {release.vote_count > 0 && (
                             <div className="rating_section">
-                                <h2 className="section_title">Оценки</h2>
-                                <ReleaseVotesCounter release={release}/>
+                                <h2 className="section_title">Рейтинг</h2>
+                                <ReleaseVotesCounter 
+                                    release={release}
+                                    onVoteSuccess={() => currentRelease.refetch()}
+                                />
                             </div>
                         )}
 
+                        {/* Videos section with category tabs */}
+                        <ReleaseVideosSection
+                            categories={[
+                                { id: 'trailers', name: 'Трейлеры', videos: trailersListResolved || [], isNew: true },
+                                { id: 'previews', name: 'Превью', videos: previewsListResolved || [] },
+                                { id: 'openings', name: 'Опенинги', videos: openingsListResolved || [] },
+                                { id: 'endings', name: 'Эндинги', videos: endingsListResolved || [] },
+                                { id: 'clips', name: 'Клипы', videos: clipsListResolved || [] },
+                            ]}
+                            onVideoClick={(video) => setTrailerUrl(video.player_url || video.url)}
+                        />
+
+                        {/* Screenshots section */}
                         { release?.screenshot_images?.length > 0 && (
-                        <div className="screens_wrap">
+                        <div className="screenshots_section">
                             <h2 className="section_title">Кадры</h2>
                             <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
                                 {release.screenshot_images.map((screen: string) => (
@@ -542,75 +545,6 @@ export const Release = () => {
                                 ))}
                             </Carousel>
                         </div>)}
-
-
-                        {/* Trailers section rendered below with data guard */}
-
-                        {trailersListResolved?.length > 0 && (
-                        <div className="screens_wrap">
-                            <h2 className="section_title">Трейлеры</h2>
-                            <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
-                                {trailersListResolved.map((video: any) => (
-                                    <img key={video.id} className={`${interestCardStyles.release_image} release_trailer_img`} src={video.image} alt={video.title || ''} onClick={() => setTrailerUrl(video.player_url || video.url)} />
-                                ))}
-                            </Carousel>
-                        </div>
-                        )}
-
-                        {clipsListResolved?.length > 0 && (
-                        <div className="screens_wrap">
-                            <h2 className="section_title">Клипы</h2>
-                            <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
-                                {clipsListResolved.map((video: any) => (
-                                    <img key={video.id} className={`${interestCardStyles.release_image} release_trailer_img`} src={video.image} alt={video.title || ''} onClick={() => setTrailerUrl(video.player_url || video.url)} />
-                                ))}
-                            </Carousel>
-                        </div>
-                        )}
-
-                        {previewsListResolved?.length > 0 && (
-                        <div className="screens_wrap">
-                            <h2 className="section_title">Превью</h2>
-                            <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
-                                {previewsListResolved.map((video: any) => (
-                                    <img key={video.id} className={`${interestCardStyles.release_image} release_trailer_img`} src={video.image} alt={video.title || ''} onClick={() => setTrailerUrl(video.player_url || video.url)} />
-                                ))}
-                            </Carousel>
-                        </div>
-                        )}
-
-                        {openingsListResolved?.length > 0 && (
-                        <div className="screens_wrap">
-                            <h2 className="section_title">Опенинги</h2>
-                            <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
-                                {openingsListResolved.map((video: any) => (
-                                    <img key={video.id} className={`${interestCardStyles.release_image} release_trailer_img`} src={video.image} alt={video.title || ''} onClick={() => setTrailerUrl(video.player_url || video.url)} />
-                                ))}
-                            </Carousel>
-                        </div>
-                        )}
-
-                        {endingsListResolved?.length > 0 && (
-                        <div className="screens_wrap">
-                            <h2 className="section_title">Эндинги</h2>
-                            <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
-                                {endingsListResolved.map((video: any) => (
-                                    <img key={video.id} className={`${interestCardStyles.release_image} release_trailer_img`} src={video.image} alt={video.title || ''} onClick={() => setTrailerUrl(video.player_url || video.url)} />
-                                ))}
-                            </Carousel>
-                        </div>
-                        )}
-
-                        {lastVideosResolved?.length > 0 && (
-                        <div className="screens_wrap">
-                            <h2 className="section_title">Последние видео</h2>
-                            <Carousel showArrows desktopColumns={3} mobilePeek={0.12} gap={12}>
-                                {lastVideosResolved.map((video: any) => (
-                                    <img key={video.id} className={`${interestCardStyles.release_image} release_trailer_img`} src={video.image} alt={video.title || ''} onClick={() => setTrailerUrl(video.player_url || video.url)} />
-                                ))}
-                            </Carousel>
-                        </div>
-                        )}
 
                         {lightboxSrc && <Lightbox open={true} src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
                         {trailerUrl && (

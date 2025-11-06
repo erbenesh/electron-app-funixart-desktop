@@ -52,6 +52,7 @@ export const App: React.FC = ()=> {
         <TopNavigationBar isHeaderHidden={isHeaderHidden} avatar={userStore.user.avatar}/>
 
         { location.pathname === `/release/${params.releaseId}` && <Toolbar /> }
+        { location.pathname === `/release/${params.releaseId}/videos` && <Toolbar /> }
         { location.pathname === `/collection/${params.collectionId}` && <Toolbar /> }
 
 

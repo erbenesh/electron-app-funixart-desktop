@@ -26,6 +26,7 @@ const PopularPage = lazy(() => import('../pages/PopularPage').then(m => ({ defau
 const ProfilePage = lazy(() => import('../pages/ProfilePage').then(m => ({ default: m.ProfilePage })));
 const RecommendationsPage = lazy(() => import('../pages/RecommendationsPage').then(m => ({ default: m.RecommendationsPage })));
 const ReleasePage = lazy(() => import('../pages/ReleasePage').then(m => ({ default: m.ReleasePage })));
+const ReleaseVideosPage = lazy(() => import('../sections/ReleaseVideos/view/ReleaseVideos').then(m => ({ default: m.ReleaseVideos })));
 const SchedulePage = lazy(() => import('../pages/SchedulePage').then(m => ({ default: m.SchedulePage })));
 const SettingsPage = lazy(() => import('../pages/SettingsPage').then(m => ({ default: m.SettingsPage })));
 const WatchingPage = lazy(() => import('../pages/WatchingPage').then(m => ({ default: m.WatchingPage })));
@@ -233,6 +234,10 @@ const dynamicRoutes: RouteObject[] = [
   {
     path: '/release/:releaseId',
     element: <ReleasePage />,
+  },
+  {
+    path: '/release/:releaseId/videos',
+    element: <ReleaseVideosPage />,
   },
   // Mobile watching flow: Озвучка -> Плеер -> Серия -> Плеер
   { path: '/release/:releaseId/watch/episode', element: <SelectVoiceoverPage /> }, // Выбор озвучки

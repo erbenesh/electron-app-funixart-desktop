@@ -1,0 +1,96 @@
+.container {
+    background: rgba(36, 36, 36, 0.6);
+    border: 1px solid #3a3a3a;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.title {
+    margin: 0 0 1.25rem 0;
+    font-weight: 600;
+    font-size: 1.25rem;
+    padding-left: 0.25rem;
+    border-left: 3px solid rgb(189, 78, 44);
+    padding-inline-start: 0.5rem;
+}
+
+.progressBar {
+    display: flex;
+    width: 100%;
+    height: 0.5rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.progressSegment {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.progressSegment:first-child {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+.progressSegment:last-child {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+}
+
+.legendItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.legendDot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.legendText {
+    font-size: 0.9rem;
+    color: #ccc;
+    white-space: nowrap;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+        margin-top: 0.75rem;
+    }
+
+    .title {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    .progressBar {
+        height: 0.45rem;
+    }
+
+    .legend {
+        gap: 0.75rem 1rem;
+    }
+
+    .legendDot {
+        width: 0.65rem;
+        height: 0.65rem;
+    }
+
+    .legendText {
+        font-size: 0.85rem;
+    }
+}
+

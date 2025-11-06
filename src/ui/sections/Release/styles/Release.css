@@ -412,10 +412,6 @@ html[data-tg-platform="ios"] .screens_wrap {
     margin-top: 0.25rem;
 }
 
-.genres {
-
-}
-
 .description_wrap {
     display: flex;
     flex-direction: column;
@@ -426,11 +422,8 @@ html[data-tg-platform="ios"] .screens_wrap {
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 4;
+    line-clamp: 4;
     -webkit-box-orient: vertical;
-}
-
-.description {
-
 }
 
 .description_button {
@@ -915,6 +908,7 @@ html[data-tg-platform="ios"] .screens_wrap {
 
     .description_hidden {
         -webkit-line-clamp: 3;
+        line-clamp: 3;
     }
     
     .description_button { 
@@ -1099,6 +1093,7 @@ html[data-tg-platform="ios"] .screens_wrap {
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
 }
 
@@ -1323,8 +1318,8 @@ html[data-tg-platform="ios"] .screens_wrap {
     margin: 0 0 1rem 0;
 }
 
-/* User lists section */
-.user_lists_section {
+/* Screenshots section */
+.screenshots_section {
     background: rgba(36,36,36,0.6);
     border: 1px solid #3a3a3a;
     border-radius: 1rem;
@@ -1332,29 +1327,8 @@ html[data-tg-platform="ios"] .screens_wrap {
     margin-top: 1rem;
 }
 
-.user_lists_section .section_title {
+.screenshots_section .section_title {
     margin: 0 0 1rem 0;
-}
-
-.user_stat_row {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-}
-
-.stat_icon {
-    font-size: 1.25rem;
-    color: rgba(189, 78, 44, 0.8);
-    flex-shrink: 0;
-    margin-top: 0.15rem;
-}
-
-.stat_text {
-    flex: 1;
-    margin: 0;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    color: #ccc;
 }
 
 /* Mobile adjustments for new layout */
@@ -1426,22 +1400,14 @@ html[data-tg-platform="ios"] .screens_wrap {
         margin: 0 0 0.75rem 0;
     }
 
-    .user_lists_section {
+    .screenshots_section {
         padding: 1rem;
         margin-top: 0.75rem;
     }
 
-    .user_lists_section .section_title {
+    .screenshots_section .section_title {
         font-size: 1.1rem;
-        margin: 0 0  0.75rem 0;
-    }
-
-    .stat_icon {
-        font-size: 1.1rem;
-    }
-
-    .stat_text {
-        font-size: 0.875rem;
+        margin: 0 0 0.75rem 0;
     }
 
     .info_banner {
