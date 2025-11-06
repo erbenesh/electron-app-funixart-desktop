@@ -92,7 +92,7 @@ export const Bookmarks = () => {
     return (
         <Page>
             <Container>
-                <div style={{ paddingTop: '3.5rem' }}>
+                <div style={{ paddingTop: '2.5rem' }}>
                     <TopFilterButtons buttonsArray={bookmarksArray} />
                     <TabCarousel
                         tabs={tabs}

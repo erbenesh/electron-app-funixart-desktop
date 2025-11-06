@@ -15,11 +15,24 @@
     transition: transform 0.3s;
     z-index: calc(var(--z-header) - 1);
     width: 100%;
-    padding: 0.75rem 0 0.5rem 0;
+    padding: 0.5rem 0 0.5rem 0;
     top: var(--header-height-safe);
     left: 0;
     right: 0;
-    background: transparent;
+    /* Gradient background for better visibility */
+    /* background: linear-gradient(
+        180deg, 
+        rgba(18, 18, 18, 0.98) 0%, 
+        rgba(18, 18, 18, 0.95) 70%,
+        rgba(18, 18, 18, 0.85) 90%,
+        rgba(18, 18, 18, 0) 100%
+    ); */
+    /* backdrop-filter: blur(4px) saturate(150%); */
+    /* -webkit-backdrop-filter: blur(12px) saturate(150%); */
+    /* Subtle border */
+    /* border-bottom: 1px solid rgba(255, 255, 255, 0.05); */
+    /* Shadow for depth */
+    /* box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3); */
 }
 
 .buttons_container {
@@ -27,7 +40,7 @@
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
-    padding: 0 1rem 0.75rem 1rem;
+    padding: 0 1rem 0.5rem 1rem;
     overflow-x: auto;
     overflow-y: visible;
     max-width: 100%;
@@ -87,14 +100,14 @@
     
     .bookmarks_nav_buttons_fixed {
         top: var(--header-height-safe);
-        padding: 0.5rem 0 0.65rem 0;
+        padding: 0.4rem 0 0.5rem 0;
         width: 100%;
         left: 0;
         right: 0;
     }
     
     .buttons_container {
-        padding: 0 1rem 0.5rem 1rem;
+        padding: 0 1rem 0.4rem 1rem;
         padding-left: max(1rem, var(--safe-area-left));
         padding-right: max(1rem, var(--safe-area-right));
         gap: 0.5rem;

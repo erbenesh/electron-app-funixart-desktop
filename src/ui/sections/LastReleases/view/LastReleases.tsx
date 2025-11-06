@@ -82,7 +82,7 @@ export const LastReleases = () => {
     return (
         <Page>
             <Container>
-                <div style={{ paddingTop: '3.5rem' }}>
+                <div style={{ paddingTop: '2.5rem' }}>
                     <TopFilterButtons buttonsArray={lastReleasesArray} />
                     <TabCarousel
                         tabs={tabs}
