@@ -128,7 +128,9 @@ export const Lightbox: React.FC<LightboxProps> = ({
                           goToPrevious();
                         }
                       }}
-                    />
+                    >
+                      <IoChevronBack className={styles.nav_arrow} />
+                    </div>
                     
                     <div 
                       className={`${styles.nav_zone} ${styles.nav_zone_next}`}
@@ -145,7 +147,9 @@ export const Lightbox: React.FC<LightboxProps> = ({
                           goToNext();
                         }
                       }}
-                    />
+                    >
+                      <IoChevronForward className={styles.nav_arrow} />
+                    </div>
                     
                     {/* Counter */}
                     <div className={styles.counter}>

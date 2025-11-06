@@ -51,19 +51,22 @@
     z-index: 10;
     -webkit-tap-highlight-color: transparent;
     transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Optional: show subtle hint on hover */
-.nav_zone::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+/* Navigation arrows - скрыты по умолчанию */
+.nav_arrow {
     width: 3rem;
     height: 3rem;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0);
-    backdrop-filter: blur(0px);
+    padding: 0.5rem;
+    opacity: 0;
+    transform: scale(0.8);
     transition: all 0.3s ease;
     pointer-events: none;
 }
@@ -71,19 +74,15 @@
 .nav_zone_prev {
     left: 0;
     cursor: w-resize;
-}
-
-.nav_zone_prev::after {
-    left: 1.5rem;
+    justify-content: flex-start;
+    padding-left: 1.5rem;
 }
 
 .nav_zone_next {
     right: 0;
     cursor: e-resize;
-}
-
-.nav_zone_next::after {
-    right: 1.5rem;
+    justify-content: flex-end;
+    padding-right: 1.5rem;
 }
 
 /* Counter */
@@ -135,15 +134,20 @@
         background: rgba(0, 0, 0, 0.05);
     }
     
-    .nav_zone:hover::after {
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(8px);
+    /* Показываем стрелки при наведении */
+    .nav_zone:hover .nav_arrow {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
 /* Active state for mobile */
 .nav_zone:active {
     background: rgba(0, 0, 0, 0.1);
+}
+
+.nav_zone:active .nav_arrow {
+    opacity: 0.7;
 }
 
 

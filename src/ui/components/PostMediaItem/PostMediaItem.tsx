@@ -34,8 +34,8 @@ const PostMediaItemComponent = ({ item, index, dataCount, onImageClick }: PostMe
         >
             <img src={item.url} loading="lazy" alt={`Media ${index + 1}`} />
 
-            {index === dataCount && dataCount > 5 && (
-                <div className={styles.image_count}>+{dataCount - 5}</div>
+            {index === 5 && dataCount > 6 && (
+                <div className={styles.image_count}>+{dataCount - 6}</div>
             )}
         </div>
     );

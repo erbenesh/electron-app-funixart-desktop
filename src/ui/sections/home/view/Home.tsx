@@ -57,7 +57,7 @@ export const Home = () => {
           <Spinner />
         </Flex>
       ) : (
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <section>
               <SectionTitle>Интересное</SectionTitle>
               <Carousel showArrows showDots ariaLabel="Интересное" desktopColumns={4} mobilePeek={0.12} gap={12}>

@@ -1,14 +1,15 @@
 .feed_page_wrap {
     min-height: 100vh;
-    max-width: 120rem;
-    /* overflow: hidden; */
+    width: 100%;
 }
 
 .feed_page {
     display: flex;
     flex-direction: column;
     gap: 0;
-    padding-top: 5.5rem; /* Tabs height + header height */
+    padding-top: var(--tabs-offset);
+    padding-bottom: var(--safe-area-bottom);
+    min-height: calc(100vh - var(--tabs-offset) - var(--safe-area-bottom));
     opacity: 0;
     transition: .3s;
     animation: show .3s;
@@ -16,9 +17,11 @@
     animation-delay: .3s;
 }
 
+/* Desktop - узкая колонка по центру */
 @media (min-width: 769px) {
     .feed_page {
-        padding-top: 8.5rem;
+        max-width: var(--content-max-width);
+        margin: 0 auto;
     }
 }
 

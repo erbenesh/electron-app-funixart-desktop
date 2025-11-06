@@ -11,9 +11,23 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --header-height: 70px;
-  --aside-width: 48px;
   scrollbar-gutter: stable both-edges;
+
+  /* Safe areas для iOS, Android, Telegram Mini App */
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
+
+  /* Layout dimensions */
+  --header-height: 70px;
+  --tabs-height: 60px;
+  --aside-width: 48px;
+  --content-max-width: 680px;
+  
+  /* Calculated heights с safe zones */
+  --header-height-safe: calc(var(--header-height) + var(--safe-area-top));
+  --tabs-offset: calc(var(--header-height-safe) + var(--tabs-height));
 
   /* Z-index system */
   --z-content: 1;
@@ -37,11 +51,12 @@
   --bp-xxl: 1600px;
 }
 
-/* Mobile font size adjustment */
+/* Mobile adjustments */
 @media (max-width: 768px) {
   :root {
-    font-size: 14px; /* Base font smaller on mobile */
-    --header-height: calc(64px + env(safe-area-inset-top, 0));
+    font-size: 14px;
+    --header-height: 64px;
+    --tabs-height: 56px;
   }
 }
 

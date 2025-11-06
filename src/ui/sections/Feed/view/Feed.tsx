@@ -86,9 +86,9 @@ export const Feed = () => {
 
     return (
         <Page>
+            <TopFilterButtons buttonsArray={feedArray} />
             <Container>
                 <div>
-                    <TopFilterButtons buttonsArray={feedArray} />
 
                     {/* Filter bar */}
                     <div className="feed_filter_bar">
